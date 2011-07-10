@@ -52,7 +52,7 @@ namespace GCNav
             
             //MultiScaleImage newImage = new MultiScaleImage();
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
-            String mapUri = dataUri + "Map/Map.png/dz.xml";
+            String mapUri = dataUri + "Map/newMap.jpg/dz.xml";
             
             mapImage.SetImageSource(mapUri);
             mapImage.UpdateLayout();
@@ -67,6 +67,18 @@ namespace GCNav
 
             ZoomableCanvas msi = mapImage.GetZoomableCanvas;
             dpd.AddValueChanged(msi, LocationChanged);
+
+            BitmapImage blurImage = new BitmapImage();
+            blurImage.BeginInit();
+            String imagePath = dataUri +"Map\\Images\\Blur.png";
+            blurImage.UriSource = new Uri(imagePath);
+            blurImage.EndInit();
+            blur.Source = blurImage;
+            ScaleTransform newT = new ScaleTransform();
+            newT.ScaleX = 1.775;
+            
+            blur.RenderTransform = newT;
+            
            // MessageBox.Show("scale" + mapImage.GetZoomableCanvas.Scale);
            
         }
@@ -225,6 +237,9 @@ namespace GCNav
             String locCategory = displayInfo[0];
             String date = displayInfo[3];
             String city = displayInfo[4];
+            Ellipse featured = ellipses[(SurfaceRadioButton)sender];
+            SolidColorBrush newColor = new SolidColorBrush();
+           
 
             //Console.Out.WriteLine(displayInfo[0]);
             if (locCategory == "yellow")
@@ -241,6 +256,8 @@ namespace GCNav
                 {
                     labelText += "," + date;
                 }
+              //  newColor.Color = Color.FromRgb(244, 234, 150);
+                
             }
             else if (locCategory == "blue")
             {
@@ -256,6 +273,7 @@ namespace GCNav
                 {
                     labelText += "," + date;
                 }
+              //  newColor.Color = Color.FromRgb(0,169,184);
             }
             else
             {
@@ -272,11 +290,11 @@ namespace GCNav
                 {
                     labelText += "," + date;
                 }
-                
+                //newColor.Color = Color.FromRgb(244, 234, 150);
             }
             //Console.Out.WriteLine(labelText);
             infoLabel.Content = labelText;
-            
+            featured.Fill = newColor;
         }
 
         //This method is called when the user select a new image

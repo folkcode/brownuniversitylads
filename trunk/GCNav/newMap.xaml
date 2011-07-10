@@ -35,9 +35,13 @@
     </UserControl.Resources>
     <Grid>
         <Canvas Height="325.25" Width="576.35" Canvas.Top="30">
-
-            <dz:MultiScaleImage Name="mapImage" Height="325.25" Width="576.35" Background="{x:Null}" BorderBrush="Black" BorderThickness="10" HorizontalAlignment="Center" />
-            <Canvas Name="Location" Height="325.25" Width="576.35"/>
+            
+            <dz:MultiScaleImage Name="mapImage" Height="325.25" Width="576.35" Background="Transparent" BorderBrush="Black" BorderThickness="10" HorizontalAlignment="Center" Canvas.Top="1" >
+            </dz:MultiScaleImage>
+            
+            <Canvas Name="Location" Height="325.25" Width="576.35">
+                <Image x:Name="blur" Height="328" Width="576.35" Canvas.Left="0" Canvas.Top="0" HorizontalAlignment="Left" IsHitTestVisible="False" VerticalAlignment="Top"/>
+            </Canvas>
             <Label x:Name="infoLabel" Width="500" Height="40" FontSize="18" Foreground="Purple" VerticalAlignment="Top"/>
             
             
