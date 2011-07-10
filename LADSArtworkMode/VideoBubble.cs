@@ -86,26 +86,31 @@ namespace LADSArtworkMode
 
         #region Video Event Handlers
 
+        bool hasBeenOpened = false;
         private void video_MediaOpened(object sender, RoutedEventArgs e)
         {
-            _aspectRatio = (double)_video.NaturalVideoWidth / (double)_video.NaturalVideoHeight;
-            Console.WriteLine("VIDBUB HANDLER");
-            Resize(_preferredSize.Width, _preferredSize.Height);
+            if (!hasBeenOpened)
+            {
+                _aspectRatio = (double)_video.NaturalVideoWidth / (double)_video.NaturalVideoHeight;
+                Console.WriteLine("VIDBUB HANDLER");
+                Resize(_preferredSize.Width, _preferredSize.Height);
 
-            _layoutRoot.Children.Add(_controls);
-            _controls.videoSlider.Maximum = 1;
-            _controls.Show();
+                _layoutRoot.Children.Add(_controls);
+                _controls.videoSlider.Maximum = 1;
+                _controls.Show();
 
-            //unless you want to fade out the controls whenever the user isn't hovering over them WHICH I SERIOUSLY DOUBT don't uncommment this. But just in case, here ya go.
-            //if for some reason you WANT the controls to fade out, just call controls.fadeout
-            //if (!this.IsMouseOver)
-            //  _controls.FadeOut(CONTROLS_FADE_TIME, CONTROLS_PERSIST_TIME);
+                //unless you want to fade out the controls whenever the user isn't hovering over them WHICH I SERIOUSLY DOUBT don't uncommment this. But just in case, here ya go.
+                //if for some reason you WANT the controls to fade out, just call controls.fadeout
+                //if (!this.IsMouseOver)
+                //  _controls.FadeOut(CONTROLS_FADE_TIME, CONTROLS_PERSIST_TIME);
 
-            //MediaElement has this weird bug where it always starts from 0:00 the first time it is played, regardless of its actual position - this prevents that
-            _video.Play();
-            _video.Pause();
+                //MediaElement has this weird bug where it always starts from 0:00 the first time it is played, regardless of its actual position - this prevents that
+                _video.Play();
+                _video.Pause();
 
-            playButtonFunction = playVideo;
+                playButtonFunction = playVideo;
+                hasBeenOpened = true;
+            }
         }
 
         private void video_MediaEnded(object sender, RoutedEventArgs e)
