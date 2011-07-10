@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.IO;
 using System.Windows.Forms;
-using DexterLib;
 
 namespace SurfaceApplication3
 {
@@ -27,8 +26,7 @@ namespace SurfaceApplication3
         public String imageTitle;
         public String imageName;
         public MainWindow _newWindow;
-        public ImageSource imageToDispose;
-        private Helpers _helpers;
+        public BitmapImage imageToDispose;
        
 
         public catalogEntry(MainWindow newWindow) //Would have to pass it a window so it can tell the window when to delete or add it
@@ -137,88 +135,48 @@ namespace SurfaceApplication3
                                                     foreach (XmlNode file in meta)
                                                     {
                                                         String fileName = file.Attributes.GetNamedItem("Filename").InnerText; //this is to save the imageName
-                                                        Console.WriteLine("FILE NAME " + fileName);
-                                                        
+                                                        String fullPath = dataUri + "Images/" + "Metadata/" + fileName;
 
-                                                        //need to special case this for videos images and audio files
-                                                        System.Windows.Controls.Image wpfImage2 = new System.Windows.Controls.Image();
-                                                        _helpers = new Helpers();
-                                                        if (_helpers.IsImageFile(fileName))
+                                                        BitmapImage metaBitmapImage = new BitmapImage();
+                                                        metaBitmapImage.BeginInit();
+                                                        metaBitmapImage.UriSource = new Uri(fullPath);
+                                                        metaBitmapImage.EndInit();
+
+                                                        //set image source
+                                                        MetaDataEntry newSmallwindow = new MetaDataEntry();
+                                                        Utils.setAspectRatio(newSmallwindow.imageCanvas, newSmallwindow.imageRec, newSmallwindow.image1, metaBitmapImage, 4);
+
+                                                        newSmallwindow.image1.Source = metaBitmapImage;
+                                                        newSmallwindow.title_tag.Text = fileName;
+
+                                                        if (file.Attributes.GetNamedItem("Name") != null)
                                                         {
-                                                            String fullPath = dataUri + "Images/" + "Metadata/" + fileName;
-                                                            FileStream stream2 = new FileStream(fullPath, FileMode.Open);
-                                                            System.Drawing.Image dImage2 = System.Drawing.Image.FromStream(stream2);
-                                                            wpfImage2 = _helpers.ConvertDrawingImageToWPFImage(dImage2);
-                                                            stream2.Close();
-
-                                                            //set image source
-                                                            MetaDataEntry newSmallwindow = new MetaDataEntry();
-                                                            //Utils.setAspectRatio(newSmallwindow.imageCanvas, newSmallwindow.imageRec, newSmallwindow.image1, metaBitmapImage, 4);
-                                                            newSmallwindow.image1.Source = wpfImage2.Source;
-                                                            newSmallwindow.title_tag.Text = fileName;
-
-                                                            if (file.Attributes.GetNamedItem("Name") != null)
-                                                            {
-                                                                String name = file.Attributes.GetNamedItem("Name").InnerText;
-                                                                newSmallwindow.name_tag.Text = name;
-                                                            }
-                                                            if (file.Attributes.GetNamedItem("description") != null)
-                                                            {
-                                                                String description = file.Attributes.GetNamedItem("description").InnerText;
-                                                                newSmallwindow.summary.Text = description;
-                                                            }
-                                                            newSmallwindow.tags.Text = keyword;
-                                                            newBigWindow.big_window1.MetaDataList.Items.Add(newSmallwindow);
-                                                            newSmallwindow.setBigWindow(newBigWindow.big_window1);
+                                                            String name = file.Attributes.GetNamedItem("Name").InnerText;
+                                                            newSmallwindow.name_tag.Text = name;
                                                         }
-                                                        //loads videos
-                                                        else if (_helpers.IsVideoFile(fileName))
+                                                        if (file.Attributes.GetNamedItem("description") != null)
                                                         {
-                                                            String fullPath = dataUri + "Videos/" + "Metadata/" + fileName;
-                                                            BitmapImage metaBitmapImage = new BitmapImage();
-                                                            metaBitmapImage.BeginInit();
-                                                            String thumbPath = fullPath;
-                                                            Console.WriteLine("thumbpath" + thumbPath);
-                                                            Console.WriteLine("fileName" + fileName);
-
-                                                            int decrement = System.IO.Path.GetExtension(thumbPath).Length;
-                                                            thumbPath = thumbPath.Remove(thumbPath.Length - decrement, decrement);
-
-                                                            //thumbPath = thumbPath.Remove(thumbPath.Length - 4, 4);
-                                                            thumbPath += ".bmp";
-                                                            metaBitmapImage.UriSource = new Uri(thumbPath);
-                                                            metaBitmapImage.EndInit();
-
-                                                            //set image source
-                                                            MetaDataEntry newSmallwindow = new MetaDataEntry();
-                                                            //Utils.setAspectRatio(newSmallwindow.imageCanvas, newSmallwindow.imageRec, newSmallwindow.image1, metaBitmapImage, 4);
-
-                                                            newSmallwindow.image1.Source = metaBitmapImage;
-                                                            newSmallwindow.title_tag.Text = fileName;
-
-                                                            if (file.Attributes.GetNamedItem("Name") != null)
-                                                            {
-                                                                String name = file.Attributes.GetNamedItem("Name").InnerText;
-                                                                newSmallwindow.name_tag.Text = name;
-                                                            }
-                                                            if (file.Attributes.GetNamedItem("description") != null)
-                                                            {
-                                                                String description = file.Attributes.GetNamedItem("description").InnerText;
-                                                                newSmallwindow.summary.Text = description;
-                                                            }
-                                                            newSmallwindow.tags.Text = keyword;
-                                                            newBigWindow.big_window1.MetaDataList.Items.Add(newSmallwindow);
-                                                            newSmallwindow.setBigWindow(newBigWindow.big_window1);
+                                                            String description = file.Attributes.GetNamedItem("description").InnerText;
+                                                            newSmallwindow.summary.Text = description;
                                                         }
+                                                        newSmallwindow.tags.Text = keyword;
+                                                        newBigWindow.big_window1.MetaDataList.Items.Add(newSmallwindow);
+                                                        newSmallwindow.setBigWindow(newBigWindow.big_window1);
                                                     }
+
                                                 }
                                             }
                                         }
+
                                     }
                                     newBigWindow.big_window1.tags.Text = keyword;
+                                    
+                                    
                                     }
                                 }
+                               
                              }
+                               
                         }
                     }
                 }
@@ -228,6 +186,8 @@ namespace SurfaceApplication3
                 newSmallwindow.setBigWindow(newBigWindow.big_window1);
             }
             newBigWindow.Show();
+        
+            
         }
         public void setImage(BitmapImage image)
         {
@@ -264,7 +224,7 @@ namespace SurfaceApplication3
             DialogResult  result = System.Windows.Forms.MessageBox.Show("Are you sure you want to remove this artwork" + " " + imageName +" " +"from the collection?","Remove the entry",MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                //imageToDispose.UriSource = null;
+                imageToDispose.UriSource = null;
                 _newWindow.EntryListBox.Items.Remove(this);
                 //Would need to remove from the xml file as well
                 XmlDocument doc = new XmlDocument();
@@ -334,30 +294,5 @@ namespace SurfaceApplication3
             }
 
         }
-        ///// <summary>
-        ///// The next two code blocks together check to see if file is an image
-        ///// </summary>
-        //static string[] imageExtensions = {
-        //    ".BMP", ".JPG", ".GIF"
-        //};
-
-        //public bool IsImageFile(string filename)
-        //{
-        //    return -1 != Array.IndexOf(imageExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
-        //}
-
-        ///// <summary>
-        ///// The next two code blocks together check to see if file is a video
-        ///// </summary>
-        //static string[] videoExtensions = {
-        //                                      ".MOV", ".AVI"
-        //    //".WMV", ".ASF", ".ASX", ".AVI", ".FLV",
-        //    //".MOV", ".MP4", ".MPG", ".RM", ".SWF", ".VOB"
-        //};
-
-        //public bool IsVideoFile(string filename)
-        //{
-        //    return -1 != Array.IndexOf(videoExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
-        //}
     }
 }

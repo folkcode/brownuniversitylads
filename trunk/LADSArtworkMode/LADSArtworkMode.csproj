@@ -106,22 +106,9 @@
       <DependentUpon>metaDataEntry.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tour\TourAuthoringUI.cs" />
-    <Compile Include="Tour\TourEvents\CloseMediaEvent.cs" />
     <Compile Include="Tour\TourEvents\FadeInMediaEvent.cs" />
-    <Compile Include="Tour\TourEvents\FadeInMediaEventOLD.cs" />
-    <Compile Include="Tour\TourEvents\FadeInMSIEvent.cs" />
     <Compile Include="Tour\TourEvents\FadeOutMediaEvent.cs" />
-    <Compile Include="Tour\TourEvents\FadeOutMSIEvent.cs" />
-    <Compile Include="Tour\TourEvents\InitMedia.cs" />
-    <Compile Include="Tour\TourEvents\InitMSI.cs" />
-    <Compile Include="Tour\TourEvents\MediaEvent.cs" />
-    <Compile Include="Tour\TourEvents\OpenMediaEvent.cs" />
-    <Compile Include="Tour\TourEvents\PanArtEvent.cs" />
-    <Compile Include="Tour\TourEvents\PanEvent.cs" />
-    <Compile Include="Tour\TourEvents\PanMediaEvent.cs" />
-    <Compile Include="Tour\TourEvents\PanMSIEvent.cs" />
     <Compile Include="Tour\TourEvents\TourEvent.cs" />
-    <Compile Include="Tour\TourEvents\ZoomArtEvent.cs" />
     <Compile Include="Tour\TourEvents\ZoomEvent.cs" />
     <Compile Include="Tour\TourEvents\ZoomHighlightEvent.cs" />
     <Compile Include="Tour\TourEvents\ZoomMediaEvent.cs" />

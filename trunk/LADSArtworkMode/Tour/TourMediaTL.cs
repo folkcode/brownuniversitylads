@@ -14,6 +14,21 @@ namespace LADSArtworkMode
     { 
         public TourMediaTL(Uri uri) : base(uri)
         {
+            this.uri = uri;
+        }
+        public TourTL copy()
+        {
+            TourMediaTL tl = new TourMediaTL(uri);
+            tl.type = type;
+            tl.displayName = displayName;
+            tl.file = file;
+            return tl;
+        }
+
+        public Uri uri
+        {
+            get;
+            set;
         }
 
         public TourTLType type

@@ -30,25 +30,12 @@ namespace SurfaceApplication3
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if (title.Text != null && Text.Text != null)
-            {
-                String caption = title.Text;
-                String description = Text.Text;
-                hotspotControl.setHotspotInfo(caption + "/" + "text" + "/" + description);
-                this.Close();
-                hotspotControl.saveHotspotInfo();
-                hotspotControl.AddText.IsEnabled = false;
-                hotspotControl.AddImage.IsEnabled = true;
-                hotspotControl.AddAudio.IsEnabled = true;
-                hotspotControl.AddVideo.IsEnabled = true;
-                hotspotControl.Edit.IsEnabled = true;
-            }
-            else
-            {
-                MessageBox.Show("Caption and descriptions can not be empty!");
-                return;
-            }
-           // hotspotControl.ModifyText.IsEnabled = true;
+            String caption = title.Text;
+            String description = Text.Text;
+            hotspotControl.setHotspotInfo(caption + "/" + "text" +"/" + description);
+            this.Close();
+            hotspotControl.saveHotspotInfo();
+            hotspotControl.ModifyText.IsEnabled = true;
         }
 
 
@@ -56,7 +43,7 @@ namespace SurfaceApplication3
         {
             title.Text = "";
             Text.Text = "";
-            this.Close();
+            return;
         }
     }
 }

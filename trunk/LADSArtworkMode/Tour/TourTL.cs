@@ -27,6 +27,8 @@ namespace LADSArtworkMode
             set;
         }
 
+        TourTL copy();
+
         String displayName
         {
             get;

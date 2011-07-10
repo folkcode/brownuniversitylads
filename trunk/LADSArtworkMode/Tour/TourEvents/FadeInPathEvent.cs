@@ -16,6 +16,11 @@ namespace LADSArtworkMode.TourEvents
             inkCanvas = canvas;
         }
 
+        public override TourEvent copy()
+        {
+            return new FadeInPathEvent(inkCanvas, duration);
+        }
+
         public SurfaceInkCanvas inkCanvas { get; set; }
     }
 }

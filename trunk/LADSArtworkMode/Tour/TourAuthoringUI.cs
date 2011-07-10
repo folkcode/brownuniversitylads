@@ -102,7 +102,7 @@ namespace LADSArtworkMode
         public struct timelineInfo // struct for a timeline
         {
             public Timeline timeline; // the timeline that will be added to tourStoryboard
-            public Dictionary<double, TourEvent> tourTL_dict;
+            public BiDictionary<double, TourEvent> tourTL_dict;
 
             public String title; // corresponds to "displayName" in XML file for the tour
 
@@ -636,6 +636,7 @@ namespace LADSArtworkMode
         public SurfaceButton doneButton = new SurfaceButton();
         public SurfaceButton saveButton = new SurfaceButton();
         public SurfaceButton deleteButton = new SurfaceButton();
+        public SurfaceButton undoButton = new SurfaceButton();
         public SurfaceButton removeComponentButton = new SurfaceButton();
         public SurfaceButton removeEventButton = new SurfaceButton();
         public SurfaceButton eraseButton = new SurfaceButton();
@@ -655,7 +656,8 @@ namespace LADSArtworkMode
             (newHighlightButton.Parent as Panel).Children.Remove(newHighlightButton);
             (doneButton.Parent as Panel).Children.Remove(doneButton);
             (saveButton.Parent as Panel).Children.Remove(saveButton);
-            (deleteButton.Parent as Panel).Children.Remove(doneButton);
+            (deleteButton.Parent as Panel).Children.Remove(deleteButton);
+            (undoButton.Parent as Panel).Children.Remove(undoButton);
             (removeComponentButton.Parent as Panel).Children.Remove(removeComponentButton);
             (removeEventButton.Parent as Panel).Children.Remove(removeEventButton);
             (eraseButton.Parent as Panel).Children.Remove(eraseButton);
@@ -686,6 +688,7 @@ namespace LADSArtworkMode
             newHighlightButton = new SurfaceButton();
             doneButton = new SurfaceButton();
             saveButton = new SurfaceButton();
+            undoButton = new SurfaceButton();
             deleteButton = new SurfaceButton();
             removeComponentButton = new SurfaceButton();
             removeEventButton = new SurfaceButton();
@@ -711,6 +714,7 @@ namespace LADSArtworkMode
             newDrawingButton.Content = "Drawing";
             newHighlightButton.Content = "Highlight";
             doneButton.Content = "Done";
+            undoButton.Content = "Undo";
             saveButton.Content = "Save";
             deleteButton.Content = "Delete";
             removeComponentButton.Content = "Remove Component";
@@ -729,6 +733,7 @@ namespace LADSArtworkMode
             artModeWin.AuthTools.Children.Add(saveButton);
             artModeWin.AuthTools.Children.Add(removeComponentButton);
             artModeWin.AuthTools.Children.Add(removeEventButton);
+            artModeWin.AuthTools.Children.Add(undoButton);
             artModeWin.AuthTools.Children.Add(editLabel);
             artModeWin.AuthTools.Children.Add(eraseButton);
             artModeWin.AuthTools.Children.Add(deleteButton);
@@ -746,6 +751,7 @@ namespace LADSArtworkMode
             Canvas.SetTop(successfulSaveLabel, toolBoxHeight * boxPartition * 1.9);
             Canvas.SetTop(doneButton, toolBoxHeight * boxPartition);
             Canvas.SetTop(deleteButton, toolBoxHeight * boxPartition);
+            Canvas.SetTop(undoButton, toolBoxHeight * boxPartition);
             Canvas.SetTop(addNewLabel, 2.3 * toolBoxHeight * boxPartition);
             Canvas.SetTop(newMediaButton, 3.0 * toolBoxHeight * boxPartition);
             Canvas.SetTop(newAudioButton, 4.0 * toolBoxHeight * boxPartition);
@@ -770,6 +776,7 @@ namespace LADSArtworkMode
             Canvas.SetLeft(removeEventButton, 20);
             Canvas.SetLeft(saveButton, 85);
             Canvas.SetLeft(deleteButton, 145);
+            Canvas.SetLeft(undoButton, 230);
             Canvas.SetLeft(doneButton, 20);
             Canvas.SetLeft(opacityLabel, 20);
             Canvas.SetLeft(opacitySlider, 20);
@@ -832,10 +839,12 @@ namespace LADSArtworkMode
             doneButton.Background = Brushes.Green;
             saveButton.Background = Brushes.Blue;
             deleteButton.Background = Brushes.Red;
+            undoButton.Background = Brushes.Cyan;
 
             saveButton.Click += new RoutedEventHandler(artModeWin.TourAuthoringSaveButton_Click);
             doneButton.Click += new RoutedEventHandler(tourSystem.TourAuthoringDoneButton_Click);
             deleteButton.Click += new RoutedEventHandler(tourSystem.TourAuthoringDeleteButton_Click);
+            undoButton.Click += new RoutedEventHandler(undoButton_Click);
             removeEventButton.PreviewTouchUp += removeHighlightedAnimation;
             removeEventButton.PreviewMouseUp += removeHighlightedAnimation;
             removeComponentButton.PreviewTouchUp += removeHighlightedTimeline;
@@ -854,6 +863,16 @@ namespace LADSArtworkMode
 
         }
 
+        void undoButton_Click(object sender, RoutedEventArgs e)
+        {
+            tourSystem.undo();
+        }
+
+        void redoButton_Click(object sender, RoutedEventArgs e)
+        {
+            tourSystem.redo();
+        }
+
         public void renameTimelineButton_Click(object sender, RoutedEventArgs e)
         {
             if (highlightActive)
@@ -869,6 +888,7 @@ namespace LADSArtworkMode
         }
         public void applyRenameTimelineButton_Click(object sender, RoutedEventArgs e)
         {
+            tourSystem.undoableActionPerformed();
             if (highlightActive)
             {
                 (highlightData.timeline as TourTL).displayName = artModeWin.renameTimelineTextBox.Text;
@@ -877,6 +897,7 @@ namespace LADSArtworkMode
                 this.refreshUI();
                 artModeWin.renameTimelineBox.Visibility = Visibility.Collapsed;
             }
+
             //}
 
         }
@@ -1617,7 +1638,7 @@ namespace LADSArtworkMode
             return leftRightCanvas.ActualHeight - 3;
         }
 
-        public void addTimelineAndEventPostInit(Timeline timeline, Dictionary<double, TourEvent> tourTL_dict, String title, TourEvent te, double beginTime, double duration)
+        public void addTimelineAndEventPostInit(Timeline timeline, BiDictionary<double, TourEvent> tourTL_dict, String title, TourEvent te, double beginTime, double duration)
         {
             TourAuthoringUI.timelineInfo tli = addTimeline(timeline, tourTL_dict, title, getNextPos());
             addTourEvent(tli, te, tli.lengthSV, beginTime, duration);
@@ -1627,12 +1648,15 @@ namespace LADSArtworkMode
 
         public void removeHighlightedTimeline(Object sender, EventArgs e)
         {
+            tourSystem.undoableActionPerformed();
             if (((TourTL)highlightData.timeline) != null)
             {
                 if (((TourTL)highlightData.timeline).type == TourTLType.artwork)
                     return;
-                tourSystem.tourDict.Remove(highlightData.timeline);
-                tourSystem.tourDictRev.Remove(highlightData.timeline);
+                //tourSystem.tourDict.Remove(highlightData.timeline);
+                //tourSystem.tourDictRev.Remove(highlightData.timeline);
+                tourSystem.tourBiDictionary.RemoveByFirst(highlightData.timeline);
+                
                 TourTL timeline = (TourTL)highlightData.timeline;
                 if (timeline.type == TourTLType.highlight || timeline.type == TourTLType.path)
                 {
@@ -1648,6 +1672,7 @@ namespace LADSArtworkMode
             setButtonEnabled(eraseButton, false);
             setButtonEnabled(renameTimelineButton, false);
             opacitySlider.IsEnabled = false;
+            
         }
 
         public bool isFadeType(TourEvent.Type type)
@@ -1684,6 +1709,7 @@ namespace LADSArtworkMode
 
         public void removeHighlightedAnimation(Object sender, EventArgs e)
         {
+            tourSystem.undoableActionPerformed();
             if (highlightedTourEvent != null)
             {
 
@@ -1691,11 +1717,10 @@ namespace LADSArtworkMode
                 if (isFadeType(eventInfo.tourEvent.type))
                     return;
                 timelineInfo eventTimelineInfo = eventInfo.timelineInfoStruct;
-                Dictionary<double, TourEvent> eventDict;
-                if (tourSystem.tourDict.TryGetValue(eventTimelineInfo.timeline, out eventDict))
-                {
-                    eventDict.Remove(eventInfo.beginTime);
-                }
+                IList<BiDictionary<double,TourEvent>> listdict = tourSystem.tourBiDictionary.GetByFirst(eventTimelineInfo.timeline);
+                if (listdict.Count!=0)
+                    listdict[0].RemoveByFirst(eventInfo.beginTime);
+                else
                 eventTimelineInfo.lengthSV.Items.Remove(highlightedTourEvent);
             }
             //eventTim
@@ -1706,7 +1731,7 @@ namespace LADSArtworkMode
         }
 
 
-        public timelineInfo addTimeline(Timeline timeline, Dictionary<double, TourEvent> tourTL_dict, String title, double pos)
+        public timelineInfo addTimeline(Timeline timeline, BiDictionary<double, TourEvent> tourTL_dict, String title, double pos)
         {
             timelineInfo current = new timelineInfo();
             //current.tourEventList = new List<ScatterViewItem>(); // not really useful
@@ -1895,6 +1920,7 @@ namespace LADSArtworkMode
 
         private void tourEventSVI_PreviewTouchUp(Object sender, EventArgs e)
         {
+            tourSystem.undoableActionPerformed();
             Console.WriteLine("1: tourEventSVI_PreviewTouchUp");
             if (highlightedTourEvent != null)
             {
@@ -1961,6 +1987,7 @@ namespace LADSArtworkMode
             }
 
             EnableDrawingIfNeeded();
+            tourSystem.undoableActionPerformed();
         }
 
         public void EnableDrawingIfNeeded()
@@ -1999,15 +2026,16 @@ namespace LADSArtworkMode
 
         private void tourEventSVI_ContainerManipulationCompleted(Object sender, EventArgs e)
         {
+            tourSystem.undoableActionPerformed();
             Console.WriteLine("2: tourEventSVI_ContainerManipulationCompleted");
             ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
             if (current.tourEvent == null)
                 return;
             // MODIFY TourEvent - beginTime & duration
-            bool removed = current.timelineInfoStruct.tourTL_dict.Remove(current.beginTime);
-            Dictionary<TourEvent, double> itemDictRev = tourSystem.tourDictRev[current.timelineInfoStruct.timeline];
-            itemDictRev.Remove(current.tourEvent);
+            current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
+            //Dictionary<TourEvent, double> itemDictRev = tourSystem.tourDictRev[current.timelineInfoStruct.timeline];
+            //itemDictRev.Remove(current.tourEvent);
 
             //Console.WriteLine("************************************************************");
 
@@ -2029,13 +2057,14 @@ namespace LADSArtworkMode
 
             current.tourEvent.duration = currentScatter.Width * (timelineLength / timelineWidth);
             current.timelineInfoStruct.tourTL_dict.Add(newBeginTime, current.tourEvent); // add new beginTime
-            itemDictRev.Add(current.tourEvent, newBeginTime);
+            //itemDictRev.Add(current.tourEvent, newBeginTime);
             //// Testing code!!! findhere
             current.timelineInfoStruct.timeline.Duration = tourSystem.tourStoryboard.Duration;
 
             ////
             if (newBeginTime < 0) newBeginTime = 0;
             tourSystem.StopAndReloadTourAuthoringUIFromDict(newBeginTime); // stop and reload tour authoring UI from tourDict
+            
         }
 
         private void tourEventCenterChanged(Object sender, EventArgs e)

@@ -17,6 +17,11 @@ namespace LADSArtworkMode.TourEvents
             duration = durationParam;
         }
 
+        public override TourEvent copy()
+        {
+            return new FadeOutMediaEvent(media, duration);
+        }
+
         public DockableItem media
         {
             get;

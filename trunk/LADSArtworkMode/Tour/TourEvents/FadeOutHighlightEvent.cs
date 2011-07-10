@@ -15,7 +15,10 @@ namespace LADSArtworkMode.TourEvents
             inkCanvas = canvas;
             this.opacity = opacity;
         }
-
+        public override TourEvent copy()
+        {
+            return new FadeOutHighlightEvent(inkCanvas, duration, opacity);
+        }
         public double opacity { get; set; }
         public SurfaceInkCanvas inkCanvas { get; set; }
     }
