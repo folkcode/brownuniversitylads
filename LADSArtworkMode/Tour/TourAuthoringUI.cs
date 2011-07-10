@@ -888,7 +888,6 @@ namespace LADSArtworkMode
         }
         public void applyRenameTimelineButton_Click(object sender, RoutedEventArgs e)
         {
-            tourSystem.undoableActionPerformed();
             if (highlightActive)
             {
                 (highlightData.timeline as TourTL).displayName = artModeWin.renameTimelineTextBox.Text;
@@ -1648,7 +1647,6 @@ namespace LADSArtworkMode
 
         public void removeHighlightedTimeline(Object sender, EventArgs e)
         {
-            tourSystem.undoableActionPerformed();
             if (((TourTL)highlightData.timeline) != null)
             {
                 if (((TourTL)highlightData.timeline).type == TourTLType.artwork)
@@ -1709,7 +1707,6 @@ namespace LADSArtworkMode
 
         public void removeHighlightedAnimation(Object sender, EventArgs e)
         {
-            tourSystem.undoableActionPerformed();
             if (highlightedTourEvent != null)
             {
 
@@ -1920,7 +1917,6 @@ namespace LADSArtworkMode
 
         private void tourEventSVI_PreviewTouchUp(Object sender, EventArgs e)
         {
-            tourSystem.undoableActionPerformed();
             Console.WriteLine("1: tourEventSVI_PreviewTouchUp");
             if (highlightedTourEvent != null)
             {
@@ -1987,7 +1983,6 @@ namespace LADSArtworkMode
             }
 
             EnableDrawingIfNeeded();
-            tourSystem.undoableActionPerformed();
         }
 
         public void EnableDrawingIfNeeded()
@@ -2026,7 +2021,6 @@ namespace LADSArtworkMode
 
         private void tourEventSVI_ContainerManipulationCompleted(Object sender, EventArgs e)
         {
-            tourSystem.undoableActionPerformed();
             Console.WriteLine("2: tourEventSVI_ContainerManipulationCompleted");
             ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;

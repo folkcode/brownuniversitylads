@@ -725,7 +725,6 @@ namespace LADSArtworkMode
 
         public void undoableActionPerformed()
         {
-            return;
             undoStack.Push(copyTourDict(tourBiDictionary));
             redoStack.Clear();
         }
@@ -751,7 +750,6 @@ namespace LADSArtworkMode
 
         public void undo()
         {
-            return;
             if (undoStack.Count != 0)
             {
                 tourBiDictionary = undoStack.Pop();
@@ -762,7 +760,6 @@ namespace LADSArtworkMode
         }
         public void redo()
         {
-            return;
             if (redoStack.Count != 0)
             {
                 tourBiDictionary = redoStack.Pop();
@@ -1039,8 +1036,8 @@ namespace LADSArtworkMode
                             time = 0;
                             //time = authorTimerCountSpan.TotalSeconds;
                         }*/
-                        double time = 0;
-                        if (authorTimerCountSpan.TotalSeconds - 1 > 0)
+                        double time = authorTimerCountSpan.TotalSeconds-1;
+                        if (time<0)
                         {
                             time = 0;
                         }
