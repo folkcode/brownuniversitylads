@@ -95,9 +95,6 @@
     <Compile Include="hotspotAddText.xaml.cs">
       <DependentUpon>hotspotAddText.xaml</DependentUpon>
     </Compile>
-    <Compile Include="hotspotWindow.xaml.cs">
-      <DependentUpon>hotspotWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="mapWindow.xaml.cs">
       <DependentUpon>mapWindow.xaml</DependentUpon>
     </Compile>
@@ -125,10 +122,6 @@
     <Page Include="hotspotAddText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="hotspotWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="map.xaml">
       <SubType>Designer</SubType>
@@ -215,17 +208,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="DexterLib">
-      <Guid>{78530B68-61F9-11D2-8CAD-00A024580902}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -37,6 +37,11 @@ namespace LADSArtworkMode.TourEvents
             set;
         }
 
+        public virtual TourEvent copy()
+        {
+            return null;
+        }
+
         public double duration
         {
             get;

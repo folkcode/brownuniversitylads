@@ -16,6 +16,16 @@ namespace LADSArtworkMode
         {
         }
 
+        public TourTL copy()
+        {
+            TourParallelTL tl = new TourParallelTL();
+            tl.type = type;
+            tl.displayName = displayName;
+            tl.file = file;
+            tl.inkCanvas = inkCanvas;
+            return tl;
+        }
+
         public TourTLType type
         {
             get;

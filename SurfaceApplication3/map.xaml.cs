@@ -59,7 +59,7 @@ namespace SurfaceApplication3
         public map()
         {
             InitializeComponent();
-          //  map1.TouchDown += new EventHandler<TouchEventArgs>(MapTouchHandler);
+            map1.TouchDown += new EventHandler<TouchEventArgs>(MapTouchHandler);
             map1.MouseUp += new MouseButtonEventHandler(MapMouseHandler);
             RadioColor = 0; //Means not chosen yet
             originX = new List<string>();
@@ -250,7 +250,7 @@ namespace SurfaceApplication3
                     LengthConverter myLengthConverter = new LengthConverter();
                     Double db1 = newPoint.X - 27;
                     Double db2 = newPoint.Y - 87;
-                    //System.Windows.Forms.MessageBox.Show("coreate new circles");
+                    System.Windows.Forms.MessageBox.Show("coreate new circles");
                     
                     //These operations are used to calculate the exact longitude and latitude before saving into the xml file.
                     this.findImageSize();
@@ -419,8 +419,8 @@ namespace SurfaceApplication3
         private void save_close_click(object sender, RoutedEventArgs e)
         {
             this.save();
-            newMapWindow.Visibility = Visibility.Collapsed;
-           // newMapWindow.mapControl.Visibility = Visibility.Hidden;
+            newMapWindow.Close();
+
         }
         public void setParentWindow(mapWindow parent)
         {

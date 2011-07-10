@@ -20,6 +20,10 @@ namespace LADSArtworkMode.TourEvents
             zoomMediaToScreenPointY = zoomMediaToScreenPointYParam;
             duration = durationParam;
         }
+        public override TourEvent copy()
+        {
+            return new ZoomMediaEvent(media, absoluteScale, zoomMediaToScreenPointX, zoomMediaToScreenPointY, duration);
+        }
 
         public DockableItem media
         {

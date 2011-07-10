@@ -6,10 +6,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:my="http://schemas.microsoft.com/surface/2008"
              xmlns:m="clr-namespace:SurfaceApplication3"
-             xmlns:dz="clr-namespace:DeepZoom.Controls;assembly=DeepZoom"
+             
              mc:Ignorable="d" 
 
-             Height="510" Width="924" Background="#B0CAB8" BorderThickness="3">
+             Height="510" Width="924" Background="#FF8BBAA5"  BorderBrush="#FF908C8C" BorderThickness="3">
 
     <!-- d:DesignHeight="450" d:DesignWidth="780" Background="#FF8BBAA5" xmlns:my="http://schemas.microsoft.com/surface/2008" BorderBrush="#FF908C8C" BorderThickness="3"> -->
 
@@ -42,8 +42,8 @@
 
             <Style TargetType="my:SurfaceButton" x:Key="gen">
                 <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="#227174"/>
+                <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="#FF076F72"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="my:SurfaceButton">
@@ -61,7 +61,7 @@
                                 </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#FFEDF5E2" BorderThickness="2">
                                 <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -75,8 +75,8 @@
 
         <Style TargetType="my:SurfaceButton" x:Key="browse">
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="#227174"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="#FFB5FBE3"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="my:SurfaceButton">
@@ -104,7 +104,7 @@
                             </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#FF076F72" BorderThickness="2">
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -122,25 +122,22 @@
         <Label Content="Click on the artwork to place a hotspot and select the hotspot to enter information: " Height="49" Width="747" FontSize="17" Canvas.Top="6" Canvas.Left="19" Foreground="Black"/>
 
         <Canvas x:Name="imageCover" Canvas.Top="40" Canvas.Left="20" Height="400" Width="500">
-            <Rectangle Height="400" Name="rectangle1" Stroke="#227174" Width="500" Fill="#B8DAD2" StrokeThickness="4" />
-           <!-- <Image Height="392" x:Name="image1" Stretch="Fill" Width="492" Canvas.Top="4" Canvas.Left="4"/> -->
-            <dz:MultiScaleImage x:Name="image1" Height="392" Width="492" Canvas.Top="4" Canvas.Left="4" />
+            <Rectangle Height="400" Name="rectangle1" Stroke="#FF076F72" Width="500" Fill="#FF5DC4BB" StrokeThickness="4" />
+            <Image Height="392" x:Name="image1" Stretch="Fill" Width="492" Canvas.Top="4" Canvas.Left="4"/>
         </Canvas>
 
 
         <Canvas Name="detailHotspot" Canvas.Top="40" Canvas.Left="540" Height="400" Width="360">
             <Rectangle Height="400" Stroke="#FF076F72"  Width="360" Fill="#FFEDF5E2" StrokeThickness="3" />
 
-            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="60" Canvas.Left="30" Content="Change to text" Click="AddText_Click" IsEnabled="False"/>
-       <!--     <my:SurfaceButton Name="ModifyText" Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="40" Canvas.Left="220" Content="Modify" Click="ModifyText_Click" IsEnabled="False"/> -->
-            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="130" Canvas.Left="30" Content="Change to image" Click="AddImage_Click" IsEnabled="False" />
-            <!--     <my:SurfaceButton Name="ModifyImage"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="110" Canvas.Left="220" Content="Modify" Click="ModifyImage_Click" IsEnabled="False"/>-->
-            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="200" Canvas.Left="30" Content="Change to audio" Click="AddAudio_Click" IsEnabled="False"/>
-            <!--    <my:SurfaceButton Name="ModifyAudio"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="180" Canvas.Left="220" Content="Modify" Click="ModifyAudio_Click" IsEnabled="False"/>-->
-            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="270" Canvas.Left="30" Content="Change to video" Click="AddVideo_Click" IsEnabled="False" />
-
-            <my:SurfaceButton Name="Edit" Style="{StaticResource browse}" Width="90" Height="26" MinHeight="0" Canvas.Top="170" Canvas.Left="230" Content="Edit" Click="Edit_Click" IsEnabled="False" />
-            <!--   <my:SurfaceButton Name="ModifyVideo"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="250" Canvas.Left="220" Content="Modify" Click="ModifyVideo_Click" IsEnabled="False"/>-->
+            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="40" Canvas.Left="30" Content="Add Text" Click="AddText_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="ModifyText" Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="40" Canvas.Left="220" Content="Modify" Click="ModifyText_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="110" Canvas.Left="30" Content="Add Image" Click="AddImage_Click" IsEnabled="False" />
+            <my:SurfaceButton Name="ModifyImage"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="110" Canvas.Left="220" Content="Modify" Click="ModifyImage_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="180" Canvas.Left="30" Content="Add Audio" Click="AddAudio_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="ModifyAudio"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="180" Canvas.Left="220" Content="Modify" Click="ModifyAudio_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="250" Canvas.Left="30" Content="Add Video" Click="AddVideo_Click" IsEnabled="False" />
+            <my:SurfaceButton Name="ModifyVideo"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="250" Canvas.Left="220" Content="Modify" Click="ModifyVideo_Click" IsEnabled="False"/>
             <!--         <my:SurfaceButton Content=" -" Height="45" x:Name="surfaceButton1" Width="45" FontSize="32" FontWeight="Bold" Canvas.Bottom="5" Canvas.Left="260" Background="#FFA5AB9E" Visibility="Hidden"/>
             <my:SurfaceButton Content=" +" FontWeight="Bold" Height="45" Name="surfaceButton2"  Width="45" FontSize="32"  Canvas.Bottom="5" Canvas.Left="80" Background="#FFA5AB9E" Foreground="White" Visibility="Hidden" />
             <Label Content="ZOOM" Height="40" Canvas.Bottom="5" Canvas.Left="160" Foreground="Black" Visibility="Hidden"/>

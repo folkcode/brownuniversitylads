@@ -21,6 +21,10 @@ namespace LADSArtworkMode.TourEvents
             zoomToMSIPointY = zoomToMSIPointYParam;
             duration = durationParam;
         }
+        public override TourEvent copy()
+        {
+            return new ZoomMSIEvent(msi, absoluteScale, zoomToMSIPointX, zoomToMSIPointY, duration);
+        }
 
         public MultiScaleImage msi
         {

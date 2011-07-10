@@ -4,7 +4,7 @@
         xmlns:m="clr-namespace:SurfaceApplication3"
         xmlns:s="http://schemas.microsoft.com/surface/2008"    
 	    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        Title="LADS Content Authoring Tool" Background="#B0CAB8" 
+        Title="LADS Content Authoring Tool" Background="#FF8BBAA5" 
         Height="800" Width="1024"
         ResizeMode="NoResize">
     <Window.Resources>
@@ -23,8 +23,8 @@
         </Style>
             <Style TargetType="s:SurfaceButton">
                 <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="Background" Value="#227174"/>
+                <Setter Property="Foreground" Value="Blue"/>
+                <Setter Property="Background" Value="#FF076F72"/>
                 <Setter Property="Padding" Value="8,4" />
                 <Setter Property="Margin" Value="4" />
                 <Setter Property="Template">
@@ -48,7 +48,7 @@
 
                         </ControlTemplate.Triggers>
 
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#FFEDF5E2" BorderThickness="2">
                                 <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -62,9 +62,9 @@
     </Window.Resources>
 
         <Canvas>
-        <s:SurfaceButton x:Name="addImage" Content="Add New Image" Height="46" Canvas.Top="8" Canvas.Left="9" Click="addImage_Click" Width="146" />
-        <s:SurfaceButton x:Name="addEvent" Content="Add/Edit Events" Height="46" Canvas.Top="8" Canvas.Right="9" Click="addEvent_Click" Width="146" />
-        <s:SurfaceListBox x:Name="EntryListBox" Height="680" Width="995" Canvas.Left="5" Canvas.Top="69" BorderThickness="3"/>
+        <s:SurfaceButton x:Name="addImage" Content="Add New Image" Foreground="White" Height="46" Canvas.Top="8" Canvas.Left="9" Click="addImage_Click" Width="146" />
+        <s:SurfaceButton x:Name="addEvent" Content="Add/Edit Events" Foreground="White" Height="46" Canvas.Top="8" Canvas.Right="9" Click="addEvent_Click" Width="146" />
+        <s:SurfaceListBox x:Name="EntryListBox" Height="680" Width="995" Canvas.Left="5" Canvas.Top="69" BorderThickness="3" BorderBrush="#FF076F72"/>
         <Label Canvas.Top="8" Canvas.Left="155" Content="LADS - Content Authoring Tool" Width="691" Height="57" Name="WindowName" FontSize="40" FontWeight="Bold" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="Black" />
         </Canvas>
 </Window>

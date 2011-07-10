@@ -1637,6 +1637,7 @@ namespace LADSArtworkMode
 
         public void newMediaTimeLine(String filePath, String fileName)
         {
+            tourSystem.undoableActionPerformed();
             tourSystem.AddNewMetaDataTimeline(filePath, fileName);
         }
 
@@ -1666,6 +1667,7 @@ namespace LADSArtworkMode
 
         private void applyTimeTourButton_Click(object sender, RoutedEventArgs e)
         {
+            tourSystem.undoableActionPerformed();
             try
             {
                 double newDuration = double.Parse(TourLengthTextBox.Text);

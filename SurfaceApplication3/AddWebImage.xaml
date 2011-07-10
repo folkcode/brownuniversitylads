@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:s="http://schemas.microsoft.com/surface/2008"
-             mc:Ignorable="d" Background="#B0CAB8"
+             mc:Ignorable="d" Background="#FF64907B"
              Height="135" Width="600"
              MaxHeight="135" MaxWidth="600"
              ResizeMode="NoResize"
@@ -13,8 +13,8 @@
     <Window.Resources>
         <Style TargetType="s:SurfaceButton" x:Key="browse">
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="#227174"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="Background" Value="#FFB5FBE3"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="s:SurfaceButton">
@@ -33,7 +33,40 @@
 
 
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="DarkGreen" BorderThickness="2">
+                            <ContentPresenter 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                >
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="s:SurfaceButton" x:Key="remove">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="Background" Value="#FF076F72"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="s:SurfaceButton">
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                                            <GradientStop Color="#FF90DDFF" Offset="0.35"/>
+                                            <GradientStop Color="LightBlue" Offset="0.95"/>
+                                            <GradientStop Color="#FF81DDFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#FFEDF5E2" BorderThickness="2">
+
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -48,11 +81,11 @@
     
     <Grid>
         <Canvas >
-            <Rectangle x:Name="middle_background" Fill="White" Height="51" Width="570" Canvas.Top="10" Canvas.Left="8"/>
-            <s:SurfaceButton Style="{StaticResource browse}"  Content="OK" Canvas.Left="214" Canvas.Top="64" Width="76" Height="30" Margin="1" BorderBrush="#FF076F72" BorderThickness="10"  Click="OK_Click" MinHeight="0" MinWidth="0" />
-            <s:SurfaceButton Style="{StaticResource browse}"  Content="Cancel" Canvas.Left="296" Canvas.Top="64" Width="96" Height="30" Margin="1" BorderBrush="#FF076F72" BorderThickness="10"  Click="Cancel_Click" MinHeight="0" MinWidth="0" />
+            <Rectangle x:Name="middle_background" Fill="#FFFDF3E2" Height="51" Stroke="#FFF3F3CE" Width="570" Canvas.Top="10" Canvas.Left="8"/>
+            <s:SurfaceButton Style="{StaticResource browse}"  Content="OK" Canvas.Left="214" Canvas.Top="64" Width="76" Height="30" Foreground="Black" Margin="1" BorderBrush="#FF076F72" BorderThickness="10"  Click="OK_Click" MinHeight="0" MinWidth="0" />
+            <s:SurfaceButton Style="{StaticResource browse}"  Content="Cancel" Canvas.Left="296" Canvas.Top="64" Width="96" Height="30" Foreground="Black" Margin="1" BorderBrush="#FF076F72" BorderThickness="10"  Click="Cancel_Click" MinHeight="0" MinWidth="0" />
             <Label Content="URL:" Canvas.Left="29" Canvas.Top="21" Width="76" Height="29" Foreground="Black" />
-            <s:SurfaceTextBox x:Name="url_tag" Height="32" Width="472" BorderBrush="#227174" BorderThickness="3" Canvas.Left="80" Canvas.Top="18" Background="#FFFDF3E2" Foreground="Black" FontSize="15" MinHeight="0" MinWidth="0" />
+            <s:SurfaceTextBox x:Name="url_tag" Height="32" Width="472" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="80" Canvas.Top="18" Background="#FFFDF3E2" Foreground="Black" FontSize="15" MinHeight="0" MinWidth="0" />
         </Canvas>
         </Grid>
 </s:SurfaceWindow>
