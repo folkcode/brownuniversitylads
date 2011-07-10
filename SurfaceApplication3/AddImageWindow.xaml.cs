@@ -34,8 +34,10 @@ namespace SurfaceApplication3
 
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
-            big_window1.setUserControl(HotspotControl);
+           // big_window1.setUserControl(HotspotControl);
             mapWindow newMapWindow = new mapWindow();
+            hotspotWindow newHotWindow = new hotspotWindow();
+            big_window1.setHotspotWindow(newHotWindow);
             big_window1.setMapWindow(newMapWindow);
            // big_window1.setMapControl(mapControl);
            // mapControl.setBigWindow(big_window1);

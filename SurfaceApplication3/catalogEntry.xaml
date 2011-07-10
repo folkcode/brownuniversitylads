@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:s="http://schemas.microsoft.com/surface/2008"    
              mc:Ignorable="d" 
-             Height="220" Width="930" Background="#FF64907B">
+             Height="220" Width="930" Background="#B0CAB8">
 
     <UserControl.Resources>
         <Style TargetType="s:SurfaceButton">
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="Background" Value="#FFB5FBE3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#227174"/>
             <Setter Property="Padding" Value="8,4" />
             <Setter Property="Margin" Value="4" />
             <Setter Property="Template">
@@ -35,7 +35,7 @@
 
                         </ControlTemplate.Triggers>
 
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="DarkGreen" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -51,28 +51,28 @@
     </UserControl.Resources>
 
     <Canvas>
-        <Rectangle x:Name="background" Fill="#FFFDF3E2" Height="190" Stroke="#FFF3F3CE" Width="910" Canvas.Top="15" Canvas.Left="10"/>
+        <Rectangle x:Name="background" Fill="White" Height="190" Width="910" Canvas.Top="15" Canvas.Left="10"/>
         <Canvas Name="imageCanvas" Height="180" Width="200" Canvas.Left="20" Canvas.Top="20">
-            <Rectangle x:Name="imageRec" Fill="#FF5DC4BB" Height="180" Stroke="#FF076F72" Width="200" StrokeThickness="4" Canvas.Left="0" Canvas.Top="0"/>
+            <Rectangle x:Name="imageRec" Fill="#B8DAD2" Height="180" Stroke="#227174" Width="200" StrokeThickness="4" Canvas.Left="0" Canvas.Top="0"/>
             <Image Height="172" Width="192" Name="image1" Stretch="Fill" Canvas.Top="4" Canvas.Left="4" />
         </Canvas>
         <Label Content="Title:" Canvas.Left="220" Canvas.Top="20" Foreground="Black" FontSize="22" Width="75" Height="30" />
-        <s:SurfaceTextBox x:Name="title_tag"  Height="40" Width="300" BorderBrush="#FF076F72" BorderThickness="1" Canvas.Left="330" Canvas.Top="20" SelectionBrush="{x:Null}" Foreground="Black" Background="{x:Null}" TextWrapping="Wrap" MinHeight="30" IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14" />
+        <s:SurfaceTextBox x:Name="title_tag"  Height="40" Width="300" BorderBrush="#227174" BorderThickness="2" Canvas.Left="330" Canvas.Top="20" SelectionBrush="{x:Null}" Foreground="Black" Background="{x:Null}" TextWrapping="Wrap" MinHeight="30" IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14" />
 
             <Label Content="Year:" Canvas.Left="220" Canvas.Top="65" Width="75" Foreground="Black" FontSize="22" Height="30"/>
-        <s:SurfaceTextBox x:Name="year_tag" Height="40" Width="300" BorderBrush="#FF076F72" BorderThickness="1" Canvas.Left="330" Canvas.Top="65" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True"  VerticalContentAlignment="Center" FontSize="14"/>
+        <s:SurfaceTextBox x:Name="year_tag" Height="40" Width="300" BorderBrush="#227174" BorderThickness="2" Canvas.Left="330" Canvas.Top="65" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True"  VerticalContentAlignment="Center" FontSize="14"/>
 
             <Label Content="Artist:" Canvas.Left="220" Canvas.Top="110" Width="92" Foreground="Black" FontSize="22" Height="30"/>
-        <s:SurfaceTextBox x:Name="artist_tag" Height="40" Width="300" BorderBrush="#FF076F72" BorderThickness="1" Canvas.Left="330" Canvas.Top="110" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14"/>
+        <s:SurfaceTextBox x:Name="artist_tag" Height="40" Width="300" BorderBrush="#227174" BorderThickness="2" Canvas.Left="330" Canvas.Top="110" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14"/>
 
             <Label Canvas.Left="220" Canvas.Top="155" Content="Medium:" FontSize="22" Foreground="Black" Width="113" Height="30" />
-        <s:SurfaceTextBox x:Name="medium_tag" Height="40" Width="300" BorderBrush="#FF076F72" BorderThickness="1" Canvas.Left="330" Canvas.Top="155" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14"/>
+        <s:SurfaceTextBox x:Name="medium_tag" Height="40" Width="300" BorderBrush="#227174" BorderThickness="2" Canvas.Left="330" Canvas.Top="155" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14"/>
 
             <!--<Rectangle x:Name="summary" Fill="#FFCEEFF3" Height="133.663" Canvas.Left="408" Stroke="#FF14638D" Canvas.Top="19" Width="381" StrokeThickness="2"/>-->
 
-        <s:SurfaceTextBox x:Name ="summary" Height="98" Width="260" Canvas.Left="650" Canvas.Top="51" Background="#FFBBEFD3" BorderBrush="#FF076F72" BorderThickness="2" TextWrapping="Wrap" Foreground="Black"  IsReadOnly="True"  FontSize="14"/>
-        <s:SurfaceButton x:Name="edit" Content="Edit" Foreground="Black" BorderBrush="#FF076F72" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="650" Canvas.Top="157" PreviewMouseUp="edit_Click" PreviewTouchUp="edit_Click" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" />
-            <s:SurfaceButton x:Name="delete" Content="Delete" Foreground="Black" BorderBrush="#FF0D8174" Background="#FF77BAB9" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="793" Canvas.Top="157" Click="delete_Click" AllowDrop="True" MinHeight="0" MinWidth="0" />
+        <s:SurfaceTextBox x:Name ="summary" Height="98" Width="260" Canvas.Left="650" Canvas.Top="51" Background="#B8DAD2" BorderBrush="#227174" BorderThickness="2" TextWrapping="Wrap" Foreground="Black"  IsReadOnly="True"  FontSize="14"/>
+        <s:SurfaceButton x:Name="edit" Content="Edit" BorderBrush="#FF076F72" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="650" Canvas.Top="157" PreviewMouseUp="edit_Click" PreviewTouchUp="edit_Click" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" />
+            <s:SurfaceButton x:Name="delete" Content="Delete" BorderBrush="#FF0D8174" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="793" Canvas.Top="157" Click="delete_Click" AllowDrop="True" MinHeight="0" MinWidth="0" />
             <Label Canvas.Left="657" Canvas.Top="15" Content="Summary:" FontSize="22" Foreground="Black" Height="30" Width="123" />
         </Canvas>
 

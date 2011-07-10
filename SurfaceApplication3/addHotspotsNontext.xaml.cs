@@ -45,7 +45,7 @@ namespace SurfaceApplication3
             }
             else
             {
-                ofd.Filter = "Video Files(*.MPG;*.MOV;*.WMV;*.RM;*.MP4)|*.MPG;*.MOV;*.WMV;*.RM;*.MP4";
+                ofd.Filter = "Video Files(*.AVI;*.MOV;*.WMV)|*.AVI;*.MOV;*.WMV";
             }
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -133,27 +133,50 @@ namespace SurfaceApplication3
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if (hotspotContent == 1)
+            if (title.Text != "" && url_tag.Text != "")
             {
-                hotspotsControl.setHotspotInfo(title.Text + "/" + "audio" + "/" + contentPath);
-                hotspotsControl.saveHotspotInfo();
-                hotspotsControl.ModifyAudio.IsEnabled = true;
+                if (hotspotContent == 1)
+                {
+                    hotspotsControl.setHotspotInfo(title.Text + "/" + "audio" + "/" + contentPath);
+                    hotspotsControl.saveHotspotInfo();
 
-            }
-            else if (hotspotContent == 2)
-            {
-                hotspotsControl.setHotspotInfo(title.Text + "/" + "image" + "/" + contentPath);
-                hotspotsControl.saveHotspotInfo();
-                hotspotsControl.ModifyImage.IsEnabled = true;
+                    hotspotsControl.AddAudio.IsEnabled = false;
+                    hotspotsControl.AddText.IsEnabled = true;
+                    hotspotsControl.AddImage.IsEnabled = true;
+                    hotspotsControl.AddVideo.IsEnabled = true;
+                    hotspotsControl.Edit.IsEnabled = true;
+                    //  hotspotsControl.ModifyAudio.IsEnabled = true;
+
+                }
+                else if (hotspotContent == 2)
+                {
+                    hotspotsControl.setHotspotInfo(title.Text + "/" + "image" + "/" + contentPath);
+                    hotspotsControl.saveHotspotInfo();
+                    hotspotsControl.AddImage.IsEnabled = false;
+                    hotspotsControl.AddText.IsEnabled = true;
+                    hotspotsControl.AddAudio.IsEnabled = true;
+                    hotspotsControl.AddVideo.IsEnabled = true;
+                    hotspotsControl.Edit.IsEnabled = true;
+                    //   hotspotsControl.ModifyImage.IsEnabled = true;
+                }
+                else
+                {
+                    hotspotsControl.setHotspotInfo(title.Text + "/" + "video" + "/" + contentPath);
+                    hotspotsControl.saveHotspotInfo();
+                    hotspotsControl.AddVideo.IsEnabled = false;
+                    hotspotsControl.AddText.IsEnabled = true;
+                    hotspotsControl.AddAudio.IsEnabled = true;
+                    hotspotsControl.AddImage.IsEnabled = true;
+                    hotspotsControl.Edit.IsEnabled = true;
+                    //     hotspotsControl.ModifyVideo.IsEnabled = true;
+                }
+                this.Close();
             }
             else
             {
-                hotspotsControl.setHotspotInfo(title.Text + "/" + "video" + "/" + contentPath);
-                hotspotsControl.saveHotspotInfo();
-                hotspotsControl.ModifyVideo.IsEnabled = true;
+                MessageBox.Show("Caption and URL can not be empty!");
+                return;
             }
-            this.Close();
-            
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -161,7 +184,7 @@ namespace SurfaceApplication3
             title.Text = "";
             url_tag.Text = "";
             contentPath = "";
-            return;
+            this.Close();
         }
     }
 

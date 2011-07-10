@@ -6,7 +6,7 @@
              xmlns:my="http://schemas.microsoft.com/surface/2008"
              xmlns:dz="clr-namespace:DeepZoom.Controls;assembly=DeepZoom"
              mc:Ignorable="d" 
-             d:DesignHeight="640" d:DesignWidth="854" x:Name="background" Background="#FF8BBAA5">
+             d:DesignHeight="640" d:DesignWidth="854" x:Name="background" Background="#B0CAB8">
     
     <UserControl.Resources>
         <Style TargetType="{x:Type my:SurfaceRadioButton}" x:Key="style1" >
@@ -83,8 +83,8 @@
 
         <Style TargetType="my:SurfaceButton">
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="Background" Value="#FF076F72"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#227174"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="my:SurfaceButton">
@@ -102,7 +102,7 @@
                                 </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#FFEDF5E2" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -122,17 +122,17 @@
             <Label Content="then select the spot on the map and fill in the location information below:" Canvas.Left="19" FontSize="16" Canvas.Top="18" Foreground="Black"/>
 
             <Canvas x:Name="mapCover" Height="433.7" Width="768.5" Canvas.Top="87" Canvas.Left="40">
-                <Rectangle Height="433.7"  Stroke="#FF076F72" Width="768.5" Fill="#FFEDF5E2" StrokeThickness="3" />
+                <Rectangle Height="433.7"  Stroke="#227174" Width="768.5" Fill="#FFEDF5E2" StrokeThickness="3" />
                 <!--<Image Height="310" x:Name="map1" Stretch="Fill" Width="720" /> -->
                 <dz:MultiScaleImage Name="map1" Width="768.5" Height="433.7" Canvas.Left="2" Canvas.Top="2"/>
                 
             </Canvas>
             <Label Content="Date:" Canvas.Bottom="70" Canvas.Left="80" Foreground="Black" FontSize="16"/>
-            <my:SurfaceTextBox x:Name="date" Canvas.Bottom="70" Canvas.Left="150" Width="150" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" />
+            <my:SurfaceTextBox x:Name="date" Canvas.Bottom="70" Canvas.Left="150" Width="150" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" />
             <Label Content="Country and city:" Canvas.Bottom="70" Canvas.Left="380" Foreground="Black" Background="Transparent"  FontSize="16"/>
-            <my:SurfaceTextBox x:Name="city" Canvas.Bottom="70" Canvas.Left="550" Width="200" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="city_TextChanged" />
+            <my:SurfaceTextBox x:Name="city" Canvas.Bottom="70" Canvas.Left="550" Width="200" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="city_TextChanged" />
 
-            <Rectangle Height="35" Name="rectangle1" Stroke="#FFEDF5E2" Width="780" Fill="#FF076F72" StrokeThickness="3" Canvas.Top="47" Canvas.Left="27"/>
+            <Rectangle Height="35" Name="rectangle1" Stroke="#FFEDF5E2" Width="780" Fill="#227174" StrokeThickness="3" Canvas.Top="47" Canvas.Left="27"/>
             <my:SurfaceRadioButton x:Name="red" BorderBrush="White" BorderThickness="2" Content="Point of origin" Background="Red" Canvas.Top="53" Canvas.Left="40" Checked="SurfaceRadioButton_Checked" Style="{StaticResource style1}" ToolTip="Only one point of origin will be recorded"/>
             <my:SurfaceRadioButton x:Name="blue" BorderBrush="White"  BorderThickness="2" Content="Exhibition locations" Canvas.Top="53" Background="Blue" Canvas.Left="265" Checked ="SurfaceRadioButton_Checked_1"  Style="{StaticResource style2}" Width="203" />
             <my:SurfaceButton Content="Cancel Changes" x:Name="Cancel" Height="30" Width="125"  Foreground="White" Canvas.Bottom="18" Canvas.Right="179" Click="Cancel_Click" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" FontSize="14"/>
