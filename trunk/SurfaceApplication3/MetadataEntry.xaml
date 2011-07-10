@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:s="http://schemas.microsoft.com/surface/2008"
-             mc:Ignorable="d" Background="#FF64907B"
+             mc:Ignorable="d" Background="#B0CAB8"
              Height="125" Width="930">
 
     <UserControl.Resources>
         <Style TargetType="s:SurfaceButton" x:Key="browse">
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="Background" Value="#FFB5FBE3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#227174"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="s:SurfaceButton">
@@ -30,7 +30,7 @@
 
                             
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="DarkGreen" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -44,8 +44,8 @@
 
         <Style TargetType="s:SurfaceButton" x:Key="remove">
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="Background" Value="#FF076F72"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#227174"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="s:SurfaceButton">
@@ -62,7 +62,7 @@
                                 </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#FFEDF5E2" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
                             
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
@@ -78,39 +78,21 @@
 
     <Grid x:Name="LayoutRoot" >
         <Canvas >
-            <Rectangle x:Name="middle_background" Fill="#FFFDF3E2" Height="50" Stroke="#FFF3F3CE" Width="916" Canvas.Top="25" Canvas.Left="8"/>
+            <Rectangle x:Name="middle_background" Fill="White" Height="50" Width="916" Canvas.Top="25" Canvas.Left="8"/>
             <Canvas Name="imageCanvas" Height="108" Width="158" Canvas.Top="8" Canvas.Left="11">
-                <Rectangle x:Name="imageRec" Fill="#FF5DC4BB" Height="108" Canvas.Left="0" Stroke="#FF076F72" Width="158" StrokeThickness="4" Canvas.Top="0" />
-                <Image x:Name="image1" Height="100" Width="150" Canvas.Left="4" Canvas.Top="4"/>
+                <Rectangle x:Name="imageRec" Fill="#B8DAD2" Height="108" Canvas.Left="0" Stroke="#227174" Width="158" StrokeThickness="4" Canvas.Top="0" />
+                <Image x:Name="image1" Height="100" Width="150" Canvas.Left="4" Canvas.Top="4" ImageFailed="image1_ImageFailed" />
             </Canvas>
-            <s:SurfaceButton Style="{StaticResource browse}"  Content="Browse" Canvas.Left="180" Canvas.Top="82" Width="76" Height="30" Foreground="Black" Margin="1" BorderBrush="#FF076F72" BorderThickness="10"  Click="Browse_Click" MinHeight="0" MinWidth="0" />
-            <s:SurfaceButton Style="{StaticResource browse}"  Content="From Web" Canvas.Left="260" Canvas.Top="82" Width="96" Height="30" Foreground="Black" Margin="1" BorderBrush="#FF076F72" BorderThickness="10"  Click="Web_Click" MinHeight="0" MinWidth="0" />
+            <s:SurfaceButton Style="{StaticResource browse}"  Content="Browse" Canvas.Left="180" Canvas.Top="82" Width="76" Height="30" Margin="1" BorderBrush="#227174" BorderThickness="10"  Click="Browse_Click" MinHeight="0" MinWidth="0" />
+            <s:SurfaceButton Style="{StaticResource browse}"  Content="From Web" Canvas.Left="260" Canvas.Top="82" Width="96" Height="30" Margin="1" BorderBrush="#227174" BorderThickness="10"  Click="Web_Click" MinHeight="0" MinWidth="0" />
                 <Label Content="Name:" Canvas.Left="251" Canvas.Top="35" Width="76" Height="36.5" Foreground="Black" />
                  <Label Content="Description:" Canvas.Left="555" Canvas.Top="33" Foreground="Black"/>
-            <s:SurfaceTextBox x:Name="summary" Height="50" Width="253" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="662" Background="{x:Null}" Canvas.Top="24" Foreground="Black" VerticalScrollBarVisibility="Auto" FontSize="15" TextWrapping="Wrap" MouseDoubleClick="summary_MouseDoubleClick" />
-            <s:SurfaceTextBox x:Name="tags" Height="50" Width="253" BorderBrush="DarkGreen" BorderThickness="2" Canvas.Left="662" Background="{x:Null}" Canvas.Top="24" Foreground="Black" IsReadOnly="True" Visibility="Hidden"/>
-            <s:SurfaceButton Style="{StaticResource remove}" x:Name="remove" Height="30" Width="86" Content="Remove" Foreground="White" MinHeight="0" Canvas.Left="830" Canvas.Top="83" Click="remove_Click" MinWidth="0" />
-            <s:SurfaceTextBox x:Name="name_tag" Height="30" Width="170" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="315" Canvas.Top="33" Background="{x:Null}" Foreground="Black" FontSize="15" MinHeight="0" MinWidth="0" />
-            <s:SurfaceTextBox x:Name="title_tag" Height="30" Width="240" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="362" Canvas.Top="83" Background="{x:Null}" Foreground="Black" FontSize="15" IsReadOnly="True" MinHeight="0" MinWidth="0" Visibility="Hidden"/>
+            <s:SurfaceTextBox x:Name="summary" Height="50" Width="253" BorderBrush="#227174" BorderThickness="2" Canvas.Left="662" Background="{x:Null}" Canvas.Top="24" Foreground="Black" VerticalScrollBarVisibility="Auto" FontSize="15" TextWrapping="Wrap" MouseDoubleClick="summary_MouseDoubleClick" />
+            <s:SurfaceTextBox x:Name="tags" Height="50" Width="253" BorderBrush="#227174" BorderThickness="2" Canvas.Left="662" Background="{x:Null}" Canvas.Top="24" Foreground="Black" IsReadOnly="True" Visibility="Hidden"/>
+            <s:SurfaceButton Style="{StaticResource remove}" x:Name="remove" Height="30" Width="86" Content="Remove" MinHeight="0" Canvas.Left="830" Canvas.Top="83" Click="remove_Click" MinWidth="0" />
+            <s:SurfaceTextBox x:Name="name_tag" Height="30" Width="170" BorderBrush="#227174" BorderThickness="2" Canvas.Left="315" Canvas.Top="33" Background="{x:Null}" Foreground="Black" FontSize="15" MinHeight="0" MinWidth="0" />
+            <s:SurfaceTextBox x:Name="title_tag" Height="30" Width="240" BorderBrush="#227174" BorderThickness="2" Canvas.Left="362" Canvas.Top="83" Background="{x:Null}" Foreground="Black" FontSize="15" IsReadOnly="True" MinHeight="0" MinWidth="0" Visibility="Hidden"/>
                 
-             
-             <!--<Label x:Name="Group_label" Canvas.Left="404" Width="81" Height="36.5" Content="Group:"/>
-               <RadioButton Canvas.Left="475" Canvas.Top="13" Style="{DynamicResource RadioButtonStyle1}" RenderTransformOrigin="1.757,0.733" Content="A" Checked="RadioButton_Checked" GroupName="Metadata" Width="28" FontSize="22" FontStretch="Normal" Height="40">
-
-                </RadioButton>
-
-            <s:SurfaceToggleButton Canvas.Left="471" Canvas.Top="14" BorderBrush="#FF10BC5F" BorderThickness="2" Background="#FF72E5BA" Content="A" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked">
-               
-            </s:SurfaceToggleButton>
-            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="515" Canvas.Top="14" Content="B" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked">
-              
-            </s:SurfaceToggleButton>
-            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="559" Canvas.Top="14" Content="C" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked">
-          
-            </s:SurfaceToggleButton>
-            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="603" Canvas.Top="14" Content="D" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked" />
-            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="647" Canvas.Top="14" Content="E" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked" />
-            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="691" Canvas.Top="14" Content="F" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked" /> -->
         </Canvas>
         </Grid>
    

@@ -6,7 +6,7 @@
              xmlns:s="http://schemas.microsoft.com/surface/2008"
              xmlns:m="clr-namespace:SurfaceApplication3"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1024" BorderBrush="#FF5342CD" Background="#FF8BBAA5">
+             d:DesignHeight="800" d:DesignWidth="1024" BorderBrush="#FF5342CD" Background="#B0CAB8">
 
     <!-- RESOURCES - SET STYLE-->
 
@@ -15,7 +15,7 @@
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Padding" Value="8,4" />
             <Setter Property="Margin" Value="4" />
-            <Setter Property="Background" Value="#FF076F72" />
+            <Setter Property="Background" Value="#227174" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="s:SurfaceButton">
@@ -36,7 +36,7 @@
                             </Trigger>
 
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#FFEDF5E2" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -59,8 +59,8 @@
         <Style TargetType="s:SurfaceButton" x:Key="browse">
             
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="Blue"/>
-            <Setter Property="Background" Value="#FFB5FBE3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#227174"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="s:SurfaceButton">
@@ -77,7 +77,7 @@
                                 </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
-                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="DarkGreen" BorderThickness="2">
+                        <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
                             <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -95,60 +95,60 @@
     <Canvas Width="1024" Height="800">
                 
                 <Canvas x:Name="upper_information" Height="245" Width="1004" Canvas.Top="10" Canvas.Left="10" >
-                    
-                    <Rectangle x:Name="background" Fill="#FFFDF3E2" Height="245" Width="1004" Canvas.Top="0" Stroke="DarkGreen" StrokeThickness="2"/>
-                    <Label Content="Artwork:" Canvas.Left="10" Canvas.Top="0" FontSize="32" FontWeight="Bold" Foreground="#FF270000" />
+
+            <Rectangle x:Name="background" Fill="White" Height="245" Width="1004" Canvas.Top="0" Stroke="#227174" StrokeThickness="2"/>
+                    <Label Content="Artwork:" Canvas.Left="10" Canvas.Top="0" FontSize="32" FontWeight="Bold" Foreground="Black" />
                     <Canvas Name="imageCanvas" Width="200" Height="150" Canvas.Left="10" Canvas.Top="48">
-                        <Rectangle x:Name="imageRec" Fill="#FF5DC4BB" Height="150" Stroke="DarkCyan" Width="200" StrokeThickness="7" Canvas.Left="0" Canvas.Top="0"/>
+                <Rectangle x:Name="imageRec" Fill="#50227174" Height="150" Stroke="#227174" Width="200" StrokeThickness="7" Canvas.Left="0" Canvas.Top="0"/>
                         <Image Height="136" x:Name="image1" Stretch="Fill" Width="186" Canvas.Top="7" Canvas.Left="7" />
                     </Canvas>
-            <s:SurfaceButton Style ="{StaticResource browse}" x:Name ="browse" Content="Browse" Canvas.Left="66" Canvas.Top="203" Width="78" Height="32" Foreground="Black" BorderBrush="#FF076F72" BorderThickness="13" MaxHeight="Infinity" MinHeight="0" ClickMode="Release" Click="Browse_Click" OpacityMask="#FF4FD441" MinWidth="0" />
+            <s:SurfaceButton Style ="{StaticResource browse}" x:Name ="browse" Content="Browse" Canvas.Left="66" Canvas.Top="203" Width="78" Height="32" BorderThickness="13" MaxHeight="Infinity" MinHeight="0" ClickMode="Release" Click="Browse_Click" OpacityMask="#FF4FD441" MinWidth="0" />
                     
                     <Label Content="Title:" Canvas.Left="218" Canvas.Top="46" Foreground="Black" Width="100" FontSize="18" Height="30" />
-            <s:SurfaceTextBox x:Name="title_tag"  Width="308" BorderBrush="#FF076F72"  BorderThickness="2" Canvas.Left="312" Canvas.Top="47" SelectionBrush="{x:Null}" Foreground="Black" Background="{x:Null}" TextWrapping="Wrap" Height ="30" FontSize="15" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
+            <s:SurfaceTextBox x:Name="title_tag"  Width="308" BorderBrush="#227174"  BorderThickness="2" Canvas.Left="312" Canvas.Top="47" SelectionBrush="{x:Null}" Foreground="Black" Background="{x:Null}" TextWrapping="Wrap" Height ="30" FontSize="15" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
 
                     <Label Content="Year:" Canvas.Left="218" Canvas.Top="85" Width="82" Foreground="Black"  FontSize="18" Height="30"  />
-            <s:SurfaceTextBox x:Name="year_tag" Width="308" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="312" Canvas.Top="86" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" TextChanged="year_tag_TextChanged" />
+            <s:SurfaceTextBox x:Name="year_tag" Width="308" BorderBrush="#227174" BorderThickness="2" Canvas.Left="312" Canvas.Top="86" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" TextChanged="year_tag_TextChanged" />
 
 
                     <Label Content="Artist:" Canvas.Left="218" Canvas.Top="124" Width="100" Foreground="Black"  FontSize="18" Height="30"/>
-            <s:SurfaceTextBox x:Name="artist_tag"  Width="308" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="312" Canvas.Top="125" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black"  FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
+            <s:SurfaceTextBox x:Name="artist_tag"  Width="308" BorderBrush="#227174" BorderThickness="2" Canvas.Left="312" Canvas.Top="125" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black"  FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
 
 
                     <Label Content="Medium:" Canvas.Left="218" Canvas.Top="164" Width="108" Foreground="Black"  FontSize="18" Height="30" />
-            <s:SurfaceTextBox x:Name="medium_tag"  Width="308" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="312" Canvas.Top="165" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black"  FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
+            <s:SurfaceTextBox x:Name="medium_tag"  Width="308" BorderBrush="#227174" BorderThickness="2" Canvas.Left="312" Canvas.Top="165" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black"  FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
 
-            <s:SurfaceTextBox x:Name="tags" Height="150" Width="165" BorderBrush="#FF076F72" BorderThickness="2" Canvas.Left="639" Canvas.Top="45" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" VerticalScrollBarVisibility="Auto" FontSize="16" ToolTip="Please seperate each keyword with a comma, eg. soldier, river" MouseDoubleClick="tagsMouseDoubleClick" />
+            <s:SurfaceTextBox x:Name="tags" Height="150" Width="165" BorderBrush="#227174" BorderThickness="2" Canvas.Left="639" Canvas.Top="45" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" VerticalScrollBarVisibility="Auto" FontSize="16" ToolTip="Please seperate each keyword with a comma, eg. soldier, river" MouseDoubleClick="tagsMouseDoubleClick" />
                     <Label Content="Keywords:" Canvas.Left="637" Canvas.Top="15" Width="112" Height="40" Foreground="Black" FontSize="18" />
 
                     <!--<Rectangle x:Name="summary" Fill="#FFCEEFF3" Height="133.663" Canvas.Left="408" Stroke="#FF14638D" Canvas.Top="19" Width="381" StrokeThickness="2"/>-->
                     <Label Canvas.Left="811" Canvas.Top="15" Content="Summary:" FontSize="18" Foreground="Black" Height="40" Width="126" />
-            <s:SurfaceTextBox x:Name="summary" Height="150" Width="176" Canvas.Left="813" Background="#FFBBEFD3" BorderBrush="#FF076F72" BorderThickness="2" TextWrapping="Wrap" Foreground="Black" AutoWordSelection="True" Opacity="0.9" Canvas.Top="45" MouseDoubleClick="summaryMouseDoubleClick" />
+            <s:SurfaceTextBox x:Name="summary" Height="150" Width="176" Canvas.Left="813" Background="#50227174" BorderBrush="#227174" BorderThickness="2" TextWrapping="Wrap" Foreground="Black" AutoWordSelection="True" Opacity="0.9" Canvas.Top="45" MouseDoubleClick="summaryMouseDoubleClick" />
 
                     
             </Canvas>
                         
             <Canvas Name="lower_information" Height="430" Width="1004" Canvas.Top="260" Canvas.Left="10">
-                <Rectangle Fill="#FFBBEFD3" Stroke="DarkGreen" Height="430" Width="1004" Canvas.Left="0" StrokeThickness="2"/>
+            <Rectangle Fill="White" Stroke="#227174" Height="430" Width="1004" Canvas.Left="0" StrokeThickness="2"/>
                 <!--<Rectangle x:Name="background3" Fill="#FF2C9B8F" Height="17.5" Margin="8,0,0,8" Stroke="#FF36D231" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="839" Grid.ColumnSpan="2" />-->
                 <!--<m:hotspotAdd  Height="480" Width="780" Canvas.Top="50" Canvas.Left="60" Visibility="Hidden"/> -->
-            
-                <s:SurfaceListBox x:Name="MetaDataList" Width="1004" Height="375" Canvas.Top="54" Canvas.Left="0">
+
+            <s:SurfaceListBox x:Name="MetaDataList" Width="1004" Height="375" Canvas.Top="54" Canvas.Left="0" Background="#B0CAB8">
                 <!--s:SurfaceListBoxItem-->
                 <!--<m:MetaDataEntry Loaded="small_window_Loaded" Height="125"  Background="#FF7DD2A5"/>-->
                 <!--/s:SurfaceListBoxItem-->
                 </s:SurfaceListBox>
-            <s:SurfaceButton Style="{StaticResource gen}" x:Name="addMetadata" Content="Add Assets" Foreground="WhiteSmoke" BorderBrush="#FF124A07" Height="30" FontFamily="Calibri" FontSize="16" BorderThickness="3,2" Width="122" Canvas.Left="863" Canvas.Top="4" Click="addMetadata_Click" />
+            <s:SurfaceButton Style="{StaticResource gen}" x:Name="addMetadata" Content="Add Assets" Foreground="WhiteSmoke" BorderBrush="#227174" Height="30" FontFamily="Calibri" FontSize="16" BorderThickness="3,2" Width="122" Canvas.Left="863" Canvas.Top="4" Click="addMetadata_Click" />
                 <Label Canvas.Left="5" Canvas.Top="0" Content="Assets List: " Height="28" Name="label1" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Foreground="Black" FontSize="30" FontWeight="Bold" />
             </Canvas>
 
             <Canvas Name="status_information" Height="95" Width="1004" Canvas.Top="695" Canvas.Left="10">
-                <Rectangle x:Name="progress_bar_background" Fill="#FFCEFFE0" Height="95" Width="1004" Canvas.Top="0" Stroke="DarkGreen" StrokeThickness="2"/>
-            <s:SurfaceButton Style="{StaticResource gen}"  BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="10" Canvas.Top="6" Content="Convert to DeepZoom Format" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" Name="createDZ" Width="213" Click="createDZ_Click" Visibility="Hidden"/>
-            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="512" Canvas.Top="8" Content="Set Geographical Location" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="mapButton" Width="185" Click="mapButton_Click"/>
-            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="737" Canvas.Top="8" Content="Create Hotspots" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="hotspot" Width="122" Click="hotspot_Click" />
-            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="348" Canvas.Top="8" Content="Save To Catalog" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="save" Width="122" Click="save_Click" />
-            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="903" Canvas.Top="8" Content="Close" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="close" Width="78" Click="close_Click" />
+            <Rectangle x:Name="progress_bar_background" Fill="White" Height="95" Width="1004" Canvas.Top="0" Stroke="#227174" StrokeThickness="2"/>
+            <s:SurfaceButton Style="{StaticResource gen}"  BorderBrush="#227174" BorderThickness="3,2" Canvas.Left="10" Canvas.Top="6" Content="Convert to DeepZoom Format" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" Name="createDZ" Width="213" Click="createDZ_Click" Visibility="Hidden"/>
+            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#227174" BorderThickness="3,2" Canvas.Left="512" Canvas.Top="8" Content="Set Geographical Location" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="mapButton" Width="185" Click="mapButton_Click"/>
+            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#227174" BorderThickness="3,2" Canvas.Left="737" Canvas.Top="8" Content="Create Hotspots" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="hotspot" Width="122" Click="hotspot_Click" />
+            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#227174" BorderThickness="3,2" Canvas.Left="348" Canvas.Top="8" Content="Save To Catalog" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="save" Width="122" Click="save_Click" />
+            <s:SurfaceButton Style="{StaticResource gen}" BorderBrush="#227174" BorderThickness="3,2" Canvas.Left="903" Canvas.Top="8" Content="Close" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="close" Width="78" Click="close_Click" />
                 <Label Canvas.Left="19" Canvas.Top="12" Content="" Height="66" Name="statusLabel" Width="316" FontSize="12" Foreground="Black"/>
                 <ProgressBar Canvas.Left="349" Canvas.Top="60" Height="18" Name="loadingProgressBar" Width="636" IsIndeterminate="False" >
                     <ProgressBar.Resources>
