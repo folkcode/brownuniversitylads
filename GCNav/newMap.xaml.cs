@@ -40,11 +40,27 @@ namespace GCNav
             //this.loadMap();
             locButtons = new Dictionary<SurfaceRadioButton, String>();
             ellipses = new Dictionary<SurfaceRadioButton, Ellipse>();
-         
+
+            this.loadImageBlur();
             
           //  Location.TouchUp +=new EventHandler<System.Windows.Input.TouchEventArgs>(Location_TouchUp);
           //  Location.TouchDown +=new EventHandler<System.Windows.Input.TouchEventArgs>(Location_TouchDown);
            // map.Source = "D://newMap.dzi";
+        }
+        public void loadImageBlur()
+        {
+            //This is to add the faded edge effect
+            BitmapImage blurImage = new BitmapImage();
+            blurImage.BeginInit();
+            String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
+            String imagePath = dataUri + "Map\\Images\\Blur.png";
+            blurImage.UriSource = new Uri(imagePath);
+            blurImage.EndInit();
+            blur.Source = blurImage;
+            ScaleTransform newT = new ScaleTransform();
+            newT.ScaleX = 1.775;
+
+            blur.RenderTransform = newT;
         }
 
         public void loadMap()
@@ -68,16 +84,7 @@ namespace GCNav
             ZoomableCanvas msi = mapImage.GetZoomableCanvas;
             dpd.AddValueChanged(msi, LocationChanged);
 
-            BitmapImage blurImage = new BitmapImage();
-            blurImage.BeginInit();
-            String imagePath = dataUri +"Map\\Images\\Blur.png";
-            blurImage.UriSource = new Uri(imagePath);
-            blurImage.EndInit();
-            blur.Source = blurImage;
-            ScaleTransform newT = new ScaleTransform();
-            newT.ScaleX = 1.775;
-            
-            blur.RenderTransform = newT;
+           
             
            // MessageBox.Show("scale" + mapImage.GetZoomableCanvas.Scale);
            
@@ -162,7 +169,11 @@ namespace GCNav
         {
             if (Location.Children.Count != 0)
             {
-                Location.Children.Clear();
+                for (int i = 1; i < Location.Children.Count; i++)
+                {
+                    Location.Children.RemoveAt(i);
+                }
+
             }
         }
 
@@ -237,9 +248,6 @@ namespace GCNav
             String locCategory = displayInfo[0];
             String date = displayInfo[3];
             String city = displayInfo[4];
-            Ellipse featured = ellipses[(SurfaceRadioButton)sender];
-            SolidColorBrush newColor = new SolidColorBrush();
-           
 
             //Console.Out.WriteLine(displayInfo[0]);
             if (locCategory == "yellow")
@@ -294,7 +302,7 @@ namespace GCNav
             }
             //Console.Out.WriteLine(labelText);
             infoLabel.Content = labelText;
-            featured.Fill = newColor;
+          
         }
 
         //This method is called when the user select a new image
@@ -311,6 +319,7 @@ namespace GCNav
             {
                 this.createButtons(info);
             }
+           
 
         }
         
