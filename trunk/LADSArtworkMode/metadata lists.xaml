@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="LADSArtworkMode.metadata_lists"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             
+             d:DesignHeight="400" d:DesignWidth="560" Background="#EE6182A8">
+  
+        <Canvas Height="400" Width="560">
+            <Label Content="Assests List"/>
+        <s:SurfaceListBox x:Name="assetsList" Canvas.Left="15" Canvas.Top="30" Height="350" Width="530"></s:SurfaceListBox>
+        <s:SurfaceButton x:Name="closeButton" Content="Close" Canvas.Right="0" Canvas.Top="0" Background="Transparent" Click="closeClick"></s:SurfaceButton>
+
+    </Canvas>
+   
+</UserControl>
