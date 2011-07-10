@@ -496,10 +496,15 @@ namespace SurfaceApplication3
             else
             {
 
-                newMapWindow.Visibility = Visibility.Visible;
-                newMapWindow.mapControl.Visibility = Visibility.Visible;
+                //  newMapWindow.Visibility = Visibility.Visible;
+                //   newMapWindow.mapControl.Visibility = Visibility.Visible;
+                newMapWindow = new mapWindow();
+                newMapWindow.mapControl.setBigWindow(this);
+                newMapWindow.Show();
+
+                newMapWindow.mapControl.showMap();
+                newMapWindow.mapControl.loadPositions();
             }
-            //newMapWindow.mapControl.Visibility = Visibility.Visible;
         }
 
         private void hotspot_Click(object sender, RoutedEventArgs e)
@@ -514,7 +519,13 @@ namespace SurfaceApplication3
             }
             else
             {
-                newHotspotWindw.Visibility = Visibility.Visible;
+                newHotspotWindw = new hotspotWindow();
+                newHotspotWindw.hotspot.setImagePath(imageName);
+
+                newHotspotWindw.Show();
+                newHotspotWindw.hotspot.showImage();
+                newHotspotWindw.hotspot.LoadHotsptos();
+
             }
         }
         /// <summary>

@@ -111,7 +111,9 @@
             <Image Name="HotspotImage" Height="272" Width="380"/>
         </s:SurfaceScrollViewer>
 
-        <!--<s:SurfaceScrollViewer Name="AudioScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" BorderThickness="2" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Canvas x:Name="VideoPanel" Height="272" Width="380" Canvas.Top="35" Canvas.Left="11" Visibility="Hidden"> 
+        </Canvas>
+            <!--<s:SurfaceScrollViewer Name="AudioScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" BorderThickness="2" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Canvas Height="272" Width="380" Name="audioCanvas" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Azure">
                 <MediaElement Name="mediaElement" Width="360" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" />
                 <Image Name="audioIcon" Width="100" Height="100" Canvas.Left="30" Canvas.Top="10" />
@@ -144,7 +146,7 @@
                     <Label Name="audioName" Width="150" Height="30" Canvas.Left="120" Foreground="Black"/>
                 </Canvas>
                 <!-- Ths slider shows the progress of the media. -->
-                
+                            
 
                 <StackPanel.Triggers>
                     <EventTrigger RoutedEvent="Image.MouseDown" SourceName="PlayButton">
@@ -178,9 +180,7 @@
 
             </StackPanel>
 
-            <Canvas x:Name="VideoPanel" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden">
-                
-            </Canvas>
+
 
             <!--<s:SurfaceScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="215" Width="283" Canvas.Top="35" Canvas.Left="12" Background="White" BorderThickness="2"> -->
         <!--<DocumentViewer x:Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="361" Canvas.Top="37" Width="600" Canvas.Left="-1" Style="{DynamicResource SurfaceDocumentViewerStyle}" /> -->

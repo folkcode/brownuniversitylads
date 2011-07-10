@@ -33,7 +33,9 @@ namespace LADSArtworkMode
         ScatterView m_parentScatterView;
         Canvas m_parentCanvas;
         Hotspot m_hotspotData;
-
+        Boolean hasVideo;
+        LADSVideoBubble video;
+       
         double screenPosX;
 
         public double ScreenPosX
@@ -88,6 +90,7 @@ namespace LADSArtworkMode
             //ScatterViewItem
             
             isOnScreen = false;
+            hasVideo = false;
             
         }
         public void showAudioIcon()
@@ -138,6 +141,10 @@ namespace LADSArtworkMode
             //m_parentCanvas.Children.Remove(this);
             m_parentScatterView.Items.Remove(this);
             isOnScreen = false;
+            if (hasVideo)
+            {
+                video.pauseVideo();
+            }
         }
 
         /// <summary>
@@ -321,11 +328,14 @@ namespace LADSArtworkMode
             {
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Videos\\" + m_hotspotData.Description;
                 LADSVideoBubble newVideo = new LADSVideoBubble(audioUri,372,268);
-                
+               // newVideo.setPreferredSize(372, 268);
                 VideoPanel.Children.Add(newVideo);
                 Canvas.SetLeft(newVideo, 5);
                 Canvas.SetTop(newVideo, 5);
                 VideoPanel.Visibility = Visibility.Visible;
+                video = newVideo;
+                hasVideo = true;
+                
             }
             Name.Content = m_hotspotData.Name;
             Double[] size = this.findImageSize();
@@ -337,6 +347,7 @@ namespace LADSArtworkMode
            // Console.Out.WriteLine("center1" + this.Center);
            // m_parentScatterView.Items.Add(this);
         }
+
         public Double[] findImageSize()
         {
             Double[] sizes = new Double[2];
