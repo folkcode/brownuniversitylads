@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="SurfaceApplication3.small_window"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             mc:Ignorable="d" Background="#FFA3C4B2"
+             Height="125" Width="770">
+
+
+    <Grid x:Name="LayoutRoot" >
+        <Canvas >
+                <Rectangle x:Name="middle_background" Fill="#FFF3F3CE" Height="23" Stroke="#FFF3F3CE" Width="751" Canvas.Top="26.663" Canvas.Left="8"/>
+                <Rectangle x:Name="drag_drop_middle" Fill="#FFA7E2DB" Height="85.5" Canvas.Left="38.5" Stroke="#FF046E14" Width="79.5" StrokeThickness="6"/>
+                <Image x:Name="image1" Height="82" Width="75" Canvas.Left="40" Canvas.Top="2"/>
+                <s:SurfaceButton Content="Browse" Canvas.Left="38.5" Canvas.Top="90" Width="76" Background="#FFB5FBE3"  Height="23" Foreground="Black" Margin="1" BorderBrush="#FF36D12B" BorderThickness="10" MaxHeight="23" MinHeight="30" Click="Browse_Click"/>
+                <Label Content="name:" Canvas.Left="129" Canvas.Top="13" Width="76" Height="36.5" Foreground="Black" />
+                 <Label Content="Keywords:" Canvas.Left="360" Canvas.Top="13" Foreground="Black"/>
+                <s:SurfaceTextBox x:Name="tags" Height="90" Width="210" BorderBrush="#FF23951F" BorderThickness="2" Canvas.Left="450" Background="{x:Null}" Canvas.Top="15" Foreground="Black" TextChanged="tags_TextChanged" />
+            <s:SurfaceButton x:Name="remove" Height="15" Width="80" Content="Remove" Foreground="Black" Background="#FF3ACE9C" MinHeight="33" Canvas.Left="663" Canvas.Top="55" Click="remove_Click" />
+            <s:SurfaceTextBox x:Name="title_tag" Height="25.152" Width="144" BorderBrush="#FF23951F" BorderThickness="2" Canvas.Left="201" Canvas.Top="13" Background="{x:Null}" Foreground="Black" FontSize="15" TextChanged="tags_TextChanged" />
+                
+             
+             <!--<Label x:Name="Group_label" Canvas.Left="404" Width="81" Height="36.5" Content="Group:"/>
+               <RadioButton Canvas.Left="475" Canvas.Top="13" Style="{DynamicResource RadioButtonStyle1}" RenderTransformOrigin="1.757,0.733" Content="A" Checked="RadioButton_Checked" GroupName="Metadata" Width="28" FontSize="22" FontStretch="Normal" Height="40">
+
+                </RadioButton>
+
+            <s:SurfaceToggleButton Canvas.Left="471" Canvas.Top="14" BorderBrush="#FF10BC5F" BorderThickness="2" Background="#FF72E5BA" Content="A" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked">
+               
+            </s:SurfaceToggleButton>
+            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="515" Canvas.Top="14" Content="B" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked">
+              
+            </s:SurfaceToggleButton>
+            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="559" Canvas.Top="14" Content="C" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked">
+          
+            </s:SurfaceToggleButton>
+            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="603" Canvas.Top="14" Content="D" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked" />
+            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="647" Canvas.Top="14" Content="E" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked" />
+            <s:SurfaceToggleButton Background="#FF72E5BA" BorderBrush="#FF10BC5F" BorderThickness="2" Canvas.Left="691" Canvas.Top="14" Content="F" FontSize="21" FontStretch="Expanded" Foreground="Black" Checked="SurfaceToggleButton_Checked" /> -->
+        </Canvas>
+        </Grid>
+   
+</UserControl>

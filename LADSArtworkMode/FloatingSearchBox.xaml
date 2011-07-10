@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Knowledge_Web.FloatingSearchBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="599" xmlns:my="http://schemas.microsoft.com/surface/2008">
+    <Grid Width="599">
+        <Rectangle Height="300" HorizontalAlignment="Left" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="599" RadiusX="20" RadiusY="20" />
+        <my:SurfaceListBox Height="276" HorizontalAlignment="Left" Margin="307,12,0,0" Name="ResultList" VerticalAlignment="Top" Width="276" SelectionChanged="resultList_SelectionChanged"/>
+        <my:SurfaceTextBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="textSearch" VerticalAlignment="Top" Width="276" TextChanged="textSearch_TextChanged"/>
+        <my:SurfaceListBox Height="232" HorizontalAlignment="Left" Margin="12,56,0,0" Name="keywordList" VerticalAlignment="Top" Width="276" SelectionMode="Multiple" SelectionChanged="keywordList_SelectionChanged"/>
+    </Grid>
+</UserControl>

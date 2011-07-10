@@ -1,0 +1,9 @@
+﻿<Window x:Class="SurfaceApplication3.hotspotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:m="clr-namespace:SurfaceApplication3"
+        Title="hotspotWindow" Height="530" Width="954" Background="#B0CAB8">
+    <Grid>
+        <m:hotspotAdd x:Name="hotspot" Height="510" Width="924" />
+    </Grid>
+</Window>
