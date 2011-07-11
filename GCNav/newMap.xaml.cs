@@ -240,7 +240,17 @@ namespace GCNav
             Canvas.SetLeft(newEllipse, long1 +2);
             Canvas.SetTop(newEllipse, lat1 +2);
 
-           
+
+            if (long1 < 0 || long1 > Location.Width)
+            {
+                newButton.Visibility = Visibility.Collapsed;
+                newEllipse.Visibility = Visibility.Collapsed;
+            }
+            if (lat1 < 0 || lat1 > Location.Height)
+            {
+                newButton.Visibility = Visibility.Collapsed;
+                newEllipse.Visibility = Visibility.Collapsed;
+            }
 
         }
         public void newButton_Click(Object sender, RoutedEventArgs e) 
@@ -323,6 +333,7 @@ namespace GCNav
             foreach (String info in locInfo)
             {
                 this.createButtons(info);
+
             }
            
 
