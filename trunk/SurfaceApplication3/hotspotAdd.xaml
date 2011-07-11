@@ -26,6 +26,7 @@
                                     <Ellipse Fill="White" Width="15" Height="15"/>
                                     <Ellipse Fill="Purple" Width="13" Height="13" Canvas.Left="1" Canvas.Top="1"/>
                                     <Ellipse x:Name="checked" Fill="Azure" Width="11" Height="11" Canvas.Left="2" Canvas.Top="2" />
+                                   <!-- <ContentPresenter Canvas.Left="40"/> -->
                                 </Canvas>
                             </BulletDecorator.Bullet>
                         </BulletDecorator>
@@ -55,6 +56,16 @@
                                             <GradientStop Color="#FF90DDFF" Offset="0.35"/>
                                             <GradientStop Color="LightBlue" Offset="0.95"/>
                                             <GradientStop Color="#FF81DDFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                                            <GradientStop Color="DarkGray" Offset="0.35"/>
+
                                         </LinearGradientBrush>
                                     </Setter.Value>
                                 </Setter>
@@ -157,5 +168,6 @@
         <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="162" Canvas.Top="458" Foreground="White" Content="Cancel" Height="30" Name="Cancel" Width="94" Click="Cancel_Click" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14"/>
         <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="275" Canvas.Top="458" Foreground="White" Content="Remove One" Height="30" Name="RemoveOne" Width="105" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14" Click="RemoveOne_Click" />
         <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="395" Canvas.Top="458"  Foreground="White" Content="Clear all hotspots" Height="30" Name="Clear"  Width="135" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14" Click="Clear_Click" />
+        <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="545" Canvas.Top="458"  Foreground="White" Content="Add Hotspot" Height="30" Name="Enable" Width="150" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14" Click="Enable_Click" />
     </Canvas>
 </UserControl>

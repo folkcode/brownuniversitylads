@@ -52,7 +52,7 @@ namespace SurfaceApplication3
         private Dictionary<SurfaceRadioButton, String> cityInfo;
         private Double mapWidth, mapHeight;
         private mapWindow newMapWindow;
-
+        private Boolean addEnabled;
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -82,6 +82,7 @@ namespace SurfaceApplication3
             currLocationExists = false;
             canAdd = true;
             currentMarker = "";
+            addEnabled = false;
             //this.showMap();
             //this.loadPositions();
            
@@ -243,115 +244,117 @@ namespace SurfaceApplication3
                 canAdd = true;
             }
 
-            if (canAdd)
+            if (addEnabled)
             {
-                if (RadioColor != 0)
-                {   //get the point clicked and calculate the longitute and latitude
-                    LengthConverter myLengthConverter = new LengthConverter();
-                    Double db1 = newPoint.X - 27;
-                    Double db2 = newPoint.Y - 87;
-                    //System.Windows.Forms.MessageBox.Show("coreate new circles");
-                    
-                    //These operations are used to calculate the exact longitude and latitude before saving into the xml file.
-                    this.findImageSize();
-                    //Console.Out.WriteLine("mapWidht" + mapWidth);
-                    Double mapcurWidth = mapWidth * map1.GetZoomableCanvas.Scale;
-                    Double mapcurHeight = mapHeight * map1.GetZoomableCanvas.Scale;
+                addEnabled = false;
+                Enable.IsEnabled = true;
+                if (canAdd)
+                {
+                    if (RadioColor != 0)
+                    {   //get the point clicked and calculate the longitute and latitude
+                        LengthConverter myLengthConverter = new LengthConverter();
+                        Double db1 = newPoint.X - 27;
+                        Double db2 = newPoint.Y - 87;
+                        //System.Windows.Forms.MessageBox.Show("coreate new circles");
 
-                    //Console.Out.WriteLine("mapCurWidth"+mapcurWidth);
-                    
-                    Point newP = map1.GetZoomableCanvas.Offset;
-                    //Console.Out.WriteLine("point" + newP);
-                    Double canvasLeft = (db1 + newP.X) / mapcurWidth;
-                    Double canvasTop = (db2 + newP.Y) / mapcurHeight;
-                   // Console.Out.WriteLine(canvasLeft);
-                   //Double longitude = canvasLeft / (map1.Width * map1.GetZoomableCanvas.Scale);
-                   // Double latitude = canvasTop / (map1.Height * map1.GetZoomableCanvas.Scale);
-                    String lon = canvasLeft.ToString();
-                    String lat = canvasTop.ToString();
-                  //  Console.Out.WriteLine("longitude" + lon);
-                  //  Console.Out.WriteLine("latitude" + lat);
+                        //These operations are used to calculate the exact longitude and latitude before saving into the xml file.
+                        this.findImageSize();
+                        //Console.Out.WriteLine("mapWidht" + mapWidth);
+                        Double mapcurWidth = mapWidth * map1.GetZoomableCanvas.Scale;
+                        Double mapcurHeight = mapHeight * map1.GetZoomableCanvas.Scale;
 
-                    Ellipse newEllipse = new Ellipse();
-                    ellipses.Add(newEllipse);
+                        //Console.Out.WriteLine("mapCurWidth"+mapcurWidth);
 
-                    SurfaceRadioButton newMarker = new SurfaceRadioButton();
-                    //newMarker.Checked += new RoutedEventHandler(newButton_Checked);
-                    
-                   
-                    SolidColorBrush mySolidColorBrush = new SolidColorBrush();
-                    if (currentMarker == "current")//yellow
-                    {
-                        mySolidColorBrush.Color = Color.FromArgb(255, 255, 255, 0);
-                        currentX.Add(lon);
-                        //currentY.Add(lat);
-                        dic.Add(newMarker, "yellow" + "," + lon + "," + lat);
-                        currLocationExists = true;
+                        Point newP = map1.GetZoomableCanvas.Offset;
+                        //Console.Out.WriteLine("point" + newP);
+                        Double canvasLeft = (db1 + newP.X) / mapcurWidth;
+                        Double canvasTop = (db2 + newP.Y) / mapcurHeight;
+                        // Console.Out.WriteLine(canvasLeft);
+                        //Double longitude = canvasLeft / (map1.Width * map1.GetZoomableCanvas.Scale);
+                        // Double latitude = canvasTop / (map1.Height * map1.GetZoomableCanvas.Scale);
+                        String lon = canvasLeft.ToString();
+                        String lat = canvasTop.ToString();
+                        //  Console.Out.WriteLine("longitude" + lon);
+                        //  Console.Out.WriteLine("latitude" + lat);
+
+                        Ellipse newEllipse = new Ellipse();
+                        ellipses.Add(newEllipse);
+
+                        SurfaceRadioButton newMarker = new SurfaceRadioButton();
+                        //newMarker.Checked += new RoutedEventHandler(newButton_Checked);
+
+
+                        SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+                        if (currentMarker == "current")//yellow
+                        {
+                            mySolidColorBrush.Color = Color.FromArgb(255, 255, 255, 0);
+                            currentX.Add(lon);
+                            //currentY.Add(lat);
+                            dic.Add(newMarker, "yellow" + "," + lon + "," + lat);
+                            currLocationExists = true;
+                        }
+                        else if (currentMarker == "exhibit")//blue
+                        {
+                            mySolidColorBrush.Color = Color.FromArgb(255, 0, 0, 255);
+                            //exhibitX.Add(lon);
+                            // exhibitY.Add(lat);
+                            dic.Add(newMarker, "blue" + "," + lon + "," + lat);
+                        }
+                        else if (currentMarker == "origin")//red
+                        {
+                            mySolidColorBrush.Color = Color.FromArgb(255, 255, 0, 0);
+                            originX.Add(lon);
+                            // originY.Add(lat);
+                            dic.Add(newMarker, "red" + "," + lon + "," + lat);
+                            originExists = true;
+                            canAdd = true;
+                        }
+
+
+                        mapCover.Children.Add(newEllipse);
+                        mapCover.Children.Add(newMarker);
+
+                        newEllipse.Width = 13.5;
+                        newEllipse.Height = 13.5;
+                        newEllipse.Fill = mySolidColorBrush;
+                        foreach (SurfaceRadioButton rb in radioButtons)
+                        {
+                            rb.IsChecked = false;
+                        }
+                        newMarker.Checked += new RoutedEventHandler(newMarker_Click);
+                        newMarker.IsChecked = true;
+
+                        radioButtons.Add(newMarker);
+                        dicRb.Add(newMarker, newEllipse);
+
+
+
+                        //Set the location of the circle on the map 
+                        //Canvas.SetLeft(newEllipse, db1 - 6);
+                        // Canvas.SetTop(newEllipse, db2 - 6);
+
+                        // Canvas.SetLeft(newMarker, db1 - 9);
+                        //Canvas.SetTop(newMarker, db2 - 13.5);
+
+                        Double screenPosX = canvasLeft - map1.GetZoomableCanvas.Offset.X; //need to reset the location thing
+                        Double screenPosY = (map1.GetZoomableCanvas.Scale / (1 / 15) * db2) - map1.GetZoomableCanvas.Offset.Y;
+                        //double screenPosX = canvasLeft;
+                        //double screenPosY = canvasTop;
+                        Canvas.SetLeft(newEllipse, db1 - 14);
+                        Canvas.SetTop(newEllipse, db2 + 3);
+
+                        Canvas.SetLeft(newMarker, db1 - 16);
+                        Canvas.SetTop(newMarker, db2 - 5);
+                        //System.Windows.Forms.MessageBox.Show("scale" + map1.GetZoomableCanvas.Scale);
                     }
-                    else if (currentMarker == "exhibit")//blue
-                    {
-                        mySolidColorBrush.Color = Color.FromArgb(255, 0, 0, 255);
-                        //exhibitX.Add(lon);
-                       // exhibitY.Add(lat);
-                        dic.Add(newMarker, "blue" + "," + lon + "," + lat);
-                    }
-                    else if (currentMarker == "origin")//red
-                    {
-                        mySolidColorBrush.Color = Color.FromArgb(255, 255, 0, 0);
-                        originX.Add(lon);
-                       // originY.Add(lat);
-                        dic.Add(newMarker, "red" + "," + lon + "," + lat);
-                        originExists = true;
-                        canAdd = true;
-                    }
-                   
-
-                    mapCover.Children.Add(newEllipse);
-                    mapCover.Children.Add(newMarker);
-
-                    newMarker.Width = 1;
-                    newMarker.Height = 1;
-                    newEllipse.Width = 13.5;
-                    newEllipse.Height = 13.5;
-                    newEllipse.Fill = mySolidColorBrush;
-                    foreach (SurfaceRadioButton rb in radioButtons)
-                    {
-                        rb.IsChecked = false;
-                    }
-                    newMarker.Checked += new RoutedEventHandler(newMarker_Click);
-                    newMarker.IsChecked = true;
-
-                    radioButtons.Add(newMarker);
-                    dicRb.Add(newMarker, newEllipse);
-
-
-                   
-                    //Set the location of the circle on the map 
-                    //Canvas.SetLeft(newEllipse, db1 - 6);
-                   // Canvas.SetTop(newEllipse, db2 - 6);
-
-                   // Canvas.SetLeft(newMarker, db1 - 9);
-                    //Canvas.SetTop(newMarker, db2 - 13.5);
-                    
-                    Double screenPosX = canvasLeft - map1.GetZoomableCanvas.Offset.X; //need to reset the location thing
-                    Double screenPosY = (map1.GetZoomableCanvas.Scale / (1/15) * db2) - map1.GetZoomableCanvas.Offset.Y;
-                    //double screenPosX = canvasLeft;
-                    //double screenPosY = canvasTop;
-                    Canvas.SetLeft(newEllipse, db1-14);
-                    Canvas.SetTop(newEllipse, db2 + 3);
-
-                    Canvas.SetLeft(newMarker, db1-16);
-                    Canvas.SetTop(newMarker, db2-5);
-                    //System.Windows.Forms.MessageBox.Show("scale" + map1.GetZoomableCanvas.Scale);
                 }
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("There may only be one location of origin and one current location.");
-            }
-            
-        }
+                else
+                {
+                    System.Windows.MessageBox.Show("There may only be one location of origin and one current location.");
+                }
 
+            }
+        }
         public void newMarker_Click(Object sender, RoutedEventArgs e)
         {
             date.IsReadOnly = false;
@@ -949,6 +952,21 @@ namespace SurfaceApplication3
                     }
                 }
             }
+        }
+
+        private void Enable_Click(object sender, RoutedEventArgs e)
+        {
+            if (Enable.IsEnabled)
+            {
+                addEnabled = true;
+                Enable.IsEnabled = false;
+            }
+            else
+            {
+                addEnabled = false;
+                Enable.IsEnabled = true;
+            }
+
         }
 
     }

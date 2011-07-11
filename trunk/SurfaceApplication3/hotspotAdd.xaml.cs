@@ -46,6 +46,7 @@ namespace SurfaceApplication3
         private SurfaceRadioButton buttonChecked;
         private hotspotWindow parentWindow;
         private Helpers _helpers;
+        private Boolean addHotspotsEnabled;
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -67,6 +68,7 @@ namespace SurfaceApplication3
             dic = new Dictionary<SurfaceRadioButton, String>();
             dicPos = new Dictionary<SurfaceRadioButton, String>();
             _helpers = new Helpers();
+            addHotspotsEnabled = false;
         }
 
         /// <summary>
@@ -344,46 +346,55 @@ namespace SurfaceApplication3
          * */
         public void CreateNewPoints(Point newPoint, String str)
         {
-            Console.Out.WriteLine("called times");
-            Double x = newPoint.X - 20;
-            Double y = newPoint.Y - 40;
-            Double[] size = this.findImageSize();
-            //Console.Out.WriteLine("mapWidht" + mapWidth);
-            Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale;
-            Double imagecurHeight = size[1] * image1.GetZoomableCanvas.Scale;
-
-            Point newP = image1.GetZoomableCanvas.Offset;
-            //Console.Out.WriteLine("point" + newP);
-            Double canvasLeft = (x + newP.X) / imagecurWidth;
-            Double canvasTop = (y + newP.Y) / imagecurHeight;
-            // Console.Out.WriteLine(canvasLeft);
-            //Double longitude = canvasLeft / (map1.Width * map1.GetZoomableCanvas.Scale);
-            // Double latitude = canvasTop / (map1.Height * map1.GetZoomableCanvas.Scale);
-            String lon = canvasLeft.ToString();
-            String lat = canvasTop.ToString();
-
-            SurfaceRadioButton newButton = new SurfaceRadioButton();
-            //Default the new button on the map as checked;
-            if (str != null)
+            if (addHotspotsEnabled)
             {
-                dic.Add(newButton, str);
+                addHotspotsEnabled = false;
+                Enable.IsEnabled = true;
+                Double x = newPoint.X - 20;
+                Double y = newPoint.Y - 40;
+                Double[] size = this.findImageSize();
+                //Console.Out.WriteLine("mapWidht" + mapWidth);
+                Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale;
+                Double imagecurHeight = size[1] * image1.GetZoomableCanvas.Scale;
+
+                Point newP = image1.GetZoomableCanvas.Offset;
+                //Console.Out.WriteLine("point" + newP);
+                Double canvasLeft = (x + newP.X) / imagecurWidth;
+                Double canvasTop = (y + newP.Y) / imagecurHeight;
+                // Console.Out.WriteLine(canvasLeft);
+                //Double longitude = canvasLeft / (map1.Width * map1.GetZoomableCanvas.Scale);
+                // Double latitude = canvasTop / (map1.Height * map1.GetZoomableCanvas.Scale);
+                String lon = canvasLeft.ToString();
+                String lat = canvasTop.ToString();
+
+                SurfaceRadioButton newButton = new SurfaceRadioButton();
+                //Default the new button on the map as checked;
+                if (str != null)
+                {
+                    dic.Add(newButton, str);
+                }
+                newButton.Checked += new RoutedEventHandler(newButton_Checked);
+                newButton.IsChecked = true;
+                buttonChecked = newButton;
+
+                newButton.Width = 1;
+                newButton.Height = 1;
+                Console.Out.WriteLine("height" + newButton.ActualHeight);
+                Console.Out.WriteLine("width" + newButton.ActualWidth);
+
+                foreach (SurfaceRadioButton rb in radioButtons)
+                {
+                    rb.IsChecked = false;
+                }
+
+                radioButtons.Add(newButton);
+                dicPos.Add(newButton, lon + "/" + lat);
+
+                imageCover.Children.Add(newButton);
+
+                Canvas.SetLeft(newButton, x - 2);
+                Canvas.SetTop(newButton, y - 2);
             }
-            newButton.Checked += new RoutedEventHandler(newButton_Checked);
-            newButton.IsChecked = true;
-            buttonChecked = newButton;
-
-            foreach (SurfaceRadioButton rb in radioButtons)
-            {
-                rb.IsChecked = false;
-            }
-
-            radioButtons.Add(newButton);
-            dicPos.Add(newButton, lon + "/" + lat);
-            
-            imageCover.Children.Add(newButton);
-
-            Canvas.SetLeft(newButton, x-2);
-            Canvas.SetTop(newButton, y-2);
         }
         /// <summary>
         /// Create a new hotspot
@@ -456,6 +467,7 @@ namespace SurfaceApplication3
             RemoveOne.IsEnabled = false;
 
         }
+        
 
          * */
         public void newButton_Checked(object sender, RoutedEventArgs e)
@@ -516,6 +528,19 @@ namespace SurfaceApplication3
           
         }
 
+        public void Enable_Click(Object sender, RoutedEventArgs e)
+        {
+            if (Enable.IsEnabled)
+            {
+                addHotspotsEnabled = true;
+                Enable.IsEnabled = false;
+            }
+            else
+            {
+                addHotspotsEnabled = false;
+                Enable.IsEnabled = true;
+            }
+        }
         /// <summary>
         /// When a hotspot is clicked, it should present its info
         /// </summary>
