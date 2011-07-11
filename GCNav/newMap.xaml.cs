@@ -169,9 +169,13 @@ namespace GCNav
         {
             if (Location.Children.Count != 0)
             {
-                for (int i = 1; i < Location.Children.Count; i++)
+                foreach (SurfaceRadioButton rb in locButtons.Keys)
                 {
-                    Location.Children.RemoveAt(i);
+                    Location.Children.Remove(rb);
+                }
+                foreach (Ellipse ell in ellipses.Values)
+                {
+                    Location.Children.Remove(ell);
                 }
 
             }
@@ -243,7 +247,7 @@ namespace GCNav
             String str = locButtons[(SurfaceRadioButton)sender];
             String name = data.filename.Substring(0,data.filename.Length-4);
             Console.Out.WriteLine(name);
-            String labelText = name;
+            String labelText = name + " ";
             String[] displayInfo = Regex.Split(str, "/");
             String locCategory = displayInfo[0];
             String date = displayInfo[3];
