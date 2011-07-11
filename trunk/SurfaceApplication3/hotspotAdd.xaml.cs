@@ -1272,8 +1272,9 @@ namespace SurfaceApplication3
                     }
 
                     dic.Remove(buttonChecked);
-                    dicPos.Remove(buttonChecked);
+                   
                 }
+                dicPos.Remove(buttonChecked);
                     // name.Text = "";
                     //text.Text = "";
                     // URL.Text = "";
