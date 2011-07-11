@@ -58,9 +58,10 @@ namespace GCNav
             blurImage.EndInit();
             blur.Source = blurImage;
             ScaleTransform newT = new ScaleTransform();
-            newT.ScaleX = 1.775;
+            newT.ScaleX = 1.78;
 
             blur.RenderTransform = newT;
+            Canvas.SetZIndex(blur, 20);
         }
 
         public void loadMap()
@@ -72,7 +73,7 @@ namespace GCNav
             
             mapImage.SetImageSource(mapUri);
             mapImage.UpdateLayout();
-
+            Canvas.SetZIndex(mapImage, -10);
             
             //MapCanvas.Children.Add(newImage);
            // newImage.Source = new MultiScaleTileSource();
@@ -236,10 +237,10 @@ namespace GCNav
             ellipses.Add(newButton,newEllipse);
             Canvas.SetLeft(newButton, long1 );
             Canvas.SetTop(newButton, lat1 );
-
+            Canvas.SetZIndex(newButton, 10);
             Canvas.SetLeft(newEllipse, long1 +2);
             Canvas.SetTop(newEllipse, lat1 +2);
-
+            Canvas.SetZIndex(newEllipse, 10);
 
             if (long1 < 0 || long1 > Location.Width)
             {
