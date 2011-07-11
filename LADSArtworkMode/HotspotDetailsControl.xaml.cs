@@ -35,6 +35,8 @@ namespace LADSArtworkMode
         Hotspot m_hotspotData;
         Boolean hasVideo;
         LADSVideoBubble video;
+        MediaElement _audio;
+
        
         double screenPosX;
 
@@ -106,21 +108,21 @@ namespace LADSArtworkMode
             String playPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\playbutton.png";
             play.UriSource = new Uri(@playPath);
             play.EndInit();
-            PlayButton.Source = play;
+            //PlayButton.Source = play;
 
             BitmapImage pause = new BitmapImage();
             pause.BeginInit();
             String pausePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\pausebutton.png";
             pause.UriSource = new Uri(@pausePath);
             pause.EndInit();
-            PauseButton.Source = pause;
+            //PauseButton.Source = pause;
 
             BitmapImage stop = new BitmapImage();
             stop.BeginInit();
             String stopPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\stopbutton.png";
             stop.UriSource = new Uri(@stopPath);
             stop.EndInit();
-            StopButton.Source = stop;
+            //StopButton.Source = stop;
 
             BitmapImage volume = new BitmapImage();
             volume.BeginInit();
@@ -230,17 +232,42 @@ namespace LADSArtworkMode
             else
             {
                 Console.Out.WriteLine("audio is being called");
-                Storyboard audioResourceWav;
+                //Storyboard audioResourceWav;
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\GaribaldiScene43Tour_mastered.mp3";
-                audioResourceWav = (Storyboard)this.Resources[audioUri];
-                audioResourceWav.Begin(this);
+                //audioResourceWav = (Storyboard)this.Resources[audioUri];
+                //audioResourceWav.Begin(this);
+
 
             }
             
             Name.Content = m_hotspotData.Name;
         }
 
+        /// <summary>
+        /// Called when the play button is clicked.
+        /// </summary>
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            myMediaElement.Play();
+            Console.WriteLine("YOOOOOO PLAY");
+            //timelineSlider.Start();
+        }
+        /// <summary>
+        /// Called when the pause button is clicked.
+        /// </summary>
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            myMediaElement.Pause();
+            Console.WriteLine("PAUSEEEE VLICK");
+        }
 
+        /// <summary>
+        /// Called when the stop button is clicked. only difference from pause is that it sets playhead back to zero.
+        /// </summary>
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            myMediaElement.Pause();
+        }
         /// <summary>
         /// Update the screen location of the control with respect to the artwork.
         /// </summary>
@@ -315,14 +342,21 @@ namespace LADSArtworkMode
                 AudioScroll.Visibility = Visibility.Visible;
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
                 //mediaElement.Source = new Uri(audioUri);
+
+                //_audio = new MediaElement();
+                //_audio.Source = new Uri(audioUri, UriKind.RelativeOrAbsolute);
+                PlayButton.Click += new RoutedEventHandler(PlayButton_Click);
+                PauseButton.Click += new RoutedEventHandler(PauseButton_Click);
+                StopButton.Click += new RoutedEventHandler(StopButton_Click);
+
                 audioName.Content = m_hotspotData.Description;
                 //String description = 
                // MediaName.Content = m_hotspotData.Description.Substring(0,m_hotspotData.Description.Length-4); //will display the name of the media according to where the file saves
                 myMediaElement.Source = new Uri(audioUri);
                 this.showAudioIcon();
                 mediaTimeLine.Source = new Uri(audioUri);
-                
-               // mediaElement.Play();
+                myMediaElement.LoadedBehavior = MediaState.Manual;
+                myMediaElement.Play();
             }
             else
             {
