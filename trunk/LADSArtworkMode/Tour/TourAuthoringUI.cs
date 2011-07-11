@@ -1828,6 +1828,58 @@ namespace LADSArtworkMode
         }
 
 
+        public void addAudioEvent(timelineInfo timelineInfoStruct, TourEvent tourEvent, ScatterView timelineSV, double beginTime, double duration)
+        {
+            //if (beginTime < 0) beginTime = 0;
+            ScatterViewItem currentSVI = new ScatterViewItem();
+            currentSVI.MinWidth = 10; // don't want it to disappear, but still need it to be touchable (even if resolution is as low as 1024 x 768)
+            currentSVI.MinHeight = 10;
+            currentSVI.Width = duration * (timelineWidth / timelineLength);
+            currentSVI.Height = timelineHeight - 7;
+            currentSVI.Background = new SolidColorBrush(Colors.Transparent);
+            currentSVI.Orientation = 0;
+            currentSVI.CanRotate = false;
+            //currentSVI.CanScale = false;
+            currentSVI.Deceleration = double.NaN; // disables inertia
+            currentSVI.Center = new Point((beginTime * (timelineWidth / timelineLength)) + (currentSVI.Width / 2), (timelineHeight / 2) - 2);
+            currentSVI.Opacity = .7;
+            currentSVI.ContainerManipulationCompleted += new ContainerManipulationCompletedEventHandler(tourAudioEventSVI_ContainerManipulationCompleted);
+            currentSVI.PreviewTouchUp += new EventHandler<TouchEventArgs>(tourEventSVI_PreviewTouchUp);
+            currentSVI.PreviewMouseUp += new MouseButtonEventHandler(tourEventSVI_PreviewTouchUp);
+
+            currentSVI.PreviewTouchUp += new EventHandler<TouchEventArgs>(tourAudioEventSVI_PreviewTouchUp);
+            currentSVI.PreviewMouseUp += new MouseButtonEventHandler(tourAudioEventSVI_PreviewTouchUp);
+            currentSVI.SizeChanged += new SizeChangedEventHandler(tourEventSVI_SizeChanged);
+            currentSVI.PreviewMouseWheel += new MouseWheelEventHandler(currentAudioSVI_PreviewMouseWheel);
+            DependencyPropertyDescriptor dpd1 = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
+            dpd1.AddValueChanged(currentSVI, tourAudioEventCenterChanged);
+
+            tourEventInfo currentAnimInfo = new tourEventInfo();
+            currentAnimInfo.timelineInfoStruct = timelineInfoStruct;
+            currentAnimInfo.beginTime = beginTime;
+            currentAnimInfo.tourEvent = tourEvent;
+            currentAnimInfo.centerY = (timelineHeight / 2) - 2;
+            currentAnimInfo.centerX = (beginTime * (timelineWidth / timelineLength)) + (currentSVI.Width / 2);
+            currentAnimInfo.originalLoc = beginTime * (timelineWidth / timelineLength);
+            //currentSVI.MaxHeight = currentSVI.Height;
+            Rectangle r = new Rectangle();
+            r.Width = currentSVI.Width;
+            r.Height = currentSVI.Height;
+            
+            
+            
+            r.Fill = (Brush)(new BrushConverter().ConvertFrom("#245c4f"));
+            
+            currentSVI.Content = r;
+
+            currentAnimInfo.r = r;
+            currentSVI.Tag = currentAnimInfo;
+
+
+            timelineSV.Items.Add(currentSVI);
+        }
+
+
         public void addTourEvent(timelineInfo timelineInfoStruct, TourEvent tourEvent, ScatterView timelineSV, double beginTime, double duration)
         {
             
@@ -2017,6 +2069,8 @@ namespace LADSArtworkMode
                     previousAnimInfo.r.Fill = (Brush)(new BrushConverter().ConvertFrom("#245c4f"));
             }
 
+            
+
             ScatterViewItem tourEventSVI = sender as ScatterViewItem;
             highlightedTourEvent = tourEventSVI;
             tourEventInfo current = (tourEventInfo)highlightedTourEvent.Tag;
@@ -2031,8 +2085,34 @@ namespace LADSArtworkMode
             {
                 setButtonEnabled(removeEventButton, true);
             }
-
+            //refreshUI();
             EnableDrawingIfNeeded();
+        }
+
+        private void tourAudioEventSVI_PreviewTouchUp(Object sender, EventArgs e)
+        {
+            ScatterViewItem tourEventSVI = sender as ScatterViewItem;
+
+            double begintime = (tourEventSVI.Center.X - (tourEventSVI.Width / 2)) * (timelineLength / timelineWidth);
+            if (((TourTL)highlightData.timeline) != null)
+            {
+                if (((TourTL)highlightData.timeline).type == TourTLType.audio)
+                {
+
+
+
+                    TourMediaTL timeline = (TourMediaTL)highlightData.timeline;
+                    timeline.BeginTime = TimeSpan.FromSeconds(begintime);
+                    timeline.Duration = TimeSpan.FromSeconds(tourEventSVI.Width * (timelineLength / timelineWidth));
+                }
+
+                //this.refreshUI();
+                tourSystem.StopAndReloadTourAuthoringUIFromDict(begintime);
+
+            }
+            
+
+
         }
 
         public void EnableDrawingIfNeeded()
@@ -2107,13 +2187,59 @@ namespace LADSArtworkMode
 
             ////
             if (newBeginTime < 0) newBeginTime = 0;
+            //this.refreshUI();
             tourSystem.StopAndReloadTourAuthoringUIFromDict(newBeginTime); // stop and reload tour authoring UI from tourDict
             
         }
 
-        private void currentSVI_CenterChanged(Object sender, EventArgs e)
+        private void tourAudioEventSVI_ContainerManipulationCompleted(Object sender, EventArgs e)
         {
-            //Console.WriteLine("3: tourEventCenterChanged");
+            Console.WriteLine("2: tourEventSVI_ContainerManipulationCompleted");
+            ScatterViewItem currentScatter = sender as ScatterViewItem;
+            tourEventInfo current = (tourEventInfo)currentScatter.Tag;
+            //if (current.tourEvent == null)
+            //    return;
+            // MODIFY TourEvent - beginTime & duration
+            current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
+            //Dictionary<TourEvent, double> itemDictRev = tourSystem.tourDictRev[current.timelineInfoStruct.timeline];
+            //itemDictRev.Remove(current.tourEvent);
+
+            //Console.WriteLine("************************************************************");
+
+            //Console.WriteLine("Old begin: " + current.beginTime);
+            double newBeginTime = (currentScatter.Center.X - (currentScatter.Width / 2)) * (timelineLength / timelineWidth);
+            //Console.WriteLine("New Begin Time = " + newBeginTime);
+
+            ///double newBeginTime = current.beginTime;
+            current.beginTime = newBeginTime;
+            // Console.WriteLine("New Begin: " + current.beginTime);
+
+            //Console.WriteLine("Original Location: " + current.originalLoc);
+            //Console.WriteLine("Width: " + currentScatter.Width);
+            //Console.WriteLine("Center: " + currentScatter.Center.X);
+            //Console.WriteLine("-----------------------------------------------------------");
+
+            current.originalLoc = newBeginTime * (timelineWidth / timelineLength);
+            currentScatter.Tag = current;
+
+            //current.tourEvent.duration = currentScatter.Width * (timelineLength / timelineWidth);
+            //current.timelineInfoStruct.tourTL_dict.Add(newBeginTime, current.tourEvent); // add new beginTime
+            //itemDictRev.Add(current.tourEvent, newBeginTime);
+            //// Testing code!!! findhere
+            //current.timelineInfoStruct.timeline.Duration = tourSystem.tourStoryboard.Duration;
+
+            ////
+            if (newBeginTime < 0) newBeginTime = 0;
+            //this.refreshUI();
+            tourSystem.StopAndReloadTourAuthoringUIFromDict(newBeginTime); // stop and reload tour authoring UI from tourDict
+
+        }
+
+
+
+        private void tourEventCenterChanged(Object sender, EventArgs e)
+        {
+            Console.WriteLine("3: tourEventCenterChanged");
             ScatterViewItem currentScatter = sender as ScatterViewItem;
 
             if (currentTouched.Contains(sender as ScatterViewItem))
@@ -2148,30 +2274,143 @@ namespace LADSArtworkMode
             currentScatter.Tag = current;
         }
 
+        private void tourAudioEventCenterChanged(Object sender, EventArgs e)
+        {
+            Console.WriteLine("3: tourEventCenterChanged");
+            ScatterViewItem currentScatter = sender as ScatterViewItem;
+            tourEventInfo current = (tourEventInfo)currentScatter.Tag;
+
+
+            if (currentScatter.Center.X < currentScatter.Width / 2)
+            {
+                //Console.WriteLine("AA");
+                currentScatter.Center = new Point(currentScatter.Width / 2, current.centerY);
+            }
+            else if (currentScatter.Center.X > (leftRightSV.Width - (currentScatter.Width / 2)))
+            {
+                //Console.WriteLine("BB");
+                currentScatter.Center = new Point(leftRightSV.Width - (currentScatter.Width / 2), current.centerY);
+            }
+            else
+            {
+
+                currentScatter.Center = new Point(currentScatter.Center.X, current.centerY);
+
+            }
+            //Console.WriteLine("originalLoc: " + current.originalLoc.ToString());
+            current.centerX = currentScatter.Center.X;
+            current.centerY = currentScatter.Center.Y;
+            //current.originalLoc = currentScatter.Center.X - current.r.Width / 2.0;
+            currentScatter.Tag = current;
+            //this.tourAudioEventSVI_PreviewTouchUp(sender, e);
+        }
+
         private void currentSVI_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            ScatterViewItem tourEventSVI = sender as ScatterViewItem;
+            double newWidth = 0;
             if (highlightedTourEvent != null)
-            {
-                double delta = 1.0;
-                if (e.Delta < 0)
-                {
-                    delta = -((double)e.Delta) / 100.0;
 
-                    highlightedTourEvent.Width = highlightedTourEvent.Width / delta;
-                }
-                else
+                newWidth = ((double)e.Delta) + tourEventSVI.ActualWidth;
+                  
+
+            if (newWidth < 20) return;
+
+            tourEventSVI.Width = newWidth;
+
+            ScatterViewItem currentScatter = sender as ScatterViewItem;
+            tourEventInfo current = (tourEventInfo)currentScatter.Tag;
+            if (current.tourEvent == null)
+                return;
+            // MODIFY TourEvent - beginTime & duration
+            current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
+
+            double newBeginTime = current.beginTime;
+            current.beginTime = newBeginTime;
+
+            current.originalLoc = newBeginTime * (timelineWidth / timelineLength);
+            currentScatter.Tag = current;
+
+            current.tourEvent.duration = currentScatter.Width * (timelineLength / timelineWidth);
+            current.timelineInfoStruct.tourTL_dict.Add(newBeginTime, current.tourEvent); // add new beginTime
+
+            current.timelineInfoStruct.timeline.Duration = tourSystem.tourStoryboard.Duration;
+
+            if (newBeginTime < 0) newBeginTime = 0;
+ 
+            tourSystem.StopAndReloadTourAuthoringUIFromDict(newBeginTime); // stop and reload tour authoring UI from tourDict
+
+            
+        }
+
+        private void currentAudioSVI_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+            ScatterViewItem currentScatter = sender as ScatterViewItem;
+            //currentScatter.SizeChanged -= new SizeChangedEventHandler(tourEventSVI_SizeChanged);
+            double newWidth = 0;
+            double delta = ((double)e.Delta) / 3.0;
+            double oldWidth = currentScatter.Width;
+            if (currentScatter != null)
+
+                newWidth = delta + currentScatter.Width;
+
+
+            if (newWidth < 20) return;
+
+            
+
+            //double begintime = (currentScatter.Center.X - (currentScatter.Width / 2)) * (timelineLength / timelineWidth);
+           
+
+            //ScatterViewItem currentScatter = sender as ScatterViewItem;
+            tourEventInfo current = (tourEventInfo)currentScatter.Tag;
+
+            current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
+
+            //double newBeginTime = (currentScatter.Center.X - (currentScatter.Width / 2)) * (timelineLength / timelineWidth);
+            double newBeginTime = current.beginTime;
+            current.beginTime = newBeginTime;
+
+
+            current.originalLoc = newBeginTime * (timelineWidth / timelineLength);
+            currentScatter.Tag = current;
+
+            ////
+            if (newBeginTime < 0) newBeginTime = 0;
+            //this.refreshUI();
+
+            if (((TourTL)highlightData.timeline) != null)
+            {
+                if (((TourTL)highlightData.timeline).type == TourTLType.audio)
                 {
-                    delta = ((double)e.Delta) / 100.0;
-                    highlightedTourEvent.Width = highlightedTourEvent.Width * delta;
+
+
+
+                    TourMediaTL timeline = (TourMediaTL)highlightData.timeline;
+                    timeline.BeginTime = TimeSpan.FromSeconds(newBeginTime);
+                    timeline.Duration = TimeSpan.FromSeconds((newWidth - (delta/2.0)) * (timelineLength / timelineWidth));
                 }
+
+
+                //this.reloadUI();
+                tourSystem.StopAndReloadTourAuthoringUIFromDict(newBeginTime);
             }
 
+            currentScatter.Width = newWidth;
+
+            //currentScatter.SizeChanged += new SizeChangedEventHandler(tourEventSVI_SizeChanged);
+            //tourSystem.StopAndReloadTourAuthoringUIFromDict(newBeginTime);
+
+
+           // this.tourAudioEventSVI_PreviewTouchUp(sender, e);
         }
+
 
         private void tourEventSVI_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             //MessageBox.Show("4");
-            //Console.WriteLine("4: tourEventSVI_SizeChanged");
+            Console.WriteLine("4: tourEventSVI_SizeChanged");
 
             ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
@@ -2200,6 +2439,8 @@ namespace LADSArtworkMode
             oldWidth = e.PreviousSize.Width;
             curWidth = e.NewSize.Width;
         }
+
+
 
         #endregion
 
