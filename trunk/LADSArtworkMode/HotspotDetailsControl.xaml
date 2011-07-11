@@ -135,10 +135,29 @@
                 <!-- Button controls for play, pause, resume, and stop. -->
                     <StackPanel HorizontalAlignment="Center" Width="260" Orientation="Horizontal">
                     
-                        <Image Name="PlayButton"  Margin="40,10,10,10" Height="40" Width="40"/>
-                        <Image Name="PauseButton"  Margin="10" Height="40" Width="40" />
-                        <Image Name="StopButton"  Margin="10" Height="40" Width="40"/>
-                    </StackPanel>
+                        <s:SurfaceButton Name="PlayButton"  Margin="40,10,10,10" Height="40" Width="40">
+                        <Polygon x:Name ="playIcon" Points="2,0 2,12 14,6" Fill="Green" Opacity=".5" Visibility="Visible"
+                                Stroke="Black" StrokeThickness="0.5"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </s:SurfaceButton>
+                    <s:SurfaceButton Name="PauseButton"  Margin="10" Height="40" Width="40">
+                        <Grid>
+                        <Polygon x:Name="pauseIconLeft" Points="1,0 1,11 6,11, 6,0" Fill="Blue" Opacity=".5" Visibility="Visible"
+                            Stroke="Black" StrokeThickness="0.5"
+                            HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+                            <Polygon x:Name ="pauseIconRight" Points="6,0 6,11 11,11, 11,0" Fill="Blue" Opacity=".5" Visibility="Visible"
+                            Stroke="Black" StrokeThickness="0.5"
+                            HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        </Grid>
+                    </s:SurfaceButton>
+                    <s:SurfaceButton Name="StopButton"  Margin="10" Height="40" Width="40">
+                        <Polygon x:Name ="stopIcon" Points="0,0 0,11 11,11, 11,0" Fill="Red" Opacity=".5"
+                        Stroke="Black" StrokeThickness="0.5"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </s:SurfaceButton>
+
+                </StackPanel>
 
                     <Canvas  Width="250" >
                         <Image Name="Volume" Width="25" Height="25" Canvas.Left="10" />
