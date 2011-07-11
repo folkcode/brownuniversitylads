@@ -2314,7 +2314,7 @@ namespace LADSArtworkMode
                 newWidth = ((double)e.Delta) + tourEventSVI.ActualWidth;
                   
 
-            if (newWidth < 20) return;
+            if (newWidth < 10) return;
 
             tourEventSVI.Width = newWidth;
 
@@ -2331,7 +2331,7 @@ namespace LADSArtworkMode
             current.originalLoc = newBeginTime * (timelineWidth / timelineLength);
             currentScatter.Tag = current;
 
-            current.tourEvent.duration = currentScatter.Width * (timelineLength / timelineWidth);
+            current.tourEvent.duration = (currentScatter.Width -((double)e.Delta)/2.0)  * (timelineLength / timelineWidth);
             current.timelineInfoStruct.tourTL_dict.Add(newBeginTime, current.tourEvent); // add new beginTime
 
             current.timelineInfoStruct.timeline.Duration = tourSystem.tourStoryboard.Duration;
