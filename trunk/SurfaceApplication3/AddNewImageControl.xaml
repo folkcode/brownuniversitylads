@@ -122,7 +122,7 @@
                     <Label Content="Keywords:" Canvas.Left="637" Canvas.Top="15" Width="112" Height="40" Foreground="Black" FontSize="18" />
 
                     <!--<Rectangle x:Name="summary" Fill="#FFCEEFF3" Height="133.663" Canvas.Left="408" Stroke="#FF14638D" Canvas.Top="19" Width="381" StrokeThickness="2"/>-->
-                    <Label Canvas.Left="811" Canvas.Top="15" Content="Summary:" FontSize="18" Foreground="Black" Height="40" Width="126" />
+                    <Label Canvas.Left="811" Canvas.Top="15" Content="Internal Summary:" FontSize="18" Foreground="Black" Height="40" Width="174" />
             <s:SurfaceTextBox x:Name="summary" Height="150" Width="176" Canvas.Left="813" Background="#50227174" BorderBrush="#227174" BorderThickness="2" TextWrapping="Wrap" Foreground="Black" AutoWordSelection="True" Opacity="0.9" Canvas.Top="45" MouseDoubleClick="summaryMouseDoubleClick" />
 
                     

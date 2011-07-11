@@ -131,13 +131,13 @@
         <Canvas Name="detailHotspot" Canvas.Top="40" Canvas.Left="540" Height="400" Width="360">
             <Rectangle Height="400" Stroke="#FF076F72"  Width="360" Fill="#FFEDF5E2" StrokeThickness="3" />
 
-            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="60" Canvas.Left="30" Content="Change to text" Click="AddText_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="60" Canvas.Left="30" Content="Set hotspot to text" Click="AddText_Click" IsEnabled="False"/>
        <!--     <my:SurfaceButton Name="ModifyText" Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="40" Canvas.Left="220" Content="Modify" Click="ModifyText_Click" IsEnabled="False"/> -->
-            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="130" Canvas.Left="30" Content="Change to image" Click="AddImage_Click" IsEnabled="False" />
+            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="130" Canvas.Left="30" Content="Set hotspot to image" Click="AddImage_Click" IsEnabled="False" />
             <!--     <my:SurfaceButton Name="ModifyImage"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="110" Canvas.Left="220" Content="Modify" Click="ModifyImage_Click" IsEnabled="False"/>-->
-            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="200" Canvas.Left="30" Content="Change to audio" Click="AddAudio_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="200" Canvas.Left="30" Content="Set hotspot to audio" Click="AddAudio_Click" IsEnabled="False"/>
             <!--    <my:SurfaceButton Name="ModifyAudio"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="180" Canvas.Left="220" Content="Modify" Click="ModifyAudio_Click" IsEnabled="False"/>-->
-            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="270" Canvas.Left="30" Content="Change to video" Click="AddVideo_Click" IsEnabled="False" />
+            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="270" Canvas.Left="30" Content="Set hotspot to video" Click="AddVideo_Click" IsEnabled="False" />
 
             <my:SurfaceButton Name="Edit" Style="{StaticResource browse}" Width="90" Height="26" MinHeight="0" Canvas.Top="170" Canvas.Left="230" Content="Edit" Click="Edit_Click" IsEnabled="False" />
             <!--   <my:SurfaceButton Name="ModifyVideo"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="250" Canvas.Left="220" Content="Modify" Click="ModifyVideo_Click" IsEnabled="False"/>-->
