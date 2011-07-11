@@ -22,11 +22,10 @@
                     <ControlTemplate TargetType="{x:Type my:SurfaceRadioButton}">
                         <BulletDecorator Background="Transparent">
                             <BulletDecorator.Bullet>
-                                <Canvas Width="180" Height="48">
+                                <Canvas Width="15" Height="15">
                                     <Ellipse Fill="White" Width="15" Height="15"/>
                                     <Ellipse Fill="Purple" Width="13" Height="13" Canvas.Left="1" Canvas.Top="1"/>
                                     <Ellipse x:Name="checked" Fill="Azure" Width="11" Height="11" Canvas.Left="2" Canvas.Top="2" />
-                                    <ContentPresenter Canvas.Left="40"/>
                                 </Canvas>
                             </BulletDecorator.Bullet>
                         </BulletDecorator>
@@ -40,13 +39,13 @@
             </Setter>
         </Style>
 
-            <Style TargetType="my:SurfaceButton" x:Key="gen">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Foreground" Value="White"/>
+        <Style TargetType="my:SurfaceButton" x:Key="gen">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="#227174"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="my:SurfaceButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="my:SurfaceButton">
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsPressed" Value="True">
@@ -62,16 +61,16 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                         <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
-                                <ContentPresenter 
+                            <ContentPresenter 
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 >
-                                </ContentPresenter>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <Style TargetType="my:SurfaceButton" x:Key="browse">
             <Setter Property="FontSize" Value="16"/>
@@ -94,14 +93,14 @@
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" >
-                                <Setter.Value>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
-                                        <GradientStop Color="DarkGray" Offset="0.35"/>
-                                       
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                                            <GradientStop Color="DarkGray" Offset="0.35"/>
+
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                         <Border CornerRadius="7" Margin="0" Background="{TemplateBinding Background}" BorderBrush="#227174" BorderThickness="2">
@@ -123,7 +122,7 @@
 
         <Canvas x:Name="imageCover" Canvas.Top="40" Canvas.Left="20" Height="400" Width="500">
             <Rectangle Height="400" Name="rectangle1" Stroke="#227174" Width="500" Fill="#B8DAD2" StrokeThickness="4" />
-           <!-- <Image Height="392" x:Name="image1" Stretch="Fill" Width="492" Canvas.Top="4" Canvas.Left="4"/> -->
+            <!-- <Image Height="392" x:Name="image1" Stretch="Fill" Width="492" Canvas.Top="4" Canvas.Left="4"/> -->
             <dz:MultiScaleImage x:Name="image1" Height="392" Width="492" Canvas.Top="4" Canvas.Left="4" />
         </Canvas>
 
@@ -132,7 +131,7 @@
             <Rectangle Height="400" Stroke="#FF076F72"  Width="360" Fill="#FFEDF5E2" StrokeThickness="3" />
 
             <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="60" Canvas.Left="30" Content="Set hotspot to text" Click="AddText_Click" IsEnabled="False"/>
-       <!--     <my:SurfaceButton Name="ModifyText" Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="40" Canvas.Left="220" Content="Modify" Click="ModifyText_Click" IsEnabled="False"/> -->
+            <!--     <my:SurfaceButton Name="ModifyText" Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="40" Canvas.Left="220" Content="Modify" Click="ModifyText_Click" IsEnabled="False"/> -->
             <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="130" Canvas.Left="30" Content="Set hotspot to image" Click="AddImage_Click" IsEnabled="False" />
             <!--     <my:SurfaceButton Name="ModifyImage"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="110" Canvas.Left="220" Content="Modify" Click="ModifyImage_Click" IsEnabled="False"/>-->
             <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="200" Canvas.Left="30" Content="Set hotspot to audio" Click="AddAudio_Click" IsEnabled="False"/>

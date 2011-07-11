@@ -75,7 +75,7 @@ namespace SurfaceApplication3
         private void ImageTouchHandler(object sender, TouchEventArgs e)
         {
             //((Canvas)sender).CaptureTouch(e.TouchDevice);
-            Point newPoint = e.TouchDevice.GetCenterPosition(this);
+            Point newPoint = e.TouchDevice.GetCenterPosition(sender as IInputElement);
            // this.CreatePointsClick(newPoint, null);
          //   this.CreateNewPoints(newPoint,null);
             this.CreateNewPoints(newPoint,null);
@@ -89,7 +89,7 @@ namespace SurfaceApplication3
         private void ImageMouseHandler(object sender, MouseButtonEventArgs e)
         {
             // ((Image)sender).CaptureMouse();
-            Point newPoint = e.MouseDevice.GetCenterPosition(this);
+            Point newPoint = e.MouseDevice.GetCenterPosition(sender as IInputElement);
             //this.CreateNewPoints(newPoint,null);
            // this.CreatePointsClick(newPoint, null);
             this.CreateNewPoints(newPoint,null);
