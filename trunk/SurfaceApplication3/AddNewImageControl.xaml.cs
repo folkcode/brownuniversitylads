@@ -514,7 +514,7 @@ namespace SurfaceApplication3
                 newHotspotWindw.Show();
                 newHotspotWindw.hotspot.setImagePath(imageName);
                 newHotspotWindw.hotspot.showImage();
-                newHotspotWindw.hotspot.LoadHotsptos();
+                newHotspotWindw.hotspot.LoadHotspots();
                 hotspotWinOpened = true;
             }
             else
@@ -524,7 +524,7 @@ namespace SurfaceApplication3
 
                 newHotspotWindw.Show();
                 newHotspotWindw.hotspot.showImage();
-                newHotspotWindw.hotspot.LoadHotsptos();
+                newHotspotWindw.hotspot.LoadHotspots();
 
             }
         }
