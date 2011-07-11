@@ -90,7 +90,7 @@ namespace SurfaceApplication3
         {
             
             XmlDocument newDoc = new XmlDocument();
-            String imageFolder = "Data/Map/Map.png" + "/" + "dz.xml";
+            String imageFolder = "Data/Map/newmap.jpg" + "/" + "dz.xml";
             newDoc.Load(imageFolder);
             if (newDoc.HasChildNodes)
             {
@@ -127,7 +127,7 @@ namespace SurfaceApplication3
             //map1.Source = myBitmapImage;
             
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
-            String mapUri = dataUri + "Map/Map.png/dz.xml";
+            String mapUri = dataUri + "Map/newmap.jpg/dz.xml";
             map1.SetImageSource(mapUri);
             map1.UpdateLayout();
            // this.Visibility = Visibility.Visible;
