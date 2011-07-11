@@ -70,6 +70,7 @@ namespace LADSArtworkMode
         bool authToolsVisible;
         System.Windows.Forms.Timer _timer;
         EventHandler _timerHandler;
+        private bool _noHotspots;
 
         private TourSystem tourSystem; // tour authoring & playback system
 
@@ -129,6 +130,7 @@ namespace LADSArtworkMode
             dockedItems = 0;
             DockedItems = new ArrayList();
             BarOffset = 0;
+            _noHotspots = true;
 
             currentArtworkFileName = currentArtworkFName;
             newMeta = new metadata_lists(this, currentArtworkFileName);
@@ -422,6 +424,7 @@ namespace LADSArtworkMode
 
         public void loadMetadata(string filename)
         {
+            int count = 0;
             string dataDir = "data/";
             Helpers helpers = new Helpers();
             XmlDocument doc = new XmlDocument();
@@ -451,6 +454,7 @@ namespace LADSArtworkMode
                                             {
                                                 string metadatafilename = file.Attributes.GetNamedItem("Filename").InnerText;
                                                 Console.WriteLine("metadataFilename: " + metadatafilename);
+                                                count++;
                                                 string name;
                                                 try
                                                 {
@@ -479,6 +483,12 @@ namespace LADSArtworkMode
                         }
                     }
                 }
+            }
+            if (count == 0)
+            {
+                SurfaceListBoxItem item = new SurfaceListBoxItem();
+                item.Content = "(No assets for this artwork)";
+                treeDocs.Items.Add(item);
             }
         }
 
@@ -604,6 +614,19 @@ namespace LADSArtworkMode
                         }
                     }
                 }
+                _noHotspots = false;
+                if (m_hotspotCollection.Hotspots.Length == 0)
+                {
+                    SurfaceListBoxItem item = new SurfaceListBoxItem();
+                    item.Content = "(No hotspots for this artwork)";
+                    listHotspotNav.Items.Add(item);
+                }
+            }
+            else
+            {
+                SurfaceListBoxItem item = new SurfaceListBoxItem();
+                item.Content = "(No hotspots for this artwork)";
+                listHotspotNav.Items.Add(item);
             }
 
         }
@@ -1061,45 +1084,48 @@ namespace LADSArtworkMode
         int m_currentSelectedHotspotIndex = -1;
         private void listHotspotNav_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SurfaceListBoxItem item;
-            int index;
-            if (listHotspotNav.SelectedIndex != -1)
+            if (!_noHotspots)
             {
-                Hotspot selectedHotspot = m_hotspotCollection.Hotspots[listHotspotNav.SelectedIndex];
-                if (m_hotspotOnOff == true)
+                SurfaceListBoxItem item;
+                int index;
+                if (listHotspotNav.SelectedIndex != -1)
                 {
-                    // if (m_currentSelectedHotspotIndex != listHotspotNav.SelectedIndex )
+                    Hotspot selectedHotspot = m_hotspotCollection.Hotspots[listHotspotNav.SelectedIndex];
+                    if (m_hotspotOnOff == true)
                     {
-                        if (m_currentSelectedHotspotIndex != -1)
+                        // if (m_currentSelectedHotspotIndex != listHotspotNav.SelectedIndex )
                         {
-                            item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(m_currentSelectedHotspotIndex);
+                            if (m_currentSelectedHotspotIndex != -1)
+                            {
+                                item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(m_currentSelectedHotspotIndex);
+                                index = (int)item.Tag;
+                                m_hotspotCollection.HotspotIcons[index].changeToNormal();
+                            }
+                            item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(listHotspotNav.SelectedIndex);
                             index = (int)item.Tag;
-                            m_hotspotCollection.HotspotIcons[index].changeToNormal();
+                            m_hotspotCollection.HotspotIcons[index].changeToHighLighted();
                         }
+                    }
+                    else
+                    {
+                        m_hotspotCollection.unloadAllHotspotsIcon();
                         item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(listHotspotNav.SelectedIndex);
                         index = (int)item.Tag;
+                        //m_hotspotCollection.loadHotspotIcon(index, HotspotOverlay, MainScatterView, msi);
+                        m_hotspotCollection.loadHotspotIcon(index, HotspotOverlay, MSIScatterView, msi);
                         m_hotspotCollection.HotspotIcons[index].changeToHighLighted();
                     }
-                }
-                else
-                {
-                    m_hotspotCollection.unloadAllHotspotsIcon();
-                    item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(listHotspotNav.SelectedIndex);
-                    index = (int)item.Tag;
-                    //m_hotspotCollection.loadHotspotIcon(index, HotspotOverlay, MainScatterView, msi);
-                    m_hotspotCollection.loadHotspotIcon(index, HotspotOverlay, MSIScatterView, msi);
-                    m_hotspotCollection.HotspotIcons[index].changeToHighLighted();
-                }
-                m_currentSelectedHotspotIndex = listHotspotNav.SelectedIndex;
+                    m_currentSelectedHotspotIndex = listHotspotNav.SelectedIndex;
 
-                // pan to the current selected hotspot:
-                Double[] size = this.findImageSize(m_hotspotCollection.Hotspots[index].artworkName);
-                Point dest = new Point(m_hotspotCollection.Hotspots[index].PositionX * size[0], m_hotspotCollection.Hotspots[index].PositionY * size[1]);
-                Point targetOffset = new Point(dest.X * msi.GetZoomableCanvas.Scale - msi.GetZoomableCanvas.ActualWidth * 0.5, dest.Y * msi.GetZoomableCanvas.Scale - msi.GetZoomableCanvas.ActualHeight * 0.5);
-                var duration = TimeSpan.FromMilliseconds(0.5 * 1000);
+                    // pan to the current selected hotspot:
+                    Double[] size = this.findImageSize(m_hotspotCollection.Hotspots[index].artworkName);
+                    Point dest = new Point(m_hotspotCollection.Hotspots[index].PositionX * size[0], m_hotspotCollection.Hotspots[index].PositionY * size[1]);
+                    Point targetOffset = new Point(dest.X * msi.GetZoomableCanvas.Scale - msi.GetZoomableCanvas.ActualWidth * 0.5, dest.Y * msi.GetZoomableCanvas.Scale - msi.GetZoomableCanvas.ActualHeight * 0.5);
+                    var duration = TimeSpan.FromMilliseconds(0.5 * 1000);
 
-                var easing = new QuadraticEase();
-                msi.GetZoomableCanvas.BeginAnimation(ZoomableCanvas.OffsetProperty, new PointAnimation(targetOffset, duration) { EasingFunction = easing }, HandoffBehavior.Compose);
+                    var easing = new QuadraticEase();
+                    msi.GetZoomableCanvas.BeginAnimation(ZoomableCanvas.OffsetProperty, new PointAnimation(targetOffset, duration) { EasingFunction = easing }, HandoffBehavior.Compose);
+                }
             }
         }
 
