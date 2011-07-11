@@ -162,9 +162,9 @@ namespace SurfaceApplication3
                                                                 String name = file.Attributes.GetNamedItem("Name").InnerText;
                                                                 newSmallwindow.name_tag.Text = name;
                                                             }
-                                                            if (file.Attributes.GetNamedItem("description") != null)
+                                                            if (file.Attributes.GetNamedItem("Description") != null)
                                                             {
-                                                                String description = file.Attributes.GetNamedItem("description").InnerText;
+                                                                String description = file.Attributes.GetNamedItem("Description").InnerText;
                                                                 newSmallwindow.summary.Text = description;
                                                             }
                                                             newSmallwindow.tags.Text = keyword;
