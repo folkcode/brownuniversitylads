@@ -97,7 +97,6 @@ namespace SurfaceApplication3
                     //if video
                     else if (_helper.IsVideoFile(filePath[i]))
                     {
-                        Console.WriteLine("HIIIIII");
                         BitmapImage videoThumb = new BitmapImage();
                         //try
                         //{
@@ -109,7 +108,7 @@ namespace SurfaceApplication3
                             string fBitmapName = @filePath[i];
                             fBitmapName = fBitmapName.Remove(fBitmapName.Length - 4, 4);
                             fBitmapName += ".bmp";
-                            md.WriteBitmapBits(md.StreamLength / 2, 320, 240, fBitmapName);
+                            md.WriteBitmapBits(md.StreamLength / 2, 400, 240, fBitmapName);
 
                             videoThumb.BeginInit();
                             videoThumb.UriSource = new Uri(fBitmapName);
