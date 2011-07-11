@@ -863,21 +863,21 @@ namespace LADSArtworkMode
             //eraseButton.MinHeight = buttonHeight;
             //renameTimelineButton.MinHeight = buttonHeight;
 
-            saveButton.PreviewMouseUp += artModeWin.TourAuthoringSaveButton_Click;
-            doneButton.PreviewMouseUp += tourSystem.TourAuthoringDoneButton_Click;
-            deleteButton.PreviewMouseUp += tourSystem.TourAuthoringDeleteButton_Click;
-            undoButton.PreviewMouseUp += undoButton_Click;
-            redoButton.PreviewMouseUp += redoButton_Click;
+            saveButton.Click += artModeWin.TourAuthoringSaveButton_Click;
+            doneButton.Click += tourSystem.TourAuthoringDoneButton_Click;
+            deleteButton.Click += tourSystem.TourAuthoringDeleteButton_Click;
+            undoButton.Click += undoButton_Click;
+            redoButton.Click += redoButton_Click;
             //removeEventButton.PreviewTouchUp += removeHighlightedAnimation;
-            removeEventButton.PreviewMouseUp += removeHighlightedAnimation;
+            removeEventButton.Click += removeHighlightedAnimation;
             //removeComponentButton.PreviewTouchUp += removeHighlightedTimeline;
-            removeComponentButton.PreviewMouseUp += removeHighlightedTimeline;
-            newMediaButton.PreviewMouseUp += addMetadata_Clicked;
-            newAudioButton.PreviewMouseUp += tourSystem.grabSound;
-            newDrawingButton.PreviewMouseUp += tourSystem.drawPaths_Click;
-            newHighlightButton.PreviewMouseUp += tourSystem.drawHighlight_Click;
-            eraseButton.PreviewMouseUp += erase_Click;
-            renameTimelineButton.PreviewMouseUp += renameTimelineButton_Click;
+            removeComponentButton.Click += removeHighlightedTimeline;
+            newMediaButton.Click += addMetadata_Clicked;
+            newAudioButton.Click += tourSystem.grabSound;
+            newDrawingButton.Click += tourSystem.drawPaths_Click;
+            newHighlightButton.Click += tourSystem.drawHighlight_Click;
+            eraseButton.Click += erase_Click;
+            renameTimelineButton.Click += renameTimelineButton_Click;
 
             ////////////////////////////
             artModeWin.applyRenameTimelineButton.Click += applyRenameTimelineButton_Click;
