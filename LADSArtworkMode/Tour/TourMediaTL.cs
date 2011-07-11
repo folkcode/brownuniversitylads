@@ -22,6 +22,7 @@ namespace LADSArtworkMode
             tl.type = type;
             tl.displayName = displayName;
             tl.file = file;
+            tl.Duration = Duration;
             return tl;
         }
 

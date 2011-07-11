@@ -154,7 +154,7 @@ namespace LADSArtworkMode
 
         public void reinitalize()
         {
-            timelineAreaHeight = (timelineHeight * timelineCount);
+            timelineAreaHeight = (timelineHeight * timelineCount) + 16;
             if (timelineAreaHeight < (canvasWrapper.Height - 60))
             {
                 timelineAreaHeight = canvasWrapper.Height - 60; // minimum height to fill UI space on bottom of screen
@@ -1777,6 +1777,7 @@ namespace LADSArtworkMode
             current.titlebox.Tag = current;
             current.titlebox.Background = (Brush)(new BrushConverter().ConvertFrom("#093024"));
             current.titlebox.Foreground = Brushes.White;
+            current.titlebox.IsHitTestVisible=false;
             titleCanvas.Children.Add(current.titlebox);
             Canvas.SetTop(current.titlebox, pos + 3);
 
