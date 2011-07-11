@@ -257,8 +257,13 @@ namespace GCNav
         public void newButton_Click(Object sender, RoutedEventArgs e) 
         {
             String str = locButtons[(SurfaceRadioButton)sender];
-            String name = data.filename.Substring(0,data.filename.Length-4);
-            Console.Out.WriteLine(name);
+            String name = data.title;
+            if (name.Length > 20)
+            {
+                name = name.Substring(0, 20);
+                name = name + "...";
+            }
+            Console.Out.WriteLine(str);
             String labelText = name + " ";
             String[] displayInfo = Regex.Split(str, "/");
             String locCategory = displayInfo[0];
@@ -278,7 +283,7 @@ namespace GCNav
                 }
                 if (date != "")
                 {
-                    labelText += "," + date;
+                    labelText += ", " + date;
                 }
               //  newColor.Color = Color.FromRgb(244, 234, 150);
                 
@@ -287,15 +292,15 @@ namespace GCNav
             {
                 if (city == "")
                 {
-                    labelText += "displayed here";
+                    labelText += " was displayed here";
                 }
                 else
                 {
-                    labelText += "displayed in" + " " + city;
+                    labelText += " was displayed in" + " " + city;
                 }
                 if (date != "")
                 {
-                    labelText += "," + date;
+                    labelText += ", " + date;
                 }
               //  newColor.Color = Color.FromRgb(0,169,184);
             }
@@ -304,15 +309,15 @@ namespace GCNav
                 if (city == "")
                 {
 
-                    labelText += "was created here";
+                    labelText += " was created here";
                 }
                 else
                 {
-                    labelText += "was created in" + " " + city;
+                    labelText += " was created in" + " " + city;
                 }
                 if (date != "")
                 {
-                    labelText += "," + date;
+                    labelText += ", " + date;
                 }
                 //newColor.Color = Color.FromRgb(244, 234, 150);
             }
