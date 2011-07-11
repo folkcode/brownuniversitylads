@@ -476,6 +476,7 @@ namespace LADSArtworkMode
             tourAudio_TL.type = TourTLType.audio;
             tourAudio_TL.displayName = audio_file;
             tourAudio_TL.file = audio_file;
+            //tourAudio_TL.be
 
             BiDictionary<double, TourEvent> tourAudio_TL_dict = new BiDictionary<double, TourEvent>(); // dummy TL_dict -- tourAudio_timeline obviously doesn't store any TourEvents
             //tourDict.Add(tourAudio_TL, tourAudio_TL_dict);
@@ -492,7 +493,10 @@ namespace LADSArtworkMode
             // took me quite a while to figure out that WPF really can't determine the duration of an MP3 until it's actually loaded (i.e. playing), and then it took me a little longer to finally find and accept this open-source library...argh
             TagLib.File audio_file_tags = TagLib.File.Create(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\Audio\\" + audio_file);
             tourAudio_TL.Duration = audio_file_tags.Properties.Duration;
-            resetTourLength(tourAudio_TL.Duration.TimeSpan.TotalSeconds + 1);
+            //tourAudio_TL.Duration = TimeSpan.FromSeconds(5.0);
+            //tourAudio_TL.BeginTime = TimeSpan.FromSeconds(2.0);
+            if (tourStoryboard.totalDuration < (tourAudio_TL.Duration.TimeSpan.TotalSeconds + 1))
+                resetTourLength(tourAudio_TL.Duration.TimeSpan.TotalSeconds + 1);
             tourAuthoringUI.refreshUI();
             tourAuthoringUI.reloadUI();
 
@@ -502,6 +506,10 @@ namespace LADSArtworkMode
         {
             DockableItem dockItem = new DockableItem(artModeWin.MSIScatterView, artModeWin, artModeWin.Bar, imageFilePath);
 
+            dockItem.PreviewMouseWheel += new MouseWheelEventHandler(mediaMouseWheel);
+            dockItem.removeDockability();
+            dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchDown);
+            //dockItem.MouseLeave += new MouseEventHandler(mediaTouchUp);
             dockItem.PreviewTouchDown += new EventHandler<TouchEventArgs>(mediaTouchDown);
             dockItem.PreviewMouseDown += new MouseButtonEventHandler(mediaTouchDown);
             dockItem.PreviewTouchMove += new EventHandler<TouchEventArgs>(mediaTouchMoved);
@@ -898,6 +906,7 @@ namespace LADSArtworkMode
             if (!tourAuthoringOn)
                 return;
             undoableActionPerformed();
+            double scrubtime = authorTimerCountSpan.TotalSeconds;
             ZoomableCanvas zcan = (sender as MultiScaleImage).GetZoomableCanvas;
             Timeline tl;
             if (msiToTLDict.TryGetValue(sender as MultiScaleImage, out tl))
@@ -922,6 +931,7 @@ namespace LADSArtworkMode
                         if ((authorTimerCountSpan.TotalSeconds > startEventTime && authorTimerCountSpan.TotalSeconds <= (startEventTime + tevent.duration)))
                         {
                             needToAddEvent = false;
+                            scrubtime = startEventTime + tevent.duration;
                             switch (tevent.type)
                             {
                                 case TourEvent.Type.fadeInMSI:
@@ -951,6 +961,7 @@ namespace LADSArtworkMode
                 }
             }
             tourAuthoringUI.refreshUI();
+            this.StopAndReloadTourAuthoringUIFromDict(scrubtime- 0.01);
         }
 
 
@@ -995,6 +1006,8 @@ namespace LADSArtworkMode
             if (!tourAuthoringOn)
                 return;
             undoableActionPerformed();
+            double scrubtime = authorTimerCountSpan.TotalSeconds;
+           
             DockableItem dockItem = sender as DockableItem;
             Timeline tl;
             if (itemToTLDict.TryGetValue(dockItem, out tl))
@@ -1021,6 +1034,7 @@ namespace LADSArtworkMode
                         if ((authorTimerCountSpan.TotalSeconds >= startEventTime && authorTimerCountSpan.TotalSeconds <= (startEventTime + tevent.duration)))
                         {
                             needToAddEvent = false;
+                            scrubtime = startEventTime + tevent.duration;
                             switch (tevent.type)
                             {
                                 case TourEvent.Type.fadeInMedia:
@@ -1051,7 +1065,7 @@ namespace LADSArtworkMode
                             time = 0;
                             //time = authorTimerCountSpan.TotalSeconds;
                         }*/
-                        double time = authorTimerCountSpan.TotalSeconds-1;
+                        double time = authorTimerCountSpan.TotalSeconds - 1;
                         if (time<0)
                         {
                             time = 0;
@@ -1063,7 +1077,96 @@ namespace LADSArtworkMode
                 }
             }
             tourAuthoringUI.refreshUI();
+            this.StopAndReloadTourAuthoringUIFromDict(scrubtime - .01);
+        }
+
+        public void mediaMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            DockableItem dockItem = sender as DockableItem;
+
+            double newWidth;
+            newWidth = ((double)e.Delta)/5.0 + dockItem.ActualWidth;
+
+            if (newWidth < 50) return;
+
+            if (!tourAuthoringOn)
+                return;
+
+
+           
+            undoableActionPerformed();
+            double scrubtime = authorTimerCountSpan.TotalSeconds;
+            //DockableItem dockItem = sender as DockableItem;
+            Timeline tl;
+            if (itemToTLDict.TryGetValue(dockItem, out tl))
+            {
+                BiDictionary<double, TourEvent> itemDict;
+                //Dictionary<TourEvent, double> itemDictRev;
+                IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
+                if (list.Count != 0)
+                {
+                    itemDict = list[0];
+                    //itemDictRev = tourDictRev[tl];
+                    double startEventTime = System.Double.MaxValue;
+                    bool needToAddEvent = true;
+                    foreach (TourEvent tevent in itemDict.firstValues)
+                    {
+                        startEventTime = itemDict[tevent][0];
+                        //if (startEventTime < 0) startEventTime = 0;
+                        if (tevent.type == TourEvent.Type.zoomMedia)
+                        {
+                            ZoomMediaEvent ze = (ZoomMediaEvent)tevent;
+                            Console.WriteLine(ze.zoomMediaToScreenPointX + "," + ze.zoomMediaToScreenPointY + " -> " + dockItem.ActualCenter.X + "," + dockItem.ActualCenter.Y);
+                        }
+
+                        if ((authorTimerCountSpan.TotalSeconds >= startEventTime && authorTimerCountSpan.TotalSeconds <= (startEventTime + tevent.duration)))
+                        {
+                            needToAddEvent = false;
+                            scrubtime = startEventTime + tevent.duration;
+                            switch (tevent.type)
+                            {
+                                case TourEvent.Type.fadeInMedia:
+                                    FadeInMediaEvent fadeInMediaEvent = (FadeInMediaEvent)tevent;
+                                    fadeInMediaEvent.fadeInMediaToScreenPointX = dockItem.ActualCenter.X;
+                                    fadeInMediaEvent.fadeInMediaToScreenPointY = dockItem.ActualCenter.Y;
+                                    fadeInMediaEvent.absoluteScale = newWidth / dockItem.image.Source.Width;
+                                    break;
+                                case TourEvent.Type.fadeOutMedia:
+                                    break;
+                                case TourEvent.Type.zoomMedia:
+                                    ZoomMediaEvent zoomMediaEvent = (ZoomMediaEvent)tevent;
+                                    zoomMediaEvent.zoomMediaToScreenPointX = dockItem.ActualCenter.X;
+                                    zoomMediaEvent.zoomMediaToScreenPointY = dockItem.ActualCenter.Y;
+                                    zoomMediaEvent.absoluteScale = newWidth / dockItem.image.Source.Width;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    if (needToAddEvent)
+                    {
+                        /*double time = authorTimerCountSpan.TotalSeconds - 1;
+                        if (time < 0) time = 0;
+                        if (authorTimerCountSpan.TotalSeconds < 1)
+                        {
+                            time = 0;
+                            //time = authorTimerCountSpan.TotalSeconds;
+                        }*/
+                        double time = authorTimerCountSpan.TotalSeconds - 1;
+                        if (time < 0)
+                        {
+                            time = 0;
+                        }
+                        ZoomMediaEvent toAdd = new ZoomMediaEvent(dockItem, newWidth / dockItem.image.Source.Width, dockItem.ActualCenter.X, dockItem.ActualCenter.Y, 1);
+                        itemDict.Add(time, toAdd);
+                        //itemDictRev.Add(toAdd, time);
+                    }
+                }
+            }
             tourAuthoringUI.refreshUI();
+            this.StopAndReloadTourAuthoringUIFromDict(scrubtime - .01);
+
         }
 
         #endregion
@@ -1839,6 +1942,7 @@ namespace LADSArtworkMode
                                     artModeWin.msi_tour.PreviewMouseMove += new MouseEventHandler(msiTouchMoved);
                                     artModeWin.msi_tour.PreviewTouchUp += new EventHandler<TouchEventArgs>(msiTouchUp);
                                     artModeWin.msi_tour.PreviewMouseUp += new MouseButtonEventHandler(msiTouchUp);
+                                    artModeWin.msi_tour.PreviewMouseWheel += new MouseWheelEventHandler(msiTouchUp);
                                     artModeWin.msi_tour.disableInertia();
                                     TourParallelTL msi_tour_TL = new TourParallelTL();
 
@@ -1879,6 +1983,8 @@ namespace LADSArtworkMode
                                     String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     DockableItem dockItem = new DockableItem(artModeWin.MSIScatterView, artModeWin, artModeWin.Bar, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\Metadata\\" + media_file);
 
+                                    //dockItem.PreviewMouseWheel += new MouseWheelEventHandler(mediaMouseWheel);
+                                    dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchDown);
                                     dockItem.PreviewTouchDown += new EventHandler<TouchEventArgs>(mediaTouchDown);
                                     dockItem.PreviewMouseDown += new MouseButtonEventHandler(mediaTouchDown);
                                     dockItem.PreviewTouchMove += new EventHandler<TouchEventArgs>(mediaTouchMoved);
@@ -2074,6 +2180,16 @@ namespace LADSArtworkMode
                                 tourAudio_TL.type = TourTLType.audio;
                                 tourAudio_TL.displayName = TLNode.Attributes.GetNamedItem("displayName").InnerText;
                                 tourAudio_TL.file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                if (TLNode.Attributes.GetNamedItem("beginTime") != null)
+                                tourAudio_TL.BeginTime = TimeSpan.FromSeconds(Convert.ToDouble(TLNode.Attributes.GetNamedItem("beginTime").InnerText));
+
+                                if (TLNode.Attributes.GetNamedItem("duration") != null)
+                                    tourAudio_TL.Duration = TimeSpan.FromSeconds(Convert.ToDouble(TLNode.Attributes.GetNamedItem("duration").InnerText));
+                                else
+                                {
+                                    TagLib.File audio_file_tags = TagLib.File.Create(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\Audio\\" + audio_file);
+                                    tourAudio_TL.Duration = audio_file_tags.Properties.Duration;
+                                }
 
                                 BiDictionary<double, TourEvent> tourAudio_TL_dict = new BiDictionary<double, TourEvent>(); // dummy TL_dict -- tourAudio_timeline obviously doesn't store any TourEvents
                                 tourBiDictionary.Add(tourAudio_TL, tourAudio_TL_dict);
@@ -2088,8 +2204,7 @@ namespace LADSArtworkMode
                                 tourStoryboard.SlipBehavior = SlipBehavior.Slip;
 
                                 // took me quite a while to figure out that WPF really can't determine the duration of an MP3 until it's actually loaded (i.e. playing), and then it took me a little longer to finally find and accept this open-source library...argh
-                                TagLib.File audio_file_tags = TagLib.File.Create(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\Audio\\" + audio_file);
-                                tourAudio_TL.Duration = audio_file_tags.Properties.Duration;
+                                
                             }
                         }
                     }
@@ -2321,12 +2436,18 @@ namespace LADSArtworkMode
                     XmlAttribute TLNode_type = doc.CreateAttribute("type");
                     XmlAttribute TLNode_displayName = doc.CreateAttribute("displayName");
                     XmlAttribute TLNode_file = doc.CreateAttribute("file");
+                    XmlAttribute TLNode_beginTime = doc.CreateAttribute("beginTime");
+                    XmlAttribute TLNode_duration = doc.CreateAttribute("duration");
                     TLNode_type.Value = tourTL.type.ToString();
                     TLNode_displayName.Value = tourTL.displayName;
                     TLNode_file.Value = tourTL.file;
+                    TLNode_beginTime.Value = ((TourMediaTL)tourTL).BeginTime.Value.TotalSeconds.ToString();
+                    TLNode_duration.Value = ((TourMediaTL)tourTL).Duration.TimeSpan.TotalSeconds.ToString();
                     TLNode.Attributes.Append(TLNode_type);
                     TLNode.Attributes.Append(TLNode_displayName);
                     TLNode.Attributes.Append(TLNode_file);
+                    TLNode.Attributes.Append(TLNode_beginTime);
+                    TLNode.Attributes.Append(TLNode_duration);
                     tourNode.AppendChild(TLNode);
                 }
             }
@@ -2360,6 +2481,13 @@ namespace LADSArtworkMode
                         tourTL_endTime = tourEvent_endTime;
                     }
                 }
+
+                if (((TourTL)tourTL).type == TourTLType.audio)
+                {
+                    TourMediaTL mediaTimeline = tourTL as TourMediaTL;
+                    tourTL_endTime = mediaTimeline.BeginTime.Value.TotalSeconds + mediaTimeline.Duration.TimeSpan.TotalSeconds;
+                }
+
 
                 if (tourTL_endTime > tourStoryboard_endTime)
                 {
@@ -2485,7 +2613,14 @@ namespace LADSArtworkMode
 
                 if (((TourTL)tourTL).type == TourTLType.audio) // for MediaTimeline
                 {
-                    tourAuthoringUI.addTourEvent(timelineInfo, null, timelineInfo.lengthSV, 0, tourTL.Duration.TimeSpan.TotalSeconds); // will this work?
+                    TourMediaTL mediaTL = tourTL as TourMediaTL;
+                    double mediaBeginTime = 0;
+                    if (mediaTL.BeginTime.HasValue)
+                    {
+                        mediaBeginTime = mediaTL.BeginTime.Value.TotalSeconds;
+                    }
+
+                    tourAuthoringUI.addAudioEvent(timelineInfo, null, timelineInfo.lengthSV, mediaBeginTime, tourTL.Duration.TimeSpan.TotalSeconds); // will this work?
                 }
 
                 i++;
@@ -2531,7 +2666,14 @@ namespace LADSArtworkMode
 
                 if (((TourTL)tourTL).type == TourTLType.audio)
                 {
-                    tourAuthoringUI.addTourEvent(timelineInfo, null, timelineInfo.lengthSV, 0, tourTL.Duration.TimeSpan.TotalSeconds); // will this work?
+                    TourMediaTL mediaTL = tourTL as TourMediaTL;
+                    double mediaBeginTime = 0;
+                    if (mediaTL.BeginTime.HasValue)
+                    {
+                        mediaBeginTime = mediaTL.BeginTime.Value.TotalSeconds;
+                    }
+                        
+                    tourAuthoringUI.addAudioEvent(timelineInfo, null, timelineInfo.lengthSV, mediaBeginTime, tourTL.Duration.TimeSpan.TotalSeconds); // will this work?
                 }
 
                 i++;

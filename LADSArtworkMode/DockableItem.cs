@@ -98,6 +98,7 @@ namespace LADSArtworkMode
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+            this.CaptureMouse();
             this.Opacity = 0.5;
             _helpers = new Helpers();
         }
@@ -141,6 +142,7 @@ namespace LADSArtworkMode
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+            this.CaptureMouse();
             this.Opacity = 0.5;
             _helpers = new Helpers();
         }
@@ -180,6 +182,7 @@ namespace LADSArtworkMode
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+            this.CaptureMouse();
             _helpers = new Helpers();
         }
 
@@ -231,6 +234,7 @@ namespace LADSArtworkMode
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+            this.CaptureMouse();
 
             Random rnd = new Random();
 
@@ -310,6 +314,7 @@ namespace LADSArtworkMode
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
 
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+            this.CaptureMouse();
 
             Random rnd = new Random();
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
@@ -386,6 +391,7 @@ namespace LADSArtworkMode
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+            this.CaptureMouse();
 
             mainScatterView.Items.Add(this);
             //this.SetCurrentValue(HeightProperty, vidBub.Height);
@@ -412,6 +418,15 @@ namespace LADSArtworkMode
 
         }
 
+        public void removeDockability()
+        {
+
+            this.PreviewTouchUp -= new EventHandler<TouchEventArgs>(AddtoDock);
+            this.PreviewMouseUp -= new MouseButtonEventHandler(AddtoDock);
+
+            this.PreviewMouseWheel -= new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+        }
+
         private void video_MediaOpened(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("DOCKABLE EVENT HANDLER");
@@ -435,19 +450,16 @@ namespace LADSArtworkMode
 
         public void DockableItem_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            double delta = 1.0;
-            if (e.Delta < 0)
-            {
-                delta = -((double)e.Delta) / 100.0;
-                this.Height = this.Height / delta;
-                this.Width = this.Width / delta;
-            }
-            else
-            {
-                delta = ((double)e.Delta) / 100.0;
-                this.Height = this.Height * delta;
-                this.Width = this.Width * delta;
-            }
+            double newWidth = 0;
+            double newHeight = 0;
+
+            newWidth = ((double)e.Delta)/5.0 + this.ActualWidth;
+            newHeight = this.ActualHeight * newWidth / this.ActualWidth;
+
+            if (newWidth < 40 || newHeight < 40) return;
+
+            this.Height = newHeight;
+            this.Width = newWidth;
             
 
         }
