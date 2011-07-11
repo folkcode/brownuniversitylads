@@ -828,6 +828,7 @@ namespace SurfaceApplication3
 
                 System.Drawing.Image img = System.Drawing.Image.FromFile(imagePath);
                 img = img.GetThumbnailImage(128, 128, null, new IntPtr());
+                Console.Out.WriteLine("thumbnail path" + newPath + "Thumbnail/" + filename);
                 img.Save(newPath + "Thumbnail/" + filename);
                // Console.WriteLine(newPath + "Thumbnail/" + filename + " IMAGE!!");
             

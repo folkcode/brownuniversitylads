@@ -114,6 +114,8 @@ namespace GCNav
                 Canvas.SetTop(rb, screenPosY );
 
                 //Console.Out.WriteLine(screenPosX);
+                //Make sure all the map buttons are displayed within the map image
+          
                 if (screenPosX < 0 || screenPosX > Location.Width)
                 {
                     rb.Visibility = Visibility.Collapsed;
@@ -126,7 +128,6 @@ namespace GCNav
                 }
             }
         }
-
 
         public void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
