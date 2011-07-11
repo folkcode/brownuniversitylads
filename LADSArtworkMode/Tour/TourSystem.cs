@@ -240,7 +240,7 @@ namespace LADSArtworkMode
             TourParallelTL tourtl = new TourParallelTL();
             tourtl.type = TourTLType.highlight;
             tourtl.inkCanvas = currentHighlightCanvas;
-            tourtl.displayName = "Highlight";
+            tourtl.displayName = "Mask";
             tourtl.file = getNextFile("Highlight");
             currentHighlightCanvasFile = tourtl.file;
 

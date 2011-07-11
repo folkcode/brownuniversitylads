@@ -732,7 +732,7 @@ namespace LADSArtworkMode
             newMediaButton.Content = "Asset";
             newAudioButton.Content = "Audio";
             newDrawingButton.Content = "Drawing";
-            newHighlightButton.Content = "Highlight";
+            newHighlightButton.Content = "Mask";
             doneButton.Content = "Done";
             undoButton.Content = "Undo";
             redoButton.Content = "Redo";
@@ -740,7 +740,7 @@ namespace LADSArtworkMode
             deleteButton.Content = "Delete";
             removeComponentButton.Content = "Remove Component";
             removeEventButton.Content = "Remove Event";
-            opacityLabel.Content = "Highlight Opacity";
+            opacityLabel.Content = "Mask Opacity";
             eraseButton.Content = "Erase";
             timeLineLabel.Content = "Scrub through tour";
             renameTimelineButton.Content = "Rename Component";
