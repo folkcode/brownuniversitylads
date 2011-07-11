@@ -276,10 +276,9 @@ namespace SurfaceApplication3
                     ellipses.Add(newEllipse);
 
                     SurfaceRadioButton newMarker = new SurfaceRadioButton();
-                    radioButtons.Add(newMarker);
-                    dicRb.Add(newMarker, newEllipse);
-                    newMarker.Click +=new RoutedEventHandler(newMarker_Click);
-
+                    //newMarker.Checked += new RoutedEventHandler(newButton_Checked);
+                    
+                   
                     SolidColorBrush mySolidColorBrush = new SolidColorBrush();
                     if (currentMarker == "current")//yellow
                     {
@@ -315,7 +314,18 @@ namespace SurfaceApplication3
                     newEllipse.Width = 13.5;
                     newEllipse.Height = 13.5;
                     newEllipse.Fill = mySolidColorBrush;
+                    foreach (SurfaceRadioButton rb in radioButtons)
+                    {
+                        rb.IsChecked = false;
+                    }
+                    newMarker.Checked += new RoutedEventHandler(newMarker_Click);
+                    newMarker.IsChecked = true;
 
+                    radioButtons.Add(newMarker);
+                    dicRb.Add(newMarker, newEllipse);
+
+
+                   
                     //Set the location of the circle on the map 
                     //Canvas.SetLeft(newEllipse, db1 - 6);
                    // Canvas.SetTop(newEllipse, db2 - 6);
@@ -357,6 +367,7 @@ namespace SurfaceApplication3
 
             if (dateInfo.ContainsKey((SurfaceRadioButton)sender))
             {
+                Console.Out.WriteLine("contains");
                 date.Text = dateInfo[(SurfaceRadioButton)sender];
             }
             else
@@ -549,6 +560,14 @@ namespace SurfaceApplication3
             ellipses.Add(newEllipse);
 
             SurfaceRadioButton newMarker = new SurfaceRadioButton();
+            //newMarker.Checked += new RoutedEventHandler(newButton_Checked);
+            newMarker.IsChecked = true;
+
+            foreach (SurfaceRadioButton rb in radioButtons)
+            {
+                rb.IsChecked = false;
+            }
+
             dicRb.Add(newMarker, newEllipse);
 
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
@@ -577,7 +596,7 @@ namespace SurfaceApplication3
              //   originY.Add(lat);
                 dic.Add(newMarker, "red" + "," + lon + "," + lat);
             }
-            newMarker.Click +=new RoutedEventHandler(newMarker_Click);
+            newMarker.Checked +=new RoutedEventHandler(newMarker_Click);
             radioButtons.Add(newMarker);
             newEllipse.Width = 13.5;
             newEllipse.Height = 13.5;
