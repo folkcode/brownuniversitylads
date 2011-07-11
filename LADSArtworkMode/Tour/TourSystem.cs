@@ -176,6 +176,7 @@ namespace LADSArtworkMode
         {
             if (tourAuthoringOn)
             {
+                undoableActionPerformed();
                 MakeNewPathCanvas();
             }
         }
@@ -201,6 +202,7 @@ namespace LADSArtworkMode
         {
             if (tourAuthoringOn)
             {
+                undoableActionPerformed();
                 MakeNewHighlightCanvas();
             }
         }
@@ -452,6 +454,7 @@ namespace LADSArtworkMode
                 return;
 
             }
+            undoableActionPerformed();
             String audio_file1 = ofd.FileName;
             String audio_file = System.IO.Path.GetFileName(audio_file1);
             try
@@ -639,9 +642,21 @@ namespace LADSArtworkMode
             }
         }
 
+        public void registerMSI(MultiScaleImage m, Timeline t)
+        {
+            if (!msiToTLDict.ContainsKey(m))
+                msiToTLDict.Add(m, t);
+        }
+
+        public void registerDockableItem(DockableItem d, Timeline t)
+        {
+            if (!itemToTLDict.ContainsKey(d))
+                itemToTLDict.Add(d, t);
+        }
 
         public void TourAuthoringDoneButton_Click(object sender, RoutedEventArgs e)
         {
+            e.Handled = true;
             if (tourAuthoringOn)
             {
                 // remove associated media used in tour (in retrospect, perhaps a separate "MSITourScatterView" layer should have been created
@@ -752,9 +767,9 @@ namespace LADSArtworkMode
         {
             if (undoStack.Count != 0)
             {
-                tourBiDictionary = undoStack.Pop();
-                refreshAuthoringUI(true);
                 redoStack.Push(copyTourDict(tourBiDictionary));
+                tourBiDictionary = undoStack.Pop();
+                tourAuthoringUI.refreshUI();
             }
 
         }
@@ -762,9 +777,9 @@ namespace LADSArtworkMode
         {
             if (redoStack.Count != 0)
             {
-                tourBiDictionary = redoStack.Pop();
-                refreshAuthoringUI(true);
                 undoStack.Push(copyTourDict(tourBiDictionary));
+                tourBiDictionary = redoStack.Pop();
+                tourAuthoringUI.refreshUI();
             }
         }
 
@@ -2481,6 +2496,8 @@ namespace LADSArtworkMode
 
         public void refreshAuthoringUI(bool completeReload)
         {
+            msiToTLDict.Clear();
+            itemToTLDict.Clear();
             tourAuthoringUI.timelineCount = tourBiDictionary.firstKeys.Count; //clear the old yellow moveable thing
 
             Point center = tourAuthoringUI.leftRightSVI.ActualCenter;
@@ -2506,14 +2523,13 @@ namespace LADSArtworkMode
                 BiDictionary<double, TourEvent> tourTL_dict = tourBiDictionary[tourTL][0];
 
                 TourAuthoringUI.timelineInfo timelineInfo = tourAuthoringUI.addTimeline(tourTL, tourTL_dict, ((TourTL)tourTL).displayName, i * tourAuthoringUI.timelineHeight);
-
-                foreach (double beginTime in tourTL_dict.firstKeys) // MediaTimeline will ignore this
+                foreach (double beginTime in tourTL_dict.firstKeys) 
                 {
                     TourEvent tourEvent = tourTL_dict[beginTime][0];
                     tourAuthoringUI.addTourEvent(timelineInfo, tourEvent, timelineInfo.lengthSV, beginTime, tourEvent.duration);
                 }
 
-                if (((TourTL)tourTL).type == TourTLType.audio) // for MediaTimeline
+                if (((TourTL)tourTL).type == TourTLType.audio)
                 {
                     tourAuthoringUI.addTourEvent(timelineInfo, null, timelineInfo.lengthSV, 0, tourTL.Duration.TimeSpan.TotalSeconds); // will this work?
                 }
