@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:m="clr-namespace:SurfaceApplication3"
-        Title="mapWindow" Height="660" Width="874">
+        Title="Set Geographical Locations" Height="660" Width="874">
     <Grid  Width="854" Height="640">
         <m:map x:Name="mapControl" Width="854" Height="640" VerticalAlignment="Top"/>
     </Grid>
