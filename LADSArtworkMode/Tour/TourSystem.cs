@@ -961,7 +961,7 @@ namespace LADSArtworkMode
                 }
             }
             tourAuthoringUI.refreshUI();
-            this.StopAndReloadTourAuthoringUIFromDict(scrubtime- 0.01);
+            this.StopAndReloadTourAuthoringUIFromDict(scrubtime);
         }
 
 
