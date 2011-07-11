@@ -328,14 +328,15 @@ namespace LADSArtworkMode
             {
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Videos\\" + m_hotspotData.Description;
                 LADSVideoBubble newVideo = new LADSVideoBubble(audioUri,372,268);
-               // newVideo.setPreferredSize(372, 268);
+                newVideo.setPreferredSize(372, 268);
                 VideoPanel.Children.Add(newVideo);
                 Canvas.SetLeft(newVideo, 5);
                 Canvas.SetTop(newVideo, 5);
                 VideoPanel.Visibility = Visibility.Visible;
                 video = newVideo;
                 hasVideo = true;
-                
+
+
             }
             Name.Content = m_hotspotData.Name;
             Double[] size = this.findImageSize();
