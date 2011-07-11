@@ -1637,6 +1637,7 @@ namespace LADSArtworkMode
 
         public void newMediaTimeLine(String filePath, String fileName)
         {
+            tourSystem.undoableActionPerformed();
             tourSystem.AddNewMetaDataTimeline(filePath, fileName);
         }
 

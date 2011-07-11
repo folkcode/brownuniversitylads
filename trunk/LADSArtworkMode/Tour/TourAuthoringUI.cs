@@ -31,6 +31,8 @@ namespace LADSArtworkMode
 
         public Canvas canvasWrapper; // layer #1 - parent canvas
 
+        List<ScatterViewItem> currentTouched = new List<ScatterViewItem>();
+
         double w; // width of parent canvas (in this case, canvasWrapper)
         double timelineAreaHeight; // height of all timelines added together (regardless of the need to scroll down)
         double textWidth = 0; // first column of the timeline area that contains the names of the timeline items
@@ -637,6 +639,7 @@ namespace LADSArtworkMode
         public SurfaceButton saveButton = new SurfaceButton();
         public SurfaceButton deleteButton = new SurfaceButton();
         public SurfaceButton undoButton = new SurfaceButton();
+        public SurfaceButton redoButton = new SurfaceButton();
         public SurfaceButton removeComponentButton = new SurfaceButton();
         public SurfaceButton removeEventButton = new SurfaceButton();
         public SurfaceButton eraseButton = new SurfaceButton();
@@ -649,23 +652,37 @@ namespace LADSArtworkMode
 
         public void removeAuthTools()
         {
-            (successfulSaveLabel.Parent as Panel).Children.Remove(successfulSaveLabel);
-            (newMediaButton.Parent as Panel).Children.Remove(newMediaButton);
-            (newAudioButton.Parent as Panel).Children.Remove(newAudioButton);
-            (newDrawingButton.Parent as Panel).Children.Remove(newDrawingButton);
-            (newHighlightButton.Parent as Panel).Children.Remove(newHighlightButton);
-            (doneButton.Parent as Panel).Children.Remove(doneButton);
-            (saveButton.Parent as Panel).Children.Remove(saveButton);
-            (deleteButton.Parent as Panel).Children.Remove(deleteButton);
-            (undoButton.Parent as Panel).Children.Remove(undoButton);
-            (removeComponentButton.Parent as Panel).Children.Remove(removeComponentButton);
-            (removeEventButton.Parent as Panel).Children.Remove(removeEventButton);
-            (eraseButton.Parent as Panel).Children.Remove(eraseButton);
-            (opacityLabel.Parent as Panel).Children.Remove(opacityLabel);
-            (opacitySlider.Parent as Panel).Children.Remove(opacitySlider);
-            (timelineSlider.Parent as Panel).Children.Remove(timelineSlider);
-            (timeLineLabel.Parent as Panel).Children.Remove(timeLineLabel);
-            (renameTimelineButton.Parent as Panel).Children.Remove(renameTimelineButton);
+            try
+            {
+                (successfulSaveLabel.Parent as Panel).Children.Remove(successfulSaveLabel);
+                (newMediaButton.Parent as Panel).Children.Remove(newMediaButton);
+                (newAudioButton.Parent as Panel).Children.Remove(newAudioButton);
+                (newDrawingButton.Parent as Panel).Children.Remove(newDrawingButton);
+                (newHighlightButton.Parent as Panel).Children.Remove(newHighlightButton);
+                //(doneButton.Parent as Panel).Children.Remove(doneButton);
+                doneButton.PreviewMouseUp -= tourSystem.TourAuthoringDoneButton_Click;
+                doneButton.Visibility = Visibility.Collapsed;
+                //(saveButton.Parent as Panel).Children.Remove(saveButton);
+                saveButton.Visibility = Visibility.Collapsed;
+                saveButton.PreviewMouseUp -= artModeWin.TourAuthoringSaveButton_Click;
+                //(deleteButton.Parent as Panel).Children.Remove(deleteButton);
+                deleteButton.Visibility = Visibility.Collapsed;
+                deleteButton.PreviewMouseUp -= tourSystem.TourAuthoringDeleteButton_Click;
+                (undoButton.Parent as Panel).Children.Remove(undoButton);
+                (redoButton.Parent as Panel).Children.Remove(redoButton);
+                (removeComponentButton.Parent as Panel).Children.Remove(removeComponentButton);
+                (removeEventButton.Parent as Panel).Children.Remove(removeEventButton);
+                (eraseButton.Parent as Panel).Children.Remove(eraseButton);
+                (opacityLabel.Parent as Panel).Children.Remove(opacityLabel);
+                (opacitySlider.Parent as Panel).Children.Remove(opacitySlider);
+                (timelineSlider.Parent as Panel).Children.Remove(timelineSlider);
+                (timeLineLabel.Parent as Panel).Children.Remove(timeLineLabel);
+                (renameTimelineButton.Parent as Panel).Children.Remove(renameTimelineButton);
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         public void initAuthTools()
@@ -686,10 +703,13 @@ namespace LADSArtworkMode
             newAudioButton = new SurfaceButton();
             newDrawingButton = new SurfaceButton();
             newHighlightButton = new SurfaceButton();
-            doneButton = new SurfaceButton();
-            saveButton = new SurfaceButton();
+            //doneButton = new SurfaceButton();
+            doneButton = artModeWin.tourAuthoringDoneButton;
+            saveButton = artModeWin.tourAuthoringSaveButton;
             undoButton = new SurfaceButton();
-            deleteButton = new SurfaceButton();
+            redoButton = new SurfaceButton();
+            //deleteButton = new SurfaceButton();
+            deleteButton = artModeWin.tourAuthoringDeleteButton;
             removeComponentButton = new SurfaceButton();
             removeEventButton = new SurfaceButton();
             eraseButton = new SurfaceButton();
@@ -715,6 +735,7 @@ namespace LADSArtworkMode
             newHighlightButton.Content = "Highlight";
             doneButton.Content = "Done";
             undoButton.Content = "Undo";
+            redoButton.Content = "Redo";
             saveButton.Content = "Save";
             deleteButton.Content = "Delete";
             removeComponentButton.Content = "Remove Component";
@@ -724,34 +745,41 @@ namespace LADSArtworkMode
             timeLineLabel.Content = "Scrub through tour";
             renameTimelineButton.Content = "Rename Component";
 
+            doneButton.Visibility = Visibility.Visible;
+            saveButton.Visibility = Visibility.Visible;
+            deleteButton.Visibility = Visibility.Visible;
+            artModeWin.Main.Children.Add(successfulSaveLabel);
+            //Canvas.SetZIndex(doneButton, 100);
+            //Canvas.SetZIndex(saveButton, 100);
+            //Canvas.SetZIndex(deleteButton, 100);
+            //Canvas.SetZIndex(successfulSaveLabel, 100);
+
             artModeWin.AuthTools.Children.Add(addNewLabel);
             artModeWin.AuthTools.Children.Add(newMediaButton);
             artModeWin.AuthTools.Children.Add(newAudioButton);
             artModeWin.AuthTools.Children.Add(newDrawingButton);
             artModeWin.AuthTools.Children.Add(newHighlightButton);
-            artModeWin.AuthTools.Children.Add(doneButton);
-            artModeWin.AuthTools.Children.Add(saveButton);
             artModeWin.AuthTools.Children.Add(removeComponentButton);
             artModeWin.AuthTools.Children.Add(removeEventButton);
             artModeWin.AuthTools.Children.Add(undoButton);
+            artModeWin.AuthTools.Children.Add(redoButton);
             artModeWin.AuthTools.Children.Add(editLabel);
             artModeWin.AuthTools.Children.Add(eraseButton);
-            artModeWin.AuthTools.Children.Add(deleteButton);
             artModeWin.AuthTools.Children.Add(opacityLabel);
             artModeWin.AuthTools.Children.Add(opacitySlider);
             artModeWin.AuthTools.Children.Add(renameTimelineButton);
-
             artModeWin.AuthTools.Children.Add(timelineSlider);
             artModeWin.AuthTools.Children.Add(timeLineLabel);
 
-            artModeWin.AuthTools.Children.Add(successfulSaveLabel);
+            
 
 
-            Canvas.SetTop(saveButton, toolBoxHeight * boxPartition);
-            Canvas.SetTop(successfulSaveLabel, toolBoxHeight * boxPartition * 1.9);
-            Canvas.SetTop(doneButton, toolBoxHeight * boxPartition);
-            Canvas.SetTop(deleteButton, toolBoxHeight * boxPartition);
+            Canvas.SetTop(saveButton, 0);
+            Canvas.SetTop(successfulSaveLabel, saveButton.Height+10);
+            Canvas.SetTop(doneButton, 0);
+            Canvas.SetTop(deleteButton, 0);
             Canvas.SetTop(undoButton, toolBoxHeight * boxPartition);
+            Canvas.SetTop(redoButton, toolBoxHeight * boxPartition);
             Canvas.SetTop(addNewLabel, 2.3 * toolBoxHeight * boxPartition);
             Canvas.SetTop(newMediaButton, 3.0 * toolBoxHeight * boxPartition);
             Canvas.SetTop(newAudioButton, 4.0 * toolBoxHeight * boxPartition);
@@ -767,17 +795,18 @@ namespace LADSArtworkMode
             Canvas.SetTop(timeLineLabel, 14.9 * toolBoxHeight * boxPartition);
             Canvas.SetTop(timelineSlider, 15.5 * toolBoxHeight * boxPartition);
 
-            Canvas.SetLeft(successfulSaveLabel, 45);
+            Canvas.SetRight(successfulSaveLabel, 45);
+            Canvas.SetRight(doneButton, 20);
+            Canvas.SetRight(saveButton, 85);
+            Canvas.SetRight(deleteButton, 145);
             Canvas.SetLeft(newMediaButton, 20);
             Canvas.SetLeft(newAudioButton, 20);
             Canvas.SetLeft(newDrawingButton, 20);
             Canvas.SetLeft(newHighlightButton, 20);
             Canvas.SetLeft(removeComponentButton, 20);
             Canvas.SetLeft(removeEventButton, 20);
-            Canvas.SetLeft(saveButton, 85);
-            Canvas.SetLeft(deleteButton, 145);
-            Canvas.SetLeft(undoButton, 230);
-            Canvas.SetLeft(doneButton, 20);
+            Canvas.SetLeft(undoButton, 20);
+            Canvas.SetLeft(redoButton, 85);
             Canvas.SetLeft(opacityLabel, 20);
             Canvas.SetLeft(opacitySlider, 20);
             Canvas.SetLeft(eraseButton, 20);
@@ -834,27 +863,21 @@ namespace LADSArtworkMode
             //eraseButton.MinHeight = buttonHeight;
             //renameTimelineButton.MinHeight = buttonHeight;
 
-
-
-            doneButton.Background = Brushes.Green;
-            saveButton.Background = Brushes.Blue;
-            deleteButton.Background = Brushes.Red;
-            undoButton.Background = Brushes.Cyan;
-
-            saveButton.Click += new RoutedEventHandler(artModeWin.TourAuthoringSaveButton_Click);
-            doneButton.Click += new RoutedEventHandler(tourSystem.TourAuthoringDoneButton_Click);
-            deleteButton.Click += new RoutedEventHandler(tourSystem.TourAuthoringDeleteButton_Click);
-            undoButton.Click += new RoutedEventHandler(undoButton_Click);
-            removeEventButton.PreviewTouchUp += removeHighlightedAnimation;
+            saveButton.PreviewMouseUp += artModeWin.TourAuthoringSaveButton_Click;
+            doneButton.PreviewMouseUp += tourSystem.TourAuthoringDoneButton_Click;
+            deleteButton.PreviewMouseUp += tourSystem.TourAuthoringDeleteButton_Click;
+            undoButton.PreviewMouseUp += undoButton_Click;
+            redoButton.PreviewMouseUp += redoButton_Click;
+            //removeEventButton.PreviewTouchUp += removeHighlightedAnimation;
             removeEventButton.PreviewMouseUp += removeHighlightedAnimation;
-            removeComponentButton.PreviewTouchUp += removeHighlightedTimeline;
+            //removeComponentButton.PreviewTouchUp += removeHighlightedTimeline;
             removeComponentButton.PreviewMouseUp += removeHighlightedTimeline;
-            newMediaButton.Click += new RoutedEventHandler(addMetadata_Clicked);
-            newAudioButton.Click += new RoutedEventHandler(tourSystem.grabSound);
-            newDrawingButton.Click += new RoutedEventHandler(tourSystem.drawPaths_Click);
-            newHighlightButton.Click += new RoutedEventHandler(tourSystem.drawHighlight_Click);
-            eraseButton.Click += new RoutedEventHandler(erase_Click);
-            renameTimelineButton.Click += renameTimelineButton_Click;
+            newMediaButton.PreviewMouseUp += addMetadata_Clicked;
+            newAudioButton.PreviewMouseUp += tourSystem.grabSound;
+            newDrawingButton.PreviewMouseUp += tourSystem.drawPaths_Click;
+            newHighlightButton.PreviewMouseUp += tourSystem.drawHighlight_Click;
+            eraseButton.PreviewMouseUp += erase_Click;
+            renameTimelineButton.PreviewMouseUp += renameTimelineButton_Click;
 
             ////////////////////////////
             artModeWin.applyRenameTimelineButton.Click += applyRenameTimelineButton_Click;
@@ -890,6 +913,7 @@ namespace LADSArtworkMode
         {
             if (highlightActive)
             {
+                tourSystem.undoableActionPerformed();
                 (highlightData.timeline as TourTL).displayName = artModeWin.renameTimelineTextBox.Text;
                 //highlightData.title = artModeWin.renameTimelineTextBox.Text;
                 //highlightData.titlebox.Text = artModeWin.renameTimelineTextBox.Text;
@@ -924,6 +948,11 @@ namespace LADSArtworkMode
         public void sliderOpacity_ValueChanged(object sender, RoutedEventArgs e)
         {
             tourSystem.ChangeOpacity(((SurfaceSlider)sender).Value);
+        }
+
+        public void sliderOpacity_Completed(object sender, RoutedEventArgs e)
+        {
+            tourSystem.undoableActionPerformed();
         }
 
         public void timeLineSlider_Completed(object sender, RoutedEventArgs e)
@@ -1649,6 +1678,7 @@ namespace LADSArtworkMode
         {
             if (((TourTL)highlightData.timeline) != null)
             {
+                tourSystem.undoableActionPerformed();
                 if (((TourTL)highlightData.timeline).type == TourTLType.artwork)
                     return;
                 //tourSystem.tourDict.Remove(highlightData.timeline);
@@ -1709,7 +1739,7 @@ namespace LADSArtworkMode
         {
             if (highlightedTourEvent != null)
             {
-
+                tourSystem.undoableActionPerformed();
                 tourEventInfo eventInfo = (tourEventInfo)highlightedTourEvent.Tag;
                 if (isFadeType(eventInfo.tourEvent.type))
                     return;
@@ -1800,6 +1830,7 @@ namespace LADSArtworkMode
 
         public void addTourEvent(timelineInfo timelineInfoStruct, TourEvent tourEvent, ScatterView timelineSV, double beginTime, double duration)
         {
+            
             //if (beginTime < 0) beginTime = 0;
             ScatterViewItem currentSVI = new ScatterViewItem();
             currentSVI.MinWidth = 10; // don't want it to disappear, but still need it to be touchable (even if resolution is as low as 1024 x 768)
@@ -1813,11 +1844,12 @@ namespace LADSArtworkMode
             currentSVI.Center = new Point((beginTime * (timelineWidth / timelineLength)) + (currentSVI.Width / 2), (timelineHeight / 2) - 2);
             currentSVI.Opacity = .7;
             currentSVI.ContainerManipulationCompleted += new ContainerManipulationCompletedEventHandler(tourEventSVI_ContainerManipulationCompleted);
-            currentSVI.PreviewTouchUp += new EventHandler<TouchEventArgs>(tourEventSVI_PreviewTouchUp);
+            //currentSVI.PreviewTouchUp += new EventHandler<TouchEventArgs>(tourEventSVI_PreviewTouchUp);
             currentSVI.PreviewMouseUp += new MouseButtonEventHandler(tourEventSVI_PreviewTouchUp);
+            currentSVI.PreviewMouseDown += tourEventSVI_PreviewMouseDown;
 
             DependencyPropertyDescriptor dpd1 = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd1.AddValueChanged(currentSVI, tourEventCenterChanged);
+            dpd1.AddValueChanged(currentSVI, currentSVI_CenterChanged);
 
             tourEventInfo currentAnimInfo = new tourEventInfo();
             currentAnimInfo.timelineInfoStruct = timelineInfoStruct;
@@ -1830,6 +1862,7 @@ namespace LADSArtworkMode
             Rectangle r = new Rectangle();
             r.Width = currentSVI.Width;
             r.Height = currentSVI.Height;
+            Timeline timeline = timelineInfoStruct.timeline;
             if (tourEvent != null)
             {
                 LinearGradientBrush fadeInBrush = new LinearGradientBrush();
@@ -1848,10 +1881,16 @@ namespace LADSArtworkMode
                 {
 
                     case TourEvent.Type.fadeInMedia:
+                        tourSystem.registerDockableItem((tourEvent as FadeInMediaEvent).media, timeline);
                         r.Fill = fadeInBrush;
                         break;
                     case TourEvent.Type.fadeOutMedia:
+                        tourSystem.registerDockableItem((tourEvent as FadeOutMediaEvent).media, timeline);
                         r.Fill = fadeOutBrush;
+                        break;
+                    case TourEvent.Type.zoomMedia:
+                        tourSystem.registerDockableItem((tourEvent as ZoomMediaEvent).media, timeline);
+                        r.Fill = (Brush)(new BrushConverter().ConvertFrom("#245c4f"));
                         break;
                     case TourEvent.Type.fadeInPath:
                         r.Fill = fadeInBrush;
@@ -1860,12 +1899,14 @@ namespace LADSArtworkMode
                         r.Fill = fadeOutBrush;
                         break;
                     case TourEvent.Type.fadeInHighlight:
-                        Console.WriteLine("FadeIN!");
                         r.Fill = fadeInBrush;
                         break;
                     case TourEvent.Type.fadeOutHighlight:
-                        Console.WriteLine("FadeOUT!");
                         r.Fill = fadeOutBrush;
+                        break;
+                    case TourEvent.Type.zoomMSI:
+                        tourSystem.registerMSI((tourEvent as ZoomMSIEvent).msi, timeline);
+                        r.Fill = (Brush)(new BrushConverter().ConvertFrom("#245c4f"));
                         break;
                     default:
                         r.Fill = (Brush)(new BrushConverter().ConvertFrom("#245c4f"));
@@ -1914,6 +1955,15 @@ namespace LADSArtworkMode
         #endregion
 
         #region tourEventSVI event handlers for highlighting, modifying TourEvent beginTime/duration, panning TourEvent bar left and right, and changing width of TourEvent bar
+
+        private void tourEventSVI_PreviewMouseDown(Object sender, EventArgs e)
+        {
+            if (!currentTouched.Contains(sender as ScatterViewItem))
+            {
+                currentTouched.Add(sender as ScatterViewItem);
+                Console.WriteLine("Added a thing!");
+            }
+        }
 
         private void tourEventSVI_PreviewTouchUp(Object sender, EventArgs e)
         {
@@ -2061,10 +2111,17 @@ namespace LADSArtworkMode
             
         }
 
-        private void tourEventCenterChanged(Object sender, EventArgs e)
+        private void currentSVI_CenterChanged(Object sender, EventArgs e)
         {
             //Console.WriteLine("3: tourEventCenterChanged");
             ScatterViewItem currentScatter = sender as ScatterViewItem;
+
+            if (currentTouched.Contains(sender as ScatterViewItem))
+            {
+                currentTouched.Remove(sender as ScatterViewItem);
+                tourSystem.undoableActionPerformed();
+            }
+
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
 
 
@@ -2108,6 +2165,7 @@ namespace LADSArtworkMode
                     highlightedTourEvent.Width = highlightedTourEvent.Width * delta;
                 }
             }
+
         }
 
         private void tourEventSVI_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -2117,7 +2175,11 @@ namespace LADSArtworkMode
 
             ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
-
+            if (currentTouched.Contains(sender as ScatterViewItem))
+            {
+                currentTouched.Remove(sender as ScatterViewItem);
+                tourSystem.undoableActionPerformed();
+            }
             currentScatter.Height = timelineHeight; // locks height
 
             double oldBegin = current.centerX - current.r.Width / 2.0;
