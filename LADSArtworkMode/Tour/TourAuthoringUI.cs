@@ -540,7 +540,7 @@ namespace LADSArtworkMode
             canvasWrapper.Children.Add(tourControlButton);
             Canvas.SetLeft(tourControlButton, textWidth - movableScrubHandle.Width / 2 - 5 - tourControlButton.Width + 20);
             Canvas.SetTop(tourControlButton, (movableScrubHandleBackground.Height - tourControlButton.Height) / 2);
-            Canvas.SetZIndex(tourControlButton, 15);
+            Canvas.SetZIndex(tourControlButton, 30);
 
             SurfaceButton tourLengthButton = new SurfaceButton();
             tourLengthButton.Content = "Time";
@@ -553,7 +553,7 @@ namespace LADSArtworkMode
             canvasWrapper.Children.Add(tourLengthButton);
             Canvas.SetLeft(tourLengthButton, 5);
             Canvas.SetTop(tourLengthButton, (movableScrubHandleBackground.Height - tourLengthButton.Height) / 2);
-            Canvas.SetZIndex(tourLengthButton, 15);
+            Canvas.SetZIndex(tourLengthButton, 30);
 
             // timelineRulerSV, timelineRulerSVI, timelineRulerCanvas
             timelineAreaTopLeft = new Rectangle();
@@ -1130,7 +1130,7 @@ namespace LADSArtworkMode
 
         public void TourStoryboardAuthoring_Completed(object sender, EventArgs e)
         {
-
+            Console.WriteLine("Done tour");
             tourSystem.tourStoryboard.Pause(artModeWin);
 
         }

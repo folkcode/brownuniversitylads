@@ -1567,10 +1567,20 @@ namespace LADSArtworkMode
 
             if (!System.IO.File.Exists(filePath))
             {
-                tourSystem.CreateNewBlankTour(filePath, currentArtworkFileName, currentArtworkTitle, "blah");
-            }
+                //tourSystem.CreateNewBlankTour(filePath, currentArtworkFileName, currentArtworkTitle, "No title");
+                String fileContentString =
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n" +
 
-            tourSystem.LoadDictFromXML(filePath);
+                "<TourStoryboard duration=\"40\" displayName=\"" + currentArtworkTitle + "\" description=\"" + "No Title" + "\">\r\n" +
+                "<TourParallelTL type=\"artwork\" displayName=\"Main Artwork\" file=\"" + currentArtworkFileName + "\">\r\n" +
+                "<TourEvent beginTime=\"-1\" type=\"ZoomMSIEvent\" scale=\"0.2\" toMSIPointX=\"0\" toMSIPointY=\"0\" duration=\"1\"></TourEvent>\r\n" +
+                "</TourParallelTL>\r\n" +
+                "</TourStoryboard>";
+                tourSystem.LoadDictFromString(fileContentString);
+            }
+            else
+                tourSystem.LoadDictFromXML(filePath);
+
             tourSystem.LoadTourPlaybackFromDict();
             tourSystem.LoadTourAuthoringUIFromDict();
             tourSystem.loadAuthoringGUI();
@@ -1670,7 +1680,8 @@ namespace LADSArtworkMode
             try
             {
                 double newDuration = double.Parse(TourLengthTextBox.Text);
-                tourSystem.resetTourLength(newDuration);
+                if (!tourSystem.resetTourLength(newDuration))
+                    MessageBox.Show("A tour cannot be shorter than the end of it's last event");
             }
             catch (Exception exc)
             {

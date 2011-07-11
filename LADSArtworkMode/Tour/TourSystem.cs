@@ -576,7 +576,7 @@ namespace LADSArtworkMode
 
         public void TourControlButton_Click(object sender, RoutedEventArgs e)
         {
-            if (paused == false)
+            if (!tourStoryboard.GetIsPaused(artModeWin))
             {
                 tourStoryboard.Pause(artModeWin);
                 paused = true;
@@ -1896,6 +1896,322 @@ namespace LADSArtworkMode
         #endregion
 
         #region XML <--> tourDict
+
+        public void LoadDictFromString(String xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            if (doc.HasChildNodes)
+            {
+                foreach (XmlNode tourNode in doc.ChildNodes)
+                {
+                    if (tourNode.Name == "TourStoryboard")
+                    {
+                        tourStoryboard = new TourStoryboard();
+                        tourStoryboard.displayName = tourNode.Attributes.GetNamedItem("displayName").InnerText;
+                        tourStoryboard.description = tourNode.Attributes.GetNamedItem("description").InnerText;
+                        //// Time experiment
+                        tourStoryboard.totalDuration = double.Parse(tourNode.Attributes.GetNamedItem("duration").InnerText);
+                        //////
+
+                        dockableItemsLoaded = new List<DockableItem>();
+                        msiItemsLoaded = new List<MultiScaleImage>();
+                        tourBiDictionary = new BiDictionary<Timeline, BiDictionary<double, TourEvent>>();
+                        undoStack = new Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>>();
+                        redoStack = new Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>>();
+                        //tourDictRev = new Dictionary<Timeline, Dictionary<TourEvent, double>>();
+                        itemToTLDict = new Dictionary<DockableItem, Timeline>();
+                        msiToTLDict = new Dictionary<MultiScaleImage, Timeline>();
+
+                        foreach (XmlNode TLNode in tourNode.ChildNodes)
+                        {
+                            if (TLNode.Name == "TourParallelTL")
+                            {
+                                if (TLNode.Attributes.GetNamedItem("type").InnerText == "artwork")
+                                {
+                                    String msi_file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                    String msi_tour_path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\DeepZoom\\" + msi_file + "\\dz.xml";
+                                    artModeWin.msi_tour.SetImageSource(msi_tour_path);
+                                    artModeWin.msi_tour_thumb.SetImageSource(msi_tour_path);
+
+                                    msiItemsLoaded.Add(artModeWin.msi_tour);
+                                    artModeWin.msi_tour.PreviewTouchDown += new EventHandler<TouchEventArgs>(msiTouchDown);
+                                    artModeWin.msi_tour.PreviewMouseDown += new MouseButtonEventHandler(msiTouchDown);
+                                    artModeWin.msi_tour.PreviewTouchMove += new EventHandler<TouchEventArgs>(msiTouchMoved);
+                                    artModeWin.msi_tour.PreviewMouseMove += new MouseEventHandler(msiTouchMoved);
+                                    artModeWin.msi_tour.PreviewTouchUp += new EventHandler<TouchEventArgs>(msiTouchUp);
+                                    artModeWin.msi_tour.PreviewMouseUp += new MouseButtonEventHandler(msiTouchUp);
+                                    artModeWin.msi_tour.PreviewMouseWheel += new MouseWheelEventHandler(msiTouchUp);
+                                    artModeWin.msi_tour.disableInertia();
+                                    TourParallelTL msi_tour_TL = new TourParallelTL();
+
+                                    msiToTLDict.Add(artModeWin.msi_tour, msi_tour_TL);
+
+
+                                    msi_tour_TL.type = TourTLType.artwork;
+                                    msi_tour_TL.displayName = TLNode.Attributes.GetNamedItem("displayName").InnerText;
+                                    msi_tour_TL.file = TLNode.Attributes.GetNamedItem("file").InnerText;
+
+                                    BiDictionary<double, TourEvent> msi_tour_TL_dict = new BiDictionary<double, TourEvent>();
+                                    tourBiDictionary.Add(msi_tour_TL, msi_tour_TL_dict);
+                                    //Dictionary<TourEvent, double> msi_tour_TL_dict_rev = new Dictionary<TourEvent, double>();
+                                    //tourDictRev.Add(msi_tour_TL, msi_tour_TL_dict_rev);
+
+                                    foreach (XmlNode TourEventNode in TLNode.ChildNodes)
+                                    {
+                                        if (TourEventNode.Name == "TourEvent")
+                                        {
+                                            if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "ZoomMSIEvent")
+                                            {
+                                                double scale = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("scale").InnerText);
+                                                double toMSIPointX = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("toMSIPointX").InnerText);
+                                                double toMSIPointY = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("toMSIPointY").InnerText);
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+                                                TourEvent zoomMSIEvent = new ZoomMSIEvent(artModeWin.msi_tour, scale, toMSIPointX, toMSIPointY, duration);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                msi_tour_TL_dict.Add(beginTime, zoomMSIEvent);
+                                                //msi_tour_TL_dict_rev.Add(zoomMSIEvent, beginTime);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                else if (TLNode.Attributes.GetNamedItem("type").InnerText == "media")
+                                {
+                                    String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                    DockableItem dockItem = new DockableItem(artModeWin.MSIScatterView, artModeWin, artModeWin.Bar, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\Metadata\\" + media_file);
+
+                                    //dockItem.PreviewMouseWheel += new MouseWheelEventHandler(mediaMouseWheel);
+                                    dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchDown);
+                                    dockItem.PreviewTouchDown += new EventHandler<TouchEventArgs>(mediaTouchDown);
+                                    dockItem.PreviewMouseDown += new MouseButtonEventHandler(mediaTouchDown);
+                                    dockItem.PreviewTouchMove += new EventHandler<TouchEventArgs>(mediaTouchMoved);
+                                    dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchMoved);
+                                    dockItem.PreviewTouchUp += new EventHandler<TouchEventArgs>(mediaTouchUp);
+                                    dockItem.PreviewMouseUp += new MouseButtonEventHandler(mediaTouchUp);
+
+                                    dockableItemsLoaded.Add(dockItem);
+                                    dockItem.Visibility = Visibility.Hidden;
+
+                                    TourParallelTL dockItem_TL = new TourParallelTL();
+                                    dockItem_TL.type = TourTLType.media;
+
+                                    dockItem_TL.displayName = TLNode.Attributes.GetNamedItem("displayName").InnerText;
+                                    dockItem_TL.file = TLNode.Attributes.GetNamedItem("file").InnerText;
+
+                                    itemToTLDict.Add(dockItem, dockItem_TL);
+
+                                    BiDictionary<double, TourEvent> dockItem_TL_dict = new BiDictionary<double, TourEvent>();
+                                    //Dictionary<TourEvent, double> dockItem_TL_dict_rev = new Dictionary<TourEvent, double>();
+                                    tourBiDictionary.Add(dockItem_TL, dockItem_TL_dict);
+                                    //tourDictRev.Add(dockItem_TL, dockItem_TL_dict_rev);
+
+                                    foreach (XmlNode TourEventNode in TLNode.ChildNodes)
+                                    {
+                                        if (TourEventNode.Name == "TourEvent")
+                                        {
+                                            if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeInMediaEvent")
+                                            {
+                                                double toScreenPointX = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("toScreenPointX").InnerText);
+                                                double toScreenPointY = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("toScreenPointY").InnerText);
+                                                double scale = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("scale").InnerText);
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+
+                                                TourEvent fadeInMediaEvent = new FadeInMediaEvent(dockItem, toScreenPointX, toScreenPointY, scale, duration);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                dockItem_TL_dict.Add(beginTime, fadeInMediaEvent);
+                                                //dockItem_TL_dict_rev.Add(fadeInMediaEvent, beginTime);
+                                            }
+
+                                            else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "ZoomMediaEvent")
+                                            {
+                                                double scale = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("scale").InnerText);
+                                                double toScreenPointX = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("toScreenPointX").InnerText);
+                                                double toScreenPointY = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("toScreenPointY").InnerText);
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+
+                                                TourEvent zoomMediaEvent = new ZoomMediaEvent(dockItem, scale, toScreenPointX, toScreenPointY, duration);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                dockItem_TL_dict.Add(beginTime, zoomMediaEvent);
+                                                //dockItem_TL_dict_rev.Add(zoomMediaEvent, beginTime);
+                                            }
+
+                                            else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutMediaEvent")
+                                            {
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+
+                                                TourEvent fadeOutMediaEvent = new FadeOutMediaEvent(dockItem, duration);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                dockItem_TL_dict.Add(beginTime, fadeOutMediaEvent);
+                                                //dockItem_TL_dict_rev.Add(fadeOutMediaEvent, beginTime);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                else if (TLNode.Attributes.GetNamedItem("type").InnerText == "highlight")
+                                {
+                                    String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                    SurfaceInkCanvas sic = new SurfaceInkCanvas();
+                                    //sic.IsVisibleChanged+= new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
+
+                                    //currentHighlightCanvas = new SurfaceInkCanvas();
+                                    inkCanvases.Add(sic);
+                                    sic.Width = 1920;
+                                    sic.Height = 1080;
+                                    sic.DefaultDrawingAttributes.Width = 50;
+                                    sic.DefaultDrawingAttributes.Height = 50;
+                                    sic.UsesTouchShape = false;
+                                    sic.Background = Brushes.Transparent;
+                                    sic.Opacity = 0.7;
+                                    sic.Visibility = Visibility.Collapsed;
+                                    Canvas.SetZIndex(sic, 50);
+                                    loadInkCanvas(sic, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + media_file);
+                                    artModeWin.ImageArea.Children.Add(sic);
+
+                                    TourParallelTL tourtl = new TourParallelTL();
+                                    tourtl.type = TourTLType.highlight;
+                                    tourtl.inkCanvas = sic;
+                                    tourtl.displayName = TLNode.Attributes.GetNamedItem("displayName").InnerText;
+                                    tourtl.file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                    BiDictionary<double, TourEvent> tldict = new BiDictionary<double, TourEvent>();
+                                    tourBiDictionary.Add(tourtl, tldict);
+                                    //Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
+                                    //tourDictRev.Add(tourtl, tldictrev);
+
+                                    foreach (XmlNode TourEventNode in TLNode.ChildNodes)
+                                    {
+                                        if (TourEventNode.Name == "TourEvent")
+                                        {
+                                            if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeInHighlightEvent")
+                                            {
+                                                double opacity = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("opacity").InnerText);
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+
+                                                TourEvent fadeInHighlightEvent = new FadeInHighlightEvent(sic, duration, opacity);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                tldict.Add(beginTime, fadeInHighlightEvent);
+                                                //tldictrev.Add(fadeInHighlightEvent, beginTime);
+                                            }
+
+                                            else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutHighlightEvent")
+                                            {
+                                                double opacity = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("opacity").InnerText);
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+
+                                                TourEvent fadeOutHighlightEvent = new FadeOutHighlightEvent(sic, duration, opacity);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                tldict.Add(beginTime, fadeOutHighlightEvent);
+                                                //tldictrev.Add(fadeOutHighlightEvent, beginTime);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                else if (TLNode.Attributes.GetNamedItem("type").InnerText == "path")
+                                {
+                                    String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                    SurfaceInkCanvas sic = new SurfaceInkCanvas();
+                                    //sic.IsVisibleChanged += new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
+
+                                    //currentHighlightCanvas = new SurfaceInkCanvas();
+                                    inkCanvases.Add(sic);
+                                    sic.Width = 1920;
+                                    sic.Height = 1080;
+                                    sic.UsesTouchShape = true;
+                                    sic.DefaultDrawingAttributes.FitToCurve = true;
+                                    sic.Background = Brushes.Transparent;
+                                    sic.Opacity = 0;
+                                    sic.Visibility = Visibility.Collapsed;
+                                    Canvas.SetZIndex(sic, 50);
+                                    loadInkCanvas(sic, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + media_file);
+                                    artModeWin.ImageArea.Children.Add(sic);
+
+                                    TourParallelTL tourtl = new TourParallelTL();
+                                    tourtl.type = TourTLType.path;
+                                    tourtl.inkCanvas = sic;
+                                    tourtl.displayName = TLNode.Attributes.GetNamedItem("displayName").InnerText;
+                                    tourtl.file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                    BiDictionary<double, TourEvent> tldict = new BiDictionary<double, TourEvent>();
+                                    tourBiDictionary.Add(tourtl, tldict);
+                                    //Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
+                                    //tourDictRev.Add(tourtl, tldictrev);
+
+                                    foreach (XmlNode TourEventNode in TLNode.ChildNodes)
+                                    {
+                                        if (TourEventNode.Name == "TourEvent")
+                                        {
+                                            if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeInPathEvent")
+                                            {
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+
+                                                TourEvent fadeInPathEvent = new FadeInPathEvent(sic, duration);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                tldict.Add(beginTime, fadeInPathEvent);
+                                                //tldictrev.Add(fadeInPathEvent, beginTime);
+                                            }
+
+                                            else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutPathEvent")
+                                            {
+                                                double duration = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("duration").InnerText);
+
+                                                TourEvent fadeOutPathEvent = new FadeOutPathEvent(sic, duration);
+
+                                                double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
+                                                tldict.Add(beginTime, fadeOutPathEvent);
+                                                //tldictrev.Add(fadeOutPathEvent, beginTime);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (TLNode.Name == "TourMediaTL")
+                            {
+                                String audio_file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                TourMediaTL tourAudio_TL = new TourMediaTL(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\Audio\\" + audio_file, UriKind.Absolute));
+                                tourAudio_TL.type = TourTLType.audio;
+                                tourAudio_TL.displayName = TLNode.Attributes.GetNamedItem("displayName").InnerText;
+                                tourAudio_TL.file = TLNode.Attributes.GetNamedItem("file").InnerText;
+                                if (TLNode.Attributes.GetNamedItem("beginTime") != null)
+                                    tourAudio_TL.BeginTime = TimeSpan.FromSeconds(Convert.ToDouble(TLNode.Attributes.GetNamedItem("beginTime").InnerText));
+
+                                if (TLNode.Attributes.GetNamedItem("duration") != null)
+                                    tourAudio_TL.Duration = TimeSpan.FromSeconds(Convert.ToDouble(TLNode.Attributes.GetNamedItem("duration").InnerText));
+                                else
+                                {
+                                    TagLib.File audio_file_tags = TagLib.File.Create(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\Audio\\" + audio_file);
+                                    tourAudio_TL.Duration = audio_file_tags.Properties.Duration;
+                                }
+
+                                BiDictionary<double, TourEvent> tourAudio_TL_dict = new BiDictionary<double, TourEvent>(); // dummy TL_dict -- tourAudio_timeline obviously doesn't store any TourEvents
+                                tourBiDictionary.Add(tourAudio_TL, tourAudio_TL_dict);
+
+                                tourAudio_element = new MediaElement();
+                                tourAudio_element.Volume = 0.99;
+
+                                tourAudio_element.LoadedBehavior = MediaState.Manual;
+                                tourAudio_element.UnloadedBehavior = MediaState.Manual;
+
+                                Storyboard.SetTarget(tourAudio_TL, tourAudio_element);
+                                tourStoryboard.SlipBehavior = SlipBehavior.Slip;
+
+                                // took me quite a while to figure out that WPF really can't determine the duration of an MP3 until it's actually loaded (i.e. playing), and then it took me a little longer to finally find and accept this open-source library...argh
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         public void LoadDictFromXML(String xmlFileName)
         {
