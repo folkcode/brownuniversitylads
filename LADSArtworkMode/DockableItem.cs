@@ -361,7 +361,7 @@ namespace LADSArtworkMode
             //thumbFileName = thumbFileName.Remove(thumbFileName.Length - 4, 4);
             thumbFileName += ".bmp";
             thumbFileName = System.IO.Path.GetFileName(thumbFileName);
-            thumbFileName = "C:\\Users\\Public\\Documents\\3rdLADS\\GCNav\\bin\\Debug\\Data\\Videos\\Metadata\\" + thumbFileName;
+            thumbFileName = "Data\\Videos\\Metadata\\" + thumbFileName;
 
             FileStream stream = new FileStream(thumbFileName, FileMode.Open);
             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
