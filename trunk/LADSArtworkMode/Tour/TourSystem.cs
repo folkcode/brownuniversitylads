@@ -513,7 +513,7 @@ namespace LADSArtworkMode
             dockItem.PreviewTouchDown += new EventHandler<TouchEventArgs>(mediaTouchDown);
             dockItem.PreviewMouseDown += new MouseButtonEventHandler(mediaTouchDown);
             dockItem.PreviewTouchMove += new EventHandler<TouchEventArgs>(mediaTouchMoved);
-            dockItem.PreviewMouseMove +=new MouseEventHandler(mediaTouchMoved);
+            dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchMoved);
             dockItem.PreviewTouchUp += new EventHandler<TouchEventArgs>(mediaTouchUp);
             dockItem.PreviewMouseUp += new MouseButtonEventHandler(mediaTouchUp);
 
@@ -688,10 +688,10 @@ namespace LADSArtworkMode
 
                 artModeWin.msi.Visibility = Visibility.Visible;
                 artModeWin.msi_thumb.Visibility = Visibility.Visible;
-                
+
                 artModeWin.msi_ViewboxUpdate(); // force msi viewbox to refresh itself
                 tourAuthoringUI.removeAuthTools();
-                
+
                 // swap tour control buttons with artwork inter-mode navigation ones
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Visible;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
@@ -754,7 +754,7 @@ namespace LADSArtworkMode
 
         public BiDictionary<Timeline, BiDictionary<double, TourEvent>> copyTourDict(BiDictionary<Timeline, BiDictionary<double, TourEvent>> toCopy)
         {
-            
+
             BiDictionary<Timeline, BiDictionary<double, TourEvent>> toUndo = new BiDictionary<Timeline, BiDictionary<double, TourEvent>>();
             foreach (Timeline tl in toCopy.firstKeys)
             {
@@ -913,8 +913,8 @@ namespace LADSArtworkMode
             {
                 BiDictionary<double, TourEvent> itemDict;
                 //Dictionary<TourEvent, double> itemDictRev;
-                IList<BiDictionary<double,TourEvent>> list = tourBiDictionary[tl];
-                if (list.Count!=0)
+                IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
+                if (list.Count != 0)
                 {
                     itemDict = list[0];
                     //itemDictRev = tourDictRev[tl];
@@ -1007,15 +1007,15 @@ namespace LADSArtworkMode
                 return;
             undoableActionPerformed();
             double scrubtime = authorTimerCountSpan.TotalSeconds;
-           
+
             DockableItem dockItem = sender as DockableItem;
             Timeline tl;
             if (itemToTLDict.TryGetValue(dockItem, out tl))
             {
                 BiDictionary<double, TourEvent> itemDict;
                 //Dictionary<TourEvent, double> itemDictRev;
-                IList<BiDictionary<double,TourEvent>> list = tourBiDictionary[tl];
-                if (list.Count!=0)
+                IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
+                if (list.Count != 0)
                 {
                     itemDict = list[0];
                     //itemDictRev = tourDictRev[tl];
@@ -1066,7 +1066,7 @@ namespace LADSArtworkMode
                             //time = authorTimerCountSpan.TotalSeconds;
                         }*/
                         double time = authorTimerCountSpan.TotalSeconds - 1;
-                        if (time<0)
+                        if (time < 0)
                         {
                             time = 0;
                         }
@@ -1085,7 +1085,7 @@ namespace LADSArtworkMode
             DockableItem dockItem = sender as DockableItem;
 
             double newWidth;
-            newWidth = ((double)e.Delta)/5.0 + dockItem.ActualWidth;
+            newWidth = ((double)e.Delta) / 5.0 + dockItem.ActualWidth;
 
             if (newWidth < 50) return;
 
@@ -1093,7 +1093,7 @@ namespace LADSArtworkMode
                 return;
 
 
-           
+
             undoableActionPerformed();
             double scrubtime = authorTimerCountSpan.TotalSeconds;
             //DockableItem dockItem = sender as DockableItem;
@@ -1274,10 +1274,10 @@ namespace LADSArtworkMode
             if (itemToTLDict.TryGetValue(media, out tl))
             {
                 BiDictionary<double, TourEvent> itemDict;
-                IList<BiDictionary<double,TourEvent>> itemDictList;
-                if (tourBiDictionary.TryGetValue(tl,out itemDictList))
+                IList<BiDictionary<double, TourEvent>> itemDictList;
+                if (tourBiDictionary.TryGetValue(tl, out itemDictList))
                 {
-                    itemDict=itemDictList[0];
+                    itemDict = itemDictList[0];
                     //itemDictRev = tourDictRev[tl];
                     itemDict.Add(start, toAdd);
                     //itemDictRev.Add(toAdd, start);
@@ -2181,7 +2181,7 @@ namespace LADSArtworkMode
                                 tourAudio_TL.displayName = TLNode.Attributes.GetNamedItem("displayName").InnerText;
                                 tourAudio_TL.file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                 if (TLNode.Attributes.GetNamedItem("beginTime") != null)
-                                tourAudio_TL.BeginTime = TimeSpan.FromSeconds(Convert.ToDouble(TLNode.Attributes.GetNamedItem("beginTime").InnerText));
+                                    tourAudio_TL.BeginTime = TimeSpan.FromSeconds(Convert.ToDouble(TLNode.Attributes.GetNamedItem("beginTime").InnerText));
 
                                 if (TLNode.Attributes.GetNamedItem("duration") != null)
                                     tourAudio_TL.Duration = TimeSpan.FromSeconds(Convert.ToDouble(TLNode.Attributes.GetNamedItem("duration").InnerText));
@@ -2204,7 +2204,7 @@ namespace LADSArtworkMode
                                 tourStoryboard.SlipBehavior = SlipBehavior.Slip;
 
                                 // took me quite a while to figure out that WPF really can't determine the duration of an MP3 until it's actually loaded (i.e. playing), and then it took me a little longer to finally find and accept this open-source library...argh
-                                
+
                             }
                         }
                     }
@@ -2658,7 +2658,7 @@ namespace LADSArtworkMode
                 BiDictionary<double, TourEvent> tourTL_dict = tourBiDictionary[tourTL][0];
 
                 TourAuthoringUI.timelineInfo timelineInfo = tourAuthoringUI.addTimeline(tourTL, tourTL_dict, ((TourTL)tourTL).displayName, i * tourAuthoringUI.timelineHeight);
-                foreach (double beginTime in tourTL_dict.firstKeys) 
+                foreach (double beginTime in tourTL_dict.firstKeys)
                 {
                     TourEvent tourEvent = tourTL_dict[beginTime][0];
                     tourAuthoringUI.addTourEvent(timelineInfo, tourEvent, timelineInfo.lengthSV, beginTime, tourEvent.duration);
@@ -2672,8 +2672,21 @@ namespace LADSArtworkMode
                     {
                         mediaBeginTime = mediaTL.BeginTime.Value.TotalSeconds;
                     }
-                        
+
                     tourAuthoringUI.addAudioEvent(timelineInfo, null, timelineInfo.lengthSV, mediaBeginTime, tourTL.Duration.TimeSpan.TotalSeconds); // will this work?
+
+                    if (Storyboard.GetTarget(mediaTL) == null)
+                    {
+                        
+                        tourAudio_element = new MediaElement();
+                        tourAudio_element.Volume = 0.99;
+
+                        tourAudio_element.LoadedBehavior = MediaState.Manual;
+                        tourAudio_element.UnloadedBehavior = MediaState.Manual;
+
+                        Storyboard.SetTarget(mediaTL, tourAudio_element);
+                        tourStoryboard.SlipBehavior = SlipBehavior.Slip;
+                    }
                 }
 
                 i++;
