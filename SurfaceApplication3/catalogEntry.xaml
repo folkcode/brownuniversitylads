@@ -73,7 +73,7 @@
         <s:SurfaceTextBox x:Name ="summary" Height="98" Width="260" Canvas.Left="650" Canvas.Top="51" Background="#B8DAD2" BorderBrush="#227174" BorderThickness="2" TextWrapping="Wrap" Foreground="Black"  IsReadOnly="True"  FontSize="14"/>
         <s:SurfaceButton x:Name="edit" Content="Edit" BorderBrush="#FF076F72" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="650" Canvas.Top="157" PreviewMouseUp="edit_Click" PreviewTouchUp="edit_Click" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" />
             <s:SurfaceButton x:Name="delete" Content="Delete" BorderBrush="#FF0D8174" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="793" Canvas.Top="157" Click="delete_Click" AllowDrop="True" MinHeight="0" MinWidth="0" />
-            <Label Canvas.Left="657" Canvas.Top="15" Content="Summary:" FontSize="22" Foreground="Black" Height="30" Width="123" />
+            <Label Canvas.Left="657" Canvas.Top="15" Content="Internal Summary:" FontSize="22" Foreground="Black" Height="30" Width="212" />
         </Canvas>
 
 </UserControl>
