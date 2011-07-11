@@ -640,6 +640,8 @@ namespace GCNav
 
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
             Message.Margin = new Thickness(0, _windowSize.Height/3,0,0);
+
+           
         }
 
         /// <summary>
