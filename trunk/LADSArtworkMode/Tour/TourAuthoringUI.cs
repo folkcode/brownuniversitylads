@@ -1901,7 +1901,7 @@ namespace LADSArtworkMode
             currentSVI.PreviewMouseDown += tourEventSVI_PreviewMouseDown;
 
             DependencyPropertyDescriptor dpd1 = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd1.AddValueChanged(currentSVI, currentSVI_CenterChanged);
+            dpd1.AddValueChanged(currentSVI, tourEventCenterChanged);
 
             tourEventInfo currentAnimInfo = new tourEventInfo();
             currentAnimInfo.timelineInfoStruct = timelineInfoStruct;
