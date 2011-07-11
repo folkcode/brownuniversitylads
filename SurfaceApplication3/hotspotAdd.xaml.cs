@@ -53,7 +53,6 @@ namespace SurfaceApplication3
         public hotspotAdd()
         {
             InitializeComponent();
-          //  image1.TouchDown += new EventHandler<TouchEventArgs>(ImageTouchHandler);
             image1.MouseDown += new MouseButtonEventHandler(ImageMouseHandler);
             ellipses = new List<Ellipse>();
             hotImageNames = new List<String>();
@@ -63,7 +62,6 @@ namespace SurfaceApplication3
             hotAudioPaths = new List<String>();
             hotVideoPaths = new List<String>();
             exists = false;
-           // hotImagePaths = new Dictionary<SurfaceRadioButton, String>();
             radioButtons = new List<SurfaceRadioButton>();
             dic = new Dictionary<SurfaceRadioButton, String>();
             dicPos = new Dictionary<SurfaceRadioButton, String>();
@@ -72,29 +70,21 @@ namespace SurfaceApplication3
         }
 
         /// <summary>
-        /// Get the position of the touch and process it
-        /// </summary>
-        private void ImageTouchHandler(object sender, TouchEventArgs e)
-        {
-            //((Canvas)sender).CaptureTouch(e.TouchDevice);
-            Point newPoint = e.TouchDevice.GetCenterPosition(sender as IInputElement);
-           // this.CreatePointsClick(newPoint, null);
-         //   this.CreateNewPoints(newPoint,null);
-            this.CreateNewPoints(newPoint,null);
-            // Console.Out.WriteLine(newPoint);
-
-        }
-
-        /// <summary>
         /// Get the position of the click and process it
         /// </summary>
         private void ImageMouseHandler(object sender, MouseButtonEventArgs e)
         {
             // ((Image)sender).CaptureMouse();
-            Point newPoint = e.MouseDevice.GetCenterPosition(sender as IInputElement);
+            Point newPoint = e.MouseDevice.GetCenterPosition(image1);
             //this.CreateNewPoints(newPoint,null);
            // this.CreatePointsClick(newPoint, null);
-            this.CreateNewPoints(newPoint,null);
+
+            if (addHotspotsEnabled)
+            {
+                addHotspotsEnabled = false;
+                Enable.IsEnabled = true;
+                this.CreateNewPoints(newPoint, null);
+            }
         }
 
 
@@ -164,7 +154,7 @@ namespace SurfaceApplication3
         /// <summary>
         /// Load existing hotspots from XML file
         /// </summary>
-        public void LoadHotsptos()
+        public void LoadHotspots()
         {
             Double[] sizes = this.findImageSize();
             Double width = sizes[0];
@@ -286,8 +276,8 @@ namespace SurfaceApplication3
             Double imageCurHeight = size[1] * image1.GetZoomableCanvas.Scale;
 
             Point newPoint = new Point();
-            newPoint.X = positionX * imageCurWidth +20 - newP.X;
-            newPoint.Y = positionY * imageCurHeight +40 - newP.Y;
+            newPoint.X = positionX * imageCurWidth - newP.X;
+            newPoint.Y = positionY * imageCurHeight - newP.Y;
             this.CreateNewPoints(newPoint, longString);
 
         }
@@ -346,12 +336,8 @@ namespace SurfaceApplication3
          * */
         public void CreateNewPoints(Point newPoint, String str)
         {
-            if (addHotspotsEnabled)
-            {
-                addHotspotsEnabled = false;
-                Enable.IsEnabled = true;
-                Double x = newPoint.X - 20;
-                Double y = newPoint.Y - 40;
+                Double x = newPoint.X;// -20;
+                Double y = newPoint.Y;// -40;
                 Double[] size = this.findImageSize();
                 //Console.Out.WriteLine("mapWidht" + mapWidth);
                 Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale;
@@ -394,7 +380,7 @@ namespace SurfaceApplication3
 
                 Canvas.SetLeft(newButton, x - 2);
                 Canvas.SetTop(newButton, y - 2);
-            }
+           
         }
         /// <summary>
         /// Create a new hotspot
@@ -472,6 +458,7 @@ namespace SurfaceApplication3
          * */
         public void newButton_Checked(object sender, RoutedEventArgs e)
         {
+
             AddText.IsEnabled = false;
             AddImage.IsEnabled = false;
             AddAudio.IsEnabled = false;
@@ -875,7 +862,7 @@ namespace SurfaceApplication3
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.cancel();
-            this.LoadHotsptos();
+            this.LoadHotspots();
             parentWindow.Visibility = Visibility.Hidden;
         }
 
