@@ -536,8 +536,14 @@ namespace SurfaceApplication3
 
             foreach (string name in imagesToDelete)
             {
-                File.Delete("Data/Images/Metadata/" + name);
-                File.Delete("Data/Images/Metadata/Thumbnail/" + name);
+                if(File.Exists("Data/Images/Metadata/" + name))
+                {
+                    File.Delete("Data/Images/Metadata/" + name);
+                }
+                if (File.Exists("Data/Images/Metadata/Thumbnail/" + name))
+                {
+                    File.Delete("Data/Images/Metadata/Thumbnail/" + name);
+                }
             }
             hotspot.IsEnabled = true;
             mapButton.IsEnabled = true;
