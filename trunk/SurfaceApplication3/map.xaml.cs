@@ -52,7 +52,7 @@ namespace SurfaceApplication3
         private Dictionary<SurfaceRadioButton, String> cityInfo;
         private Double mapWidth, mapHeight;
         private mapWindow newMapWindow;
-        private Boolean addEnabled;
+        private SurfaceRadioButton buttonChecked;
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -82,7 +82,7 @@ namespace SurfaceApplication3
             currLocationExists = false;
             canAdd = true;
             currentMarker = "";
-            addEnabled = false;
+            
             //this.showMap();
             //this.loadPositions();
            
@@ -244,10 +244,6 @@ namespace SurfaceApplication3
                 canAdd = true;
             }
 
-            if (addEnabled)
-            {
-                addEnabled = false;
-                Enable.IsEnabled = true;
                 if (canAdd)
                 {
                     if (RadioColor != 0)
@@ -308,6 +304,7 @@ namespace SurfaceApplication3
                             dic.Add(newMarker, "red" + "," + lon + "," + lat);
                             originExists = true;
                             canAdd = true;
+                            currentMarker = null;
                         }
 
 
@@ -346,6 +343,8 @@ namespace SurfaceApplication3
                         Canvas.SetLeft(newMarker, db1 - 16);
                         Canvas.SetTop(newMarker, db2 - 5);
                         //System.Windows.Forms.MessageBox.Show("scale" + map1.GetZoomableCanvas.Scale);
+                        buttonChecked.IsChecked = false; //only enable to create one circle at a time
+                        RadioColor = 0;
                     }
                 }
                 else
@@ -353,7 +352,6 @@ namespace SurfaceApplication3
                     System.Windows.MessageBox.Show("There may only be one location of origin and one current location.");
                 }
 
-            }
         }
         public void newMarker_Click(Object sender, RoutedEventArgs e)
         {
@@ -767,6 +765,7 @@ namespace SurfaceApplication3
         {
             RadioColor = 1;
             currentMarker = "origin";
+            buttonChecked = (SurfaceRadioButton)sender;
 
         }
 
@@ -774,12 +773,14 @@ namespace SurfaceApplication3
         {
             RadioColor = 2;
             currentMarker = "exhibit";
+            buttonChecked = (SurfaceRadioButton)sender;
         }
 
         private void SurfaceRadioButton_Checked_2(object sender, RoutedEventArgs e)
         {
             RadioColor = 3;
             currentMarker = "current";
+            buttonChecked = (SurfaceRadioButton)sender;
         }
 
 
@@ -952,21 +953,6 @@ namespace SurfaceApplication3
                     }
                 }
             }
-        }
-
-        private void Enable_Click(object sender, RoutedEventArgs e)
-        {
-            if (Enable.IsEnabled)
-            {
-                addEnabled = true;
-                Enable.IsEnabled = false;
-            }
-            else
-            {
-                addEnabled = false;
-                Enable.IsEnabled = true;
-            }
-
         }
 
     }
