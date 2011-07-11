@@ -851,61 +851,65 @@ namespace LADSArtworkMode
             //equivalent for videos
             else if (_helpers.IsVideoFile(_scatteruri))
             {
-                image = new Image();
+                if (_helpers.IsDirShowFile(_scatteruri)) {
+                    image = new Image();
                 
-                imageUri = System.IO.Path.GetFullPath(imageUri);
-                int decrement = System.IO.Path.GetExtension(imageUri).Length ;
-                imageUri = imageUri.Remove(imageUri.Length - decrement, decrement);
-                imageUri += ".bmp";
-                FileStream stream = new FileStream(imageUri, FileMode.Open);
+                    imageUri = System.IO.Path.GetFullPath(imageUri);
+                    int decrement = System.IO.Path.GetExtension(imageUri).Length ;
+                    imageUri = imageUri.Remove(imageUri.Length - decrement, decrement);
+                    imageUri += ".bmp";
+                    FileStream stream = new FileStream(imageUri, FileMode.Open);
 
-                System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
-                System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
-                stream.Close();
+                    System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
+                    System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+                    stream.Close();
 
-                wpfImage.SetCurrentValue(DockPanel.DockProperty, Dock.Left);
+                    wpfImage.SetCurrentValue(DockPanel.DockProperty, Dock.Left);
 
-                wpfImage.SetCurrentValue(HeightProperty, 50.0);
-                wpfImage.SetCurrentValue(WidthProperty, 50 * wpfImage.Source.Width / wpfImage.Source.Height);
+                    wpfImage.SetCurrentValue(HeightProperty, 50.0);
+                    wpfImage.SetCurrentValue(WidthProperty, 50 * wpfImage.Source.Width / wpfImage.Source.Height);
 
-                dp.Children.Add(wpfImage);
+                    dp.Children.Add(wpfImage);
 
-                label = new Label();
-                label.Content = labeltext;
-                label.FontSize = 18;
-                label.SetCurrentValue(DockPanel.DockProperty, Dock.Right);
-                dp.Children.Add(label);
-                //.GotFocus += new RoutedEventHandler(onTouch);
-                this.PreviewTouchDown += new EventHandler<TouchEventArgs>(onTouch);
-                this.PreviewMouseDown += new MouseButtonEventHandler(onTouch);
-                lb.getAssociatedDocToolBar().Items.Add(this);
-
+                    label = new Label();
+                    label.Content = labeltext;
+                    label.FontSize = 18;
+                    label.SetCurrentValue(DockPanel.DockProperty, Dock.Right);
+                    dp.Children.Add(label);
+                    //.GotFocus += new RoutedEventHandler(onTouch);
+                    this.PreviewTouchDown += new EventHandler<TouchEventArgs>(onTouch);
+                    this.PreviewMouseDown += new MouseButtonEventHandler(onTouch);
+                    lb.getAssociatedDocToolBar().Items.Add(this);
+                }
                 //sketchy code for not really creating thumbnails
-                //MediaElement thumVid = new MediaElement();
-                //thumVid.Source = new Uri(scatteruri, UriKind.RelativeOrAbsolute);
-                //Console.WriteLine("scatteruri is: " + scatteruri);
+                else
+                {
+                    MediaElement thumVid = new MediaElement();
+                    thumVid.Source = new Uri(scatteruri, UriKind.RelativeOrAbsolute);
+                    Console.WriteLine("scatteruri is: " + scatteruri);
 
-                //thumVid.LoadedBehavior = MediaState.Manual;
-                //thumVid.ScrubbingEnabled = true;
-                //thumVid.Play();
-                //thumVid.Pause();
+                    thumVid.LoadedBehavior = MediaState.Manual;
+                    thumVid.ScrubbingEnabled = true;
+                    thumVid.Play();
+                    thumVid.Pause();
 
-                //thumVid.Position = new TimeSpan(0, 0, 0, 0);
-                //thumVid.SetCurrentValue(DockPanel.DockProperty, Dock.Left);
-                //thumVid.SetCurrentValue(HeightProperty, 50.0);
-                //thumVid.SetCurrentValue(WidthProperty, 50 * thumVid.Width / thumVid.Height);
+                    thumVid.Position = new TimeSpan(0, 0, 0, 0);
+                    thumVid.SetCurrentValue(DockPanel.DockProperty, Dock.Left);
+                    thumVid.SetCurrentValue(HeightProperty, 50.0);
+                    thumVid.SetCurrentValue(WidthProperty, 50 * thumVid.Width / thumVid.Height);
 
-                //dp.Children.Add(thumVid);
+                    dp.Children.Add(thumVid);
 
-                //label = new Label();
-                //label.Content = labeltext;
-                //label.FontSize = 18;
-                //label.SetCurrentValue(DockPanel.DockProperty, Dock.Right);
-                //dp.Children.Add(label);
-                ////.GotFocus += new RoutedEventHandler(onTouch);
-                //this.PreviewTouchDown += new EventHandler<TouchEventArgs>(onTouch);
-                //this.PreviewMouseDown += new MouseButtonEventHandler(onTouch);
-                //lb.getAssociatedDocToolBar().Items.Add(this);
+                    label = new Label();
+                    label.Content = labeltext;
+                    label.FontSize = 18;
+                    label.SetCurrentValue(DockPanel.DockProperty, Dock.Right);
+                    dp.Children.Add(label);
+                    //.GotFocus += new RoutedEventHandler(onTouch);
+                    this.PreviewTouchDown += new EventHandler<TouchEventArgs>(onTouch);
+                    this.PreviewMouseDown += new MouseButtonEventHandler(onTouch);
+                    lb.getAssociatedDocToolBar().Items.Add(this);
+                }
             }
         }
 

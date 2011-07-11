@@ -251,8 +251,8 @@ namespace SurfaceApplication3
                 //md.WriteBitmapBits(md.StreamLength/2, 320, 240, fBitmapName);
 
                 System.Drawing.Image img = System.Drawing.Image.FromFile(fBitmapName);
-                img = img.GetThumbnailImage(128, 128, null, new IntPtr());
-
+                //img = img.GetThumbnailImage(128, 128, null, new IntPtr());
+                //Utils.setAspectRatio(imageCanvas, imageRec, image1, img, 4);
                 int decrement2 = System.IO.Path.GetExtension(filename).Length;
                 filename = filename.Remove(filename.Length - decrement2, decrement2);
 
