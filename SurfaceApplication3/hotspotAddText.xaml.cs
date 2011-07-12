@@ -22,10 +22,16 @@ namespace SurfaceApplication3
         public hotspotAddText()
         {
             InitializeComponent();
+            this.Closed +=new EventHandler(hotspotAddText_Closed);
         }
         public void setParentControl(hotspotAdd add)
         {
             hotspotControl = add;
+        }
+        public void hotspotAddText_Closed(object sender, EventArgs e)
+        {
+           // Console.Out.WriteLine("called");
+            hotspotControl.newWindowIsOpened = false;
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -37,15 +43,16 @@ namespace SurfaceApplication3
                 hotspotControl.setHotspotInfo(caption + "/" + "text" + "/" + description);
                 this.Close();
                 hotspotControl.saveHotspotInfo();
-                hotspotControl.AddText.IsEnabled = false;
-                hotspotControl.AddImage.IsEnabled = true;
-                hotspotControl.AddAudio.IsEnabled = true;
-                hotspotControl.AddVideo.IsEnabled = true;
+            //    hotspotControl.AddText.IsEnabled = false;
+            //    hotspotControl.AddImage.IsEnabled = true;
+            //    hotspotControl.AddAudio.IsEnabled = true;
+            //    hotspotControl.AddVideo.IsEnabled = true;
                 hotspotControl.Edit.IsEnabled = true;
             }
             else
             {
                 MessageBox.Show("Caption and descriptions can not be empty!");
+                hotspotControl.newWindowIsOpened = false;
                 return;
             }
            // hotspotControl.ModifyText.IsEnabled = true;
@@ -56,6 +63,7 @@ namespace SurfaceApplication3
         {
             title.Text = "";
             Text.Text = "";
+            hotspotControl.newWindowIsOpened = false;
             this.Close();
         }
     }

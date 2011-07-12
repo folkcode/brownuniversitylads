@@ -101,13 +101,13 @@
            
         
         <!-- <Border BorderBrush="Silver" BorderThickness="1"> -->
-            <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Background="White" BorderThickness="2">
+            <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
                 <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="380" TextWrapping="Wrap" IsReadOnly="True" />
             <!-- <DocumentViewer Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="380" Canvas.Top="26" Width="600" Canvas.Left="-1" /> -->
            
             </s:SurfaceScrollViewer>
 
-            <s:SurfaceScrollViewer Name="imageScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Background="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <s:SurfaceScrollViewer Name="imageScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <Image Name="HotspotImage" Height="272" Width="380"/>
             </s:SurfaceScrollViewer>
 
@@ -128,10 +128,10 @@
                 </Canvas>
             
         </s:SurfaceScrollViewer>   -->
-                <StackPanel Background="Azure" Name="AudioScroll" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
+            <StackPanel Background="#ccd6c1" Name="AudioScroll" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
 
                     <MediaElement Name="myMediaElement" MediaOpened="Element_MediaOpened" Width="280" Height="102" Stretch="Fill" />
-                    <s:SurfaceSlider Name="timelineSlider" Margin="5" Width="250" HorizontalAlignment="Center" Background="Azure" Foreground="Black" />
+                <s:SurfaceSlider Name="timelineSlider" Margin="5" Width="250" HorizontalAlignment="Center" Background="#ccd6c1" Foreground="Black" />
                 <!-- Button controls for play, pause, resume, and stop. -->
                     <StackPanel HorizontalAlignment="Center" Width="260" Orientation="Horizontal">
                     

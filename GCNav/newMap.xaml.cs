@@ -30,7 +30,7 @@ namespace GCNav
         private int CanvasLeft, CanvasRight, CanvasTop, CanvasBottom;
         ImageData currentImage;
         private Dictionary<SurfaceRadioButton, String> locButtons;
-        private Dictionary<SurfaceRadioButton, Ellipse> ellipses;
+        private Dictionary<SurfaceRadioButton, Ellipse> ellipses,backEllipses;
         private ImageData data;
      
         public newMap()
@@ -40,7 +40,7 @@ namespace GCNav
             //this.loadMap();
             locButtons = new Dictionary<SurfaceRadioButton, String>();
             ellipses = new Dictionary<SurfaceRadioButton, Ellipse>();
-
+            backEllipses = new Dictionary<SurfaceRadioButton, Ellipse>();
             this.loadImageBlur();
             
           //  Location.TouchUp +=new EventHandler<System.Windows.Input.TouchEventArgs>(Location_TouchUp);
@@ -95,8 +95,10 @@ namespace GCNav
             foreach (SurfaceRadioButton rb in locButtons.Keys)
             {
                 Ellipse newEllipse = ellipses[rb];
+                Ellipse backEllipse = backEllipses[rb];
                 rb.Visibility = Visibility.Visible;
                 newEllipse.Visibility = Visibility.Visible;
+                backEllipse.Visibility = Visibility.Visible;
                 String str = locButtons[rb];
                 String[] locInfo = Regex.Split(str, "/");
                 double lon = Convert.ToDouble(locInfo[1]);
@@ -108,11 +110,16 @@ namespace GCNav
                 Double screenPosX = (mapImage.GetZoomableCanvas.Scale * long1) - mapImage.GetZoomableCanvas.Offset.X; //need to reset the location thing
                 Double screenPosY = (mapImage.GetZoomableCanvas.Scale * lat1) - mapImage.GetZoomableCanvas.Offset.Y;
 
+                Canvas.SetLeft(backEllipse, screenPosX);
+                Canvas.SetTop(backEllipse, screenPosY);
+
                 Canvas.SetLeft(newEllipse, screenPosX+2);
                 Canvas.SetTop(newEllipse, screenPosY+2);
 
                 Canvas.SetLeft(rb, screenPosX );
                 Canvas.SetTop(rb, screenPosY );
+
+
 
                 //Console.Out.WriteLine(screenPosX);
                 //Make sure all the map buttons are displayed within the map image
@@ -121,11 +128,13 @@ namespace GCNav
                 {
                     rb.Visibility = Visibility.Collapsed;
                     newEllipse.Visibility = Visibility.Collapsed;
+                    backEllipse.Visibility = Visibility.Collapsed;
                 }
                 if (screenPosY < 0 || screenPosY > Location.Height)
                 {
                     rb.Visibility = Visibility.Collapsed;
                     newEllipse.Visibility = Visibility.Collapsed;
+                    backEllipse.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -166,7 +175,10 @@ namespace GCNav
                 {
                     Location.Children.Remove(ell);
                 }
-
+                foreach (Ellipse backEll in backEllipses.Values)
+                {
+                    Location.Children.Remove(backEll);
+                }
             }
         }
 
@@ -182,7 +194,7 @@ namespace GCNav
             //Console.Out.WriteLine(db1);
 
             Ellipse newEllipse = new Ellipse();
-     
+            Ellipse backEllipse = new Ellipse();
             SurfaceRadioButton newButton = new SurfaceRadioButton();
            
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
@@ -207,37 +219,49 @@ namespace GCNav
 
             newEllipse.Width = 22;
             newEllipse.Height = 22;
-            newEllipse.Fill = mySolidColorBrush;
+            backEllipse.Width = 26;
+            backEllipse.Height = 26;
+            
 
-            //newButton.Click +=new RoutedEventHandler(newButton_Click);
-           
+            SolidColorBrush newBrush = new SolidColorBrush();
+            newBrush.Color = Color.FromRgb(0, 255, 127);
+            newEllipse.Fill = mySolidColorBrush;
+            backEllipse.Fill = newBrush;
+
             newButton.Click +=new RoutedEventHandler(newButton_Click);
 
             Location.Children.Add(newEllipse);
             Location.Children.Add(newButton);
-
+            Location.Children.Add(backEllipse);
+            
             double mapActualWidth = 11527 * mapImage.GetZoomableCanvas.Scale;
             double mapActualHeight = 6505 * mapImage.GetZoomableCanvas.Scale;
             double long1 = db1 * mapActualWidth - mapImage.GetZoomableCanvas.Offset.X;
             double lat1 = db2 * mapActualHeight - mapImage.GetZoomableCanvas.Offset.Y;
            
             ellipses.Add(newButton,newEllipse);
+            backEllipses.Add(newButton, backEllipse);
             Canvas.SetLeft(newButton, long1 );
             Canvas.SetTop(newButton, lat1 );
             Canvas.SetZIndex(newButton, 10);
             Canvas.SetLeft(newEllipse, long1 +2);
             Canvas.SetTop(newEllipse, lat1 +2);
             Canvas.SetZIndex(newEllipse, 10);
+            Canvas.SetLeft(backEllipse, long1);
+            Canvas.SetTop(backEllipse, lat1);
+            Canvas.SetZIndex(backEllipse, 8);
 
             if (long1 < 0 || long1 > Location.Width)
             {
                 newButton.Visibility = Visibility.Collapsed;
                 newEllipse.Visibility = Visibility.Collapsed;
+                backEllipse.Visibility = Visibility.Collapsed;
             }
             if (lat1 < 0 || lat1 > Location.Height)
             {
                 newButton.Visibility = Visibility.Collapsed;
                 newEllipse.Visibility = Visibility.Collapsed;
+                backEllipse.Visibility = Visibility.Collapsed;
             }
 
         }
@@ -250,7 +274,13 @@ namespace GCNav
                 name = name.Substring(0, 20);
                 name = name + "...";
             }
-            Console.Out.WriteLine(str);
+            //Console.Out.WriteLine(str);
+
+          //  Ellipse backEllipse = backEllipses[(SurfaceRadioButton)sender];
+         //   SolidColorBrush newBrush = new SolidColorBrush();
+          //  newBrush.Color = Color.FromRgb(219,219,112);
+          //  backEllipse.Fill = newBrush;
+
             String labelText = name + " ";
             String[] displayInfo = Regex.Split(str, "/");
             String locCategory = displayInfo[0];
