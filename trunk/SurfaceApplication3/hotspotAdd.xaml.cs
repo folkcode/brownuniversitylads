@@ -87,6 +87,11 @@ namespace SurfaceApplication3
             }
         }
 
+        //This is to make sure that the point is within the image
+        public void hotspotValid(Point newPoint)
+        {
+            this.findImageSize();
+        }
 
         public void setImagePath(String path) {
             imageName = path;

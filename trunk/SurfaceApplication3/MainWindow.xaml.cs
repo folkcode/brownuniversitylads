@@ -155,7 +155,8 @@ namespace SurfaceApplication3
             Canvas.SetLeft(newWindow.big_window1.save, 349);
             Canvas.SetLeft(newWindow.big_window1.mapButton, 513);
             Canvas.SetLeft(newWindow.big_window1.hotspot, 713);
-                        
+
+            newWindow.WindowState = System.Windows.WindowState.Normal;
             newWindow.ShowDialog();
             //newWindow.big_window1.setMainWindow(this);
         }
@@ -163,7 +164,8 @@ namespace SurfaceApplication3
         private void addEvent_Click(object sender, RoutedEventArgs e)
         {
             EventWindow evWin = new EventWindow();
-            evWin.Show();
+            evWin.WindowState = System.Windows.WindowState.Normal;
+            evWin.ShowDialog();
 
         }
 
