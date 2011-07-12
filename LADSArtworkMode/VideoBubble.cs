@@ -92,7 +92,6 @@ namespace LADSArtworkMode
             if (!hasBeenOpened)
             {
                 _aspectRatio = (double)_video.NaturalVideoWidth / (double)_video.NaturalVideoHeight;
-                Console.WriteLine("VIDBUB HANDLER");
                 Resize(_preferredSize.Width, _preferredSize.Height);
 
                 _layoutRoot.Children.Add(_controls);
@@ -123,7 +122,6 @@ namespace LADSArtworkMode
         {
             _controls.Hide();
             _controls.FadeOut(1, 0);
-            Console.WriteLine("HIDINGGGGGG");
         }
 
         #endregion
