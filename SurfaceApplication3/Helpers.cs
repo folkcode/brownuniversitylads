@@ -50,7 +50,7 @@ namespace SurfaceApplication3
         }
 
         static string[] imageExtensions = {
-            ".BMP", ".JPG", ".GIF"
+            ".BMP", ".JPG", ".GIF", ".JPEG", ".TIFF", ".PNG", ".TIF"
         };
 
         public bool IsImageFile(string filename)
