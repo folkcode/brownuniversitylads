@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     Title="Add Artwork" 
-    mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable    ="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    d:DesignHeight="800" d:DesignWidth="1024" SizeToContent="WidthAndHeight" Loaded="SurfaceWindow_Loaded"
+    d:DesignHeight="800" d:DesignWidth="1024" Loaded="SurfaceWindow_Loaded"
     xmlns:m="clr-namespace:SurfaceApplication3"
     ResizeMode="NoResize">
 

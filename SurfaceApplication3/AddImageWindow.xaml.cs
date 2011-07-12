@@ -39,7 +39,7 @@ namespace SurfaceApplication3
             hotspotWindow newHotWindow = new hotspotWindow();
             big_window1.setHotspotWindow(newHotWindow);
             big_window1.setMapWindow(newMapWindow);
-            this.setWindowSize();
+           // this.setWindowSize();
            // big_window1.setMapControl(mapControl);
            // mapControl.setBigWindow(big_window1);
            // mapControl.Visibility = Visibility.Collapsed;
@@ -150,7 +150,8 @@ namespace SurfaceApplication3
 
         private void SurfaceWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
+            this.setWindowSize();
+            
         }
 
         private void SurfaceRadioButton_Checked(object sender, RoutedEventArgs e)

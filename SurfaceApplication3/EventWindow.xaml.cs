@@ -30,11 +30,11 @@ namespace SurfaceApplication3
         public EventWindow()
         {
             InitializeComponent();
-
+            this.setWindowSize();
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
             this.load();
-            this.setWindowSize();
+            
         }
 
 
@@ -191,8 +191,9 @@ namespace SurfaceApplication3
         private void addEvent_Click(object sender, RoutedEventArgs e)
         {
             AddEventWindow newWindow = new AddEventWindow(this);
-            newWindow.isEditingEvent(false);
-            newWindow.ShowDialog();
+            
+            newWindow.Show();
         }
+       
     }
 }
