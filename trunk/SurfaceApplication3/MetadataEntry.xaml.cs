@@ -110,11 +110,18 @@ namespace SurfaceApplication3
                             fBitmapName += ".bmp";
                             md.WriteBitmapBits(md.StreamLength / 2, 400, 240, fBitmapName);
 
-                            videoThumb.BeginInit();
-                            videoThumb.UriSource = new Uri(fBitmapName);
-                            videoThumb.EndInit();
+                            //videoThumb.BeginInit();
+                            //videoThumb.UriSource = new Uri(fBitmapName);
+                            //videoThumb.EndInit();
+                            Image wpfImage = new Image();
+                            FileStream stream = new FileStream(fBitmapName, FileMode.Open);
+                            System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
+                            wpfImage = _helper.ConvertDrawingImageToWPFImage(dImage);
+                            stream.Close();
 
-                            Utils.setAspectRatio(imageCanvas, imageRec, image1, videoThumb, 4);
+
+
+                            Utils.setAspectRatio(imageCanvas, imageRec, image1, wpfImage, 4);
                             //set image source
                             image1.Source = videoThumb;
 

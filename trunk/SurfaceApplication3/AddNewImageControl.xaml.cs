@@ -182,7 +182,7 @@ namespace SurfaceApplication3
                     }
 
 
-                    //Utils.setAspectRatio(imageCanvas, imageRec, image1, myBitmapImage, 7);
+                    Utils.setAspectRatio(imageCanvas, imageRec, image1, wpfImage, 7);
 
                     //set image source
                     image1.Source = wpfImage.Source;

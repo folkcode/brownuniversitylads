@@ -337,11 +337,11 @@ namespace SurfaceApplication3
                         Double screenPosY = (map1.GetZoomableCanvas.Scale / (1 / 15) * db2) - map1.GetZoomableCanvas.Offset.Y;
                         //double screenPosX = canvasLeft;
                         //double screenPosY = canvasTop;
-                        Canvas.SetLeft(newEllipse, db1 - 14);
-                        Canvas.SetTop(newEllipse, db2 + 3);
+                        Canvas.SetLeft(newEllipse, db1 - 20.8);
+                        Canvas.SetTop(newEllipse, db2 -5);
 
-                        Canvas.SetLeft(newMarker, db1 - 16);
-                        Canvas.SetTop(newMarker, db2 - 5);
+                        Canvas.SetLeft(newMarker, db1 - 22.8);
+                        Canvas.SetTop(newMarker, db2 - 13);
                         //System.Windows.Forms.MessageBox.Show("scale" + map1.GetZoomableCanvas.Scale);
                         buttonChecked.IsChecked = false; //only enable to create one circle at a time
                         RadioColor = 0;
@@ -620,12 +620,12 @@ namespace SurfaceApplication3
             Double screenPosX = (db1 * mapcurWidth) - map1.GetZoomableCanvas.Offset.X;
             //Console.Out.WriteLine("offsest" + map1.GetZoomableCanvas.Offset.X);
             Double screenPosY = (db2 * mapcurHeight) - map1.GetZoomableCanvas.Offset.Y;
-          
-            Canvas.SetLeft(newEllipse, screenPosX - 14); //to set the button more accurately as the click point
-            Canvas.SetTop(newEllipse, screenPosY + 3);
 
-            Canvas.SetLeft(newMarker, screenPosX - 16);
-            Canvas.SetTop(newMarker, screenPosY - 5);
+            Canvas.SetLeft(newEllipse, screenPosX - 20.8);
+            Canvas.SetTop(newEllipse, screenPosY - 5);
+
+            Canvas.SetLeft(newMarker, screenPosX - 22.8);
+            Canvas.SetTop(newMarker, screenPosY - 13);
            
         }
 

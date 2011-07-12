@@ -420,8 +420,8 @@ namespace SurfaceApplication3
 
                 imageCover.Children.Add(newButton);
 
-                Canvas.SetLeft(newButton, x -3);
-                Canvas.SetTop(newButton, y -2 );
+                Canvas.SetLeft(newButton, x -3.5);
+                Canvas.SetTop(newButton, y -3);
            
         }
         /// <summary>
@@ -829,12 +829,23 @@ namespace SurfaceApplication3
                 // Create the file and clean up handles.
 
                 // Ensure that the target does not exist.
-                File.Delete(newPath);
+                if (oldPath != newPath)
+                {
+                    try
+                    {
+                        File.Delete(newPath);
 
-                // Copy the file.
-                File.Copy(oldPath, newPath);
-                this.createHotspotThumbnail(newPath, newName);
-               
+                        // Copy the file.
+                        File.Copy(oldPath, newPath);
+                        this.createHotspotThumbnail(newPath, newName);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("File is destroyed or not existed!");
+                        return;
+                    }
+
+                }
             }
             for (int l = 0; l < hotAudioPaths.Count; l++)
             {
@@ -845,19 +856,23 @@ namespace SurfaceApplication3
 
                 
                 String newPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\" + "Hotspots\\Audios\\" + newName;
-                String fullOldPath = System.IO.Path.GetFullPath(oldPath);
-                String fullNewPath = System.IO.Path.GetFullPath(newPath);
+               
                 //Copy the image intothe Thumbnail and copy the folder into the deepzoom folder
                 // Create the file and clean up handles.
 
                 // Ensure that the target does not exist.
-                if (fullOldPath != fullNewPath)
+                if (oldPath != newPath)
                 {
-                    Console.Out.WriteLine("pld" + fullOldPath);
-                    Console.Out.WriteLine("new" + fullNewPath);
-                    File.Delete(fullNewPath);
-                    File.Copy(fullOldPath, fullNewPath);
-
+                    try
+                    {
+                        File.Delete(newPath);
+                        File.Copy(oldPath, newPath);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("File is destroyed or not existed!");
+                        return;
+                    }
                 }
                 // Copy the file.
                 
@@ -875,12 +890,21 @@ namespace SurfaceApplication3
                 // Create the file and clean up handles.
 
                 // Ensure that the target does not exist.
-                if(oldPath !=newPath)
-                File.Delete(newPath);
+                if (oldPath != newPath)
+                {
+                    try
+                    {
+                        File.Delete(newPath);
 
-                // Copy the file.
-                File.Copy(oldPath, newPath);
-                
+                        // Copy the file.
+                        File.Copy(oldPath, newPath);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("File is destroyed or not existed!");
+                        return;
+                    }
+                }
             }
             this.cancel();
         }
