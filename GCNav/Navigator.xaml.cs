@@ -638,6 +638,8 @@ namespace GCNav
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 6;
 
+            filterBoxContainer.Width = _windowSize.Width / 2;
+
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
             Message.Margin = new Thickness(0, _windowSize.Height/3,0,0);
 
@@ -820,13 +822,15 @@ namespace GCNav
             curImageCanvas.Children.Clear();
             Image _curImage = new Image();
             _curImage.Source = img.Source;
-            _curImage.Height = 250;
+            _curImage.Height = this.ActualHeight / 4;
             curImageCanvas.Height = _curImage.Height + 50;
             curImageCanvas.Width = _curImage.Width + 50;
             curImageCanvas.Children.Add(_curImage);
             currentImage = img;
             _curImage.TouchDown += HandleImageTouched;
             _curImage.MouseDown += HandleImageTouched;
+            Canvas.SetTop(_curImage, 25);
+            Canvas.SetLeft(_curImage, 25);
 
             curInfo.Text = "";
             curInfo.Text += "Title: " + img.title + "\n";
