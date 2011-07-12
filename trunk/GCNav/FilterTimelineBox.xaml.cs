@@ -176,14 +176,14 @@ namespace GCNav
 
         }
 
-        private void filt_mousedown(object sender, MouseButtonEventArgs e)
+        private void filt_mousedown(object sender, EventArgs e)
         {
-            //toggleFilterbox();
+            toggleFilterbox();
         }
 
         private void filt_touchdown(object sender, TouchEventArgs e)
         {
-            toggleFilterbox();
+            //toggleFilterbox();
         }
 
         private void reset_timeline()

@@ -132,37 +132,24 @@ namespace GCNav
 
         public void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
-           // MessageBox.Show("windows size changed!");
-            
           
            Size newSize = e.NewSize;
            Size oldSize = e.PreviousSize;
-          // MessageBox.Show("windowheight" + windowSize.Height);
-          // MessageBox.Show("windowwidth" + windowSize.Width);
-           
-          // CanvasTop = (int)(newSize.Height / 30);
-           CanvasLeft = (int)(newSize.Width / 4);
 
-           //this.Width = newSize.Width * 5 / 12;
-           //mapImage.Width = this.Width;
+           CanvasLeft = (int)(newSize.Width / 4);
            
            Canvas.SetLeft(this, CanvasLeft);
-          // Canvas.SetTop(this, CanvasTop);
-          // CanvasRight = (int)(newSize.Width - CanvasLeft);
+
            Double mapAspectRatio = mapImage.Height / mapImage.Width;
-          // this.Height = this.Width * mapAspectRatio;
-           //mapImage.Height = this.Height;
+
            CanvasBottom = CanvasTop + (int)(newSize.Width / 2 / mapAspectRatio);
-           //Canvas.SetTop(mapImage
-           //Canvas.SetBottom(CanvasBottom);
-                //Do scale transformation here
+
            ScaleTransform tran = new ScaleTransform();
-           tran.ScaleX = newSize.Width / 1600; //scale according to 1600* 900 resolution
-           tran.ScaleY = newSize.Height / 900;
-          // tran.ScaleX = newSize.Width / oldSize.Width;
-          //tran.ScaleY = 0.8 * newSize.Height / oldSize.Height;
-          // Console.Out.WriteLine("tranX" + tran.ScaleX);
-          // Console.Out.WriteLine("tranY" + tran.ScaleY);
+
+           double scale = Math.Max(newSize.Width / 1600, newSize.Height / 900);
+           tran.ScaleX = scale;// newSize.Width / 1600; //scale according to 1600* 900 resolution
+           tran.ScaleY = scale;// newSize.Height / 900;
+
           this.RenderTransform = tran;
 
         }

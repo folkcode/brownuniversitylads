@@ -45,7 +45,8 @@ namespace SurfaceApplication3
            // mapControl.Visibility = Visibility.Collapsed;
             // big_window1.MetaDataList.Items.Add(new MetaDataEntry(big_window1));
         }
-         public void setWindowSize()
+        
+        public void setWindowSize()
         {
 
             Double width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;

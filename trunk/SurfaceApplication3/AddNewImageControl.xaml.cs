@@ -67,7 +67,7 @@ namespace SurfaceApplication3
             progressBarWorker.DoWork += new DoWorkEventHandler(progressBarWorker_DoWork);
             progressBarWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(progressBarWorker_RunWorkerCompleted);
 
-            year_tag.MaxLength = 4; //set the limits on the year input
+            //year_tag.MaxLength = 4; //set the limits on the year input
             _helpers = new Helpers();
             imagesToDelete = new List<string>();
             mapWinOpened = false;
@@ -1083,14 +1083,17 @@ namespace SurfaceApplication3
         /// </summary>
         private void year_tag_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
+            if (year_tag.Text.Length > 0)
             {
-                int year = Convert.ToInt16(year_tag.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Please input the right number!");
-                return;
+                string s = year_tag.Text.Substring(0, 1);
+                if (s == "-")
+                {
+                    s = s + Regex.Replace(year_tag.Text, "[^0-9]", "");
+                }
+                else
+                    s = Regex.Replace(year_tag.Text, "[^0-9]", "");
+                year_tag.Text = s;
+                
             }
         }
 

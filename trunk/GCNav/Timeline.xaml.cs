@@ -42,6 +42,9 @@ namespace GCNav
             InitializeComponent();
 
             //enable pan on timeline
+            mainCanvas.PreviewMouseDown += mainCanvas_PreviewMouseDown;
+            mainCanvas.PreviewMouseMove += mainCanvas_PreviewMouseMove;
+            mainCanvas.PreviewMouseUp += mainCanvas_PreviewMouseUp;
             mainCanvas.PreviewTouchDown += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchDown);
             mainCanvas.PreviewTouchMove += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchMove);
         }
@@ -51,6 +54,46 @@ namespace GCNav
             _sv = sv;
         }
 
+        bool mouseOnAndDown = false;
+        void mainCanvas_PreviewMouseDown(object sender, MouseEventArgs e)
+        {
+            startPoint = e.Device.GetCenterPosition(this);
+            e.Handled = false;
+            mouseOnAndDown = true;
+        }
+
+        void mainCanvas_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseOnAndDown)
+            {
+                Point current = e.Device.GetCenterPosition(this);
+                TranslateTransform t = new TranslateTransform();
+                t.X = current.X - startPoint.X;
+                t.Y = 0;
+
+                startPoint = current;
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(_tickmarksCanvas.RenderTransform);
+                tg.Children.Add(t);
+                _tickmarksCanvas.RenderTransform = tg;
+
+                TransformGroup tg2 = new TransformGroup();
+                tg2.Children.Add(_eventsCanvas.RenderTransform);
+                tg2.Children.Add(t);
+                _eventsCanvas.RenderTransform = tg2;
+
+                //pan the main catalog at the same time
+                _sv.Center = new Point(_sv.Center.X + t.X, _sv.Center.Y);
+                e.Handled = false;
+            }
+        }
+
+        void mainCanvas_PreviewMouseUp(object sender, MouseEventArgs e)
+        {
+            mouseOnAndDown = false;
+        }
+
         /// <summary>
         /// The two event handlers together enables pan on timeline
         /// </summary>
@@ -58,7 +101,7 @@ namespace GCNav
         /// <param name="e"></param>
         void mainCanvas_PreviewTouchMove(object sender, TouchEventArgs e)
         {
-            Point current = e.TouchDevice.GetCenterPosition(this);
+            Point current = e.Device.GetCenterPosition(this);
             TranslateTransform t = new TranslateTransform();
             t.X = current.X - startPoint.X;
             t.Y = 0;
