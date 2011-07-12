@@ -39,11 +39,48 @@ namespace SurfaceApplication3
             hotspotWindow newHotWindow = new hotspotWindow();
             big_window1.setHotspotWindow(newHotWindow);
             big_window1.setMapWindow(newMapWindow);
+            this.setWindowSize();
            // big_window1.setMapControl(mapControl);
            // mapControl.setBigWindow(big_window1);
            // mapControl.Visibility = Visibility.Collapsed;
             // big_window1.MetaDataList.Items.Add(new MetaDataEntry(big_window1));
         }
+         public void setWindowSize()
+        {
+
+            Double width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            Double height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+            Double ratio = height / width;
+            ScaleTransform tran = new ScaleTransform();
+
+            if (width < 1024 || height < 800)
+            {
+                if (width / 1024 > height / 800)
+                {
+                    this.Height = height - 100;
+                    this.Width = this.Height / 800 * 1024;
+                    // this.Width = this.Height/ratio;
+                    tran.ScaleY = this.Height / 800;
+                    tran.ScaleX = this.Width / 1024;
+                  //  Console.Out.WriteLine("width" + this.Width);
+                }
+                else
+                {
+                    this.Width = width - 100;
+                    this.Height = this.Width / 1024 * 800;
+                    tran.ScaleX = this.Width / 1024;
+                    tran.ScaleY = this.Height / 800;
+                    //  this.Height = this.Width * ratio;
+                }
+                //Console.Out.WriteLine("width" + this.Width);
+                //Console.Out.WriteLine("height" + this.Height);
+                //scale according to 1600* 900 resolution
+
+                mainCanvas.RenderTransform = tran;
+            }
+
+        }
+
 
         /// <summary>
         /// Occurs when the window is about to close. 

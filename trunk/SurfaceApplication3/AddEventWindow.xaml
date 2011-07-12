@@ -92,7 +92,7 @@
 
 
 
-    <Canvas Width="1024" Height="800">
+    <Canvas Name="mainCanvas" Width="1024" Height="800">
 
         <Canvas x:Name="upper_information" Height="245" Width="1004" Canvas.Top="10" Canvas.Left="10" >
 
