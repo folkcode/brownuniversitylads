@@ -691,7 +691,7 @@ namespace SurfaceApplication3
                                                                 String newPath = "data/Images/Metadata/" + smallWindow.title_tag.Text;
                                                                 String path2 = newPath;
                                                                 // Ensure that the target does not exist.
-                                                                    // Ensure that the target does not exist.
+                                                                   
                                                                     try
                                                                     {
                                                                         File.Delete(path2);
@@ -827,20 +827,33 @@ namespace SurfaceApplication3
                                                             String newMetaPath = "data/Images/Metadata/" + smallWindow.title_tag.Text;
 
                                                             // Ensure that the target does not exist.
-                                                            File.Delete(newMetaPath);
+                                                            try
+                                                            {
+                                                                File.Delete(newMetaPath);
 
-                                                            // Copy the file.
-                                                            File.Copy(oldMetaPath, newMetaPath);
+                                                                // Copy the file.
+                                                                File.Copy(oldMetaPath, newMetaPath);
+                                                            }
+                                                            catch (Exception exception)
+                                                            { }
+
+
                                                         }
                                                         else if (_helpers.IsVideoFile(oldMetaPath))
                                                         {
                                                             String newMetaPath = "data/Videos/Metadata/" + smallWindow.title_tag.Text;
 
                                                             // Ensure that the target does not exist.
-                                                            File.Delete(newMetaPath);
+                                                            try
+                                                            {
+                                                                File.Delete(newMetaPath);
 
-                                                            // Copy the file.
-                                                            File.Copy(oldMetaPath, newMetaPath);
+                                                                // Copy the file.
+                                                                File.Copy(oldMetaPath, newMetaPath);
+                                                            }
+                                                            catch (Exception e2)
+                                                            {
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -859,14 +872,25 @@ namespace SurfaceApplication3
                                     //Copy the image intothe Thumbnail and copy the folder into the deepzoom folder
                                     // Create the file and clean up handles.
                                     //using (FileStream fs = File.Create(path)) 
+                                    if (path == path2) {
+                                        MessageBox.Show("The image is already existed");
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        // Ensure that the target does not exist.
+                                        try
+                                        {
+                                            File.Delete(path2);
+                                            File.Delete(newPath2); //Going to delete the web image?
+                                            // Copy the file.
+                                            File.Copy(path, path2);
+                                            File.Copy(path, newPath2);
 
-                                    // Ensure that the target does not exist.
-                                    File.Delete(path2);
-                                    File.Delete(newPath2); //Going to delete the web image?
-                                    // Copy the file.
-                                    File.Copy(path, path2);
-                                    File.Copy(path, newPath2);
-
+                                        }
+                                        catch (Exception ee)
+                                        { }
+                                    }
 
 
                                     statusLabel.Foreground = Brushes.Black;
