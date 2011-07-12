@@ -257,6 +257,7 @@ namespace LADSArtworkMode
             myMediaElement.Play();
             _sliderTimer.Start();
             myMediaElement.ScrubbingEnabled = true;
+            Console.WriteLine("Play clicked");
             //timelineSlider.Start();
         }
         /// <summary>
@@ -469,8 +470,9 @@ namespace LADSArtworkMode
         private void myMediaElement_MediaEnded(object sender, EventArgs e)
         {
             Console.WriteLine("MEDIA ENDED");
-            myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
+            myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 1);
             myMediaElement.Pause();
+            Console.WriteLine("media element is: " + myMediaElement.IsLoaded);
             //timelineSlider.Value = 0;
             _sliderTimer.Stop();
             //myMediaElement.Play();

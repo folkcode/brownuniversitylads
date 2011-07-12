@@ -116,6 +116,7 @@ namespace LADSArtworkMode
         {
             _video.Position = new TimeSpan(0, 0, 0, 0, 0);
             pauseVideo();
+            Console.WriteLine("VideoEnded");
         }
 
         public void hideControls()
