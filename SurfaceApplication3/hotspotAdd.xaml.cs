@@ -420,8 +420,8 @@ namespace SurfaceApplication3
 
                 imageCover.Children.Add(newButton);
 
-                Canvas.SetLeft(newButton, x - 2);
-                Canvas.SetTop(newButton, y - 2);
+                Canvas.SetLeft(newButton, x);
+                Canvas.SetTop(newButton, y + 6);
            
         }
         /// <summary>
