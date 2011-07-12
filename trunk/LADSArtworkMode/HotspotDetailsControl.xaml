@@ -130,11 +130,12 @@
             
         </s:SurfaceScrollViewer>   -->
             <StackPanel Background="#ccd6c1" Name="AudioScroll" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
-
-                    <MediaElement Name="myMediaElement" MediaOpened="Element_MediaOpened" Width="280" Height="102" Stretch="Fill" />
-                <s:SurfaceSlider Name="timelineSlider" Margin="5" Width="250" HorizontalAlignment="Center" Background="#ccd6c1" Foreground="Black" />
+                
+                    <MediaElement Name="myMediaElement" MediaOpened="myMediaElement_MediaOpened" Width="280" Height="102" Stretch="Fill" />
+                <s:SurfaceSlider Name="timelineSlider" Margin="5" Height ="20" Width="250" HorizontalAlignment="Center" Background="#618276" Opacity =".5" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
                 <!-- Button controls for play, pause, resume, and stop. -->
-                    <StackPanel HorizontalAlignment="Center" Width="260" Orientation="Horizontal">
+                
+                <StackPanel HorizontalAlignment="Center" Width="260" Orientation="Horizontal">
                     
                         <s:SurfaceButton Name="PlayButton"  Margin="40,10,10,10" Height="40" Width="40">
                         <Polygon x:Name ="playIcon" Points="2,0 2,12 14,6" Fill="Green" Opacity=".5" Visibility="Visible"
@@ -157,12 +158,13 @@
                         Stroke="Black" StrokeThickness="0.5"
                         HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </s:SurfaceButton>
+                    <!--<s:SurfaceSlider Name="Lalala" Width="100" /> -->
 
                 </StackPanel>
 
                     <Canvas  Width="250" >
                         <Image Name="Volume" Width="25" Height="25" Canvas.Left="10" />
-                        <s:SurfaceSlider Name="volumeSlider" Width="100" Height="25" Canvas.Left="35" Minimum="0" Maximum="1" Value="0.5" ValueChanged="volumeSlider_ValueChanged"/>
+                    <s:SurfaceSlider Name="volumeSlider" Width="100" Height="25" Background ="#618276" Canvas.Left="35" Minimum="0" Maximum="1" Value="0.5" ValueChanged="volumeSlider_ValueChanged"/>
                         <Label Name="audioName" Width="150" Height="30" Canvas.Left="120" Foreground="Black"/>
                     </Canvas>
                 <!-- Ths slider shows the progress of the media. -->
@@ -177,7 +179,7 @@
                                     <!-- The MediaTimeline controls the timing of the video and acts like other Timeline objects.  
                  For example, although the video clip (numbers.wmv) lasts longer, playback ends after six  
                  seconds because that is the duration of the MediaTimeline (Duration="0:0:6"). -->
-                                    <MediaTimeline Name="mediaTimeLine" Storyboard.TargetName="myMediaElement" BeginTime="0:0:0"  CurrentTimeInvalidated="MediaTimeChanged" />
+                                    <!--<MediaTimeline Name="mediaTimeLine" Storyboard.TargetName="myMediaElement" BeginTime="0:0:0"  CurrentTimeInvalidated="MediaTimeChanged" /> -->
 
                                 </Storyboard>
                             </BeginStoryboard>
