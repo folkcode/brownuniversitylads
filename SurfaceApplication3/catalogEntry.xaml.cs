@@ -66,8 +66,7 @@ namespace SurfaceApplication3
             //myBitmapImage.UriSource = new Uri(imagePath);
             //myBitmapImage.EndInit();
 
-            //The image of the window is set according to its ratio of length and width
-            //Utils.setAspectRatio(newBigWindow.big_window1.imageCanvas, newBigWindow.big_window1.imageRec, newBigWindow.big_window1.image1, myBitmapImage, 7);
+            
 
             Image wpfImage = new Image();
             FileStream stream = new FileStream(imagePath, FileMode.Open);
@@ -75,6 +74,9 @@ namespace SurfaceApplication3
             wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
             stream.Close();
 
+            //The image of the window is set according to its ratio of length and width
+            Utils.setAspectRatio(newBigWindow.big_window1.imageCanvas, newBigWindow.big_window1.imageRec, newBigWindow.big_window1.image1, wpfImage, 7);
+           
             //set image source
             newBigWindow.big_window1.image1.Source = wpfImage.Source;
             String dataDir = "Data/";

@@ -118,7 +118,7 @@ namespace SurfaceApplication3
 
 
 
-                                //Utils.setAspectRatio(newEntry.imageCanvas, newEntry.imageRec, newEntry.image1, myBitmapImage, 4);
+                                
 
                                 //set image source
                                 newEntry.image1.Source = wpfImage.Source;
@@ -126,7 +126,7 @@ namespace SurfaceApplication3
                                 newEntry.artist_tag.Text = artist;
                                 newEntry.title_tag.Text = title;
                                 newEntry.medium_tag.Text = medium;
-
+                                Utils.setAspectRatio(newEntry.imageCanvas, newEntry.imageRec, newEntry.image1, wpfImage, 4);
                                 if (node.Attributes.GetNamedItem("description") != null)
                                 {
                                     String description = node.Attributes.GetNamedItem("description").InnerText;

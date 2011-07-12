@@ -25,14 +25,15 @@ namespace SurfaceApplication3
 {
     static class Utils
     {
-        public static void setAspectRatio(Canvas canv, Rectangle rect, Image img, BitmapImage myBitmapImage, double thick)
+        public static void setAspectRatio(Canvas canv, Rectangle rect, Image img, Image wpfImg, double thick)
         {
             // set the aspect ratio:
 
-            double height = myBitmapImage.Height;
-            double width = myBitmapImage.Width;
+            Double height = wpfImg.Source.Height;
+            Double width = wpfImg.Source.Width;
 
             Double ratio = img.Width / img.Height;
+            Console.Out.WriteLine("ratio" + ratio);
             if (width / height > ratio)
             {
                 img.Height = img.Width * height / width;
@@ -40,6 +41,7 @@ namespace SurfaceApplication3
                 double diff = (canv.Height - img.Height) / 2;
                 Canvas.SetTop(img, diff);
                 Canvas.SetTop(rect, diff - thick);
+                Console.Out.WriteLine("height" + img.Height);
 
             }
             else
@@ -49,6 +51,7 @@ namespace SurfaceApplication3
                 double diff = (canv.Width - img.Width)/2;
                 Canvas.SetLeft(img, diff);
                 Canvas.SetLeft(rect, diff - thick);
+                Console.Out.WriteLine("width" + img.Width);
             }
         }
     }
