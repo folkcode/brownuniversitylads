@@ -19,13 +19,55 @@ namespace SurfaceApplication3
     /// </summary>
     public partial class MainWindow : Window
     {
+       
         public MainWindow()
         {
             InitializeComponent();
             this.load();
-
-
+        
+            this.setWindowSize();
+           
         }
+        public void setWindowSize()
+        {
+            
+            Double width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            Double height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+            Console.Out.WriteLine("height" + height);
+            Console.Out.WriteLine("width" + width);
+            Double ratio = height / width;
+            ScaleTransform tran = new ScaleTransform();
+               
+            if (width < 1024 || height < 800)
+                {
+                    if(width / 1024 > height / 800)
+                    {
+                        this.Height = height - 100;
+                        this.Width = this.Height / 800 * 1024;
+                       // this.Width = this.Height/ratio;
+                        tran.ScaleY = this.Height / 800;
+                        tran.ScaleX = this.Width/ 1024;
+                    }
+                    else
+                    {
+                        this.Width = width -100 ;
+                        this.Height = this.Width / 1024 * 800;
+                        tran.ScaleX = this.Width / 1024;
+                        tran.ScaleY = this.Height / 800;
+                      //  this.Height = this.Width * ratio;
+                    }
+                    //Console.Out.WriteLine("width" + this.Width);
+                    //Console.Out.WriteLine("height" + this.Height);
+                     //scale according to 1600* 900 resolution
+                    
+                    mainCanvas.RenderTransform = tran;
+                }
+            
+            
+            
+        }
+
+
 
         /// <summary>
         /// Load data from XML file and store into a list
@@ -121,7 +163,7 @@ namespace SurfaceApplication3
         private void addEvent_Click(object sender, RoutedEventArgs e)
         {
             EventWindow evWin = new EventWindow();
-            evWin.ShowDialog();
+            evWin.Show();
 
         }
 

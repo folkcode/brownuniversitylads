@@ -55,6 +55,7 @@ namespace SurfaceApplication3
         private void edit_Click(object sender, EventArgs e)
         {
             AddImageWindow newBigWindow = new AddImageWindow();
+            //newBigWindow.setWindowSize();
             newBigWindow.big_window1.browse.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.createDZ.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.setMainWindow(_newWindow); //pass the main window to the addImage Control

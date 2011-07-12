@@ -21,7 +21,7 @@
 	x:Name="UserControl"
 	d:DesignWidth="1024" d:DesignHeight="800" Background="#FFB5FBE3" Width="1024" Height="800"> -->
 
-            <Canvas Height="800" Width="1024">
+    <Canvas Height="800" Width="1024" Name="mainCanvas">
             <m:AddNewImageControl x:Name="big_window1" />
 
             <m:hotspotAdd x:Name="HotspotControl" Loaded="HotspotControl_Loaded" Canvas.Top="80" Canvas.Left="40"  Visibility="Hidden" />

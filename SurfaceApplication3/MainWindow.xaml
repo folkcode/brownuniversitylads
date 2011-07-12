@@ -61,10 +61,10 @@
             </Style>
     </Window.Resources>
 
-        <Canvas>
-        <s:SurfaceButton x:Name="addImage" Content="Add New Image" Height="46" Canvas.Top="8" Canvas.Left="9" Click="addImage_Click" Width="146" />
-        <s:SurfaceButton x:Name="addEvent" Content="Add/Edit Events" Height="46" Canvas.Top="8" Canvas.Right="9" Click="addEvent_Click" Width="146" />
-        <s:SurfaceListBox x:Name="EntryListBox" Height="680" Width="995" Canvas.Left="5" Canvas.Top="69" BorderThickness="3"/>
-        <Label Canvas.Top="8" Canvas.Left="155" Content="LADS - Content Authoring Tool" Width="691" Height="57" Name="WindowName" FontSize="40" FontWeight="Bold" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="Black" />
-        </Canvas>
+    <Canvas Name="mainCanvas"  Height="760" Width="1004">
+            <s:SurfaceButton x:Name="addImage" Content="Add New Image" Height="46" Canvas.Top="8" Canvas.Left="9" Click="addImage_Click" Width="146" />
+            <s:SurfaceButton x:Name="addEvent" Content="Add/Edit Events" Height="46" Canvas.Top="8" Canvas.Right="9" Click="addEvent_Click" Width="146" />
+            <s:SurfaceListBox x:Name="EntryListBox" Height="680" Width="995" Canvas.Left="5" Canvas.Top="69" BorderThickness="3"/>
+            <Label Canvas.Top="8" Canvas.Left="155" Content="LADS - Content Authoring Tool" Width="691" Height="57" Name="WindowName" FontSize="40" FontWeight="Bold" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="Black" />
+    </Canvas>
 </Window>

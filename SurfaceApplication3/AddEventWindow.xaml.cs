@@ -33,6 +33,10 @@ namespace SurfaceApplication3
         private EventWindow _eventWindow;
         private bool editingExistingEvent;
         private String eventName;
+
+
+       
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -48,7 +52,10 @@ namespace SurfaceApplication3
 
             start_tag.MaxLength = 4;
             end_tag.MaxLength = 4;
+            //this.setWindowSize();
         }
+
+       
 
         /// <summary>
         /// Occurs when the window is about to close. 
