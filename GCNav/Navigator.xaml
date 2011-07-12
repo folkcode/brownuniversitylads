@@ -14,7 +14,7 @@
             </Border>
         </Grid>
         <Grid Name="filterBoxContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Height="540" Visibility="Visible"><!--jmond: Changed visibility to hidden for now since it will be moved and the event info will be displayed there instead -->
-            <Border CornerRadius="5" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Background = "#B6002D0C" BorderBrush="#FF002D0C" BorderThickness="4,4,4,0">
+            <Border CornerRadius="5" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Background = "#B6002D0C" BorderBrush="#FF002D0C" BorderThickness="4,4,4,0">
                 <m:FilterTimelineBox x:Name="timelineFilt"/>
         </Border>
         </Grid>
