@@ -35,6 +35,7 @@ namespace SurfaceApplication3
         {
             InitializeComponent();
             _newWindow = newWindow;
+            _helpers = new Helpers();
         }
 
         public void setImagePath(String imPath) {
@@ -60,16 +61,22 @@ namespace SurfaceApplication3
             newBigWindow.big_window1.browse.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.createDZ.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.setMainWindow(_newWindow); //pass the main window to the addImage Control
-            BitmapImage myBitmapImage = new BitmapImage();
-            myBitmapImage.BeginInit();
-            myBitmapImage.UriSource = new Uri(imagePath);
-            myBitmapImage.EndInit();
+            //BitmapImage myBitmapImage = new BitmapImage();
+            //myBitmapImage.BeginInit();
+            //myBitmapImage.UriSource = new Uri(imagePath);
+            //myBitmapImage.EndInit();
 
             //The image of the window is set according to its ratio of length and width
-            Utils.setAspectRatio(newBigWindow.big_window1.imageCanvas, newBigWindow.big_window1.imageRec, newBigWindow.big_window1.image1, myBitmapImage, 7);
+            //Utils.setAspectRatio(newBigWindow.big_window1.imageCanvas, newBigWindow.big_window1.imageRec, newBigWindow.big_window1.image1, myBitmapImage, 7);
+
+            Image wpfImage = new Image();
+            FileStream stream = new FileStream(imagePath, FileMode.Open);
+            System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
+            wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+            stream.Close();
 
             //set image source
-            newBigWindow.big_window1.image1.Source = myBitmapImage;
+            newBigWindow.big_window1.image1.Source = wpfImage.Source;
             String dataDir = "Data/";
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
             // String dataDir = "C:\\Users\\MISATRAN\\Desktop\\LADS-new\\GCNav\\bin\\Debug\\Data\\";
@@ -301,8 +308,10 @@ namespace SurfaceApplication3
                 if (File.Exists(imageToRemove))
                 {
                     Console.Out.WriteLine("imageToRemove exists");
+                    //image1 = new Image();
 
                     File.Delete(imageToRemove);
+                    File.Delete(thumbnaiToRemove);
                 }
                 /*
                 if (File.Exists(thumbnaiToRemove))

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
+using System.IO;
 
 namespace SurfaceApplication3
 {
@@ -19,14 +20,14 @@ namespace SurfaceApplication3
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+       private Helpers _helpers;
         public MainWindow()
         {
+            _helpers = new Helpers();
             InitializeComponent();
             this.load();
         
             this.setWindowSize();
-           
         }
         public void setWindowSize()
         {
@@ -103,16 +104,24 @@ namespace SurfaceApplication3
 
                                 String fullPath = dataDir + "Images\\" + "Thumbnail\\" + path;
 
-                                BitmapImage myBitmapImage = new BitmapImage();
+                                Image wpfImage = new Image();
+                                FileStream stream = new FileStream(fullPath, FileMode.Open);
+                                System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
+                                wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+                                stream.Close();
+
+                                /*BitmapImage myBitmapImage = new BitmapImage();
                                 myBitmapImage.BeginInit();
                                 myBitmapImage.UriSource = new Uri(@fullPath);
                                 myBitmapImage.EndInit();
-                                newEntry.setImage(myBitmapImage);
+                                newEntry.setImage(myBitmapImage);*/
 
-                                Utils.setAspectRatio(newEntry.imageCanvas, newEntry.imageRec, newEntry.image1, myBitmapImage, 4);
+
+
+                                //Utils.setAspectRatio(newEntry.imageCanvas, newEntry.imageRec, newEntry.image1, myBitmapImage, 4);
 
                                 //set image source
-                                newEntry.image1.Source = myBitmapImage;
+                                newEntry.image1.Source = wpfImage.Source;
                                 newEntry.year_tag.Text = year;
                                 newEntry.artist_tag.Text = artist;
                                 newEntry.title_tag.Text = title;
