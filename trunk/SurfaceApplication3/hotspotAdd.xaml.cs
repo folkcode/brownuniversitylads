@@ -47,6 +47,7 @@ namespace SurfaceApplication3
         private hotspotWindow parentWindow;
         private Helpers _helpers;
         private Boolean addHotspotsEnabled, addHotspotValid;
+        public Boolean newWindowIsOpened;
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -68,6 +69,7 @@ namespace SurfaceApplication3
             _helpers = new Helpers();
             addHotspotsEnabled = false;
             addHotspotValid = true;
+            newWindowIsOpened = false;
            
         }
 
@@ -503,6 +505,7 @@ namespace SurfaceApplication3
             AddImage.IsEnabled = false;
             AddAudio.IsEnabled = false;
             AddVideo.IsEnabled = false;
+            Edit.IsEnabled = false;
          //   ModifyText.IsEnabled = false;
          //   ModifyImage.IsEnabled = false;
         //    ModifyAudio.IsEnabled = false;
@@ -840,15 +843,24 @@ namespace SurfaceApplication3
 
                 String newName = hotAudioNames.ElementAt(l);
 
-                String newPath = "data/Hotspots/Audios/" + newName;
+                
+                String newPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\" + "Hotspots\\Audios\\" + newName;
+                String fullOldPath = System.IO.Path.GetFullPath(oldPath);
+                String fullNewPath = System.IO.Path.GetFullPath(newPath);
                 //Copy the image intothe Thumbnail and copy the folder into the deepzoom folder
                 // Create the file and clean up handles.
 
                 // Ensure that the target does not exist.
-                File.Delete(newPath);
+                if (fullOldPath != fullNewPath)
+                {
+                    Console.Out.WriteLine("pld" + fullOldPath);
+                    Console.Out.WriteLine("new" + fullNewPath);
+                    File.Delete(fullNewPath);
+                    File.Copy(fullOldPath, fullNewPath);
 
+                }
                 // Copy the file.
-                File.Copy(oldPath, newPath);
+                
 
             }
             for (int m = 0; m < hotVideoPaths.Count; m++)
@@ -858,11 +870,12 @@ namespace SurfaceApplication3
 
                 String newName = hotVideoNames.ElementAt(m);
 
-                String newPath = "data/Hotspots/Videos/" + newName;
+                String newPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\" + "Hotspots\\Videos\\" + newName;
                 //Copy the image intothe Thumbnail and copy the folder into the deepzoom folder
                 // Create the file and clean up handles.
 
                 // Ensure that the target does not exist.
+                if(oldPath !=newPath)
                 File.Delete(newPath);
 
                 // Copy the file.
@@ -928,6 +941,13 @@ namespace SurfaceApplication3
             hotAudioPaths = new List<String>();
             hotVideoNames = new List<String>();
             hotVideoPaths = new List<String>();
+            addHotspotsEnabled = false;
+            Edit.IsEnabled = false;
+            AddText.IsEnabled = false;
+            AddAudio.IsEnabled = false;
+            AddImage.IsEnabled = false;
+            AddVideo.IsEnabled = false;
+
             //name.Text = "";
             //text.Text = "";
             //URL.Text = "";
@@ -1166,46 +1186,62 @@ namespace SurfaceApplication3
 
         private void AddAudio_Click(object sender, RoutedEventArgs e)
         {
-            addHotspotsContent newContents = new addHotspotsContent();
-            newContents.Show();
-            newContents.hotspotContent = 1;
-            //AddText.IsEnabled = false;
-            //AddVideo.IsEnabled = false;
-            //AddImage.IsEnabled = false;
-            newContents.setParentControl(this);
+            if (!newWindowIsOpened)
+            {
+                addHotspotsContent newContents = new addHotspotsContent();
+                newContents.Show();
+                newContents.hotspotContent = 1;
+                //AddText.IsEnabled = false;
+                //AddVideo.IsEnabled = false;
+                //AddImage.IsEnabled = false;
+                newContents.setParentControl(this);
+                newWindowIsOpened = true;
+            }
         }
 
         private void AddText_Click(object sender, RoutedEventArgs e)
         {
-            hotspotAddText newText = new hotspotAddText();
-            newText.Show();
-            AddImage.IsEnabled = false;
-            AddVideo.IsEnabled = false;
-            AddAudio.IsEnabled = false;
-            newText.setParentControl(this);
+            if (!newWindowIsOpened)
+            {
+                hotspotAddText newText = new hotspotAddText();
+                newText.Show();
+             //   AddImage.IsEnabled = false;
+             //   AddVideo.IsEnabled = false;
+             //   AddAudio.IsEnabled = false;
+                newText.setParentControl(this);
+                newWindowIsOpened = true;
+            }
   
         }
 
         private void AddImage_Click(object sender, RoutedEventArgs e)
         {
-            addHotspotsContent newContents = new addHotspotsContent();
-            newContents.Show();
-            newContents.hotspotContent = 2;
-            //AddText.IsEnabled = false;
-            //AddAudio.IsEnabled = false;
-            //AddVideo.IsEnabled = false;
-            newContents.setParentControl(this);
+            if (!newWindowIsOpened)
+            {
+                addHotspotsContent newContents = new addHotspotsContent();
+                newContents.Show();
+                newContents.hotspotContent = 2;
+                //AddText.IsEnabled = false;
+                //AddAudio.IsEnabled = false;
+                //AddVideo.IsEnabled = false;
+                newContents.setParentControl(this);
+                newWindowIsOpened = true;
+            }
         }
 
         private void AddVideo_Click(object sender, RoutedEventArgs e)
         {
-            addHotspotsContent newContents = new addHotspotsContent();
-            newContents.Show();
-            newContents.hotspotContent = 3;
-            //AddText.IsEnabled = false;
-            //AddImage.IsEnabled = false;
-            //AddAudio.IsEnabled = false;
-            newContents.setParentControl(this);
+            if (!newWindowIsOpened)
+            {
+                addHotspotsContent newContents = new addHotspotsContent();
+                newContents.Show();
+                newContents.hotspotContent = 3;
+                //AddText.IsEnabled = false;
+                //AddImage.IsEnabled = false;
+                //AddAudio.IsEnabled = false;
+                newContents.setParentControl(this);
+                newWindowIsOpened = true;
+            }
         }
 
         private void ModifyText(String caption, String description)

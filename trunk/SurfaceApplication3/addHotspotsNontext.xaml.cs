@@ -24,6 +24,11 @@ namespace SurfaceApplication3
         public addHotspotsContent()
         {
             InitializeComponent();
+            this.Closed +=new EventHandler(addHotspotsContent_Closed);
+        }
+        public void addHotspotsContent_Closed(object sender, EventArgs e)
+        {
+            hotspotsControl.newWindowIsOpened = false;
         }
 
         public void setParentControl(hotspotAdd add)
@@ -170,6 +175,7 @@ namespace SurfaceApplication3
                     hotspotsControl.Edit.IsEnabled = true;
                     //     hotspotsControl.ModifyVideo.IsEnabled = true;
                 }
+                hotspotsControl.newWindowIsOpened = false;
                 this.Close();
             }
             else
@@ -184,6 +190,7 @@ namespace SurfaceApplication3
             title.Text = "";
             url_tag.Text = "";
             contentPath = "";
+            hotspotsControl.newWindowIsOpened = false;
             this.Close();
         }
     }
