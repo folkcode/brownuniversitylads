@@ -360,17 +360,16 @@ namespace LADSArtworkMode
             }
             else
             {
-                String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Videos\\" + m_hotspotData.Description;
-                LADSVideoBubble newVideo = new LADSVideoBubble(audioUri,372,268);
-                newVideo.setPreferredSize(372, 268);
-                VideoPanel.Children.Add(newVideo);
-                Canvas.SetLeft(newVideo, 5);
-                Canvas.SetTop(newVideo, 5);
-                VideoPanel.Visibility = Visibility.Visible;
+                String videoUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Videos\\" + m_hotspotData.Description;
+                LADSVideoBubble newVideo = new LADSVideoBubble(videoUri,500,400);
+                //newVideo.setPreferredSize(372, 268);
+                VideoScroll.Content = newVideo;
+                //VideoScroll.Add(newVideo);
+
+                VideoScroll.Visibility = Visibility.Visible;
                 video = newVideo;
                 hasVideo = true;
 
-                Console.Out.WriteLine("videoWidth" + newVideo.Width);
                 this.SetCurrentValue(HeightProperty, newVideo.Height + 47.0);
                 this.SetCurrentValue(WidthProperty, newVideo.Width + 24.0);
                 hotspotCanvas.Width = newVideo.Width + 24.0;
@@ -378,16 +377,11 @@ namespace LADSArtworkMode
 
                 this.Width = hotspotCanvas.Width;
                 this.Height = hotspotCanvas.Height;
-                Console.Out.WriteLine(this.Width);
-                Console.Out.WriteLine(this.Height);
-
                 Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
-                VideoPanel.Width = newVideo.Width;
-                VideoPanel.Height = newVideo.Height;
+                VideoScroll.Width = newVideo.Width;
+                VideoScroll.Height = newVideo.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
                 textBoxScroll.Visibility = Visibility.Hidden;
-
-
             }
             Name.Content = m_hotspotData.Name;
             Double[] size = this.findImageSize();
