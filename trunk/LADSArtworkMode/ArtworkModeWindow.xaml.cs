@@ -805,10 +805,16 @@ namespace LADSArtworkMode
         /// </summary>
         private void sBHotSpotSearch_Click(object sender, RoutedEventArgs e)
         {
-            //loadHotspots();
-            //Hotspot hs = new Hotspot();
-            m_hotspotCollection.search(sTextBoxHotSpotSearch.Text.ToLower());
-            fillHotspotNavListBox();
+            try
+            {
+                //loadHotspots();
+                //Hotspot hs = new Hotspot();
+                m_hotspotCollection.search(sTextBoxHotSpotSearch.Text.ToLower());
+                fillHotspotNavListBox();
+            }
+            catch (Exception exc)
+            {
+            }
             //hs.LoadDocument("abc");
 
             //hs.LoadDocument("abc"); // jcchin - commented out for now so I can compile LADS
@@ -835,16 +841,23 @@ namespace LADSArtworkMode
             String keyword = sTextBoxDocsSearch.Text;
             Console.WriteLine("Keyword = " + keyword);
             //treeViewSearch(keyword, treeDocs.Items); // jcchin - commented out to build LADS
-            foreach (AssociatedDocListBoxItem currentItem in treeDocs.Items)
+            try
             {
-                Console.WriteLine("current item = " + currentItem.getLabel());
-                string lowercaseLabel = currentItem.getLabel().ToLower();
-                string lowercaseKeyword = keyword.ToLower();
-                if (lowercaseLabel.Contains(lowercaseKeyword))
-                    currentItem.Visibility = Visibility.Visible;
-                else
-                    currentItem.Visibility = Visibility.Collapsed;
+                foreach (AssociatedDocListBoxItem currentItem in treeDocs.Items)
+                {
+                    Console.WriteLine("current item = " + currentItem.getLabel());
+                    string lowercaseLabel = currentItem.getLabel().ToLower();
+                    string lowercaseKeyword = keyword.ToLower();
+                    if (lowercaseLabel.Contains(lowercaseKeyword))
+                        currentItem.Visibility = Visibility.Visible;
+                    else
+                        currentItem.Visibility = Visibility.Collapsed;
+                }
             }
+            catch(Exception ex)
+            {
+            }
+
         }
 
 
@@ -1849,8 +1862,14 @@ namespace LADSArtworkMode
 
         private void sTextBoxHotSpotSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            m_hotspotCollection.search(sTextBoxHotSpotSearch.Text.ToLower());
-            fillHotspotNavListBox();
+            try
+            {
+                m_hotspotCollection.search(sTextBoxHotSpotSearch.Text.ToLower());
+                fillHotspotNavListBox();
+            }
+            catch (Exception exc)
+            {
+            }
         }
 
         private void sBHotSpotClear_Click(object sender, RoutedEventArgs e)
@@ -1868,7 +1887,13 @@ namespace LADSArtworkMode
 
         private void sTextBoxDocsSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            sBDocsSearch_Click(sender, e);
+            try
+            {
+                sBDocsSearch_Click(sender, e);
+            }
+            catch (Exception exc)
+            {
+            }
         }
 
 
