@@ -150,7 +150,7 @@ namespace SurfaceApplication3
 
         private void SurfaceWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.setWindowSize();
+            //this.setWindowSize();
             
         }
 

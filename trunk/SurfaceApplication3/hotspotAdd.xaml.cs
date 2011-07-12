@@ -46,7 +46,7 @@ namespace SurfaceApplication3
         private SurfaceRadioButton buttonChecked;
         private hotspotWindow parentWindow;
         private Helpers _helpers;
-        private Boolean addHotspotsEnabled;
+        private Boolean addHotspotsEnabled, addHotspotValid;
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -67,6 +67,8 @@ namespace SurfaceApplication3
             dicPos = new Dictionary<SurfaceRadioButton, String>();
             _helpers = new Helpers();
             addHotspotsEnabled = false;
+            addHotspotValid = true;
+           
         }
 
         /// <summary>
@@ -78,19 +80,52 @@ namespace SurfaceApplication3
             Point newPoint = e.MouseDevice.GetCenterPosition(image1);
             //this.CreateNewPoints(newPoint,null);
            // this.CreatePointsClick(newPoint, null);
-
-            if (addHotspotsEnabled)
+            this.hotspotValid(newPoint);
+            if (addHotspotsEnabled && addHotspotValid)
             {
                 addHotspotsEnabled = false;
                 Enable.IsEnabled = true;
                 this.CreateNewPoints(newPoint, null);
+                
             }
         }
 
         //This is to make sure that the point is within the image
         public void hotspotValid(Point newPoint)
         {
-            this.findImageSize();
+            Double[] size = this.findImageSize();
+            Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale; //the size of the zoomed image
+            Double imagecurHeight = size[1] * image1.GetZoomableCanvas.Scale;
+
+            //Console.Out.WriteLine("curWidth" + mapcurWidth);
+            //Console.Out.WriteLine("curHeight" + mapcurHeight);
+            Double left = - image1.GetZoomableCanvas.Offset.X;
+            Double right = left + imagecurWidth;
+            //Console.Out.WriteLine("offsest" + map1.GetZoomableCanvas.Offset.X);
+            Double top =  - image1.GetZoomableCanvas.Offset.Y;
+            Double bottom = top + imagecurHeight;
+
+            Double x = newPoint.X;
+            Double y = newPoint.Y;
+            Console.Out.WriteLine("x" + x);
+            Console.Out.WriteLine("y" + y);
+            Console.Out.WriteLine("left" + left);
+            Console.Out.WriteLine("right" + right);
+            Console.Out.WriteLine("top" + top);
+            Console.Out.WriteLine("bottom" + bottom);
+            if (x > right|| x < left)
+            {
+                addHotspotValid = false;
+            }
+            else if (y < top || y > bottom)
+            {
+                addHotspotValid = false;
+            }
+            else
+            {
+                addHotspotValid = true;
+            }
+
         }
 
         public void setImagePath(String path) {
@@ -370,8 +405,8 @@ namespace SurfaceApplication3
 
                 newButton.Width = 1;
                 newButton.Height = 1;
-                Console.Out.WriteLine("height" + newButton.ActualHeight);
-                Console.Out.WriteLine("width" + newButton.ActualWidth);
+              //  Console.Out.WriteLine("height" + newButton.ActualHeight);
+              //  Console.Out.WriteLine("width" + newButton.ActualWidth);
 
                 foreach (SurfaceRadioButton rb in radioButtons)
                 {
