@@ -380,16 +380,16 @@ namespace LADSArtworkMode
             LeftPanelButtonMaster.FontSize = SectionTitlesMaster.FontSize * .75;
             LeftPanelButtonMaster.Height = labelSize * .75;
 
-            sBDocsSearch.SetCurrentValue(Canvas.TopProperty, labelSize);
-            sBHotSpotSearch.SetCurrentValue(Canvas.TopProperty, labelSize);
+            sBDocsSearchClear.SetCurrentValue(Canvas.TopProperty, labelSize);
+            sBHotSpotClear.SetCurrentValue(Canvas.TopProperty, labelSize);
 
             sTextBoxDocsSearch.SetCurrentValue(Canvas.TopProperty, labelSize);
             sTextBoxHotSpotSearch.SetCurrentValue(Canvas.TopProperty, labelSize);
 
             sTextBoxDocsSearch.Height = labelSize * .8;
             sTextBoxHotSpotSearch.Height = labelSize * .8;
-            sTextBoxDocsSearch.Width = sectionWidth - sBDocsSearch.ActualWidth * 1.5;
-            sTextBoxHotSpotSearch.Width = sectionWidth - sBDocsSearch.ActualWidth * 1.5;
+            sTextBoxDocsSearch.Width = sectionWidth - sBDocsSearchClear.ActualWidth * 1.5;
+            sTextBoxHotSpotSearch.Width = sectionWidth - sBDocsSearchClear.ActualWidth * 1.5;
 
             treeDocs.Height = sectionHeight - labelSize * 2.1;
             TourScroll.Height = sectionHeight - labelSize * 1.2;
@@ -649,13 +649,13 @@ namespace LADSArtworkMode
 
                 treeDocs.BeginAnimation(HeightProperty, assocDocHeightAnim);
                 listHotspotNav.BeginAnimation(HeightProperty, hotspotHeightAnim);
-                sBDocsSearch.BeginAnimation(OpacityProperty, opacityAnim);
+                sBDocsSearchClear.BeginAnimation(OpacityProperty, opacityAnim);
                 sTextBoxDocsSearch.BeginAnimation(OpacityProperty, opacityAnim);
 
                 treeDocs.Height = 0;
                 listHotspotNav.Height = 335;
                 HotspotNav.Height = 80;
-                sBHotSpotSearch.Visibility = Visibility.Visible;
+                sBHotSpotClear.Visibility = Visibility.Visible;
                 sTextBoxHotSpotSearch.Visibility = Visibility.Visible;
                 listHotspotNav.Visibility = Visibility.Visible;
             }
@@ -673,7 +673,7 @@ namespace LADSArtworkMode
                 treeDocs.BeginAnimation(HeightProperty, assocDocHeightAnim);
                 treeDocs.BeginAnimation(OpacityProperty, opacityAnim);
                 listHotspotNav.BeginAnimation(HeightProperty, hotspotHeightAnim);
-                sBDocsSearch.BeginAnimation(OpacityProperty, opacityAnim);
+                sBDocsSearchClear.BeginAnimation(OpacityProperty, opacityAnim);
                 sTextBoxDocsSearch.BeginAnimation(OpacityProperty, opacityAnim);
 
 
@@ -681,7 +681,7 @@ namespace LADSArtworkMode
                 listHotspotNav.Height = 140;
                 HotspotNav.Height = 80;
 
-                sBDocsSearch.Visibility = Visibility.Visible;
+                sBDocsSearchClear.Visibility = Visibility.Visible;
                 sTextBoxDocsSearch.Visibility = Visibility.Visible;
                 treeDocs.Visibility = Visibility.Visible;
             }
@@ -690,7 +690,7 @@ namespace LADSArtworkMode
 
         public void HSopacityAnim_Completed(object sender, EventArgs e)
         {
-            sBDocsSearch.Visibility = Visibility.Collapsed;
+            sBDocsSearchClear.Visibility = Visibility.Collapsed;
             sTextBoxDocsSearch.Visibility = Visibility.Collapsed;
             treeDocs.Visibility = Visibility.Collapsed;
         }
@@ -716,7 +716,7 @@ namespace LADSArtworkMode
 
                 listHotspotNav.BeginAnimation(HeightProperty, assocDocHeightAnim);
                 treeDocs.BeginAnimation(HeightProperty, hotspotHeightAnim);
-                sBHotSpotSearch.BeginAnimation(OpacityProperty, opacityAnim);
+                sBHotSpotClear.BeginAnimation(OpacityProperty, opacityAnim);
                 sTextBoxHotSpotSearch.BeginAnimation(OpacityProperty, opacityAnim);
                 HotspotNav.BeginAnimation(HeightProperty, hotspotCanvasHeightAnim);
 
@@ -724,7 +724,7 @@ namespace LADSArtworkMode
                 treeDocs.Height = 315;
                 HotspotNav.Height = 40;
 
-                sBDocsSearch.Visibility = Visibility.Visible;
+                sBDocsSearchClear.Visibility = Visibility.Visible;
                 sTextBoxDocsSearch.Visibility = Visibility.Visible;
                 treeDocs.Visibility = Visibility.Visible;
             }
@@ -743,7 +743,7 @@ namespace LADSArtworkMode
                 listHotspotNav.BeginAnimation(HeightProperty, hotspotHeightAnim);
                 listHotspotNav.BeginAnimation(OpacityProperty, opacityAnim);
                 treeDocs.BeginAnimation(HeightProperty, assocDocHeightAnim);
-                sBHotSpotSearch.BeginAnimation(OpacityProperty, opacityAnim);
+                sBHotSpotClear.BeginAnimation(OpacityProperty, opacityAnim);
                 sTextBoxHotSpotSearch.BeginAnimation(OpacityProperty, opacityAnim);
                 HotspotNav.BeginAnimation(HeightProperty, hotspotCanvasHeightAnim);
 
@@ -752,7 +752,7 @@ namespace LADSArtworkMode
                 treeDocs.Height = 140;
                 HotspotNav.Height = 80;
 
-                sBHotSpotSearch.Visibility = Visibility.Visible;
+                sBHotSpotClear.Visibility = Visibility.Visible;
                 sTextBoxHotSpotSearch.Visibility = Visibility.Visible;
                 listHotspotNav.Visibility = Visibility.Visible;
             }
@@ -761,7 +761,7 @@ namespace LADSArtworkMode
 
         public void ADopacityAnim_Completed(object sender, EventArgs e)
         {
-            sBHotSpotSearch.Visibility = Visibility.Collapsed;
+            sBHotSpotClear.Visibility = Visibility.Collapsed;
             sTextBoxHotSpotSearch.Visibility = Visibility.Collapsed;
             listHotspotNav.Visibility = Visibility.Collapsed;
         }
@@ -833,7 +833,18 @@ namespace LADSArtworkMode
         {
             //  testButtons.Text = "Docs search clicked";
             String keyword = sTextBoxDocsSearch.Text;
+            Console.WriteLine("Keyword = " + keyword);
             //treeViewSearch(keyword, treeDocs.Items); // jcchin - commented out to build LADS
+            foreach (AssociatedDocListBoxItem currentItem in treeDocs.Items)
+            {
+                Console.WriteLine("current item = " + currentItem.getLabel());
+                string lowercaseLabel = currentItem.getLabel().ToLower();
+                string lowercaseKeyword = keyword.ToLower();
+                if (lowercaseLabel.Contains(lowercaseKeyword))
+                    currentItem.Visibility = Visibility.Visible;
+                else
+                    currentItem.Visibility = Visibility.Collapsed;
+            }
         }
 
 
@@ -1835,6 +1846,32 @@ namespace LADSArtworkMode
             {
             }
         }
+
+        private void sTextBoxHotSpotSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            m_hotspotCollection.search(sTextBoxHotSpotSearch.Text.ToLower());
+            fillHotspotNavListBox();
+        }
+
+        private void sBHotSpotClear_Click(object sender, RoutedEventArgs e)
+        {
+            sTextBoxHotSpotSearch.Text = "";
+            m_hotspotCollection.search("");
+            fillHotspotNavListBox();
+        }
+
+        private void sBDocsSearchClear_Click(object sender, RoutedEventArgs e)
+        {
+            sTextBoxDocsSearch.Text = "";
+            sBDocsSearch_Click(sender, e);
+        }
+
+        private void sTextBoxDocsSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            sBDocsSearch_Click(sender, e);
+        }
+
+
     }
 
 

@@ -49,9 +49,6 @@ namespace SurfaceApplication3
 
             _eventWindow = eventWindow;
             eventName = "";
-
-            start_tag.MaxLength = 4;
-            end_tag.MaxLength = 4;
             //this.setWindowSize();
         }
 
