@@ -178,5 +178,10 @@ namespace SurfaceApplication3
 
         }
 
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
     }
 }
