@@ -235,18 +235,19 @@
                                       Height="30" 
                                       Width="260" 
                                       MinWidth="0" MinHeight="0" 
+                                      TextChanged="sTextBoxHotSpotSearch_TextChanged"
                                       FontSize="{Binding FontSize, ElementName=LeftPanelButtonMaster}" />
 
 
-                    <s:SurfaceButton Content="Search" 
+                    <s:SurfaceButton Content="Clear" 
                                      Height="{Binding Height, ElementName=LeftPanelButtonMaster}"
                                      MinHeight="{Binding Height, ElementName=LeftPanelButtonMaster}"
                                      MaxHeight="{Binding Height, ElementName=LeftPanelButtonMaster}"
                                      FontSize="{Binding FontSize, ElementName=LeftPanelButtonMaster}"
-                                     Name="sBHotSpotSearch" Canvas.Right="{Binding Width, ElementName=LeftPanelButtonMaster}" Canvas.Top="40"
+                                     Name="sBHotSpotClear" Canvas.Right="{Binding Width, ElementName=LeftPanelButtonMaster}" Canvas.Top="40"
                                      MinWidth="0"
                                      Padding="7 2 7 0"
-                                     Click="sBHotSpotSearch_Click"
+                                     Click="sBHotSpotClear_Click"
                                       />
 
 
@@ -271,14 +272,14 @@
                            FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" 
                            HorizontalAlignment="Left" Name="labelDocs" VerticalAlignment="Top" Width="240" />
 
-                    <s:SurfaceTextBox Name="sTextBoxDocsSearch"  Canvas.Top="40" Canvas.Left="5" Height="30" MinHeight="0" Width="260" FontSize="14" />
-                    <s:SurfaceButton Name="sBDocsSearch" Content="Search"
+                    <s:SurfaceTextBox Name="sTextBoxDocsSearch"  Canvas.Top="40" Canvas.Left="5" Height="30" MinHeight="0" Width="260" FontSize="14" TextChanged="sTextBoxDocsSearch_TextChanged"/>
+                    <s:SurfaceButton Name="sBDocsSearchClear" Content="Clear"
                                      FontSize="{Binding FontSize, ElementName=LeftPanelButtonMaster}"
                                      Height="{Binding Height, ElementName=LeftPanelButtonMaster}"
                                      MinHeight="{Binding Height, ElementName=LeftPanelButtonMaster}"
                                      MaxHeight="{Binding Height, ElementName=LeftPanelButtonMaster}"
                                      Padding="7 2 7 0" Canvas.Right="{Binding Width, ElementName=LeftPanelButtonMaster}"
-                                     Canvas.Top="40" Click="sBDocsSearch_Click" MinWidth="0" />
+                                     Canvas.Top="40" Click="sBDocsSearchClear_Click" MinWidth="0" />
 
 
                     <s:SurfaceListBox Name="treeDocs" 

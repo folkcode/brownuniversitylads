@@ -913,6 +913,16 @@ namespace LADSArtworkMode
             }
         }
 
+        public void setLabel(string l)
+        {
+            label.Content = l;
+        }
+
+        public string getLabel()
+        {
+            return (string)label.Content;
+        }
+
         public void onTouch(object sender, EventArgs e)
         {
             Console.WriteLine(this.opened);
