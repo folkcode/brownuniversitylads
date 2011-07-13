@@ -46,18 +46,18 @@
         </s:SurfaceScrollViewer>   -->
             <StackPanel Background="#ccd6c1" Name="AudioScroll" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
                 
-                    <MediaElement Name="myMediaElement"  Width="280" Height="102" Stretch="Fill" />
-                <s:SurfaceSlider Name="timelineSlider" Margin="5" Height ="20" Width="250" HorizontalAlignment="Center" Background="#618276" Opacity =".5" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
+                    <MediaElement Name="myMediaElement"  Width="280" Height="60" Stretch="Fill" />
+                <s:SurfaceSlider Name="timelineSlider" Margin="5" Height ="20" Width="250" HorizontalAlignment="Center" Background="#618276" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
                 <!-- Button controls for play, pause, resume, and stop. -->
                 
                 <StackPanel HorizontalAlignment="Center" Width="260" Orientation="Horizontal">
-                    
-                        <s:SurfaceButton Name="PlayButton"  Margin="40,10,10,10" Height="40" Width="40">
+
+                    <s:SurfaceButton Name="PlayButton"  Margin="40,10,10,10" Height="40" Width="40" Background ="#ccd6c1">
                         <Polygon x:Name ="playIcon" Points="4,5 4,32 25,17" Fill="Green" Opacity=".5" Visibility="Visible"
                                 Stroke="Black" StrokeThickness="0.5"
                                 HorizontalAlignment="Center" VerticalAlignment="Center" Height="38" Width="30" />
                         </s:SurfaceButton>
-                    <s:SurfaceButton Name="PauseButton"  Margin="10" Height="40" Width="40">
+                    <s:SurfaceButton Name="PauseButton"  Margin="10" Height="40" Width="40" Background ="#ccd6c1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="12*" />
@@ -72,7 +72,7 @@
                             HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Margin="0,0" Width="28" Grid.ColumnSpan="2" />
                         </Grid>
                     </s:SurfaceButton>
-                    <s:SurfaceButton Name="StopButton"  Margin="10" Height="40" Width="40">
+                    <s:SurfaceButton Name="StopButton"  Margin="10" Height="40" Width="40" Background ="#ccd6c1">
                         <Polygon x:Name ="stopIcon" Points="0,0 0,30 30,30, 30,0" Fill="Red" Opacity=".5"
                         Stroke="Black" StrokeThickness="0.5"
                         HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -81,11 +81,11 @@
 
                 </StackPanel>
 
-                    <Canvas  Width="250" >
-                        <Image Name="Volume" Width="32" Height="32" Canvas.Left="-15" />
+                    <Grid  Width="250" HorizontalAlignment="Center">
+                        <Image Name="Volume" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="15" />
                     <s:SurfaceSlider Name="volumeSlider" Width="100" Height="25" Background ="#618276" Canvas.Left="35" Minimum="0" Maximum="1" Value="0.5" ValueChanged="volumeSlider_ValueChanged"/>
-                        <Label Name="audioName" Width="163" Height="40" Canvas.Left="141" Foreground="Black" Canvas.Top="0" />
-                    </Canvas>
+                        <!--<Label Name="audioName" Width="163" Height="40" Canvas.Left="141" Foreground="Black" Canvas.Top="0" />-->
+                    </Grid>
                 <!-- Ths slider shows the progress of the media. -->
                             
 

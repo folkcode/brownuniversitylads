@@ -383,6 +383,9 @@ namespace LADSArtworkMode
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
             {
+                //scatterItem.Height = 220;
+                //hotspotCanvas.Height = 200;
+
                 //myMediaElement = new MediaElement();
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
                 myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
@@ -401,7 +404,7 @@ namespace LADSArtworkMode
                 PauseButton.Click += new RoutedEventHandler(PauseButton_Click);
                 StopButton.Click += new RoutedEventHandler(StopButton_Click);
                 //myMediaElement.ScrubbingEnabled = true;
-                audioName.Content = m_hotspotData.Description;
+                //audioName.Content = m_hotspotData.Description;
                 //String description = 
                 // MediaName.Content = m_hotspotData.Description.Substring(0,m_hotspotData.Description.Length-4); //will display the name of the media according to where the file saves
 
