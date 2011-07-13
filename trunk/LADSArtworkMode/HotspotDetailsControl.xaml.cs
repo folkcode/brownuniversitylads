@@ -332,7 +332,7 @@ namespace LADSArtworkMode
                 Height = 200;
                 AudioScroll.Height = Height - 60.0;
                 AudioScroll.Width = Width - 44;
-                imageScroll.Visibility = Visibility.Collapsed;
+                //imageScroll.Visibility = Visibility.Collapsed;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 videoCanvas.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
