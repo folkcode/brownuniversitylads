@@ -60,8 +60,10 @@ namespace GCNav
             ScaleTransform newT = new ScaleTransform();
             newT.ScaleX = 1.78;
 
+            
             blur.RenderTransform = newT;
             Canvas.SetZIndex(blur, 20);
+            
         }
 
         public void loadMap()
@@ -119,18 +121,20 @@ namespace GCNav
                 Canvas.SetLeft(rb, screenPosX - 1 / mapImage.GetZoomableCanvas.Scale);
                 Canvas.SetTop(rb, screenPosY - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
-
+                //Console.Out.WriteLine("canvas width" + blur.Width);
 
                 //Console.Out.WriteLine(screenPosX);
                 //Make sure all the map buttons are displayed within the map image
-          
-                if (screenPosX < 0 || screenPosX > Location.Width)
+
+                Console.Out.Write("screen" +screenPosX);
+
+                if (screenPosX < 20 || screenPosX > Location.Width)
                 {
                     rb.Visibility = Visibility.Collapsed;
                     newEllipse.Visibility = Visibility.Collapsed;
                     backEllipse.Visibility = Visibility.Collapsed;
                 }
-                if (screenPosY < 0 || screenPosY > Location.Height)
+                if (screenPosY < 10 || screenPosY > Location.Height)
                 {
                     rb.Visibility = Visibility.Collapsed;
                     newEllipse.Visibility = Visibility.Collapsed;

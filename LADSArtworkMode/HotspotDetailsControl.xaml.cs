@@ -190,7 +190,7 @@ namespace LADSArtworkMode
         /// </summary>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("_Loaded");
+            Console.WriteLine("_Loaded user control loaded");
            // HotspotsContent.Text = m_hotspotData.Description;
           /*  String fileName = m_hotspotData.Description;
            // String fullpath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\HotspotDataFiles\\" + fileName;
