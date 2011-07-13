@@ -363,10 +363,11 @@ namespace LADSArtworkMode
                 imageScroll.Visibility = Visibility.Hidden;
                 HotspotImage.IsEnabled = false;
                 imageScroll.IsEnabled = false;
-                HotspotTextBox.Visibility = Visibility.Visible;
-                textBoxScroll.Visibility = Visibility.Visible;
+                //HotspotTextBox.Visibility = Visibility.Visible;
+                //textBoxScroll.Visibility = Visibility.Visible;
                 AudioScroll.Visibility = Visibility.Hidden;
                 VideoScroll.Visibility = Visibility.Hidden;
+               // video.Visibility = Visibility.Hidden;
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
             {

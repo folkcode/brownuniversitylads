@@ -10,14 +10,14 @@
              xmlns:my="http://schemas.microsoft.com/surface/2008" xmlns:System_Windows_Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI" 
              x:Class="LADSArtworkMode.HotspotDetailsControl" 
                        
-        Name="scatterItem" CanScale="True" Height="320" Width="402" Loaded="scatterItem_Loaded" Orientation="0" SizeChanged="scatterItem_SizeChanged">
+        Name="scatterItem" CanScale="True" Height="320" Width="422" Loaded="scatterItem_Loaded" Orientation="0" SizeChanged="scatterItem_SizeChanged">
     <Border BorderBrush="#214236" BorderThickness="4" CornerRadius="4">
         <Canvas Name="hotspotCanvas" Background="#618276" Opacity="0.95">
            
         
         <!-- <Border BorderBrush="Silver" BorderThickness="1"> -->
-            <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
-                <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="380" TextWrapping="Wrap" IsReadOnly="True" Foreground="Black"/>
+            <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="386" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
+                <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="380" TextWrapping="Wrap" IsReadOnly="True" Foreground="Black" Background="Transparent"/>
             <!-- <DocumentViewer Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="380" Canvas.Top="26" Width="600" Canvas.Left="-1" /> -->
            
             </s:SurfaceScrollViewer>
@@ -26,7 +26,7 @@
                 <Image Name="HotspotImage" Height="272" Width="380"/>
             </s:SurfaceScrollViewer>
             <UserControl Name="video"></UserControl>
-            <s:SurfaceScrollViewer Name="VideoScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="11" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <s:SurfaceScrollViewer Name="VideoScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="11" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Hidden">
                 
             </s:SurfaceScrollViewer>
             <!--<s:SurfaceScrollViewer Name="AudioScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" BorderThickness="2" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
