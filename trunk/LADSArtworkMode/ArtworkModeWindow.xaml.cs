@@ -1311,6 +1311,7 @@ namespace LADSArtworkMode
         {
             msi.ResetArtwork();
             msi_thumb.ResetArtwork();
+            resetAll();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
