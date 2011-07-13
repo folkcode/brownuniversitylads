@@ -1164,7 +1164,7 @@ namespace LADSArtworkMode
             startDragPoint = e.MouseDevice.GetCenterPosition(leftRightCanvas); // I think the innermost canvas (leftRightCanvas) is the best option.
 
             e.Handled = true; // when is this necessary?  I haven't really been using it elsewhere, but Ferdi put this here in the first version of this file.
-
+            refreshUI();
         }
 
         private bool mouseDownOnScrub = false;
@@ -1210,6 +1210,7 @@ namespace LADSArtworkMode
 
                 e.Handled = true; // when is this necessary?  I haven't really been using it elsewhere, but Ferdi put this here in the first version of this file.
             }
+            refreshUI();
         }
 
         void movableScrubHandle_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -1266,7 +1267,7 @@ namespace LADSArtworkMode
             tourSystem.tourStoryboard.Seek(artModeWin, tourTimerCountSpan, TimeSeekOrigin.BeginTime);
             tourSystem.tourStoryboard.CurrentTimeInvalidated += TourStoryboardAuthoring_CurrentTimeInvalidated;
             tourSystem.authorTimerCountSpan = tourTimerCountSpan;
-
+            refreshUI();
         }
 
         void movableScrubHandle_PreviewMouseUp(object sender, MouseEventArgs e)
@@ -1281,7 +1282,7 @@ namespace LADSArtworkMode
             tourSystem.tourStoryboard.Seek(artModeWin, tourTimerCountSpan, TimeSeekOrigin.BeginTime);
             tourSystem.tourStoryboard.CurrentTimeInvalidated += TourStoryboardAuthoring_CurrentTimeInvalidated;
             tourSystem.authorTimerCountSpan = tourTimerCountSpan;
-
+            refreshUI();
         }
 
         void movableScrubHandle_CanvasLeftChanged(object sender, EventArgs e)
@@ -1753,7 +1754,7 @@ namespace LADSArtworkMode
             //eventTim
             setButtonEnabled(removeEventButton, false);
             tourSystem.StopAndReloadTourAuthoringUIFromDict(tourSystem.authorTimerCountSpan.TotalSeconds);
-
+            refreshUI();
 
         }
 
@@ -1897,7 +1898,7 @@ namespace LADSArtworkMode
             currentSVI.Center = new Point((beginTime * (timelineWidth / timelineLength)) + (currentSVI.Width / 2), (timelineHeight / 2) - 2);
             currentSVI.Opacity = .7;
             currentSVI.ContainerManipulationCompleted += new ContainerManipulationCompletedEventHandler(tourEventSVI_ContainerManipulationCompleted);
-            //currentSVI.PreviewTouchUp += new EventHandler<TouchEventArgs>(tourEventSVI_PreviewTouchUp);
+            currentSVI.PreviewTouchUp += new EventHandler<TouchEventArgs>(tourEventSVI_PreviewTouchUp);
             currentSVI.PreviewMouseUp += new MouseButtonEventHandler(tourEventSVI_PreviewTouchUp);
             currentSVI.PreviewMouseDown += tourEventSVI_PreviewMouseDown;
 
@@ -2311,6 +2312,8 @@ namespace LADSArtworkMode
         {
             ScatterViewItem tourEventSVI = sender as ScatterViewItem;
             double newWidth = 0;
+            
+            
             if (highlightedTourEvent != null)
 
                 newWidth = ((double)e.Delta) + tourEventSVI.ActualWidth;
@@ -2318,12 +2321,17 @@ namespace LADSArtworkMode
 
             if (newWidth < 10) return;
 
-            tourEventSVI.Width = newWidth;
-
             ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
             if (current.tourEvent == null)
                 return;
+            if (e.Delta > 0)
+            {
+                if (current.beginTime + current.tourEvent.duration > tourDuration.TotalSeconds - 0.5) return;
+            }
+
+            tourEventSVI.Width = newWidth;
+
             // MODIFY TourEvent - beginTime & duration
             current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
 
@@ -2367,7 +2375,10 @@ namespace LADSArtworkMode
 
             //ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
-
+            if ((current.beginTime + (newWidth - (delta / 2.0)) * (timelineLength / timelineWidth)) > tourDuration.TotalSeconds)
+            {
+                return;
+            }
             current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
 
             //double newBeginTime = (currentScatter.Center.X - (currentScatter.Width / 2)) * (timelineLength / timelineWidth);
@@ -2484,11 +2495,13 @@ namespace LADSArtworkMode
             Console.Out.WriteLine("x" + startDragPoint.X);
             //Console.Out.WriteLine("after move time");
             tourSystem.tourStoryboard.CurrentTimeInvalidated -= TourStoryboardAuthoring_CurrentTimeInvalidated;
+            refreshUI();
 
         }
 
         public void movableScrubHandleBackground_MouseDown(object Sender, MouseEventArgs e)
         {
+            
             //Console.Out.WriteLine("Touch down");
             //This step is crucial as it sets the correct time of the yellow thing
             tourSystem.tourStoryboard.CurrentTimeInvalidated -= TourStoryboardAuthoring_CurrentTimeInvalidated;
@@ -2525,7 +2538,8 @@ namespace LADSArtworkMode
             Console.Out.WriteLine("x" + startDragPoint.X);
             //Console.Out.WriteLine("after move time");
             tourSystem.tourStoryboard.CurrentTimeInvalidated -= TourStoryboardAuthoring_CurrentTimeInvalidated;
-
+            refreshUI();
+            
         }
 
         private void movableScrubHandleBackground_TouchUp(object sender, EventArgs e)

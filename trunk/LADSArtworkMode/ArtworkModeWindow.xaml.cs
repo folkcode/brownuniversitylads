@@ -1731,8 +1731,13 @@ namespace LADSArtworkMode
             try
             {
                 double newDuration = double.Parse(TourLengthTextBox.Text);
+                if (newDuration < 15)
+                {
+                    MessageBox.Show("Tours must be longer than 15 seconds.");
+                    return;
+                }
                 if (!tourSystem.resetTourLength(newDuration))
-                    MessageBox.Show("A tour cannot be shorter than the end of it's last event");
+                    MessageBox.Show("A tour cannot be shorter than the end of it's last event.");
             }
             catch (Exception exc)
             {
