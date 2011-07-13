@@ -39,6 +39,8 @@ namespace GCNav
             this.SizeChanged += nav.WindowSizeChanged;
             this.SizeChanged += Map.WindowSizeChanged;
 
+            this.MouseUp += new MouseButtonEventHandler(MouseUp_Handler);
+
             _startCard = new StartCard();
             _startCard.HorizontalAlignment = HorizontalAlignment.Center;
             _startCard.VerticalAlignment = VerticalAlignment.Center;
@@ -165,6 +167,11 @@ namespace GCNav
 
         private void addMapHandler(Helpers.MapEventHandler handler)
         {
+        }
+
+        public void MouseUp_Handler(object sender, EventArgs e)
+        {
+            nav.setTimelineMouseUpFalse();
         }
     }
 }

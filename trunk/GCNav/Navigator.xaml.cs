@@ -85,6 +85,11 @@ namespace GCNav
             }
         }
 
+        public void setTimelineMouseUpFalse()
+        {
+            timeline.setMouseOnAndDown(false);
+        }
+
         public List<ImageData> getImageCollection()
         {
             return _imageCollection;
