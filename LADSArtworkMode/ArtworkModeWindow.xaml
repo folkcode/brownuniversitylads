@@ -377,7 +377,7 @@
         <s:SurfaceButton Name="addAudioButton" Content="Add Audio" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="260" Canvas.ZIndex="100"/>
         <s:SurfaceButton Name="tourAuthoringSaveButton" Content="Save" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="80" Visibility="Collapsed" Canvas.ZIndex="100"/>
         <s:SurfaceButton Name="tourAuthoringDeleteButton" Content="Delete" Background="Red" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="80" Visibility="Collapsed" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="exitButton" Content="EXIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="exitButton" Content="EXIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="7 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100"/>
         <Canvas Visibility="Collapsed" Background="#eceff0" Name="TourLengthBox" Canvas.Bottom="50" Canvas.Left="50" Width="300" Height="150" Canvas.ZIndex="100">
             <Label>Change Tour Length</Label>
             <s:SurfaceTextBox Height="30" Width="50" Name="TourLengthTextBox" Canvas.Left="40" Canvas.Top="50" FontSize="20">60</s:SurfaceTextBox>
