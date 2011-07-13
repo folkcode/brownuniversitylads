@@ -519,6 +519,7 @@ namespace GCNav
             }
         }
 
+        bool zoomStopped = false;
         /// <summary>
         /// handler for mainScatterViewItem_SizeChanged
         /// </summary>
@@ -526,22 +527,39 @@ namespace GCNav
         /// <param name="e"></param>
         private void mainScatterViewItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _background.Height = e.NewSize.Height;
-            _background.Width = e.NewSize.Width;
-            if (e.PreviousSize.Height != 0)
+            
+            Console.WriteLine("New Width = " + e.NewSize.Width);
+            if (e.NewSize.Width < 13000 && e.NewSize.Width > 2100)
             {
-                double zoomPercent = e.NewSize.Height / (e.PreviousSize.Height);
-                double panPercent = (mainScatterViewItem.Center.X - _windowSize.Width / 2) / MainCanvas.ActualWidth;
+                if (!zoomStopped)
+                {
+                    _background.Height = e.NewSize.Height;
+                    _background.Width = e.NewSize.Width;
+                    if (e.PreviousSize.Height != 0)
+                    {
+                        double zoomPercent = e.NewSize.Height / (e.PreviousSize.Height);
+                        double panPercent = (mainScatterViewItem.Center.X - _windowSize.Width / 2) / MainCanvas.ActualWidth;
 
-                MainCanvas.Width = MainCanvas.Width * zoomPercent;
-                MainCanvas.Height = MainCanvas.Height * zoomPercent;
+                        MainCanvas.Width = MainCanvas.Width * zoomPercent;
+                        MainCanvas.Height = MainCanvas.Height * zoomPercent;
 
-                double marginX = (mainScatterViewItem.Width - MainCanvas.Width) / 2;
-                double marginY = (mainScatterViewItem.Height - MainCanvas.Height) / 2;
-                MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
+                        double marginX = (mainScatterViewItem.Width - MainCanvas.Width) / 2;
+                        double marginY = (mainScatterViewItem.Height - MainCanvas.Height) / 2;
+                        MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
 
-                timeline.zoom(zoomPercent);
-                zoomImages(zoomPercent);
+                        timeline.zoom(zoomPercent);
+                        zoomImages(zoomPercent);
+                    }
+                }
+                zoomStopped = false;
+            }
+            else
+            {
+                zoomStopped = true;
+                mainScatterViewItem.SizeChanged -= mainScatterViewItem_SizeChanged;
+                mainScatterViewItem.Height = e.PreviousSize.Height;
+                mainScatterViewItem.Width = e.PreviousSize.Width;
+                mainScatterViewItem.SizeChanged += mainScatterViewItem_SizeChanged;
             }
         }
 
