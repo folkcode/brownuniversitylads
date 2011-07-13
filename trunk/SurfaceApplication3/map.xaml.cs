@@ -350,6 +350,9 @@ namespace SurfaceApplication3
                 else
                 {
                     System.Windows.MessageBox.Show("There may only be one location of origin and one current location.");
+                    buttonChecked.IsChecked = false;
+                    buttonChecked = null;
+                    return;
                 }
 
         }
@@ -639,6 +642,7 @@ namespace SurfaceApplication3
             if (currentX.Count > 1 || originX.Count > 1)
             {
                 System.Windows.Forms.MessageBox.Show("There can be only one point of origin and current location");
+                
                 return;
             }
             else
