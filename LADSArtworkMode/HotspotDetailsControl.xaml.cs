@@ -31,6 +31,7 @@ namespace LADSArtworkMode
     /// </summary>
     public partial class HotspotDetailsControl : ScatterViewItem
     {
+        //MediaElement myMediaElement;
         ScatterView m_parentScatterView;
         Canvas m_parentCanvas;
         Hotspot m_hotspotData;
@@ -38,7 +39,7 @@ namespace LADSArtworkMode
         //LADSVideoBubble video;
         //MediaElement _audio;
         Boolean _dragging;
-        private const int SLIDER_TIMER_RESOLUTION = 100; //how often we update the slider based on the video position, in milliseconds
+        private const int SLIDER_TIMER_RESOLUTION = 20; //how often we update the slider based on the video position, in milliseconds
         private System.Windows.Threading.DispatcherTimer _sliderTimer;
         Boolean _hasBeenOpened;
         double minX;
@@ -186,6 +187,7 @@ namespace LADSArtworkMode
         /// </summary>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("_Loaded");
            // HotspotsContent.Text = m_hotspotData.Description;
           /*  String fileName = m_hotspotData.Description;
            // String fullpath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\HotspotDataFiles\\" + fileName;
@@ -255,10 +257,9 @@ namespace LADSArtworkMode
                 Console.Out.WriteLine("audio is being called");
                 //Storyboard audioResourceWav;
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\GaribaldiScene43Tour_mastered.mp3";
+                //myMediaElement = new MediaElement();
                 //audioResourceWav = (Storyboard)this.Resources[audioUri];
                 //audioResourceWav.Begin(this);
-
-
             }
             
             Name.Content = m_hotspotData.Name;
@@ -269,10 +270,13 @@ namespace LADSArtworkMode
         /// </summary>
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("timelineslider.Value is: " + timelineSlider.Value);
+            myMediaElement.Position = new TimeSpan(0,0,0,0,(int)timelineSlider.Value);
             myMediaElement.Play();
             _sliderTimer.Start();
-            myMediaElement.ScrubbingEnabled = true;
             Console.WriteLine("Play clicked");
+            Console.WriteLine("media element is: " + myMediaElement.IsLoaded);
+            Console.WriteLine("max is : " + timelineSlider.Maximum);
             //timelineSlider.Start();
         }
         /// <summary>
@@ -288,6 +292,14 @@ namespace LADSArtworkMode
         /// Called when the stop button is clicked. only difference from pause is that it sets playhead back to zero.
         /// </summary>
         private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            myMediaElement.Pause();
+            _sliderTimer.Stop();
+            myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
+            timelineSlider.Value = 0;
+        }
+
+        private void Testing()
         {
             myMediaElement.Pause();
             _sliderTimer.Stop();
@@ -371,14 +383,20 @@ namespace LADSArtworkMode
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
             {
-                // Console.Out.WriteLine("audio is selected!");
-                AudioScroll.Visibility = Visibility.Visible;
+                //myMediaElement = new MediaElement();
+                myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
+                myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
+               // myMediaElement.ScrubbingEnabled = true;
+                myMediaElement.LoadedBehavior = MediaState.Manual;
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
-                //mediaElement.Source = new Uri(audioUri);
+                myMediaElement.Source = new Uri(audioUri);
+                AudioScroll.Visibility = Visibility.Visible;
                 timelineSlider.Visibility = Visibility.Visible;
-                Console.WriteLine("AudioScroll.Visibility : " + AudioScroll.Visibility);
-                //_audio = new MediaElement();
-                //_audio.Source = new Uri(audioUri, UriKind.RelativeOrAbsolute);
+
+                //fire Media Opened
+                myMediaElement.Play();
+                myMediaElement.Pause();
+
                 PlayButton.Click += new RoutedEventHandler(PlayButton_Click);
                 PauseButton.Click += new RoutedEventHandler(PauseButton_Click);
                 StopButton.Click += new RoutedEventHandler(StopButton_Click);
@@ -386,20 +404,15 @@ namespace LADSArtworkMode
                 audioName.Content = m_hotspotData.Description;
                 //String description = 
                 // MediaName.Content = m_hotspotData.Description.Substring(0,m_hotspotData.Description.Length-4); //will display the name of the media according to where the file saves
-                myMediaElement.Source = new Uri(audioUri);
+
                 this.showAudioIcon();
                 //myMediaElement.ScrubbingEnabled = true;
                 //mediaTimeLine.Source = new Uri(audioUri);
-                myMediaElement.LoadedBehavior = MediaState.Manual;
+
 
                 _dragging = false;
                 _sliderTimer = new System.Windows.Threading.DispatcherTimer();
-                myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
-                myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
 
-                //fire Media Opened
-                myMediaElement.Play();
-                myMediaElement.Pause();
 
                 timelineSlider.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonDown);
                 timelineSlider.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonUp);
@@ -412,6 +425,7 @@ namespace LADSArtworkMode
 
                 _sliderTimer.Interval = new TimeSpan(0, 0, 0, 0, SLIDER_TIMER_RESOLUTION);
                 _sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
+                _sliderTimer.Stop();
 
             }
             else if (m_hotspotData.Type.ToLower().Contains("video"))
@@ -495,9 +509,12 @@ namespace LADSArtworkMode
         // to the total number of miliseconds in the length of the media clip.
         private void myMediaElement_MediaOpened(object sender, EventArgs e)
         {
+            Console.WriteLine("trying to OPEN");
             if (!_hasBeenOpened)
             {
+
                 Console.WriteLine("OPENED");
+                myMediaElement.ScrubbingEnabled = true;
                 timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
                 myMediaElement.Play();
                 myMediaElement.Pause();
@@ -508,13 +525,68 @@ namespace LADSArtworkMode
         private void myMediaElement_MediaEnded(object sender, EventArgs e)
         {
             Console.WriteLine("MEDIA ENDED");
-            myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 1);
-            myMediaElement.Pause();
-            Console.WriteLine("media element is: " + myMediaElement.IsLoaded);
-            //timelineSlider.Value = 0;
+            myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
             _sliderTimer.Stop();
+            myMediaElement.Pause();
+
+            //hacky code
+            //myMediaElement = null;
+            //myMediaElement = new MediaElement();
+            //_hasBeenOpened = false;
+            //_dragging = false;
+            //// Console.Out.WriteLine("audio is selected!");
+            //AudioScroll.Visibility = Visibility.Visible;
+            //String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
+            //Console.WriteLine("audiouri is : " + audioUri);
+            //timelineSlider.Visibility = Visibility.Visible;
+            ////_audio = new MediaElement();
+            ////_audio.Source = new Uri(audioUri, UriKind.RelativeOrAbsolute);
+            //PlayButton.Click += new RoutedEventHandler(PlayButton_Click);
+            //PauseButton.Click += new RoutedEventHandler(PauseButton_Click);
+            //StopButton.Click += new RoutedEventHandler(StopButton_Click);
+            ////myMediaElement.ScrubbingEnabled = true;
+            //audioName.Content = m_hotspotData.Description;
+            ////String description = 
+            //// MediaName.Content = m_hotspotData.Description.Substring(0,m_hotspotData.Description.Length-4); //will display the name of the media according to where the file saves
+            //myMediaElement.Source = new Uri(audioUri);
+            //this.showAudioIcon();
+            ////myMediaElement.ScrubbingEnabled = true;
+            ////mediaTimeLine.Source = new Uri(audioUri);
+            //myMediaElement.LoadedBehavior = MediaState.Manual;
+
+            //_dragging = false;
+            //_sliderTimer = new System.Windows.Threading.DispatcherTimer();
+            //myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
+            //myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
+
+            ////fire Media Opened
             //myMediaElement.Play();
             //myMediaElement.Pause();
+
+            //timelineSlider.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonDown);
+            //timelineSlider.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonUp);
+            //timelineSlider.PreviewTouchDown += new System.EventHandler<TouchEventArgs>(timelineSlider_PreviewTouchDown);
+            //timelineSlider.PreviewTouchUp += new System.EventHandler<TouchEventArgs>(timelineSlider_PreviewTouchUp);
+
+            //timelineSlider.IsMoveToPointEnabled = false;
+            //timelineSlider.SmallChange = 0;
+            //timelineSlider.LargeChange = 0;
+
+            //_sliderTimer.Interval = new TimeSpan(0, 0, 0, 0, SLIDER_TIMER_RESOLUTION);
+            //_sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
+
+
+            ////_dragging = false;
+            ////_hasBeenOpened = false;
+            ////myMediaElement.MediaOpened -= new RoutedEventHandler(myMediaElement_MediaOpened);
+            ////myMediaElement.MediaEnded -= new RoutedEventHandler(myMediaElement_MediaEnded);
+            ////myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
+            ////myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded);
+            //Console.WriteLine("media element is: " + myMediaElement.IsLoaded);
+            ////timelineSlider.Value = 0;
+
+            ////myMediaElement.Play();
+            ////myMediaElement.Pause();
         }
         //private void MediaTimeChanged(object sender, EventArgs e)
         //{
@@ -523,7 +595,8 @@ namespace LADSArtworkMode
 
         private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            myMediaElement.Volume = (double)volumeSlider.Value;
+            try { myMediaElement.Volume = (double)volumeSlider.Value; }
+            catch { }
         }
 
 
@@ -566,8 +639,11 @@ namespace LADSArtworkMode
 
         private void timelineSlider_PreviewMouseMove(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("Mouse Move");
+
             if (!IsDragging())
             {
+                Console.WriteLine("Not Dragging");
                 double newValue = e.GetPosition(timelineSlider).X / timelineSlider.ActualWidth; //yields number between 0 and 1
                 newValue = newValue * timelineSlider.Maximum; //should give number between 0 and Maximum (about 300000)
                 //newValue = newValue < 0 ? 0 : newValue >= 1 ? .999 : newValue; //.999 as opposed to 1 because the MediaEnded event does not fire if the movie is scrolled to 100% manually. This stuff is WACKY.
@@ -586,12 +662,23 @@ namespace LADSArtworkMode
 
         private void sliderTimer_Tick(object sender, EventArgs e)
         {
+            _sliderTimer.Stop();
             timelineSlider.Value = myMediaElement.Position.TotalMilliseconds;
-            //if (timelineSlider.Value > (timelineSlider.Maximum-20)) {
-            //    myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
-            //    myMediaElement.Pause();
-            //    timelineSlider.Value = 0;
-            //}
+            Console.WriteLine("myMediaElement.Position.TotalMilliseconds is: " + myMediaElement.Position.TotalMilliseconds);
+            Console.WriteLine("slider value is: " + timelineSlider.Value);
+            Console.WriteLine("slider timeer max is: " + timelineSlider.Maximum);
+            if (myMediaElement.Position.TotalMilliseconds >= (timelineSlider.Maximum - 100))
+            {
+                Console.WriteLine("HSHOULD WORK GODDAMMIT");
+                this.Testing();
+                //myMediaElement.Stop();
+                //_sliderTimer.Stop();
+                //myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 21);
+                //timelineSlider.Value = 21;
+                timelineSlider.Value = 0;
+                return;
+            }
+            _sliderTimer.Start();
         }
 
         //#endregion

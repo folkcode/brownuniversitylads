@@ -46,7 +46,7 @@
         </s:SurfaceScrollViewer>   -->
             <StackPanel Background="#ccd6c1" Name="AudioScroll" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
                 
-                    <MediaElement Name="myMediaElement" MediaOpened="myMediaElement_MediaOpened" Width="280" Height="102" Stretch="Fill" />
+                    <MediaElement Name="myMediaElement"  Width="280" Height="102" Stretch="Fill" />
                 <s:SurfaceSlider Name="timelineSlider" Margin="5" Height ="20" Width="250" HorizontalAlignment="Center" Background="#618276" Opacity =".5" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
                 <!-- Button controls for play, pause, resume, and stop. -->
                 
@@ -63,13 +63,13 @@
                                 <ColumnDefinition Width="12*" />
                                 <ColumnDefinition Width="0*" />
                             </Grid.ColumnDefinitions>
-                            <Polygon x:Name="pauseIconLeft" Points="1,0 1,30 6,30, 6,0" Fill="Blue" Opacity=".5" Visibility="Visible"
+                            <Polygon x:Name="pauseIconLeft" Points="1,0 1,30 9,30, 9,0" Fill="Blue" Opacity=".5" Visibility="Visible"
                             Stroke="Black" StrokeThickness="0.5"
-                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,-1" />
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0" />
 
-                            <Polygon x:Name ="pauseIconRight" Points="10,0 10,30 15,30, 15,0" Fill="Blue" Opacity=".5" Visibility="Visible"
+                            <Polygon x:Name ="pauseIconRight" Points="15,0 15,30 23,30, 23,0" Fill="Blue" Opacity=".5" Visibility="Visible"
                             Stroke="Black" StrokeThickness="0.5"
-                            HorizontalAlignment="Right" VerticalAlignment="Center" Height="34" Margin="0,-1,0,-5" Width="20" Grid.ColumnSpan="2" />
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Margin="0,0" Width="28" Grid.ColumnSpan="2" />
                         </Grid>
                     </s:SurfaceButton>
                     <s:SurfaceButton Name="StopButton"  Margin="10" Height="40" Width="40">
