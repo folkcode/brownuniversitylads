@@ -84,7 +84,7 @@ namespace LADSArtworkMode
             set { highlighted = value; }
         }
         WriteableBitmap test;
-
+        private MultiScaleImage _msi;
 
         /// <summary>
         ///Constructor
@@ -96,6 +96,7 @@ namespace LADSArtworkMode
             InitializeComponent();
             m_hotspotData = hotspotData;
             m_parent = parent;
+            _msi = msi;
             m_parentScatterView = parentScatterView;
             m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView, m_hotspotData, msi);
 
@@ -194,6 +195,45 @@ namespace LADSArtworkMode
         {
             if (m_parentScatterView.Items.Contains(m_detailControl) == false)
             {
+                if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
+                {
+                    m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView, m_hotspotData, _msi);
+                    //m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView,  
+
+                    try
+                    {
+                        String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\normal.png";
+                        normal = new BitmapImage();
+                        normal.BeginInit();
+                        normal.UriSource = new Uri(imgUri, UriKind.Relative);
+                        normal.CacheOption = BitmapCacheOption.OnLoad;
+                        normal.EndInit();
+
+                        highlighted = new BitmapImage();
+                        imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\highlighted.png";
+                        highlighted.BeginInit();
+                        highlighted.UriSource = new Uri(imgUri, UriKind.Relative);
+                        highlighted.CacheOption = BitmapCacheOption.OnLoad;
+                        highlighted.EndInit();
+
+                        WriteableBitmap wbmap = new WriteableBitmap(normal);
+                        /* wbmap.Lock();
+                         IntPtr bbuff = wbmap.BackBuffer;
+                         unsafe
+                         {
+                             byte* pbuff = (byte*)bbuff.ToPointer();
+                         }*/
+                        // MessageBox.Show(normal.Format.ToString());
+
+
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
+
+                    }
+                }
+                //m_detailControl = new HotspotDetailsControl(
                 m_parentScatterView.Items.Add(m_detailControl);
                // Canvas.SetLeft(m_detailControl, Convert.ToDouble(screenPosX));
                // Canvas.SetTop(m_detailControl, Convert.ToDouble(screenPosY));
