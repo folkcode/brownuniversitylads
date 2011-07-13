@@ -89,6 +89,7 @@ namespace LADSArtworkMode
         bool hasBeenOpened = false;
         private void video_MediaOpened(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("trying to open video");
             if (!hasBeenOpened)
             {
                 _aspectRatio = (double)_video.NaturalVideoWidth / (double)_video.NaturalVideoHeight;
