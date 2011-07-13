@@ -34,7 +34,7 @@ namespace LADSArtworkMode
         //MediaElement myMediaElement;
         ScatterView m_parentScatterView;
         Canvas m_parentCanvas;
-        Hotspot m_hotspotData;
+        public Hotspot m_hotspotData;
         Boolean hasVideo;
         //LADSVideoBubble video;
         //MediaElement _audio;
@@ -385,7 +385,7 @@ namespace LADSArtworkMode
             {
                 //scatterItem.Height = 220;
                 //hotspotCanvas.Height = 200;
-
+                //InitializeComponent();
                 //myMediaElement = new MediaElement();
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
                 myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
@@ -515,7 +515,8 @@ namespace LADSArtworkMode
             Console.WriteLine("trying to OPEN");
             if (!_hasBeenOpened)
             {
-
+                String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
+                myMediaElement.Source = new Uri(audioUri);
                 Console.WriteLine("OPENED");
                 myMediaElement.ScrubbingEnabled = true;
                 timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
