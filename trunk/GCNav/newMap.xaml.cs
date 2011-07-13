@@ -238,17 +238,18 @@ namespace GCNav
             double mapActualHeight = 6505 * mapImage.GetZoomableCanvas.Scale;
             double long1 = db1 * mapActualWidth - mapImage.GetZoomableCanvas.Offset.X;
             double lat1 = db2 * mapActualHeight - mapImage.GetZoomableCanvas.Offset.Y;
-           
+
+
             ellipses.Add(newButton,newEllipse);
             backEllipses.Add(newButton, backEllipse);
-            Canvas.SetLeft(newButton, long1 -5);
-            Canvas.SetTop(newButton, lat1 -3 );
+            Canvas.SetLeft(newButton, long1 -5 - 1 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetTop(newButton, lat1-3 - 0.5 / mapImage.GetZoomableCanvas.Scale );
             Canvas.SetZIndex(newButton, 10);
-            Canvas.SetLeft(newEllipse, long1 -3);
-            Canvas.SetTop(newEllipse, lat1 -1);
+            Canvas.SetLeft(newEllipse, long1 -3 - 1 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetTop(newEllipse, lat1 -1 - 0.5 / mapImage.GetZoomableCanvas.Scale);
             Canvas.SetZIndex(newEllipse, 10);
-            Canvas.SetLeft(backEllipse, long1-5);
-            Canvas.SetTop(backEllipse, lat1-3);
+            Canvas.SetLeft(backEllipse, long1-5 - 1 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetTop(backEllipse, lat1-3- 0.5 / mapImage.GetZoomableCanvas.Scale);
             Canvas.SetZIndex(backEllipse, 8);
 
             if (long1 < 0 || long1 > Location.Width)
