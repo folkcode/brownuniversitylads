@@ -17,7 +17,7 @@
         
         <!-- <Border BorderBrush="Silver" BorderThickness="1"> -->
             <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
-                <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="380" TextWrapping="Wrap" IsReadOnly="True" />
+                <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="380" TextWrapping="Wrap" IsReadOnly="True" Foreground="Black"/>
             <!-- <DocumentViewer Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="380" Canvas.Top="26" Width="600" Canvas.Left="-1" /> -->
            
             </s:SurfaceScrollViewer>

@@ -352,6 +352,8 @@ namespace LADSArtworkMode
                 imageScroll.Height = HotspotImage.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
                 textBoxScroll.Visibility = Visibility.Hidden;
+                AudioScroll.Visibility = Visibility.Hidden;
+                VideoScroll.Visibility = Visibility.Hidden;
                 //this.Width = img.Width;
             }
             else if (m_hotspotData.Type.ToLower().Contains("text"))
@@ -363,6 +365,8 @@ namespace LADSArtworkMode
                 imageScroll.IsEnabled = false;
                 HotspotTextBox.Visibility = Visibility.Visible;
                 textBoxScroll.Visibility = Visibility.Visible;
+                AudioScroll.Visibility = Visibility.Hidden;
+                VideoScroll.Visibility = Visibility.Hidden;
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
             {
