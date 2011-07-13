@@ -55,7 +55,6 @@ namespace SurfaceApplication3
         /// </summary>
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
-            type = "Image";
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
             ofd.Multiselect = false;
 
@@ -70,7 +69,7 @@ namespace SurfaceApplication3
                     //if image
                     if (_helper.IsImageFile(filePath[i]))
                     {
-
+                        type = "Image";
                         //BitmapImage myBitmapImage = new BitmapImage();
                         System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
                         try
@@ -97,6 +96,7 @@ namespace SurfaceApplication3
                     //if video
                     else if (_helper.IsVideoFile(filePath[i]))
                     {
+                        type = "Video";
                         BitmapImage videoThumb = new BitmapImage();
                         //try
                         //{
