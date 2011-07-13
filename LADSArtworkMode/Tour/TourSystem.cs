@@ -65,6 +65,7 @@ namespace LADSArtworkMode
         private string currentHighlightCanvasFile;
 
         private TourAuthoringUI tourAuthoringUI;
+        private bool mouseIsDown;
 
         public TourSystem(ArtworkModeWindow artworkModeWindowParam)
         {
@@ -83,6 +84,7 @@ namespace LADSArtworkMode
             loadTourButtons();
             tourPlaybackOn = false;
             tourAuthoringOn = false;
+            mouseIsDown = false;
         }
 
         #region msi_tour navigator event handler
@@ -807,6 +809,7 @@ namespace LADSArtworkMode
             tourStoryboard.CurrentTimeInvalidated -= TourStoryboardPlayback_CurrentTimeInvalidated;
             ((Rectangle)sender).CaptureMouse();
             startDragPoint = e.MouseDevice.GetCenterPosition(artModeWin);
+            mouseIsDown = true;
         }
 
         private void TourSeekBarMarker_PreviewTouchMove(object sender, TouchEventArgs e)
@@ -839,30 +842,32 @@ namespace LADSArtworkMode
 
         private void TourSeekBarMarker_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-
-            Point current = e.MouseDevice.GetCenterPosition(artModeWin);
-            Double dragDistance = current.X - startDragPoint.X;
-
-            double tourSeekBarProgressTargetWidth = artModeWin.tourSeekBarProgress.Width + dragDistance;
-            if (tourSeekBarProgressTargetWidth < 0)
+            if (mouseIsDown)
             {
-                tourSeekBarProgressTargetWidth = 0;
+                Point current = e.MouseDevice.GetCenterPosition(artModeWin);
+                Double dragDistance = current.X - startDragPoint.X;
+
+                double tourSeekBarProgressTargetWidth = artModeWin.tourSeekBarProgress.Width + dragDistance;
+                if (tourSeekBarProgressTargetWidth < 0)
+                {
+                    tourSeekBarProgressTargetWidth = 0;
+                }
+                else if (tourSeekBarProgressTargetWidth > artModeWin.tourSeekBarSlider.Width)
+                {
+                    tourSeekBarProgressTargetWidth = artModeWin.tourSeekBarSlider.Width;
+                }
+
+                tourTimerCount = (int)((tourSeekBarProgressTargetWidth / artModeWin.tourSeekBarSlider.Width) * tourStoryboard.Duration.TimeSpan.TotalSeconds); // will this duration thingy work?
+                tourTimerCountSpan = TimeSpan.FromSeconds(tourTimerCount);
+                authorTimerCountSpan = tourTimerCountSpan;
+                tourTimerCountSpanString = string.Format("{0:D2}:{1:D2}", tourTimerCountSpan.Minutes, tourTimerCountSpan.Seconds);
+                artModeWin.tourSeekBarTimerCount.Content = tourTimerCountSpanString;
+
+                artModeWin.tourSeekBarMarker.SetValue(Canvas.LeftProperty, tourSeekBarProgressTargetWidth - 20);
+                artModeWin.tourSeekBarProgress.Width = tourSeekBarProgressTargetWidth;
+
+                startDragPoint = current;
             }
-            else if (tourSeekBarProgressTargetWidth > artModeWin.tourSeekBarSlider.Width)
-            {
-                tourSeekBarProgressTargetWidth = artModeWin.tourSeekBarSlider.Width;
-            }
-
-            tourTimerCount = (int)((tourSeekBarProgressTargetWidth / artModeWin.tourSeekBarSlider.Width) * tourStoryboard.Duration.TimeSpan.TotalSeconds); // will this duration thingy work?
-            tourTimerCountSpan = TimeSpan.FromSeconds(tourTimerCount);
-            authorTimerCountSpan = tourTimerCountSpan;
-            tourTimerCountSpanString = string.Format("{0:D2}:{1:D2}", tourTimerCountSpan.Minutes, tourTimerCountSpan.Seconds);
-            artModeWin.tourSeekBarTimerCount.Content = tourTimerCountSpanString;
-
-            artModeWin.tourSeekBarMarker.SetValue(Canvas.LeftProperty, tourSeekBarProgressTargetWidth - 20);
-            artModeWin.tourSeekBarProgress.Width = tourSeekBarProgressTargetWidth;
-
-            startDragPoint = current;
         }
 
         private void TourSeekBarMarker_PreviewTouchUp(object sender, TouchEventArgs e)
@@ -873,8 +878,12 @@ namespace LADSArtworkMode
 
         private void TourSeekBarMarker_PreviewMouseUp(object sender, MouseEventArgs e)
         {
-            tourStoryboard.Seek(artModeWin, tourTimerCountSpan, TimeSeekOrigin.BeginTime);
-            tourStoryboard.CurrentTimeInvalidated += TourStoryboardPlayback_CurrentTimeInvalidated;
+            if (mouseIsDown)
+            {
+                tourStoryboard.Seek(artModeWin, tourTimerCountSpan, TimeSeekOrigin.BeginTime);
+                tourStoryboard.CurrentTimeInvalidated += TourStoryboardPlayback_CurrentTimeInvalidated;
+                mouseIsDown = false;
+            }
         }
 
         #endregion
@@ -1177,8 +1186,8 @@ namespace LADSArtworkMode
         {
             try
             {
-                Console.WriteLine("Current width" + artModeWin.ImageArea.ActualWidth);
-                Console.WriteLine("Current height" + artModeWin.ImageArea.ActualHeight);
+                //Console.WriteLine("Current width" + artModeWin.ImageArea.ActualWidth);
+                //Console.WriteLine("Current height" + artModeWin.ImageArea.ActualHeight);
                 // update seek bar time values
                 if ((TimeSpan)tourStoryboard.GetCurrentTime(artModeWin) != null)
                 {
