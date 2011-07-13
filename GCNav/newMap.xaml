@@ -42,7 +42,7 @@
             <Canvas Name="Location" Height="325.25" Width="576.35">
                 <Image x:Name="blur" Height="328" Width="576.35" Canvas.Left="0" Canvas.Top="0" HorizontalAlignment="Left" IsHitTestVisible="False" VerticalAlignment="Top"/>
             </Canvas>
-            <Label x:Name="infoLabel" Width="500" Height="40" FontSize="18" Foreground="White" VerticalAlignment="Top"/>
+            <Label x:Name="infoLabel" Width="570" Height="40" FontSize="18" Foreground="White" VerticalAlignment="Top"/>
             
             
         </Canvas>
