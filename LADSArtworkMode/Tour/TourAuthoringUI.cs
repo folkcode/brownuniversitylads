@@ -2298,9 +2298,10 @@ namespace LADSArtworkMode
                 currentScatter.Center = new Point(currentScatter.Center.X, current.centerY);
 
             }
+            /*
             //Console.WriteLine("originalLoc: " + current.originalLoc.ToString());
             current.centerX = currentScatter.Center.X;
-            current.centerY = currentScatter.Center.Y;
+            current.centerY = currentScatter.Center.Y;*/
             //current.originalLoc = currentScatter.Center.X - current.r.Width / 2.0;
             currentScatter.Tag = current;
             //this.tourAudioEventSVI_PreviewTouchUp(sender, e);
