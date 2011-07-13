@@ -35,38 +35,38 @@
             <!--<s:SurfaceScrollViewer Name="VideoScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="11" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 
             </s:SurfaceScrollViewer>-->
-            
-            <StackPanel Background="#ccd6c1" Name="AudioScroll" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
+
+            <StackPanel Name="AudioScroll" Height="272" Width="366" Background="#618276" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
                 
-                    <MediaElement Name="myMediaElement"  Width="280" Height="60" Stretch="Fill" />
-                <s:SurfaceSlider Name="timelineSlider" Margin="5" Height ="20" Width="250" HorizontalAlignment="Center" Background="#618276" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
+                    <MediaElement Name="myMediaElement"  Width="280" Height="10" Stretch="Fill" />
+                <s:SurfaceSlider Name="timelineSlider" Margin="0" Height ="0" Width="250" HorizontalAlignment="Center" Background="#618276" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
                 <!-- Button controls for play, pause, resume, and stop. -->
                 
-                <StackPanel HorizontalAlignment="Center" Width="260" Orientation="Horizontal">
+                <StackPanel Width="260" Orientation="Horizontal">
 
-                    <s:SurfaceButton Name="PlayButton"  Margin="40,10,10,10" Height="40" Width="40" Background ="#ccd6c1">
-                        <Polygon x:Name ="playIcon" Points="4,5 4,32 25,17" Fill="Green" Opacity=".5" Visibility="Visible"
-                                Stroke="Black" StrokeThickness="0.5"
-                                HorizontalAlignment="Center" VerticalAlignment="Center" Height="38" Width="30" />
+                    <s:SurfaceButton Name="PlayButton"  Margin="40,10,10,10" Height="38" Width="38" Padding="0" Background ="#618276">
+                        <Polygon x:Name ="playIcon" Points="4,5 4,32 25,17" Fill="Green" Opacity=".5" Visibility="Visible" Margin="5,0,0,0"
+                                Stroke="Black" StrokeThickness="1"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" Height="36" Width="30" />
                         </s:SurfaceButton>
-                    <s:SurfaceButton Name="PauseButton"  Margin="10" Height="40" Width="40" Background ="#ccd6c1">
-                        <Grid>
+                    <s:SurfaceButton Name="PauseButton"  Height="40" Width="40" Padding="5,3,0,0" Background ="#618276" Margin="0">
+                        <Grid Height="34" Width="26">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="12*" />
                                 <ColumnDefinition Width="0*" />
                             </Grid.ColumnDefinitions>
-                            <Polygon x:Name="pauseIconLeft" Points="1,0 1,30 9,30, 9,0" Fill="Blue" Opacity=".5" Visibility="Visible"
-                            Stroke="Black" StrokeThickness="0.5"
-                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0" />
+                            <Polygon x:Name="pauseIconLeft" Points="1,0 1,30 9,30, 9,0" Fill="Blue" Opacity=".5" Visibility="Visible" Height=" 30"
+                            Stroke="Black" StrokeThickness="1"
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Width="29" Grid.ColumnSpan="2" />
 
-                            <Polygon x:Name ="pauseIconRight" Points="15,0 15,30 23,30, 23,0" Fill="Blue" Opacity=".5" Visibility="Visible"
-                            Stroke="Black" StrokeThickness="0.5"
-                            HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Margin="0,0" Width="28" Grid.ColumnSpan="2" />
+                            <Polygon x:Name ="pauseIconRight" Points="15,-1 15,30 23,30, 23,-1" Fill="Blue" Opacity=".5" Visibility="Visible"
+                            Stroke="Black" StrokeThickness="1"
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Margin="0,2,-13,2" Width="36" Grid.ColumnSpan="2" />
                         </Grid>
                     </s:SurfaceButton>
-                    <s:SurfaceButton Name="StopButton"  Margin="10" Height="40" Width="40" Background ="#ccd6c1">
-                        <Polygon x:Name ="stopIcon" Points="0,0 0,30 30,30, 30,0" Fill="Red" Opacity=".5"
-                        Stroke="Black" StrokeThickness="0.5"
+                    <s:SurfaceButton Name="StopButton"  Margin="10" Height="40" Width="40" Background ="#618276" Padding="0">
+                        <Polygon x:Name ="stopIcon" Points="0,0 0,30 30,30, 30,0" Fill="Red" Opacity=".5" Margin="5"
+                        Stroke="Black" StrokeThickness="1"
                         HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </s:SurfaceButton>
                     <!--<s:SurfaceSlider Name="Lalala" Width="100" /> -->
