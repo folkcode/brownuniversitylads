@@ -68,27 +68,30 @@ namespace LADSArtworkMode
                                         {
                                             foreach (XmlNode file in group.ChildNodes)
                                             {
-                                                string metadatafilename = file.Attributes.GetNamedItem("Filename").InnerText;
-                                                string name;
-                                                try
+                                                if (file.Attributes.GetNamedItem("Type").InnerText != "Video")
                                                 {
-                                                    name = file.Attributes.GetNamedItem("Name").InnerText;
+                                                    string metadatafilename = file.Attributes.GetNamedItem("Filename").InnerText;
+                                                    string name;
+                                                    try
+                                                    {
+                                                        name = file.Attributes.GetNamedItem("Name").InnerText;
+                                                    }
+                                                    catch (Exception exc)
+                                                    {
+                                                        name = "Untitled";
+                                                    }
+                                                    Console.WriteLine("Metadata called " + name);
+                                                    metaDataEntry newEntry = new metaDataEntry(_artModeWin, name, metadatafilename);
+
+                                                    newEntry.imageName.Text = name;
+                                                    //Console.Out.WriteLine(fileName.Length);
+                                                    //Console.Out.WriteLine(file);
+
+                                                    newEntry.loadPictures();
+
+
+                                                    assetsList.Items.Add(newEntry);
                                                 }
-                                                catch (Exception exc)
-                                                {
-                                                    name = "Untitled";
-                                                }
-                                                Console.WriteLine("Metadata called "+name);
-                                                metaDataEntry newEntry = new metaDataEntry(_artModeWin, name, metadatafilename);
-
-                                                newEntry.imageName.Text = name;
-                                                //Console.Out.WriteLine(fileName.Length);
-                                                //Console.Out.WriteLine(file);
-
-                                                newEntry.loadPictures();
-
-
-                                                assetsList.Items.Add(newEntry);
                                             }
 
                                         }
