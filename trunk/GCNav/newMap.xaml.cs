@@ -104,20 +104,20 @@ namespace GCNav
                 double lon = Convert.ToDouble(locInfo[1]);
                 double lat = Convert.ToDouble(locInfo[2]);
 
-                double long1 = lon * 11527;
-                double lat1 = lat *6505;
+                double long1 = (lon-0.0028) * 11527;
+                double lat1 = (lat-0.002) *6505;
                 
                 Double screenPosX = (mapImage.GetZoomableCanvas.Scale * long1) - mapImage.GetZoomableCanvas.Offset.X; //need to reset the location thing
                 Double screenPosY = (mapImage.GetZoomableCanvas.Scale * lat1) - mapImage.GetZoomableCanvas.Offset.Y;
 
-                Canvas.SetLeft(backEllipse, screenPosX);
-                Canvas.SetTop(backEllipse, screenPosY);
+                Canvas.SetLeft(backEllipse, screenPosX -1/mapImage.GetZoomableCanvas.Scale);
+                Canvas.SetTop(backEllipse, screenPosY - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
-                Canvas.SetLeft(newEllipse, screenPosX+2);
-                Canvas.SetTop(newEllipse, screenPosY+2);
+                Canvas.SetLeft(newEllipse, screenPosX +2 - 1 / mapImage.GetZoomableCanvas.Scale);
+                Canvas.SetTop(newEllipse, screenPosY + 2 - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
-                Canvas.SetLeft(rb, screenPosX );
-                Canvas.SetTop(rb, screenPosY );
+                Canvas.SetLeft(rb, screenPosX - 1 / mapImage.GetZoomableCanvas.Scale);
+                Canvas.SetTop(rb, screenPosY - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
 
 
@@ -241,14 +241,14 @@ namespace GCNav
            
             ellipses.Add(newButton,newEllipse);
             backEllipses.Add(newButton, backEllipse);
-            Canvas.SetLeft(newButton, long1 );
-            Canvas.SetTop(newButton, lat1 );
+            Canvas.SetLeft(newButton, long1 -5);
+            Canvas.SetTop(newButton, lat1 -3 );
             Canvas.SetZIndex(newButton, 10);
-            Canvas.SetLeft(newEllipse, long1 +2);
-            Canvas.SetTop(newEllipse, lat1 +2);
+            Canvas.SetLeft(newEllipse, long1 -3);
+            Canvas.SetTop(newEllipse, lat1 -1);
             Canvas.SetZIndex(newEllipse, 10);
-            Canvas.SetLeft(backEllipse, long1);
-            Canvas.SetTop(backEllipse, lat1);
+            Canvas.SetLeft(backEllipse, long1-5);
+            Canvas.SetTop(backEllipse, lat1-3);
             Canvas.SetZIndex(backEllipse, 8);
 
             if (long1 < 0 || long1 > Location.Width)
