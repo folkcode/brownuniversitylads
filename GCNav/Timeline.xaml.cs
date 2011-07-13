@@ -32,6 +32,8 @@ namespace GCNav
         private Point startPoint = new Point();
         private ScatterViewItem _sv;
         private List<Event> _events;
+        private bool mouseOnAndDown = false;
+
         public List<Event> getEvents()
         {
             return _events;
@@ -54,7 +56,12 @@ namespace GCNav
             _sv = sv;
         }
 
-        bool mouseOnAndDown = false;
+        public void setMouseOnAndDown(bool b)
+        {
+            mouseOnAndDown = b;
+        }
+
+        
         void mainCanvas_PreviewMouseDown(object sender, MouseEventArgs e)
         {
             startPoint = e.Device.GetCenterPosition(this);
