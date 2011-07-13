@@ -883,6 +883,7 @@ namespace LADSArtworkMode
                 tourStoryboard.Seek(artModeWin, tourTimerCountSpan, TimeSeekOrigin.BeginTime);
                 tourStoryboard.CurrentTimeInvalidated += TourStoryboardPlayback_CurrentTimeInvalidated;
                 mouseIsDown = false;
+                Mouse.Capture(null);
             }
         }
 
