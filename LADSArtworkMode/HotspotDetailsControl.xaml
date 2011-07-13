@@ -16,8 +16,8 @@
            
         
         <!-- <Border BorderBrush="Silver" BorderThickness="1"> -->
-            <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="386" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
-                <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="380" TextWrapping="Wrap" IsReadOnly="True" Foreground="Black" Background="Transparent"/>
+            <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
+                <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="366" TextWrapping="Wrap" IsReadOnly="True" />
             <!-- <DocumentViewer Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="380" Canvas.Top="26" Width="600" Canvas.Left="-1" /> -->
            
             </s:SurfaceScrollViewer>
@@ -25,26 +25,21 @@
             <s:SurfaceScrollViewer Name="imageScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <Image Name="HotspotImage" Height="272" Width="380"/>
             </s:SurfaceScrollViewer>
-            <UserControl Name="video"></UserControl>
-            <s:SurfaceScrollViewer Name="VideoScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="11" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Hidden">
+            <Canvas Name="videoCanvas" Background="Transparent">
+                <UserControl Name="video"></UserControl>
+            </Canvas>
+            <StackPanel Name="VideoStackPanel">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <s:SurfaceButton Name="SurfacePlayButton" Content ="Play/Pause" Width="103" Height="20" Click="SurfacePlayButton_Click" Margin="5">
+                    </s:SurfaceButton>
+                    <s:SurfaceSlider Name="SurfaceTimelineSlider" Margin="5" ValueChanged="SurfaceTimelineSlider_MouseUp" Width="70"/>
+                </StackPanel>
+            </StackPanel>
+            <!--<s:SurfaceScrollViewer Name="VideoScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="11" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 
-            </s:SurfaceScrollViewer>
-            <!--<s:SurfaceScrollViewer Name="AudioScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" BorderThickness="2" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Canvas Height="272" Width="380" Name="audioCanvas" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Azure">
-                <MediaElement Name="mediaElement" Width="360" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" />
-                <Image Name="audioIcon" Width="100" Height="100" Canvas.Left="30" Canvas.Top="10" />
-                <Label Name="MediaName" Width="350" Canvas.Top="120" Canvas.Left="20" Foreground="Black" />
-                <s:SurfaceButton Name="Play" Width="100" Content="    Play" Height="35" MinHeight="0" Background="DarkCyan" Canvas.Top="180" Canvas.Left="20" FontSize="18" Click="mediaPlay"/>
-                <s:SurfaceButton Name="Pause" Width="100" Content="    Pause" Height="35" MinHeight="0" Background="DarkCyan" Canvas.Top="180" Canvas.Left="140" FontSize="18" Click="mediaPause" />
-                <s:SurfaceButton Name="Stop" Width="100" Content="    Stop" Height="35" MinHeight="0" Background="DarkCyan" Canvas.Top="180" Canvas.Left="260" FontSize="18" Click="mediaStop" />
-                <Label Content="Change Volume:" Foreground="Black" Canvas.Right="30" Height="30" MinHeight="0"/>
-                <s:SurfaceSlider Name="volumeChange" ValueChanged="ChangeMediaVolume" Minimum="0" Maximum="1" Value="0.5" Width="100" Height="30" Canvas.Right="50" Canvas.Top="30" Foreground="Black" Background="Azure"/>
-                <Label Content="Seek To:" Foreground="Black" Canvas.Right="80" Canvas.Top="55"  Height="30" MinHeight="0"/>
-                <s:SurfaceSlider Name="mediaPositionChange" ValueChanged="SeekToMediaPosition" Minimum="0" Maximum="60" Value="30" Width="100" Height="30" Canvas.Right="50" Canvas.Top="80" Foreground="Black" Background="Azure"/>
-                </Canvas>
+            </s:SurfaceScrollViewer>-->
             
-        </s:SurfaceScrollViewer>   -->
-            <StackPanel Background="#ccd6c1" Name="AudioScroll" Height="272" Width="380" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
+            <StackPanel Background="#ccd6c1" Name="AudioScroll" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
                 
                     <MediaElement Name="myMediaElement"  Width="280" Height="60" Stretch="Fill" />
                 <s:SurfaceSlider Name="timelineSlider" Margin="5" Height ="20" Width="250" HorizontalAlignment="Center" Background="#618276" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
@@ -122,11 +117,6 @@
             </StackPanel>
 
 
-
-            <!--<s:SurfaceScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Height="215" Width="283" Canvas.Top="35" Canvas.Left="12" Background="White" BorderThickness="2"> -->
-        <!--<DocumentViewer x:Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="361" Canvas.Top="37" Width="600" Canvas.Left="-1" Style="{DynamicResource SurfaceDocumentViewerStyle}" /> -->
-        <!--</s:SurfaceScrollViewer>-->
-        <!-- </Border> -->
             <Label Content="Label" Height="28" HorizontalAlignment="Left" x:Name="Name" VerticalAlignment="Top" FontSize="16" MinWidth="0" MinHeight="0" Width="335" Padding="5,3,0,0" FontWeight="Bold" Foreground="White" Canvas.Top="3" Canvas.Left="7" />
         <my:SurfaceButton  Content="Close" Height="24" HorizontalAlignment="Right" x:Name="closeButton" VerticalAlignment="Center" Width="48" FontSize="11" MinWidth="0" MinHeight="0" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" Background="{x:Null}" FontWeight="Bold" FontStyle="Normal" Click="closeButton_Click" Grid.Row="1" Grid.ColumnSpan="2" Canvas.Top="6" Canvas.Right="10" />
        

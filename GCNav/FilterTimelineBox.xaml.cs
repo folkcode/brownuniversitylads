@@ -192,7 +192,6 @@ namespace GCNav
             _nav.ImagesSelected(_imageCollection);
             filtItemList.SelectedIndex = -1;
             _nav.resetZoom();
-            
         }
 
         private void reset_touch(object sender, TouchEventArgs e)

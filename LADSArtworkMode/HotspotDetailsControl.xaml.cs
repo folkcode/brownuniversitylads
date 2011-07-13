@@ -22,6 +22,7 @@ using System.Media;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Microsoft.Surface.Presentation.Generic;
+using System.Windows.Threading;
 
 
 namespace LADSArtworkMode
@@ -36,6 +37,7 @@ namespace LADSArtworkMode
         Canvas m_parentCanvas;
         public Hotspot m_hotspotData;
         Boolean hasVideo;
+        MediaElement videoElement;
         //LADSVideoBubble video;
         //MediaElement _audio;
         Boolean _dragging;
@@ -167,7 +169,8 @@ namespace LADSArtworkMode
             isOnScreen = false;
             if (hasVideo)
             {
-                (video as LADSVideoBubble).pauseVideo();
+                videoElement.Pause();
+                //(video as LADSVideoBubble).pauseVideo();
             }
         }
 
@@ -320,7 +323,9 @@ namespace LADSArtworkMode
             //Canvas.SetLeft(this, screenPosX);
             //Canvas.SetTop(this, screenPosY);
         }
-      
+
+        private DispatcherTimer videoTimer;
+
         /// <summary>
         /// Load data inside the hotspot detail control, can be text or image.
         /// </summary>
@@ -365,7 +370,7 @@ namespace LADSArtworkMode
                 HotspotTextBox.Visibility = Visibility.Hidden;
                 textBoxScroll.Visibility = Visibility.Hidden;
                 AudioScroll.Visibility = Visibility.Hidden;
-                VideoScroll.Visibility = Visibility.Hidden;
+                
                 //this.Width = img.Width;
             }
             else if (m_hotspotData.Type.ToLower().Contains("text"))
@@ -378,7 +383,7 @@ namespace LADSArtworkMode
                 //HotspotTextBox.Visibility = Visibility.Visible;
                 //textBoxScroll.Visibility = Visibility.Visible;
                 AudioScroll.Visibility = Visibility.Hidden;
-                VideoScroll.Visibility = Visibility.Hidden;
+                
                // video.Visibility = Visibility.Hidden;
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
@@ -434,30 +439,24 @@ namespace LADSArtworkMode
             else if (m_hotspotData.Type.ToLower().Contains("video"))
             {
                 String videoUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Videos\\" + m_hotspotData.Description;
-                LADSVideoBubble newVideo = new LADSVideoBubble(videoUri,500,500);
-                newVideo._video.MediaOpened += new RoutedEventHandler(newVideo_Loaded);
-                //newVideo.setPreferredSize(372, 268);
-                //VideoScroll.Content = newVideo;
-                //VideoScroll.Add(newVideo);
-
-                //VideoScroll.Visibility = Visibility.Visible;
-                video = newVideo;
-                hotspotCanvas.Children.Add(video);
-                Canvas.SetTop(video, 35);
-                //Canvas.SetLeft(video, -30);
+                videoElement = new MediaElement();
+                videoElement.Source = new Uri(videoUri);
+                videoTimer = new DispatcherTimer();
+                videoTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+                videoTimer.Tick += new EventHandler(videoTimer_Tick);
+                videoElement.MediaOpened += new RoutedEventHandler(videoElement_MediaOpened);
+                videoElement.MediaEnded += VideoElementDone;
+                videoElement.LoadedBehavior = MediaState.Manual;
+                videoElement.Play();
+                videoElement.Pause();
+                VideoStackPanel.Children.Add(videoElement);
+                HotspotTextBox.Visibility = Visibility.Collapsed;
+                textBoxScroll.Visibility = Visibility.Collapsed;
+                imageScroll.Visibility = Visibility.Collapsed;
+                //VideoScroll.Visibility = Visibility.Collapsed;
+                AudioScroll.Visibility = Visibility.Collapsed;
                 hasVideo = true;
-
-                this.SetCurrentValue(HeightProperty, newVideo.Height);
-                this.SetCurrentValue(WidthProperty, newVideo.Width);
-                hotspotCanvas.Width = newVideo.Width;
-                hotspotCanvas.Height = newVideo.Height;
-                this.Width = hotspotCanvas.Width;
-                this.Height = hotspotCanvas.Height;
-                //Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
-                VideoScroll.Width = newVideo.Width;
-                VideoScroll.Height = newVideo.Height;
-                HotspotTextBox.Visibility = Visibility.Hidden;
-                textBoxScroll.Visibility = Visibility.Hidden;
+                Canvas.SetTop(VideoStackPanel, 35);
             }
             Name.Content = m_hotspotData.Name;
             Double[] size = this.findImageSize();
@@ -470,17 +469,58 @@ namespace LADSArtworkMode
            // m_parentScatterView.Items.Add(this);
         }
 
+        void SurfaceTimelineSlider_ManipulationStarted(object sender, EventArgs e)
+        {
+            videoTimer.Tick -= videoTimer_Tick;
+        }
+        void SurfaceTimelineSlider_ManipulationCompleted(object sender, EventArgs e)
+        {
+            videoTimer.Tick += videoTimer_Tick;
+        }
+        void videoElement_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            videoTimer.Start();
+            SurfaceTimelineSlider.Maximum = videoElement.NaturalDuration.TimeSpan.TotalMilliseconds - 1;
+            SurfaceTimelineSlider.ManipulationStarted+= SurfaceTimelineSlider_ManipulationStarted;
+            SurfaceTimelineSlider.ManipulationCompleted += SurfaceTimelineSlider_ManipulationCompleted;
+            double aspectratio = (double)videoElement.NaturalVideoHeight / (double)videoElement.NaturalVideoWidth;
+            if (aspectratio > .8)
+            {
+                videoElement.Height = 453;
+                videoElement.Width = 453.0 / aspectratio;
+            }
+            else
+            {
+                videoElement.Width = 476;
+                videoElement.Height = 476.0 * aspectratio;
+            }
+            //video.Background = Brushes.Black;
+            VideoStackPanel.Width = videoElement.Width;
+            VideoStackPanel.Height = videoElement.Height+30.0;
+            hotspotCanvas.Width = VideoStackPanel.Width + 24;
+            hotspotCanvas.Height = VideoStackPanel.Height + 47;
+            Canvas.SetLeft(VideoStackPanel, 12);
+            Width = hotspotCanvas.Width + 8;
+            Height = hotspotCanvas.Height + 8;
+            minX = Width / 2;
+            minY = Height / 2;
+        }
+
+        void videoTimer_Tick(object sender, EventArgs e)
+        {
+            SurfaceTimelineSlider.Value = videoElement.Position.TotalMilliseconds;
+        }
+
         void newVideo_Loaded(object sender, RoutedEventArgs e)
         {
-            this.SetCurrentValue(HeightProperty, (video as LADSVideoBubble)._video.Height);
-            this.SetCurrentValue(WidthProperty, (video as LADSVideoBubble)._video.Width);
-            hotspotCanvas.Width = (video as LADSVideoBubble)._video.Width;// +24.0;
-            hotspotCanvas.Height = (video as LADSVideoBubble)._video.Height;// +47.0;
-            VideoScroll.Width = hotspotCanvas.Width -24.0;
-            VideoScroll.Height = hotspotCanvas.Height - 47.0;
-
-            this.Width = hotspotCanvas.Width+8;
-            this.Height = hotspotCanvas.Height+8;
+            (video as LADSVideoBubble).Resize(366,272);
+            //video.Background = Brushes.Black;
+            hotspotCanvas.Width = video.ActualWidth + 24;
+            hotspotCanvas.Height = video.ActualHeight + 47;
+            minX = hotspotCanvas.Width + 8;
+            minY = hotspotCanvas.Height + 8;
+            this.Width = hotspotCanvas.Width + 8;
+            this.Height = hotspotCanvas.Height + 8;
         }
 
         public Double[] findImageSize()
@@ -532,38 +572,8 @@ namespace LADSArtworkMode
             myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
             _sliderTimer.Stop();
             myMediaElement.Pause();
-
-            //hacky code
-            //myMediaElement = null;
-            //myMediaElement = new MediaElement();
-            //_hasBeenOpened = false;
-            //_dragging = false;
-            //// Console.Out.WriteLine("audio is selected!");
-            //AudioScroll.Visibility = Visibility.Visible;
-            //String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
-            //Console.WriteLine("audiouri is : " + audioUri);
-            //timelineSlider.Visibility = Visibility.Visible;
-            ////_audio = new MediaElement();
-            ////_audio.Source = new Uri(audioUri, UriKind.RelativeOrAbsolute);
-            //PlayButton.Click += new RoutedEventHandler(PlayButton_Click);
-            //PauseButton.Click += new RoutedEventHandler(PauseButton_Click);
-            //StopButton.Click += new RoutedEventHandler(StopButton_Click);
-            ////myMediaElement.ScrubbingEnabled = true;
-            //audioName.Content = m_hotspotData.Description;
-            ////String description = 
-            //// MediaName.Content = m_hotspotData.Description.Substring(0,m_hotspotData.Description.Length-4); //will display the name of the media according to where the file saves
-            //myMediaElement.Source = new Uri(audioUri);
-            //this.showAudioIcon();
-            ////myMediaElement.ScrubbingEnabled = true;
-            ////mediaTimeLine.Source = new Uri(audioUri);
-            //myMediaElement.LoadedBehavior = MediaState.Manual;
-
-            //_dragging = false;
-            //_sliderTimer = new System.Windows.Threading.DispatcherTimer();
-            //myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
-            //myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
-
-            ////fire Media Opened
+            //timelineSlider.Value = 0;
+            _sliderTimer.Stop();
             //myMediaElement.Play();
             //myMediaElement.Pause();
 
@@ -763,6 +773,21 @@ namespace LADSArtworkMode
                 Width = e.PreviousSize.Width;
                 Height = e.PreviousSize.Height;
             }
+
+            if (m_hotspotData.Type.ToLower().Contains("video"))
+            {
+                if (videoElement != null)
+                {
+                    hotspotCanvas.Width = Width - 8;
+                    hotspotCanvas.Height = Height - 8;
+                    VideoStackPanel.Width = hotspotCanvas.Width - 24;
+                    VideoStackPanel.Height = hotspotCanvas.Height - 47;
+                    videoElement.Width = VideoStackPanel.Width;
+                    videoElement.Height = VideoStackPanel.Height - 30;
+                    SurfaceTimelineSlider.Width = hotspotCanvas.Width - 180;
+                }
+            }
+
             if (m_hotspotData.Type.ToLower().Contains("image"))
             {
                 hotspotCanvas.Width = e.NewSize.Width-8;
@@ -773,10 +798,47 @@ namespace LADSArtworkMode
                 imageScroll.Width = hotspotCanvas.Width - 24.0; 
                 
             }
+
+            if (m_hotspotData.Type.ToLower().Contains("audio"))
+            {
+                Width = e.PreviousSize.Width;
+                Height = e.PreviousSize.Height;
+            }
             if (hasVideo)
             {
-                (video as LADSVideoBubble).Resize(e.NewSize.Width, e.NewSize.Height, true);
+                //(video as LADSVideoBubble).Resize(e.NewSize.Width, e.NewSize.Height, true);
             }
+        }
+
+        bool isPlaying;
+
+        private void SurfacePlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isPlaying)
+            {
+                videoElement.Play();
+                videoTimer.Start();
+                isPlaying = true;
+            }
+            else
+            {
+                videoElement.Pause();
+                videoTimer.Stop();
+                isPlaying = false;
+            }
+
+        }
+
+        private void VideoElementDone(object sender, EventArgs e)
+        {
+            videoElement.Position = new TimeSpan(0, 0, 0, 0, 0);
+            videoElement.Pause();
+            isPlaying = false;
+        }
+
+        private void SurfaceTimelineSlider_MouseUp(object sender, EventArgs e)
+        {
+            videoElement.Position = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(SurfaceTimelineSlider.Value));
         }
 
         /**
