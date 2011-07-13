@@ -167,11 +167,11 @@ namespace SurfaceApplication3
                 Double screenPosY = (lat * mapcurHeight) - map1.GetZoomableCanvas.Offset.Y;
 
 
-                Canvas.SetLeft(newEllipse, screenPosX-14); //to set the button more accurately as the click point
-                Canvas.SetTop(newEllipse, screenPosY+3);
+                Canvas.SetLeft(newEllipse, screenPosX - 20.8);
+                Canvas.SetTop(newEllipse, screenPosY - 5);
 
-                Canvas.SetLeft(rb, screenPosX -16 );
-                Canvas.SetTop(rb, screenPosY -5 );
+                Canvas.SetLeft(rb, screenPosX - 22.8);
+                Canvas.SetTop(rb, screenPosY - 13);
 
                 //Console.Out.WriteLine(screenPosX);
                 if (screenPosX < 0 || screenPosX > mapCover.Width)
