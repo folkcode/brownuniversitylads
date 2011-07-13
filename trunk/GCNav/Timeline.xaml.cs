@@ -186,7 +186,7 @@ namespace GCNav
         /// <summary>
         /// redraw the tick marks
         /// </summary>
-        private void updateTickMarks() 
+        public void updateTickMarks() 
         {
             _tickmarksCanvas.Children.Clear();
 

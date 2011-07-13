@@ -529,7 +529,7 @@ namespace GCNav
         {
             
             Console.WriteLine("New Width = " + e.NewSize.Width);
-            if (e.NewSize.Width < 13000 && e.NewSize.Width > 2100)
+            if (e.NewSize.Width < 13000)
             {
                 if (!zoomStopped)
                 {
@@ -600,6 +600,7 @@ namespace GCNav
             mainScatterViewItem.Width = _initScatterWH.X;
             mainScatterViewItem.Height = _initScatterWH.Y;
             mainScatterViewItem.Center = new Point(_initScatterPos.X, _initScatterPos.Y);
+            timeline.updateTickMarks();
         }
 
         private void mainScatterViewItem_CenterChanged(Object sender, EventArgs e)

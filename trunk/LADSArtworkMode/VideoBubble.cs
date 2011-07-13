@@ -82,6 +82,19 @@ namespace LADSArtworkMode
             this.AddChild(_layoutRoot);
             this.MouseEnter += new MouseEventHandler(VideoBubble_MouseEnter);
             this.MouseLeave += new MouseEventHandler(VideoBubble_MouseLeave);
+            this.SizeChanged += new SizeChangedEventHandler(LADSVideoBubble_SizeChanged);
+        }
+
+        void LADSVideoBubble_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width > _video.ActualWidth)
+            {
+                Width = _video.ActualWidth;
+            }
+            if (e.NewSize.Height > _video.ActualHeight)
+            {
+                Height = _video.ActualHeight;
+            }
         }
 
         #region Video Event Handlers
