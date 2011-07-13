@@ -134,7 +134,7 @@ namespace GCNav
                     newEllipse.Visibility = Visibility.Collapsed;
                     backEllipse.Visibility = Visibility.Collapsed;
                 }
-                if (screenPosY < 10 || screenPosY > Location.Height - 20)
+                if (screenPosY < 10 || screenPosY > Location.Height - 25)
                 {
                     rb.Visibility = Visibility.Collapsed;
                     newEllipse.Visibility = Visibility.Collapsed;
