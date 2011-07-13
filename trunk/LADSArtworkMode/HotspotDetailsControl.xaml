@@ -32,7 +32,7 @@
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <s:SurfaceButton Name="SurfacePlayButton" Content ="Play/Pause" Width="103" Height="20" Click="SurfacePlayButton_Click" Margin="5">
                     </s:SurfaceButton>
-                    <s:SurfaceSlider Name="SurfaceTimelineSlider" Margin="5" ValueChanged="SurfaceTimelineSlider_MouseUp" Width="70"/>
+                    <s:SurfaceSlider Name="SurfaceTimelineSlider" Margin="5" ValueChanged="SurfaceTimelineSlider_ValueChanged"  Width="70"/>
                 </StackPanel>
             </StackPanel>
             <!--<s:SurfaceScrollViewer Name="VideoScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="11" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
