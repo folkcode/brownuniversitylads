@@ -328,6 +328,16 @@ namespace LADSArtworkMode
                 //hotspotCanvas.Height = 200;
                 //InitializeComponent();
                 //myMediaElement = new MediaElement();
+                Width = 290;
+                Height = 200;
+                AudioScroll.Height = Height - 60.0;
+                AudioScroll.Width = Width - 44;
+                imageScroll.Visibility = Visibility.Collapsed;
+                VideoStackPanel.Visibility = Visibility.Collapsed;
+                videoCanvas.Visibility = Visibility.Collapsed;
+                textBoxScroll.Visibility = Visibility.Collapsed;
+
+                this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
                 myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
                // myMediaElement.ScrubbingEnabled = true;
