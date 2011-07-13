@@ -185,88 +185,6 @@ namespace LADSArtworkMode
             isOnScreen = false;
         }
 
-        /// <summary>
-        /// Called when a user chooses to display details about a hotspot.
-        /// </summary>
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("_Loaded user control loaded");
-           // HotspotsContent.Text = m_hotspotData.Description;
-          /*  String fileName = m_hotspotData.Description;
-           // String fullpath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\HotspotDataFiles\\" + fileName;
-            String fullpath = null;
-            try
-            {
-                fullpath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\HotspotDataFiles\\" + fileName;
-            }
-            catch
-            {
-                fullpath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\HotspotDataFiles\\" + "test.xps";
-            }
-            //MessageBox.Show(fullpath);
-            m_xpsdocument = new XpsDocument(fullpath, FileAccess.ReadWrite);
-            HotspotsContent.Document = m_xpsdocument.GetFixedDocumentSequence();*/
-            //HotspotTextBox.Text = m_hotspotData.Type + " - " + m_hotspotData.Description;
-            if (m_hotspotData.Type.ToLower().Contains("image"))
-            {
-                BitmapImage img = new BitmapImage();
-                String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.Description;
-                img.BeginInit();
-                img.UriSource = new Uri(imgUri, UriKind.Absolute);
-                img.CacheOption = BitmapCacheOption.OnLoad;
-                img.EndInit();
-                HotspotImage.Source = img;
-                HotspotImage.Visibility = Visibility.Visible;
-                imageScroll.Visibility = Visibility.Visible;
-                HotspotImage.IsEnabled = true;
-                imageScroll.IsEnabled = true;
-                double maxWidth = 600.0;
-                if (img.Width > maxWidth)
-                {
-                    HotspotImage.SetCurrentValue(HeightProperty, maxWidth * img.Height / img.Width);
-                    HotspotImage.SetCurrentValue(WidthProperty, maxWidth);
-                }
-                else
-                {
-                    HotspotImage.SetCurrentValue(HeightProperty,img.Height);
-                    HotspotImage.SetCurrentValue(WidthProperty, img.Width);
-                }
-                this.SetCurrentValue(HeightProperty, HotspotImage.Height + 47.0);
-                this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
-                hotspotCanvas.Width = HotspotImage.Width + 24.0;
-                hotspotCanvas.Height = HotspotImage.Height + 47.0;
-
-                this.Width = hotspotCanvas.Width;
-                this.Height = hotspotCanvas.Height;
-                //Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
-                imageScroll.Width = HotspotImage.Width;
-                imageScroll.Height = HotspotImage.Height;
-                HotspotTextBox.Visibility = Visibility.Hidden;
-                textBoxScroll.Visibility = Visibility.Hidden;
-                //this.Width = img.Width;
-            }
-            if (m_hotspotData.Type.ToLower().Contains("text"))
-            {
-                HotspotTextBox.Text = m_hotspotData.Description;
-                HotspotImage.Visibility = Visibility.Hidden;
-                imageScroll.Visibility = Visibility.Hidden;
-                HotspotImage.IsEnabled = false;
-                imageScroll.IsEnabled = false;
-                HotspotTextBox.Visibility = Visibility.Visible;
-                textBoxScroll.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                Console.Out.WriteLine("audio is being called");
-                //Storyboard audioResourceWav;
-                String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\GaribaldiScene43Tour_mastered.mp3";
-                //myMediaElement = new MediaElement();
-                //audioResourceWav = (Storyboard)this.Resources[audioUri];
-                //audioResourceWav.Begin(this);
-            }
-            
-            Name.Content = m_hotspotData.Name;
-        }
 
         /// <summary>
         /// Called when the play button is clicked.
@@ -369,6 +287,7 @@ namespace LADSArtworkMode
                 imageScroll.Height = HotspotImage.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
                 textBoxScroll.Visibility = Visibility.Hidden;
+                VideoStackPanel.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Hidden;
                 
                 //this.Width = img.Width;
@@ -380,6 +299,7 @@ namespace LADSArtworkMode
                 imageScroll.Visibility = Visibility.Hidden;
                 HotspotImage.IsEnabled = false;
                 imageScroll.IsEnabled = false;
+                VideoStackPanel.Visibility = Visibility.Collapsed;
                 //HotspotTextBox.Visibility = Visibility.Visible;
                 //textBoxScroll.Visibility = Visibility.Visible;
                 AudioScroll.Visibility = Visibility.Hidden;
@@ -400,6 +320,7 @@ namespace LADSArtworkMode
                 myMediaElement.Source = new Uri(audioUri);
                 AudioScroll.Visibility = Visibility.Visible;
                 timelineSlider.Visibility = Visibility.Visible;
+                VideoStackPanel.Visibility = Visibility.Collapsed;
 
                 //fire Media Opened
                 myMediaElement.Play();
