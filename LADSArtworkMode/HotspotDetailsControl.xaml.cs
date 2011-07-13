@@ -429,7 +429,9 @@ namespace LADSArtworkMode
 
         void videoTimer_Tick(object sender, EventArgs e)
         {
+            SurfaceTimelineSlider.ValueChanged -= SurfaceTimelineSlider_ValueChanged;
             SurfaceTimelineSlider.Value = videoElement.Position.TotalMilliseconds;
+            SurfaceTimelineSlider.ValueChanged += SurfaceTimelineSlider_ValueChanged;
         }
 
         void newVideo_Loaded(object sender, RoutedEventArgs e)
@@ -689,7 +691,7 @@ namespace LADSArtworkMode
 
         private void scatterItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Height > 800 || e.NewSize.Width>800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX)
+            if (e.NewSize.Height > 800 || e.NewSize.Width > 800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX || m_hotspotData.Type.ToLower().Contains("audio") || m_hotspotData.Type.ToLower().Contains("text"))
             {
                 Width = e.PreviousSize.Width;
                 Height = e.PreviousSize.Height;
@@ -716,18 +718,7 @@ namespace LADSArtworkMode
                 HotspotImage.Height = hotspotCanvas.Height - 47.0;
                 HotspotImage.Width = hotspotCanvas.Width - 24.0;
                 imageScroll.Height = hotspotCanvas.Height - 47.0;
-                imageScroll.Width = hotspotCanvas.Width - 24.0; 
-                
-            }
-
-            if (m_hotspotData.Type.ToLower().Contains("audio"))
-            {
-                Width = e.PreviousSize.Width;
-                Height = e.PreviousSize.Height;
-            }
-            if (hasVideo)
-            {
-                //(video as LADSVideoBubble).Resize(e.NewSize.Width, e.NewSize.Height, true);
+                imageScroll.Width = hotspotCanvas.Width - 24.0;
             }
         }
 
@@ -758,6 +749,11 @@ namespace LADSArtworkMode
         }
 
         private void SurfaceTimelineSlider_MouseUp(object sender, EventArgs e)
+        {
+            videoElement.Position = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(SurfaceTimelineSlider.Value));
+        }
+
+        private void SurfaceTimelineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             videoElement.Position = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(SurfaceTimelineSlider.Value));
         }
