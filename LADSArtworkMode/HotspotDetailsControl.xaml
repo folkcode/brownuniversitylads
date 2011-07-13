@@ -21,10 +21,7 @@
             <!-- <DocumentViewer Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="380" Canvas.Top="26" Width="600" Canvas.Left="-1" /> -->
            
             </s:SurfaceScrollViewer>
-
-            <s:SurfaceScrollViewer Name="imageScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <Image Name="HotspotImage" Height="272" Width="380"/>
-            </s:SurfaceScrollViewer>
             <Canvas Name="videoCanvas" Background="Transparent">
                 <UserControl Name="video"></UserControl>
             </Canvas>

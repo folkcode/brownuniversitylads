@@ -115,7 +115,6 @@ namespace LADSArtworkMode
             isOnScreen = false;
             hasVideo = false;
             _hasBeenOpened = false;
-            
         }
 
         void HotspotDetailsControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -284,9 +283,7 @@ namespace LADSArtworkMode
                 img.EndInit();
                 HotspotImage.Source = img;
                 HotspotImage.Visibility = Visibility.Visible;
-                imageScroll.Visibility = Visibility.Visible;
                 HotspotImage.IsEnabled = true;
-                imageScroll.IsEnabled = true;
                 double maxWidth = 800.0;
                 if (img.PixelWidth > maxWidth)
                 {
@@ -306,8 +303,6 @@ namespace LADSArtworkMode
                 this.Width = hotspotCanvas.Width;
                 this.Height = hotspotCanvas.Height;
                 //Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
-                imageScroll.Width = HotspotImage.Width;
-                imageScroll.Height = HotspotImage.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
                 textBoxScroll.Visibility = Visibility.Hidden;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
@@ -319,9 +314,7 @@ namespace LADSArtworkMode
             {
                 HotspotTextBox.Text = m_hotspotData.Description;
                 HotspotImage.Visibility = Visibility.Hidden;
-                imageScroll.Visibility = Visibility.Hidden;
                 HotspotImage.IsEnabled = false;
-                imageScroll.IsEnabled = false;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 //HotspotTextBox.Visibility = Visibility.Visible;
                 //textBoxScroll.Visibility = Visibility.Visible;
@@ -396,7 +389,6 @@ namespace LADSArtworkMode
                 VideoStackPanel.Children.Add(videoElement);
                 HotspotTextBox.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
-                imageScroll.Visibility = Visibility.Collapsed;
                 //VideoScroll.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Collapsed;
                 hasVideo = true;
@@ -741,9 +733,9 @@ namespace LADSArtworkMode
                 hotspotCanvas.Height = e.NewSize.Height-8;
                 HotspotImage.Height = hotspotCanvas.Height - 47.0;
                 HotspotImage.Width = hotspotCanvas.Width - 24.0;
-                imageScroll.Height = hotspotCanvas.Height - 47.0;
-                imageScroll.Width = hotspotCanvas.Width - 24.0;
                 Name.Width = Width - (422 - 335);
+                Canvas.SetLeft(HotspotImage,12);
+                Canvas.SetTop(HotspotImage, 35);
             }
         }
 
