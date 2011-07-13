@@ -50,7 +50,7 @@ namespace SurfaceApplication3
             }
             else
             {
-                ofd.Filter = "Video Files(*.AVI;*.MOV;*.WMV)|*.AVI;*.MOV;*.WMV";
+                ofd.Filter = "Video Files(*.AVI;*.MOV;*.WMV;*.MPEG;*.MP4)|*.AVI;*.MOV;*.WMV;*.MPEG;*.MP4";
             }
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
