@@ -21,6 +21,7 @@ using System.Windows.Media.Animation;
 using System.Media;
 using System.Text.RegularExpressions;
 using System.Xml;
+using Microsoft.Surface.Presentation.Generic;
 
 
 namespace LADSArtworkMode
@@ -34,13 +35,26 @@ namespace LADSArtworkMode
         Canvas m_parentCanvas;
         Hotspot m_hotspotData;
         Boolean hasVideo;
-        LADSVideoBubble video;
+        //LADSVideoBubble video;
         //MediaElement _audio;
         Boolean _dragging;
         private const int SLIDER_TIMER_RESOLUTION = 100; //how often we update the slider based on the video position, in milliseconds
         private System.Windows.Threading.DispatcherTimer _sliderTimer;
         Boolean _hasBeenOpened;
-       
+        double minX;
+        public double MinX
+        {
+            get { return minX; }
+            set { minX = value; }
+        }
+
+        double minY;
+        public double MinY
+        {
+            get { return minY; }
+            set { minY = value; }
+        }
+
         double screenPosX;
 
         public double ScreenPosX
@@ -87,6 +101,7 @@ namespace LADSArtworkMode
         /// </summary>
         public HotspotDetailsControl(Canvas parentCanvas, ScatterView parentScatterView, Hotspot hotspotData, MultiScaleImage msi)
         {
+
             InitializeComponent();
             m_hotspotData = hotspotData;
             m_parentCanvas = parentCanvas;
@@ -151,7 +166,7 @@ namespace LADSArtworkMode
             isOnScreen = false;
             if (hasVideo)
             {
-                video.pauseVideo();
+                (video as LADSVideoBubble).pauseVideo();
             }
         }
 
@@ -215,10 +230,10 @@ namespace LADSArtworkMode
                 this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
                 hotspotCanvas.Width = HotspotImage.Width + 24.0;
                 hotspotCanvas.Height = HotspotImage.Height + 47.0;
-                
+
                 this.Width = hotspotCanvas.Width;
                 this.Height = hotspotCanvas.Height;
-                Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
+                //Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
                 imageScroll.Width = HotspotImage.Width;
                 imageScroll.Height = HotspotImage.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
@@ -301,6 +316,8 @@ namespace LADSArtworkMode
         {
             if (m_hotspotData.Type.ToLower().Contains("image"))
             {
+                MinX = 402;
+                MinY = 320;
                 BitmapImage img = new BitmapImage();
                 String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.Description;
                 img.BeginInit();
@@ -312,7 +329,7 @@ namespace LADSArtworkMode
                 imageScroll.Visibility = Visibility.Visible;
                 HotspotImage.IsEnabled = true;
                 imageScroll.IsEnabled = true;
-                double maxWidth = 500.0;
+                double maxWidth = 800.0;
                 if (img.PixelWidth > maxWidth)
                 {
                     HotspotImage.SetCurrentValue(HeightProperty, maxWidth * img.PixelHeight / img.PixelWidth);
@@ -327,10 +344,10 @@ namespace LADSArtworkMode
                 this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
                 hotspotCanvas.Width = HotspotImage.Width + 24.0;
                 hotspotCanvas.Height = HotspotImage.Height + 47.0;
-
+                
                 this.Width = hotspotCanvas.Width;
                 this.Height = hotspotCanvas.Height;
-                Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
+                //Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
                 imageScroll.Width = HotspotImage.Width;
                 imageScroll.Height = HotspotImage.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
@@ -392,26 +409,29 @@ namespace LADSArtworkMode
                 _sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
 
             }
-            else
+            else if (m_hotspotData.Type.ToLower().Contains("video"))
             {
                 String videoUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Videos\\" + m_hotspotData.Description;
-                LADSVideoBubble newVideo = new LADSVideoBubble(videoUri,500,400);
+                LADSVideoBubble newVideo = new LADSVideoBubble(videoUri,500,500);
+                newVideo._video.MediaOpened += new RoutedEventHandler(newVideo_Loaded);
                 //newVideo.setPreferredSize(372, 268);
-                VideoScroll.Content = newVideo;
+                //VideoScroll.Content = newVideo;
                 //VideoScroll.Add(newVideo);
 
-                VideoScroll.Visibility = Visibility.Visible;
+                //VideoScroll.Visibility = Visibility.Visible;
                 video = newVideo;
+                hotspotCanvas.Children.Add(video);
+                Canvas.SetTop(video, 35);
+                //Canvas.SetLeft(video, -30);
                 hasVideo = true;
 
-                this.SetCurrentValue(HeightProperty, newVideo.Height + 47.0);
-                this.SetCurrentValue(WidthProperty, newVideo.Width + 24.0);
-                hotspotCanvas.Width = newVideo.Width + 24.0;
-                hotspotCanvas.Height = newVideo.Height + 47.0;
-
+                this.SetCurrentValue(HeightProperty, newVideo.Height);
+                this.SetCurrentValue(WidthProperty, newVideo.Width);
+                hotspotCanvas.Width = newVideo.Width;
+                hotspotCanvas.Height = newVideo.Height;
                 this.Width = hotspotCanvas.Width;
                 this.Height = hotspotCanvas.Height;
-                Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
+                //Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
                 VideoScroll.Width = newVideo.Width;
                 VideoScroll.Height = newVideo.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
@@ -426,6 +446,19 @@ namespace LADSArtworkMode
             this.Center = new Point(screenPosX + this.Width/2.0, screenPosY + this.Height/2.0);
            // Console.Out.WriteLine("center1" + this.Center);
            // m_parentScatterView.Items.Add(this);
+        }
+
+        void newVideo_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.SetCurrentValue(HeightProperty, (video as LADSVideoBubble)._video.Height);
+            this.SetCurrentValue(WidthProperty, (video as LADSVideoBubble)._video.Width);
+            hotspotCanvas.Width = (video as LADSVideoBubble)._video.Width;// +24.0;
+            hotspotCanvas.Height = (video as LADSVideoBubble)._video.Height;// +47.0;
+            VideoScroll.Width = hotspotCanvas.Width -24.0;
+            VideoScroll.Height = hotspotCanvas.Height - 47.0;
+
+            this.Width = hotspotCanvas.Width+8;
+            this.Height = hotspotCanvas.Height+8;
         }
 
         public Double[] findImageSize()
@@ -571,6 +604,29 @@ namespace LADSArtworkMode
         public bool IsDragging()
         {
             return _dragging;
+        }
+
+        private void scatterItem_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Height > 800 || e.NewSize.Width>800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX)
+            {
+                Width = e.PreviousSize.Width;
+                Height = e.PreviousSize.Height;
+            }
+            if (m_hotspotData.Type.ToLower().Contains("image"))
+            {
+                hotspotCanvas.Width = e.NewSize.Width-8;
+                hotspotCanvas.Height = e.NewSize.Height-8;
+                HotspotImage.Height = hotspotCanvas.Height - 47.0;
+                HotspotImage.Width = hotspotCanvas.Width - 24.0;
+                imageScroll.Height = hotspotCanvas.Height - 47.0;
+                imageScroll.Width = hotspotCanvas.Width - 24.0; 
+                
+            }
+            if (hasVideo)
+            {
+                (video as LADSVideoBubble).Resize(e.NewSize.Width, e.NewSize.Height, true);
+            }
         }
 
         /**

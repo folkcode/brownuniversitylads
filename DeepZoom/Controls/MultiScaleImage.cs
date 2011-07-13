@@ -507,6 +507,9 @@ namespace DeepZoom.Controls
             if (Source == null) 
                 return;
 
+            _zoomableCanvas.ApplyAnimationClock(ZoomableCanvas.ScaleProperty, null);
+            _zoomableCanvas.ApplyAnimationClock(ZoomableCanvas.OffsetProperty, null);
+
             var level = Source.GetLevel(_zoomableCanvas.ActualWidth, _zoomableCanvas.ActualHeight);
             //var level = Source.GetLevel(1920, 1080);
             _spatialSource.CurrentLevel = level;

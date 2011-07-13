@@ -28,8 +28,8 @@ namespace LADSArtworkMode
         private Grid _layoutRoot;
 
         private String _filename;
-        private MediaElement _video;
-        private double _aspectRatio;
+        public MediaElement _video;
+        public double _aspectRatio;
         private VideoItem _controls;
         private DispatcherTimer _sliderTimer;
 
@@ -274,6 +274,8 @@ namespace LADSArtworkMode
             {
                 _layoutRoot.Width = newWidth;
                 _layoutRoot.Height = newHeight;
+                Width = newWidth;
+                Height = newHeight;
                 _video.Width = newWidth;
                 _video.Height = newHeight;
             }
