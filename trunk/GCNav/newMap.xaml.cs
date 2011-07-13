@@ -128,13 +128,13 @@ namespace GCNav
 
                 Console.Out.Write("screen" +screenPosX);
 
-                if (screenPosX < 20 || screenPosX > Location.Width)
+                if (screenPosX < 20 || screenPosX > Location.Width - 10)
                 {
                     rb.Visibility = Visibility.Collapsed;
                     newEllipse.Visibility = Visibility.Collapsed;
                     backEllipse.Visibility = Visibility.Collapsed;
                 }
-                if (screenPosY < 10 || screenPosY > Location.Height)
+                if (screenPosY < 10 || screenPosY > Location.Height - 10)
                 {
                     rb.Visibility = Visibility.Collapsed;
                     newEllipse.Visibility = Visibility.Collapsed;
