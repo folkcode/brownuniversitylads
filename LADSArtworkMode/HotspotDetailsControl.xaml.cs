@@ -111,11 +111,29 @@ namespace LADSArtworkMode
             m_parentScatterView = parentScatterView;
             m_msi = msi;
             //ScatterViewItem
-            
+            this.PreviewMouseWheel += new MouseWheelEventHandler(HotspotDetailsControl_PreviewMouseWheel);
             isOnScreen = false;
             hasVideo = false;
             _hasBeenOpened = false;
             
+        }
+
+        void HotspotDetailsControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (m_hotspotData.Type.ToLower().Contains("video") || m_hotspotData.Type.ToLower().Contains("image"))
+            {
+
+                if (e.Delta < 0)
+                {
+                    this.Width *= 0.95;
+                    this.Height *= 0.95;
+                }
+                if (e.Delta > 0)
+                {
+                    this.Width /= 0.95;
+                    this.Height /= 0.95;
+                }
+            }
         }
         public void showAudioIcon()
         {
@@ -169,7 +187,12 @@ namespace LADSArtworkMode
             isOnScreen = false;
             if (hasVideo)
             {
+
+                (videoElement.Parent as Panel).Children.Remove(videoElement);
                 videoElement.Pause();
+                videoTimer.Stop();
+                videoElement = null;
+                
                 //(video as LADSVideoBubble).pauseVideo();
             }
         }
@@ -303,7 +326,7 @@ namespace LADSArtworkMode
                 //HotspotTextBox.Visibility = Visibility.Visible;
                 //textBoxScroll.Visibility = Visibility.Visible;
                 AudioScroll.Visibility = Visibility.Hidden;
-                
+                this.CanScale = false;
                // video.Visibility = Visibility.Hidden;
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
@@ -325,7 +348,7 @@ namespace LADSArtworkMode
                 //fire Media Opened
                 myMediaElement.Play();
                 myMediaElement.Pause();
-
+                this.CanScale = false;
                 PlayButton.Click += new RoutedEventHandler(PlayButton_Click);
                 PauseButton.Click += new RoutedEventHandler(PauseButton_Click);
                 StopButton.Click += new RoutedEventHandler(StopButton_Click);
@@ -691,7 +714,7 @@ namespace LADSArtworkMode
 
         private void scatterItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Height > 800 || e.NewSize.Width > 800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX || m_hotspotData.Type.ToLower().Contains("audio") || m_hotspotData.Type.ToLower().Contains("text"))
+            if (e.NewSize.Height > 800 || e.NewSize.Width > 800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX)
             {
                 Width = e.PreviousSize.Width;
                 Height = e.PreviousSize.Height;
@@ -708,6 +731,7 @@ namespace LADSArtworkMode
                     videoElement.Width = VideoStackPanel.Width;
                     videoElement.Height = VideoStackPanel.Height - 30;
                     SurfaceTimelineSlider.Width = hotspotCanvas.Width - 180;
+                    Name.Width = Width - (422 - 335);
                 }
             }
 
@@ -719,6 +743,7 @@ namespace LADSArtworkMode
                 HotspotImage.Width = hotspotCanvas.Width - 24.0;
                 imageScroll.Height = hotspotCanvas.Height - 47.0;
                 imageScroll.Width = hotspotCanvas.Width - 24.0;
+                Name.Width = Width - (422 - 335);
             }
         }
 
