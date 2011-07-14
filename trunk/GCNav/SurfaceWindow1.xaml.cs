@@ -30,14 +30,17 @@ namespace GCNav
         /// Default constructor.
         /// </summary>
         private StartCard _startCard;
+        private FilterTimelineBox filter;
         public SurfaceWindow1()
         {
 
             InitializeComponent();
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
-            this.SizeChanged += nav.WindowSizeChanged;
+            this.SizeChanged += new SizeChangedEventHandler(SurfaceWindow1_SizeChanged);
             this.SizeChanged += Map.WindowSizeChanged;
+            this.SizeChanged += nav.WindowSizeChanged;
+            
            
 
             this.MouseUp += new MouseButtonEventHandler(MouseUp_Handler);
@@ -69,6 +72,27 @@ namespace GCNav
             nav.setMapWidth(Map.Width);
             //nav.loadCollection();
             //nav.startAll();
+            filter = new FilterTimelineBox();
+            nav.filter = filter;
+            
+            map.Children.Add(filter);
+            this.SizeChanged += SurfaceWindow1_SizeChanged;
+           
+        }
+
+        void SurfaceWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            nav.setMapWidth(Map.ActualWidth);
+            filter.Width = 420;
+            Double canvasLeft = e.NewSize.Width / 4 + Map.ActualWidth / 2 - filter.Width/2;
+            Console.Out.WriteLine("filterwidth" + filter.Width);
+            Console.Out.WriteLine("mapwidth" + Map.ActualWidth);
+            Canvas.SetLeft(filter, canvasLeft);
+            ScaleTransform tran = new ScaleTransform();
+            tran.ScaleX = e.NewSize.Width / 1600;
+            filter.RenderTransform = tran;
+            filter.Visibility = Visibility.Hidden;
+
         }
 
 
@@ -164,7 +188,8 @@ namespace GCNav
                 //Map.Visibility = Visibility.Visible;
                 Map.loadMap();
                // filter.Visibility = Visibility.Visible;
-                nav.filterBoxContainer.Visibility = Visibility.Visible;
+              //  nav.filterBoxContainer.Visibility = Visibility.Visible;
+                filter.Visibility = Visibility.Visible;
                 //TODO
             }
         }
