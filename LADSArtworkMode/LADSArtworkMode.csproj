@@ -119,11 +119,6 @@
     <Compile Include="Tour\TourParallelTL.cs" />
     <Compile Include="Tour\TourTL.cs" />
     <Compile Include="Tour\TourSystem.cs" />
-    <Compile Include="FloatingSearchBox.xaml.cs">
-      <DependentUpon>FloatingSearchBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="KnowledgeWeb.cs" />
-    <Compile Include="SingleWeb.cs" />
     <Compile Include="DockableItem.cs" />
     <Compile Include="HotspotDetailsControl.xaml.cs">
       <DependentUpon>HotspotDetailsControl.xaml</DependentUpon>
@@ -134,9 +129,6 @@
     <Compile Include="VideoItem.xaml.cs">
       <DependentUpon>VideoItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WebGroup.cs" />
-    <Compile Include="WebStack.cs" />
-    <Compile Include="WebXMLReader.cs" />
     <Page Include="ArtworkModeWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,10 +142,6 @@
       <DependentUpon>ArtworkModeWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="FloatingSearchBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="HotspotDetailsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,7 +194,6 @@
   <ItemGroup>
     <None Include="Resources\Play.png" />
     <None Include="Resources\PlayPause.png" />
-    <Resource Include="Knowledge Web.xml" />
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

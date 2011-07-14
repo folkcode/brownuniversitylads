@@ -17,7 +17,6 @@ using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
-using Knowledge_Web;
 using DeepZoom;
 using System.Windows.Threading;
 using System.Collections;
@@ -58,7 +57,6 @@ namespace LADSArtworkMode
         bool scatteremoved;
         public int dockedItems;
         bool knowledgeWebOn = false;
-        KnowledgeWeb newWeb;
         public ArrayList DockedItems;
         public int num_images = 20;
         public double spaceBuffer = 10.0;
@@ -1322,36 +1320,10 @@ namespace LADSArtworkMode
             Application.Current.Shutdown();
         }
 
-        private void activateKW_Click(object sender, RoutedEventArgs e)
-        {
-            if (knowledgeWebOn)
-            {
-                knowledgeWebOn = false;
-                DeepZoomGrid.Visibility = Visibility.Visible;
-                //MainScatterView.Visibility = Visibility.Visible;
-                newWeb.Hide();
-                toggleLeftSide();
-
-                //activateKW.ClearValue(BackgroundProperty);
-            }
-            else
-            {
-                knowledgeWebOn = true;
-                DeepZoomGrid.Visibility = Visibility.Collapsed;
-                //MainScatterView.Visibility = Visibility.Collapsed;
-                newWeb.Show();
-                toggleLeftSide();
-
-                //activateKW.Background = (Brush)new BrushConverter().ConvertFrom("#4e765c");
-            }
-        }
-
         public void goBack()
         {
-            knowledgeWebOn = false;
             DeepZoomGrid.Visibility = Visibility.Visible;
             MainScatterView.Visibility = Visibility.Visible;
-            newWeb.Hide();
             toggleLeftSide();
         }
 
@@ -1375,11 +1347,6 @@ namespace LADSArtworkMode
                 w.item.SetCurrentValue(ScatterViewItem.CenterProperty, new Point(w.item.ActualCenter.X - delta, w.item.ActualCenter.Y));
             }
 
-        }
-
-        public void addKnowledgeGroup(String str)
-        {
-            newWeb.addGroup(str);
         }
 
         public DoubleAnimation getDoubleAnimation(double from, double to, double duration)
