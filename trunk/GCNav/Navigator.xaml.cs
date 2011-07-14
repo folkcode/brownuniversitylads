@@ -784,7 +784,6 @@ namespace GCNav
 
         public void EventTouchedHandler(object sender, EventArgs e)
         {
-            Console.WriteLine("HERE");
             eventSelected((Event)sender);
         }
 

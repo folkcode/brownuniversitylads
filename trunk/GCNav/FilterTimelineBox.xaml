@@ -15,7 +15,7 @@
             <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Filter" Foreground="#FFb9D9cF" FontSize="22" Width="420" TextAlignment="Center" Grid.Row="0" PreviewTouchDown="filt_mousedown" PreviewMouseUp="filt_mousedown" Background="#FF5D9D8E">
+        <TextBlock Text="Filter" Foreground="#FFb9D9cF" FontSize="22" Width="420" TextAlignment="Center" Grid.Row="0" PreviewMouseUp="filt_mousedown" Background="#FF5D9D8E">
            <!-- <TextBlock.Background>
                 <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
                 <GradientStop Color="#005D9D8E" Offset="0"/> 
