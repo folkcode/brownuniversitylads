@@ -50,12 +50,13 @@ namespace GCNav
         private ImageData currentImage;
         private System.Windows.Forms.Timer _timer;
         private bool _artOpen, _collectionEmpty;
+        private Double mapWidth;
 
         public Navigator()
         {
             InitializeComponent();
 
-
+            
             curImageContainer.Visibility = Visibility.Hidden;
             curInfoContainer.Visibility = Visibility.Hidden;
             mainScatterViewItem.Width = 1920;
@@ -76,7 +77,10 @@ namespace GCNav
             _mediums = new List<String>();
             _years = new List<String>();*/
         }
-
+        public void setMapWidth(Double width)
+        {
+            mapWidth = width;
+        }
         public void TimerTick_Handler(object sender, EventArgs e)
         {
             if (artmode != null)
@@ -669,14 +673,14 @@ namespace GCNav
         
            // Console.Out.WriteLine("filter width" + filterBoxContainer.Width);
            // Console.Out.WriteLine("filter" + _windowSize.Width / 4);
-            ScaleTransform tran = new ScaleTransform();
-
-            double scale = Math.Max(1600 / _windowSize.Width, _windowSize.Height / 900);
-            tran.ScaleX = scale;// newSize.Width / 1600; //scale according to 1600* 900 resolution
-           // tran.ScaleY = scale;
-            //filterBoxContainer.RenderTransform = tran;
-            filterBoxContainer.RenderTransform = tran;
-            Console.Out.WriteLine("scaleX"+tran.ScaleX);
+            filterBoxContainer.Width = _windowSize.Width / 2;
+            double margin = (_windowSize.Width / 4 - mapWidth/2 +60);
+          //  Console.Out.WriteLine("previous" + previous.Width);
+          //  Console.Out.WriteLine("current" + _windowSize.Width);
+            Console.Out.WriteLine("margin" + margin);
+            filterBoxContainer.Margin = new Thickness(margin,0,0,0);
+         //   filterBoxContainer.Width = 1600 / _windowSize.Width;
+           // Console.Out.WriteLine("scaleX"+tran.ScaleX);
            //Canvas.SetLeft(filterBoxContainer, _windowSize.Width / 4);
 
            

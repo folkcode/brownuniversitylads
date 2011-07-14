@@ -66,7 +66,7 @@ namespace GCNav
            // Map.RegionDeselected += nav.HandleMapDeselectedEvent;
            // nav.ImageLoaded += Map.HandleImageLoadedEvent;
             nav.HandleImageSelected += Map.HandleImageSelectedEvent;
-           
+            nav.setMapWidth(Map.Width);
             //nav.loadCollection();
             //nav.startAll();
         }
