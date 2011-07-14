@@ -13,11 +13,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <Grid Name="filterBoxContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Height="540" Visibility="Visible"><!--jmond: Changed visibility to hidden for now since it will be moved and the event info will be displayed there instead -->
-            <Border CornerRadius="5" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Background = "#B6002D0C" BorderBrush="#FF002D0C" BorderThickness="4,4,4,0">
-                <m:FilterTimelineBox x:Name="timelineFilt"/>
-        </Border>
-        </Grid>
+       
         <Grid Name="eventInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top" Height="500" Visibility="Hidden">
             <Border CornerRadius="5" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Background = "#FFA7C99F" BorderBrush="#FF002D0C" BorderThickness="4,4,4,4">
                 <TextBlock Name="eventInfo" Grid.Row="0" Grid.Column="0"  Text="" Foreground="Black" TextAlignment="Left" FontSize="15"></TextBlock>
@@ -44,6 +40,14 @@
             </Border>
 
         </Grid>
+        
+        <Canvas Name="filterBoxContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Height="540" Width="620" Visibility="Hidden">
+            <!--jmond: Changed visibility to hidden for now since it will be moved and the event info will be displayed there instead -->
+            <Border CornerRadius="5" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Background = "#B6002D0C" BorderBrush="#FF002D0C" BorderThickness="4,4,4,0">
+                <m:FilterTimelineBox x:Name="timelineFilt" Padding="0,0,0,0"/>
+            </Border>
+        </Canvas>
+
         <!--The catalog-->
         <my:ScatterView Height="100" HorizontalAlignment="Left" Name="mainScatterView" VerticalAlignment="Top" Width="192" Background="#FFA7C99F">
             <my:ScatterViewItem Height="50" Width="2300" HorizontalAlignment="Left" Name="mainScatterViewItem" VerticalAlignment="Top" CanRotate="False" MouseWheel="mainScatterViewItem_MouseWheel" SizeChanged="mainScatterViewItem_SizeChanged" ShowsActivationEffects="True" IsHitTestVisible="True" Opacity="1">

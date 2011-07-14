@@ -38,6 +38,7 @@ namespace GCNav
             AddWindowAvailabilityHandlers();
             this.SizeChanged += nav.WindowSizeChanged;
             this.SizeChanged += Map.WindowSizeChanged;
+           
 
             this.MouseUp += new MouseButtonEventHandler(MouseUp_Handler);
 
@@ -65,6 +66,7 @@ namespace GCNav
            // Map.RegionDeselected += nav.HandleMapDeselectedEvent;
            // nav.ImageLoaded += Map.HandleImageLoadedEvent;
             nav.HandleImageSelected += Map.HandleImageSelectedEvent;
+           
             //nav.loadCollection();
             //nav.startAll();
         }
@@ -161,6 +163,8 @@ namespace GCNav
                 panImg.Visibility = Visibility.Hidden;
                 //Map.Visibility = Visibility.Visible;
                 Map.loadMap();
+               // filter.Visibility = Visibility.Visible;
+                nav.filterBoxContainer.Visibility = Visibility.Visible;
                 //TODO
             }
         }

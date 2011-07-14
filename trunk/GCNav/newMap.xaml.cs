@@ -149,9 +149,11 @@ namespace GCNav
            Size newSize = e.NewSize;
            Size oldSize = e.PreviousSize;
 
-           CanvasLeft = (int)(newSize.Width / 4);
-           
+           CanvasLeft = (int)(newSize.Width / 3.9);
+
+         //  Console.Out.WriteLine("map" + CanvasLeft);
            Canvas.SetLeft(this, CanvasLeft);
+           Canvas.SetTop(this, 30);
 
            Double mapAspectRatio = mapImage.Height / mapImage.Width;
 
