@@ -71,6 +71,7 @@ namespace LADSArtworkMode
         System.Windows.Forms.Timer _timer;
         EventHandler _timerHandler;
         private bool _noHotspots;
+        private bool _searchedHotspots, _searchedAssets;
 
         private TourSystem tourSystem; // tour authoring & playback system
 
@@ -135,6 +136,8 @@ namespace LADSArtworkMode
             currentArtworkFileName = currentArtworkFName;
             newMeta = new metadata_lists(this, currentArtworkFileName);
             authToolsVisible = true;
+            _searchedAssets = false;
+            _searchedHotspots = false;
 
             //newWeb = new KnowledgeWeb(ImageArea, ImageArea.Height, ImageArea.Width, "", this);
 
@@ -1902,9 +1905,22 @@ namespace LADSArtworkMode
             }
         }
 
-        private void sTextBoxDocsSearch_MouseDown(object sender, MouseButtonEventArgs e)
+        private void sTextBoxDocsSearch_Click(object sender, EventArgs e)
         {
-            sTextBoxDocsSearch.Text = "";
+            if (!_searchedAssets)
+            {
+                sTextBoxDocsSearch.Text = "";
+                _searchedAssets = true;
+            }
+        }
+
+        private void sTextBoxHotSpotSearch_Click(object sender, EventArgs e)
+        {
+            if (!_searchedHotspots)
+            {
+                sTextBoxHotSpotSearch.Text = "";
+                _searchedHotspots = true;
+            }
         }
 
 
