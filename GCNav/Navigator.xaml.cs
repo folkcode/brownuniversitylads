@@ -777,13 +777,14 @@ namespace GCNav
             foreach (Event e in events)
             {
                 e.setParent(this);
-                e.PreviewTouchDown+=new EventHandler<TouchEventArgs>(EventTouchedHandler);
+                //e.PreviewTouchDown+=new EventHandler<TouchEventArgs>(EventTouchedHandler);
                 e.PreviewMouseDown += EventTouchedHandler;
             }
         }
 
         public void EventTouchedHandler(object sender, EventArgs e)
         {
+            Console.WriteLine("HERE");
             eventSelected((Event)sender);
         }
 
