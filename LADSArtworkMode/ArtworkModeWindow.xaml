@@ -236,6 +236,8 @@
                                       Width="260" 
                                       MinWidth="0" MinHeight="0" 
                                       TextChanged="sTextBoxHotSpotSearch_TextChanged"
+                                      Foreground="Gray"
+                                      Text="Type here to search..."
                                       FontSize="{Binding FontSize, ElementName=LeftPanelButtonMaster}" />
 
 
@@ -272,7 +274,7 @@
                            FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" 
                            HorizontalAlignment="Left" Name="labelDocs" VerticalAlignment="Top" Width="240" />
 
-                    <s:SurfaceTextBox Name="sTextBoxDocsSearch"  Canvas.Top="40" Canvas.Left="5" Height="30" MinHeight="0" Width="260" FontSize="14" TextChanged="sTextBoxDocsSearch_TextChanged"/>
+                    <s:SurfaceTextBox Name="sTextBoxDocsSearch"  Canvas.Top="40" Canvas.Left="5" Height="30" MinHeight="0" Width="260" FontSize="14" Foreground="Gray" PreviewMouseDown="sTextBoxDocsSearch_MouseDown" Text="Type here to search..."  TextChanged="sTextBoxDocsSearch_TextChanged"/>
                     <s:SurfaceButton Name="sBDocsSearchClear" Content="Clear"
                                      FontSize="{Binding FontSize, ElementName=LeftPanelButtonMaster}"
                                      Height="{Binding Height, ElementName=LeftPanelButtonMaster}"
