@@ -328,16 +328,39 @@ namespace LADSArtworkMode
                 //hotspotCanvas.Height = 200;
                 //InitializeComponent();
                 //myMediaElement = new MediaElement();
-                Width = 290;
+                //Width = 290;
+                //Height = 200;
+                //hotspotCanvas.Width = 100;
+
+                //resetting size
+                Width = 300;
                 Height = 200;
-                AudioScroll.Height = Height - 60.0;
-                AudioScroll.Width = Width - 44;
+
+                hotspotCanvas.Width = Width - 8;
+                hotspotCanvas.Height = Height - 8;
+                VideoStackPanel.Visibility = Visibility.Collapsed;
+                textBoxScroll.Visibility = Visibility.Collapsed;
+
+                AudioScroll.Width = hotspotCanvas.Width - 24;
+                AudioScroll.Height = hotspotCanvas.Height - 47;
+                myMediaElement.Width = VideoStackPanel.Width;
+                myMediaElement.Height = VideoStackPanel.Height - 30;
+                //SurfaceTimelineSlider.Width = hotspotCanvas.Width - 180;
+                Name.Width = Width - (422 - 335);
+
+                //Width = 120;
+
+                //AudioScroll.Height = Height - 60.0;
+                //AudioScroll.Width = Width - 44;
+
                 //imageScroll.Visibility = Visibility.Collapsed;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 videoCanvas.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
 
-                this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
+                //this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
+
+
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
                 myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
                // myMediaElement.ScrubbingEnabled = true;
