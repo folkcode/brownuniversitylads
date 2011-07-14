@@ -59,7 +59,7 @@ namespace LADSArtworkMode
             _video.Pause();
 
             _controls.HorizontalAlignment = HorizontalAlignment.Center;
-            _controls.VerticalAlignment = VerticalAlignment.Bottom;
+            _controls.VerticalAlignment = VerticalAlignment.Center;
             _controls.Hide();
 
             _controls.playButton.Click += new RoutedEventHandler(playButton_Click);
@@ -77,6 +77,11 @@ namespace LADSArtworkMode
             _sliderTimer.Interval = new TimeSpan(0, 0, 0, 0, SLIDER_TIMER_RESOLUTION);
             _sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
 
+            _layoutRoot.RowDefinitions.Add(new RowDefinition());
+            _layoutRoot.RowDefinitions.Add(new RowDefinition());
+            _layoutRoot.RowDefinitions[1].Height = new GridLength(50);
+            Grid.SetRow(_controls, 1);
+            Grid.SetRow(_video, 0);
             _layoutRoot.Children.Add(_video);
 
             this.AddChild(_layoutRoot);
@@ -109,6 +114,8 @@ namespace LADSArtworkMode
                 Resize(_preferredSize.Width, _preferredSize.Height);
 
                 _layoutRoot.Children.Add(_controls);
+                Grid.SetRow(_controls, 1);
+
                 _controls.videoSlider.Maximum = 1;
                 _controls.Show();
 
@@ -300,7 +307,8 @@ namespace LADSArtworkMode
         //call this every time you resize the video
         public void UpdateControls()
         {
-            double vMargin = _video.ActualHeight * .05;
+            //double vMargin = _video.ActualHeight * .05;
+            double vMargin = 0;
             double hMargin = _video.ActualWidth * .025;
 
             _controls.SetWidth(_video.ActualWidth - 2 * hMargin);
