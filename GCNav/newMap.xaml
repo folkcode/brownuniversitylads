@@ -42,8 +42,8 @@
             <Canvas Name="Location" Height="325.25" Width="576.35" Canvas.Top="0">
                 <Image x:Name="blur" Height="328" Width="576.35" Canvas.Left="0" Canvas.Top="0" HorizontalAlignment="Left" IsHitTestVisible="False" VerticalAlignment="Top"/>
             </Canvas>
-            <Border VerticalAlignment="Bottom" Canvas.Left="98" BorderThickness="3" CornerRadius="10,10,10,10" Background="#FFA7C99F" Height="36" Width="403" Visibility="Hidden"                                                                          >
-                <TextBlock x:Name="infoLabel" Width="400" Height="30" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ><!--Will have a background for the text-->
+           <!-- <Border VerticalAlignment="Bottom" Canvas.Left="98" BorderThickness="3" CornerRadius="10,10,10,10" Background="#FFA7C99F" Height="36" Width="403" > -->
+                <TextBlock x:Name="infoLabel" Canvas.Left="80" Width="400" Height="30" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ><!--Will have a background for the text-->
                 <!--<TextBlock.Effect>
                     <DropShadowEffect ShadowDepth="10" Direction="315" Color="Black"  Opacity="1" BlurRadius="0.0" />
                 </TextBlock.Effect>-->
@@ -51,7 +51,7 @@
                 <TranslateTransform X="2.5" Y="2.5" />
                 </TextBlock.RenderTransform>-->
                 </TextBlock>
-            </Border>
+            <!--</Border>-->
             <!--<TextBlock  x:Name="infoLabel1" Width="500" Height="40" FontSize="18" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             </TextBlock>-->
         </Canvas>

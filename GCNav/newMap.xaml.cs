@@ -32,6 +32,7 @@ namespace GCNav
         private Dictionary<SurfaceRadioButton, String> locButtons;
         private Dictionary<SurfaceRadioButton, Ellipse> ellipses,backEllipses;
         private ImageData data;
+        public Double tranScale;
      
         public newMap()
         {
@@ -166,6 +167,7 @@ namespace GCNav
            tran.ScaleY = scale;// newSize.Height / 900;
 
           this.RenderTransform = tran;
+          tranScale = tran.ScaleX;
 
         }
 
@@ -347,6 +349,7 @@ namespace GCNav
             }
             //Console.Out.WriteLine(labelText);
             infoLabel.Text = labelText;
+            Canvas.SetZIndex(infoLabel, 20);
             //infoLabel1.Text = labelText;
           
         }

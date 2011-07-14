@@ -84,14 +84,18 @@ namespace GCNav
         {
             nav.setMapWidth(Map.ActualWidth);
             filter.Width = 420;
-            ScaleTransform tran = new ScaleTransform();
-            tran.ScaleX = e.NewSize.Width / 1600;
-            filter.RenderTransform = tran;
-            Double canvasLeft = e.NewSize.Width / 4 + Map.ActualWidth / 2 - filter.Width/2;
-            Console.Out.WriteLine("filterwidth" + filter.Width);
-            Console.Out.WriteLine("mapwidth" + Map.ActualWidth);
+            if (e.NewSize.Width < 1600)
+            {
+                ScaleTransform tran = new ScaleTransform();
+                tran.ScaleX = e.NewSize.Width / 1600;
+                filter.RenderTransform = tran;
+            }
+            Double scale = Map.tranScale;
+            Double canvasLeft = e.NewSize.Width / 4 + Map.Width * scale/ 2 - filter.Width/2;
+            Console.Out.WriteLine("filterwidth" + filter.ActualWidth);
+            Console.Out.WriteLine("mapwidth" + Map.Width * scale);
             Canvas.SetLeft(filter, canvasLeft);
-            
+            Canvas.SetZIndex(filter, 10);
             filter.Visibility = Visibility.Hidden;
 
         }
