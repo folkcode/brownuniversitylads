@@ -56,6 +56,15 @@ namespace LADSArtworkMode
         private LADSVideoBubble vidBub;
         private Helpers _helpers;
 
+
+        public void resetValues(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar)
+        {
+            mainScatterView = _mainScatterView;
+            bar = _bar;
+            win = _win;
+            isDocked = false;
+        }
+
         /// <summary>
         /// used by artwork mode, including the tour authoring & playback system
         /// </summary>
@@ -351,6 +360,8 @@ namespace LADSArtworkMode
 
         }
 
+        
+
 
         public void AddtoDock(object sender, EventArgs e)
         {
@@ -366,7 +377,6 @@ namespace LADSArtworkMode
                 {
                     vidBub.pauseVideo();
                 }
-
                 this.isAnimating = true;
                 barImageHeight = bar.ActualHeight * .8;
                 barImageWidth = bar.ActualHeight * this.Width / this.Height;
@@ -384,6 +394,7 @@ namespace LADSArtworkMode
 
                 wke.item = this;
                 win.DockedItems.Add(wke);
+                win.DockedDockableItems.Add(item);
                 bar.Items.Add(wke);
 
                 Point startPoint = wke.TransformToAncestor(win.getMain()).Transform(new Point(0, 0));
@@ -493,6 +504,7 @@ namespace LADSArtworkMode
                     this.isDocked = false;
                     bar.Items.Remove(wke);
                     win.DockedItems.Remove(wke);
+                    win.DockedDockableItems.Remove(this);
 
                 }
                 win.BarOffset -= actualWKEWidth;

@@ -16,6 +16,7 @@ using Microsoft.Surface;
 using Microsoft.Surface.Presentation;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
+using System.ComponentModel;
 
 
 namespace GCNav
@@ -33,6 +34,7 @@ namespace GCNav
         private ScatterViewItem _sv;
         private List<Event> _events;
         private bool mouseOnAndDown = false;
+        private Point previousPoint = new Point(0,0);
 
         public List<Event> getEvents()
         {
@@ -44,11 +46,67 @@ namespace GCNav
             InitializeComponent();
 
             //enable pan on timeline
-            mainCanvas.PreviewMouseDown += mainCanvas_PreviewMouseDown;
-            mainCanvas.PreviewMouseMove += mainCanvas_PreviewMouseMove;
-            mainCanvas.PreviewMouseUp += mainCanvas_PreviewMouseUp;
-            mainCanvas.PreviewTouchDown += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchDown);
-            mainCanvas.PreviewTouchMove += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchMove);
+            //mainCanvas.PreviewMouseDown += mainCanvas_PreviewMouseDown;
+            //mainCanvas.PreviewMouseMove += mainCanvas_PreviewMouseMove;
+            //mainCanvas.PreviewMouseUp += mainCanvas_PreviewMouseUp;
+            //mainCanvas.PreviewTouchDown += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchDown);
+            //mainCanvas.PreviewTouchMove += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchMove);
+            timelineSVI.Deceleration = double.NaN;
+            this.Loaded += new RoutedEventHandler(Timeline_Loaded);
+            
+        }
+
+        void Timeline_Loaded(object sender, RoutedEventArgs e)
+        {
+            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
+            dpd.AddValueChanged(timelineSVI, timelineSVICenterChanged);
+            previousPoint = timelineSVI.ActualCenter;
+            timelineSVI.SizeChanged += new SizeChangedEventHandler(timelineSVI_SizeChanged);
+        }
+
+        bool changing = false;
+        void timelineSVI_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!changing)
+            {
+                double scale = e.NewSize.Width / e.PreviousSize.Width;
+                _sv.Width *= scale;
+                _sv.Height *= scale;
+            }
+            if (timelineSVI.Width < 10000)
+            {
+                changing = true;
+                timelineSVI.Width = 10000;
+            }
+            else changing = false;
+            timelineSVI.Height = e.PreviousSize.Height;
+        }
+
+        private void timelineSVICenterChanged(object sender, EventArgs e)
+        {
+                Point current = timelineSVI.Center;
+
+                TranslateTransform t = new TranslateTransform();
+                t.X = current.X - previousPoint.X;
+                t.Y = 0;
+                Point p = new Point(previousPoint.X, mainScatterView.Height / 2);
+                previousPoint = p;
+
+                TransformGroup tg = new TransformGroup();
+                tg.Children.Add(_tickmarksCanvas.RenderTransform);
+                tg.Children.Add(t);
+                _tickmarksCanvas.RenderTransform = tg;
+
+                TransformGroup tg2 = new TransformGroup();
+                tg2.Children.Add(_eventsCanvas.RenderTransform);
+                tg2.Children.Add(t);
+                _eventsCanvas.RenderTransform = tg2;
+
+                //pan the main catalog at the same time
+                _sv.Center = new Point(_sv.Center.X + t.X, _sv.Center.Y);
+
+
+                timelineSVI.Center = p;
         }
 
         public void setRef(ScatterViewItem sv)
@@ -147,7 +205,11 @@ namespace GCNav
             this.Width = width;
             this.Height = height;
             rectangle1.Width = this.Width;
-            rectangle1.Height = this.Height;          
+            rectangle1.Height = this.Height;
+            timelineSVICanvas.Width = width*10;
+            timelineSVICanvas.Height = height;
+            mainScatterView.Width = width;
+            mainScatterView.Height = height;
             Canvas.SetTop(_eventsCanvas, height / 2);
             foreach (Event e in _eventsCanvas.Children) {
                 e.setHeight(height/2);
@@ -327,6 +389,16 @@ namespace GCNav
 
             // Add line to the Grid.
             _tickmarksCanvas.Children.Add(l);
+        }
+
+        private void MainScatterItem_TouchDown(object sender, TouchEventArgs e)
+        {
+
+        }
+
+        private void MainScatterView_TouchDown(object sender, TouchEventArgs e)
+        {
+            Console.WriteLine("jf312jpf23");
         }
     }
 }

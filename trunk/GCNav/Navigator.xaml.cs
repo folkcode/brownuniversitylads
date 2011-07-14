@@ -57,7 +57,7 @@ namespace GCNav
         {
             InitializeComponent();
 
-            
+
             curImageContainer.Visibility = Visibility.Hidden;
             curInfoContainer.Visibility = Visibility.Hidden;
             mainScatterViewItem.Width = 1920;
@@ -119,7 +119,7 @@ namespace GCNav
                 {
                     if (docNode.Name == "Collection")
                     {
-                        
+
                         int startY = 1;
                         int endY = 0;
                         foreach (XmlNode node in docNode.ChildNodes)
@@ -171,20 +171,20 @@ namespace GCNav
                                     {
                                         foreach (XmlNode locInfo in imgnode.ChildNodes)
                                         {
-                                           
+
                                             if (locInfo.Name == "Purchase")
                                             {
                                                 Point p = this.parceLongLat(locInfo);
                                                 currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 2, currentImage));
-                                               // currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 2, currentImage));
+                                                // currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 2, currentImage));
                                                 if (locInfo.Attributes.GetNamedItem("longitude") != null)
                                                 {
                                                     String lon = locInfo.Attributes.GetNamedItem("longitude").InnerText;
-                                               
+
                                                     String lat = locInfo.Attributes.GetNamedItem("latitude").InnerText;
                                                     String date = "";
                                                     String city = "";
-                                                    if (locInfo.Attributes.GetNamedItem("date") != null) 
+                                                    if (locInfo.Attributes.GetNamedItem("date") != null)
                                                     {
                                                         date = locInfo.Attributes.GetNamedItem("date").InnerText;
                                                     }
@@ -192,15 +192,15 @@ namespace GCNav
                                                     {
                                                         city = locInfo.Attributes.GetNamedItem("city").InnerText;
                                                     }
-                                                    currentImage.setLocButtonInfo("red" + "/" + lon + "/" + lat+ "/"+ date + "/" + city);
+                                                    currentImage.setLocButtonInfo("red" + "/" + lon + "/" + lat + "/" + date + "/" + city);
                                                 }
-                                                
+
                                             }
                                             else if (locInfo.Name == "Work")
                                             {
                                                 Point p = this.parceLongLat(locInfo);
                                                 currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 0, currentImage));
-                                              //  currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 0, currentImage));
+                                                //  currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 0, currentImage));
                                                 if (locInfo.Attributes.GetNamedItem("longitude") != null)
                                                 {
                                                     String lon = locInfo.Attributes.GetNamedItem("longitude").InnerText;
@@ -216,10 +216,10 @@ namespace GCNav
                                                     {
                                                         city = locInfo.Attributes.GetNamedItem("city").InnerText;
                                                     }
-                                                    currentImage.setLocButtonInfo("yellow" + "/" + lon + "/" + lat +"/"+ date +"/" + city);
+                                                    currentImage.setLocButtonInfo("yellow" + "/" + lon + "/" + lat + "/" + date + "/" + city);
 
                                                 }
-                                               
+
                                             }
                                             else if (locInfo.Name == "Display")
                                             {
@@ -228,8 +228,8 @@ namespace GCNav
                                                     if (displayLoc.Name == "Location")
                                                     {
                                                         Point p = this.parceLongLat(displayLoc);
-                                                       //currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 1, currentImage));
-                                                        
+                                                        //currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 1, currentImage));
+
                                                         if (displayLoc.Attributes.GetNamedItem("longitude") != null)
                                                         {
                                                             String lon = displayLoc.Attributes.GetNamedItem("longitude").InnerText;
@@ -247,8 +247,8 @@ namespace GCNav
                                                             }
                                                             currentImage.setLocButtonInfo("blue" + "/" + lon + "/" + lat + "/" + date + "/" + city);
                                                         }
-                                                       // currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 1, currentImage));
-                                                       
+                                                        // currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 1, currentImage));
+
                                                     }
                                                 }
                                             }
@@ -271,7 +271,7 @@ namespace GCNav
                                     if (year > endY)
                                         endY = year;
                                 }
-                                if (currentImage!=null)
+                                if (currentImage != null)
                                     OnImageLoaded(new Helpers.ImageLoadedEventArgs(currentImage));
                             }
                         }
@@ -336,15 +336,15 @@ namespace GCNav
 
         protected virtual void OnImageLoaded(Helpers.ImageLoadedEventArgs e)
         {
-            if (this.ImageLoaded!=null)
-            this.ImageLoaded(this, e);
+            if (this.ImageLoaded != null)
+                this.ImageLoaded(this, e);
         }
 
         public event Helpers.ImageSelectedHandler HandleImageSelected;
 
         protected virtual void OnImageSelected(Helpers.ImageSelectedEventArgs e)
         {
-            if (this.HandleImageSelected!= null)
+            if (this.HandleImageSelected != null)
                 this.HandleImageSelected(this, e);
         }
 
@@ -386,7 +386,8 @@ namespace GCNav
                 _endy = 0;
                 Message.Visibility = Visibility.Visible;
             }
-            else {
+            else
+            {
                 Message.Visibility = Visibility.Hidden;
             }
 
@@ -405,7 +406,7 @@ namespace GCNav
                 }
             }
             _displayedCollection = images;
-            
+
             arrangeImages(_starty, _endy, MainCanvas.Height);
             mainScatterViewItem.Center = new Point(MainCanvas.Width / 2, mainScatterViewItem.Center.Y);
             timeline.update(_starty, _endy, MainCanvas.Width);
@@ -420,7 +421,7 @@ namespace GCNav
                 ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
             }
         }
-        
+
         private int ROWS = 3;
         /// <summary>
         /// Layout the images in the catalog. Not optimal, but works, 
@@ -531,6 +532,27 @@ namespace GCNav
             }
         }
 
+        public void changeSize(Size PreviousSize, Size NewSize)
+        {
+            _background.Height = NewSize.Height;
+            _background.Width = NewSize.Width;
+            if (PreviousSize.Height != 0)
+            {
+                double zoomPercent = NewSize.Height / (PreviousSize.Height);
+                double panPercent = (mainScatterViewItem.Center.X - _windowSize.Width / 2) / MainCanvas.ActualWidth;
+
+                MainCanvas.Width = MainCanvas.Width * zoomPercent;
+                MainCanvas.Height = MainCanvas.Height * zoomPercent;
+
+                double marginX = (mainScatterViewItem.Width - MainCanvas.Width) / 2;
+                double marginY = (mainScatterViewItem.Height - MainCanvas.Height) / 2;
+                MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
+
+                timeline.zoom(zoomPercent);
+                zoomImages(zoomPercent);
+            }
+        }
+
         bool zoomStopped = false;
         /// <summary>
         /// handler for mainScatterViewItem_SizeChanged
@@ -539,7 +561,7 @@ namespace GCNav
         /// <param name="e"></param>
         private void mainScatterViewItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            
+
             //Console.WriteLine("New Width = " + e.NewSize.Width);
             if (e.NewSize.Width < 13000)
             {
@@ -592,7 +614,7 @@ namespace GCNav
                     {
                         //new zoom factor that takes the border of the image into consideration
                         double izoom = ((i.Width + _IC.size_padding_constant) * zoomPercent - _IC.size_padding_constant) / i.Width;
-                        i.Width *=izoom;
+                        i.Width *= izoom;
                         i.Height *= izoom;
                         ((Canvas)i.Parent).Height *= izoom;
                         ((Canvas)i.Parent).Width *= izoom;
@@ -647,13 +669,14 @@ namespace GCNav
 
             double zoomPercent = _windowSize.Height / previous.Height;
 
-            if (previous.Height == 0) {
+            if (previous.Height == 0)
+            {
                 zoomPercent = 1;
             }
 
             //ScatterViewItem is always bigger than the actual canvas that's holding the 
             //collection, so that there can be more touchable space
-            mainScatterViewItem.Height = _windowSize.Height / 2 + _windowSize.Height/2;
+            mainScatterViewItem.Height = _windowSize.Height / 2 + _windowSize.Height / 2;
             mainScatterViewItem.Width = mainScatterViewItem.ActualWidth * zoomPercent;
             MainCanvas.Height = _windowSize.Height / 2;
             MainCanvas.Width = MainCanvas.ActualWidth * zoomPercent;
@@ -666,7 +689,7 @@ namespace GCNav
             mainScatterViewItem.MaxWidth = 16000;
             mainScatterViewItem.MinWidth = _windowSize.Width;
             mainScatterViewItem.MinHeight = _windowSize.Height / 2;
-            mainScatterViewItem.Center =  new Point(_windowSize.Width / 2, _windowSize.Height / 4);
+            mainScatterViewItem.Center = new Point(_windowSize.Width / 2, _windowSize.Height / 4);
 
             curImageContainer.Height = _windowSize.Height / 3;
             curImageContainer.Width = _windowSize.Width / 3;
@@ -677,24 +700,24 @@ namespace GCNav
             //filterBoxContainer.Width =576;
 
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
-            Message.Margin = new Thickness(0, _windowSize.Height/3,0,0);
-        
-           // Console.Out.WriteLine("filter width" + filterBoxContainer.Width);
-           // Console.Out.WriteLine("filter" + _windowSize.Width / 4);
-           // timelineFilt.Width = _windowSize.Width/2;
-            double margin = (-_windowSize.Width / 4 + mapWidth/2);
-          //  Console.Out.WriteLine("previous" + previous.Width);
-          //  Console.Out.WriteLine("current" + _windowSize.Width);
+            Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
+
+            // Console.Out.WriteLine("filter width" + filterBoxContainer.Width);
+            // Console.Out.WriteLine("filter" + _windowSize.Width / 4);
+            // timelineFilt.Width = _windowSize.Width/2;
+            double margin = (-_windowSize.Width / 4 + mapWidth / 2);
+            //  Console.Out.WriteLine("previous" + previous.Width);
+            //  Console.Out.WriteLine("current" + _windowSize.Width);
             //MessageBox.Show("mapWidth"+mapWidth);
             Console.Out.WriteLine("margin" + margin);
-           // filterBoxContainer.Margin = new Thickness(margin, 0, -margin, 0);
+            // filterBoxContainer.Margin = new Thickness(margin, 0, -margin, 0);
             //filterBorder.Margin = new Thickness(margin, 0, -margin, 0);
             timelineFilt.Margin = new Thickness(margin, 0, -margin, 0);
-         //   filterBoxContainer.Width = 1600 / _windowSize.Width;
-           // Console.Out.WriteLine("scaleX"+tran.ScaleX);
-           //Canvas.SetLeft(filterBoxContainer, _windowSize.Width / 4);
+            //   filterBoxContainer.Width = 1600 / _windowSize.Width;
+            // Console.Out.WriteLine("scaleX"+tran.ScaleX);
+            //Canvas.SetLeft(filterBoxContainer, _windowSize.Width / 4);
 
-           
+
         }
 
         /// <summary>
@@ -734,6 +757,7 @@ namespace GCNav
                 artmode.LayoutArtworkMode(currentImage.filename);
                 //artmode.currentArtworkFileName = currentImage.filename;
                 artmode.currentArtworkTitle = currentImage.title;
+                artmode.addDockedItems(dockedItems);
                 Console.WriteLine(currentImage.filename);// add an input param in order to handle different artworks hotspots.
             }
             else
@@ -769,17 +793,18 @@ namespace GCNav
             }
             //}
         }
-
+        List<DockableItem> dockedItems;
         public void onArtmodeClose(object sender, EventArgs e)
         {
             _timer.Tick -= TimerTick_Handler;
+            dockedItems = artmode.DockedDockableItems;
             _artOpen = false;
             artmode.Close();
         }
 
         public void onArtSwitched(object sender, EventArgs e)
         {
-            
+
         }
 
 
@@ -819,12 +844,12 @@ namespace GCNav
             }
             else
             {
-                eventInfoContainer.Height = 500.0/1080.0*_windowSize.Height;
+                eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
                 String newText = "";
                 newText += ev.Event_Name + " (" + ev.Start + " - " + ev.End + ")";
                 if (ev.Location != "")
                 {
-                    newText += ", " + ev.Location; 
+                    newText += ", " + ev.Location;
                 }
                 if (ev.Description != "")
                 {
@@ -842,7 +867,7 @@ namespace GCNav
             //KeywordsTitle.Visibility = Visibility.Hidden;
             //curKeywords.Visibility = Visibility.Hidden;
 
-            
+
             /*if (((((curInfoContainer.Children[0]) as Border).Child as Grid).Children[0] as TextBlock) == curInfo && curInfo!=null)
                 Console.WriteLine("YES");
             else
@@ -859,7 +884,7 @@ namespace GCNav
             curImageContainer.Visibility = Visibility.Visible;
             curInfoContainer.Visibility = Visibility.Visible;
 
-           //Console.WriteLine(curInfo.Text);
+            //Console.WriteLine(curInfo.Text);
 
             if (currentImage != null && currentImage.Parent != null)
             {
@@ -888,7 +913,7 @@ namespace GCNav
             curInfo.Text += "Artist: " + img.artist + "\n";
             curInfo.Text += "Medium: " + img.medium + "\n";
             curInfo.Text += "Year: " + img.year;
-            curInfo.FontSize = 20*_windowSize.Height/1080.0;
+            curInfo.FontSize = 20 * _windowSize.Height / 1080.0;
 
             if (currentImage.keywords.Count() > 0)
             {

@@ -54,6 +54,7 @@ namespace GCNav
             _start = 0;
             _end = 0;
             _eventText.Text = _name;
+            _eventText.IsHitTestVisible = false;
             _eventText.TextAlignment = TextAlignment.Center;
             this.drawRectangle();
             this.setLocation(0, 0);
@@ -73,7 +74,7 @@ namespace GCNav
             _eventRec.Fill = brush;
             canvas.Children.Insert(0, _eventRec);
             canvas.Children.Add(_eventText);
-            //_eventRec.PreviewTouchUp += new EventHandler<TouchEventArgs>(TouchUpHandler);
+            _eventRec.PreviewTouchUp += new EventHandler<TouchEventArgs>(TouchUpHandler);
             //_eventRec.PreviewMouseUp += new MouseButtonEventHandler(TouchUpHandler);
         }
 
@@ -143,6 +144,7 @@ namespace GCNav
             if (_parent!=null) {
                 _parent.eventSelected(this);
             }
+            
         }
 
         /// <summary>

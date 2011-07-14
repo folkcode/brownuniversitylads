@@ -3,11 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <Canvas Name="mainCanvas" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <s:ScatterView Name="mainScatterView" Height="100" Width="1000" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.ZIndex="100">
+            <s:ScatterViewItem Name="timelineSVI" Height="100" Width="10000" CanRotate="False" Orientation="0" Canvas.ZIndex="100">
+                <Canvas Name="timelineSVICanvas" Height="100" Width="10000" Background="Transparent" Canvas.ZIndex="100"></Canvas>
+            </s:ScatterViewItem>
+        </s:ScatterView>
         <Rectangle Height="60" Name="rectangle1" Stroke="{x:Null}" Width="300" Fill="#FFFFF68B" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <Canvas Name="_tickmarksCanvas"/>
-        <Canvas Name="_eventsCanvas"/>
+        <Canvas Name="_eventsCanvas" Canvas.ZIndex="150"/>
     </Canvas>
 </UserControl>
