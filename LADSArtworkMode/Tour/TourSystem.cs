@@ -733,6 +733,11 @@ namespace LADSArtworkMode
             }
         }
 
+        public void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         public void TourAuthoringDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (tourAuthoringOn)
