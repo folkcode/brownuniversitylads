@@ -67,8 +67,10 @@ namespace GCNav
         public void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             Double canvasLeft = e.NewSize.Width / 4;
-            Canvas.SetLeft(this, canvasLeft);
+           
             this.Width = e.NewSize.Width / 4;
+            
+            Canvas.SetLeft(this, canvasLeft);
         }
 
 

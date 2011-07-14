@@ -51,6 +51,7 @@ namespace GCNav
         private System.Windows.Forms.Timer _timer;
         private bool _artOpen, _collectionEmpty;
         private Double mapWidth;
+        public FilterTimelineBox filter;
 
         public Navigator()
         {
@@ -323,7 +324,8 @@ namespace GCNav
             filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Width = System.Windows.SystemParameters.PrimaryScreenWidth; //?
-            timelineFilt.init(this);
+            //timelineFilt.init(this);
+            filter.init(this);
             timeline.setRef(mainScatterViewItem);
             this.loadEvents();
             eventInfo.TextWrapping = TextWrapping.NoWrap;
@@ -538,7 +540,7 @@ namespace GCNav
         private void mainScatterViewItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             
-            Console.WriteLine("New Width = " + e.NewSize.Width);
+            //Console.WriteLine("New Width = " + e.NewSize.Width);
             if (e.NewSize.Width < 13000)
             {
                 if (!zoomStopped)
@@ -679,12 +681,15 @@ namespace GCNav
         
            // Console.Out.WriteLine("filter width" + filterBoxContainer.Width);
            // Console.Out.WriteLine("filter" + _windowSize.Width / 4);
-            filterBoxContainer.Width = _windowSize.Width / 2;
-            double margin = (_windowSize.Width / 4 - mapWidth/2 +60);
+           // timelineFilt.Width = _windowSize.Width/2;
+            double margin = (-_windowSize.Width / 4 + mapWidth/2);
           //  Console.Out.WriteLine("previous" + previous.Width);
           //  Console.Out.WriteLine("current" + _windowSize.Width);
+            //MessageBox.Show("mapWidth"+mapWidth);
             Console.Out.WriteLine("margin" + margin);
-            filterBoxContainer.Margin = new Thickness(margin,0,0,0);
+           // filterBoxContainer.Margin = new Thickness(margin, 0, -margin, 0);
+            //filterBorder.Margin = new Thickness(margin, 0, -margin, 0);
+            timelineFilt.Margin = new Thickness(margin, 0, -margin, 0);
          //   filterBoxContainer.Width = 1600 / _windowSize.Width;
            // Console.Out.WriteLine("scaleX"+tran.ScaleX);
            //Canvas.SetLeft(filterBoxContainer, _windowSize.Width / 4);
