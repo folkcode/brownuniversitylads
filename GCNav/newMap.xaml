@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dz="clr-namespace:DeepZoom.Controls;assembly=DeepZoom"
              xmlns:my="http://schemas.microsoft.com/surface/2008"
-             mc:Ignorable="d" Height="355.25" Width="576.35">
+             mc:Ignorable="d" Height="365.25" Width="576.35">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type my:SurfaceRadioButton}" >
@@ -34,18 +34,18 @@
 
     </UserControl.Resources>
     <Grid>
-        <Canvas Height="325.25" Width="576.35" Canvas.Top="30">
+        <Canvas Height="335.25" Width="576.35" Canvas.Top="30">
             
-            <dz:MultiScaleImage Name="mapImage" Height="325.25" Width="576.35" Background="Transparent" BorderBrush="Black" BorderThickness="10" HorizontalAlignment="Center" Canvas.Top="1" >
+            <dz:MultiScaleImage Name="mapImage" Height="325.25" Width="576.35" Background="Transparent" BorderBrush="Black" BorderThickness="10" HorizontalAlignment="Center" Canvas.Top="0" >
             </dz:MultiScaleImage>
             
-            <Canvas Name="Location" Height="325.25" Width="576.35">
+            <Canvas Name="Location" Height="325.25" Width="576.35" Canvas.Top="0">
                 <Image x:Name="blur" Height="328" Width="576.35" Canvas.Left="0" Canvas.Top="0" HorizontalAlignment="Left" IsHitTestVisible="False" VerticalAlignment="Top"/>
             </Canvas>
-            <Label x:Name="infoLabel" Width="500" Height="40" FontSize="18" Foreground="White" VerticalAlignment="Top"/>
+            
             
             
         </Canvas>
-
+        <Label x:Name="infoLabel" Width="500" Height="40" FontSize="18" Foreground="White" VerticalAlignment="Bottom" Canvas.Bottom="0"/>
     </Grid>
 </UserControl>

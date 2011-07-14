@@ -662,10 +662,22 @@ namespace GCNav
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 6;
 
-            filterBoxContainer.Width = _windowSize.Width / 2;
+            //filterBoxContainer.Width =576;
 
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
             Message.Margin = new Thickness(0, _windowSize.Height/3,0,0);
+        
+           // Console.Out.WriteLine("filter width" + filterBoxContainer.Width);
+           // Console.Out.WriteLine("filter" + _windowSize.Width / 4);
+            ScaleTransform tran = new ScaleTransform();
+
+            double scale = Math.Max(1600 / _windowSize.Width, _windowSize.Height / 900);
+            tran.ScaleX = scale;// newSize.Width / 1600; //scale according to 1600* 900 resolution
+           // tran.ScaleY = scale;
+            //filterBoxContainer.RenderTransform = tran;
+            filterBoxContainer.RenderTransform = tran;
+            Console.Out.WriteLine("scaleX"+tran.ScaleX);
+           //Canvas.SetLeft(filterBoxContainer, _windowSize.Width / 4);
 
            
         }

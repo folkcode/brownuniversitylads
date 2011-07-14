@@ -15,27 +15,28 @@
             <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Filter" Foreground="#FFb9D9cF" FontSize="22" Width="400" TextAlignment="Center" Grid.Row="0" PreviewTouchDown="filt_mousedown" PreviewMouseUp="filt_mousedown">
-            <TextBlock.Background>
+        <TextBlock Text="Filter" Foreground="#FFb9D9cF" FontSize="22" Width="420" TextAlignment="Center" Grid.Row="0" PreviewTouchDown="filt_mousedown" PreviewMouseUp="filt_mousedown" Background="#FF5D9D8E">
+           <!-- <TextBlock.Background>
                 <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
                 <GradientStop Color="#005D9D8E" Offset="0"/> 
                  <GradientStop Color="#FF5D9D8E" Offset="0.5"/>
                  <GradientStop Color="#005D9D8E" Offset="1"/>   
                 </LinearGradientBrush>
-            </TextBlock.Background>
+            </TextBlock.Background>-->
         </TextBlock>
         <TextBlock Text="Filter by:" Width="150" TextAlignment="Center" FontSize="18" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" />
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="#FF5D9D8E">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="14"/>
+                <ColumnDefinition Width="136" />
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <my:SurfaceListBox Grid.Column="0" Height="150" HorizontalAlignment="Left" VerticalContentAlignment="Center" Name="filtCategoryList" Visibility="Hidden" VerticalAlignment="Top"  Width="150" SelectionChanged="filtCategoryList_SelectionChanged">
-                <my:SurfaceListBoxItem Content="Artist" Width="100" Background="#665D9D8E"/>
-                <my:SurfaceListBoxItem Content="Medium" Width="100" Background="#665D9D8E"/>
-                <my:SurfaceListBoxItem Content="Year" Width="100" Background="#665D9D8E"/>
+            <my:SurfaceListBox Height="150" HorizontalAlignment="Left" VerticalContentAlignment="Center" Name="filtCategoryList" Visibility="Hidden" VerticalAlignment="Top"  Width="150" SelectionChanged="filtCategoryList_SelectionChanged" Grid.ColumnSpan="2">
+                <my:SurfaceListBoxItem Content="Artist" Width="100" Background="#FF5D9D8E"/>
+                <my:SurfaceListBoxItem Content="Medium" Width="100" Background="#FF5D9D8E"/>
+                <my:SurfaceListBoxItem Content="Year" Width="100" Background="#FF5D9D8E"/>
             </my:SurfaceListBox>
-            <my:SurfaceListBox Grid.Column="1" Height="150" Width="250" HorizontalAlignment="Left" Name="filtItemList" Visibility="Hidden" VerticalAlignment="Top" SelectionMode="Multiple" SelectionChanged="filtItemList_SelectionChanged" />            
+            <my:SurfaceListBox Grid.Column="2" Height="150" Width="250" HorizontalAlignment="Left" Name="filtItemList" Visibility="Hidden" VerticalAlignment="Top" SelectionMode="Multiple" SelectionChanged="filtItemList_SelectionChanged" />            
         </Grid>
         <TextBlock Text="Reset All" Foreground="#FFb9D9cF" Background="#FF5D9D8E" FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" TextAlignment="Center" Grid.Row="4" PreviewTouchDown="reset_touch" PreviewMouseDown="reset_mouse"></TextBlock>
     </Grid>

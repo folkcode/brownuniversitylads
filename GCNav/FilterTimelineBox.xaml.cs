@@ -30,13 +30,14 @@ namespace GCNav
         List<String> _artists;
         List<String> _mediums;
         List<String> _years;
-
+     
 
 
         public FilterTimelineBox()
         {
             InitializeComponent();
             timelineFilter.Height = 30;
+
         }
 
         public void init(Navigator Nav)
@@ -63,6 +64,13 @@ namespace GCNav
                     _years.Add(year);
             }
         }
+        public void WindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Double canvasLeft = e.NewSize.Width / 4;
+            Canvas.SetLeft(this, canvasLeft);
+            this.Width = e.NewSize.Width / 4;
+        }
+
 
         public void toggleFilterbox()
         {
