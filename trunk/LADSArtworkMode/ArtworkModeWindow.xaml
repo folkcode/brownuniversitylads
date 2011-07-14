@@ -36,8 +36,6 @@
         <Label Name="ToolLabelMaster" Visibility="Collapsed" FontSize="12"/>
         <StackPanel Name="SectionBoxMaster" Visibility="Collapsed" Height="214" Width="345"/>
         <s:SurfaceButton Name="LeftPanelButtonMaster" Visibility="Collapsed" FontSize="15" Width="5"/>
-
-
         <s:SurfaceListBox Name="SectionListBoxMaster" Visibility="Collapsed" Height="135"/>
 
         <Canvas Name="ImageArea" Background="#ccd6c1" Height="1080" Width="1920" Canvas.ZIndex ="-1">

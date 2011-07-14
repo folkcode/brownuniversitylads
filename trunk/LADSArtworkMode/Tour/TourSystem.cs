@@ -249,7 +249,8 @@ namespace LADSArtworkMode
 
             BiDictionary<double, TourEvent> tlbidict = new BiDictionary<double, TourEvent>();
             double start = authorTimerCountSpan.TotalSeconds;
-            if (start == 0) start = 1;
+            if (start < 1) start = 1;
+            authorTimerCountSpan = TimeSpan.FromSeconds(start);
             tlbidict.Add(start - 1, fadeIn);
             tlbidict.Add(start + 1, fadeOut);
             tourBiDictionary.Add(tourtl, tlbidict);
@@ -266,10 +267,12 @@ namespace LADSArtworkMode
             tldictrev.Add(fadeIn, start - 1);
             tldictrev.Add(fadeOut, start + 1);
             //tldictrev.Add(startOut,-2);
-
+            
             tourDictRev.Add(tourtl, tldictrev);*/
             //tourAuthoringUI.addTimelineAndEventPostInit(tourtl, tldict, "Highlight", fadeIn, authorTimerCountSpan.TotalSeconds - 1, 1);
             //tourAuthoringUI.insertTourEvent(fadeOut, tourtl, authorTimerCountSpan.TotalSeconds);
+            if (!tourAuthoringOn)
+                currentHighlightCanvas.IsHitTestVisible = false;
             tourAuthoringUI.refreshUI();
         }
 
@@ -303,7 +306,8 @@ namespace LADSArtworkMode
             //double start = authorTimerCountSpan.TotalSeconds;
             BiDictionary<double, TourEvent> tlbidict = new BiDictionary<double, TourEvent>();
             double start = authorTimerCountSpan.TotalSeconds;
-            if (start == 0) start = 1;
+            if (start < 1) start = 1;
+            authorTimerCountSpan = TimeSpan.FromSeconds(start);
             tlbidict.Add(start - 1, fadeIn);
             tlbidict.Add(start + 1, fadeOut);
             tourBiDictionary.Add(tourtl, tlbidict);
@@ -320,6 +324,8 @@ namespace LADSArtworkMode
             //tourAuthoringUI.addTimelineAndEventPostInit(tourtl, tldict, "Path", fadeIn, authorTimerCountSpan.TotalSeconds - 1, 1);
             //tourAuthoringUI.insertTourEvent(fadeOut, tourtl, authorTimerCountSpan.TotalSeconds);
             //StopAndReloadTourAuthoringUIFromDict(authorTimerCountSpan.TotalSeconds);
+            if (!tourAuthoringOn)
+                currentPathCanvas.IsHitTestVisible = false;
             tourAuthoringUI.refreshUI();
         }
 
@@ -333,7 +339,6 @@ namespace LADSArtworkMode
             }
             currentHighlightCanvas = canvas;
             currentHighlightCanvasFile = file;
-
         }
 
         public string getNextFile(string str)
@@ -549,6 +554,7 @@ namespace LADSArtworkMode
             double FadeInbeginTime = authorTimerCountSpan.TotalSeconds - 1;
             if (FadeInbeginTime < 0) FadeInbeginTime = 0;
             if (authorTimerCountSpan.TotalSeconds == 0) FadeInbeginTime += 1;
+            authorTimerCountSpan = TimeSpan.FromSeconds(FadeInbeginTime+1);
             dockItem_TL_dict.Add(FadeInbeginTime, fadeInMediaEvent);
             //dockItem_TL_dict_rev.Add(fadeInMediaEvent, FadeInbeginTime);
 
@@ -648,6 +654,8 @@ namespace LADSArtworkMode
                 artModeWin.tourStopButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
 
+                artModeWin.ImageArea.IsHitTestVisible = true;
+                artModeWin.MainScatterView.IsHitTestVisible = true;
                 tourPlaybackOn = false;
             }
         }
@@ -1292,32 +1300,6 @@ namespace LADSArtworkMode
                     itemDict.Add(start, toAdd);
                     //itemDictRev.Add(toAdd, start);
 
-
-
-                    /*
-                    int i = 0;
-                    foreach (KeyValuePair<Timeline, Dictionary<double, TourEvent>> tourDict_KV in tourDict)
-                    {
-                        Timeline tourTL = tourDict_KV.Key;
-                        Dictionary<double, TourEvent> tourTL_dict = tourDict_KV.Value;
-
-                        TourAuthoringUI.timelineInfo timelineInfo = tourAuthoringUI.addTimeline(tourTL, tourTL_dict, ((TourTL)tourTL).displayName, i * tourAuthoringUI.timelineHeight);
-
-                        foreach (KeyValuePair<double, TourEvent> tourTL_dict_KV in tourTL_dict) // MediaTimeline will ignore this
-                        {
-                            double beginTime = tourTL_dict_KV.Key;
-                            TourEvent tourEvent = tourTL_dict_KV.Value;
-
-                            tourAuthoringUI.addTourEvent(timelineInfo, tourEvent, timelineInfo.lengthSV, beginTime, tourEvent.duration);
-                        }
-
-                        if (((TourTL)tourTL).type == TourTLType.audio) // for MediaTimeline
-                        {
-                            tourAuthoringUI.addTourEvent(timelineInfo, null, timelineInfo.lengthSV, 0, tourTL.Duration.TimeSpan.TotalSeconds); // will this work?
-                        }
-
-                        i++;
-                    }*/
                 }
             }
         }
@@ -1333,45 +1315,6 @@ namespace LADSArtworkMode
         {
             switch (tourEvent.type)
             {
-                /*case TourEvent.Type.initMedia:
-                    InitMediaEvent initMediaEvent = (InitMediaEvent)tourEvent;
-
-                    //Point mediaPoint = new Point(initMediaEvent.initMediaToMSIPointX, initMediaEvent.initMediaToMSIPointY);
-
-                    Point mediaPoint = new Point();
-                    //mediaPoint.X = (artModeWin.msi_tour.GetZoomableCanvas.Scale * initMediaEvent.initMediaToMSIPointX) - artModeWin.msi_tour.GetZoomableCanvas.Offset.X;
-                    //mediaPoint.Y = (artModeWin.msi_tour.GetZoomableCanvas.Scale * initMediaEvent.initMediaToMSIPointY) - artModeWin.msi_tour.GetZoomableCanvas.Offset.Y;
-                    mediaPoint.X = initMediaEvent.initMediaToScreenPointX;
-                    mediaPoint.Y = initMediaEvent.initMediaToScreenPointY;
-
-                    double initialScale = initMediaEvent.absoluteScale;
-
-                    DockableItem initMediaItem = initMediaEvent.media;
-                    initMediaItem.Center = mediaPoint;
-                    initMediaItem.Width = initMediaItem.image.Source.Width * initialScale;
-                    initMediaItem.Height = initMediaItem.image.Source.Height * initialScale;
-                    initMediaItem.Orientation = 0;
-
-                    // NEW
-                    DoubleAnimation initMediaWidth = new DoubleAnimation(initMediaItem.Width, initMediaItem.Width, new Duration(TimeSpan.FromSeconds(0.0)));
-                    Storyboard.SetTarget(initMediaWidth, initMediaItem);
-                    Storyboard.SetTargetProperty(initMediaWidth, new PropertyPath(DockableItem.WidthProperty));
-                    initMediaWidth.BeginTime = TimeSpan.FromSeconds(timerCount);
-                    TourParallelTL.Children.Add(initMediaWidth);
-
-                    DoubleAnimation initMediaHeight = new DoubleAnimation(initMediaItem.Height, initMediaItem.Height, new Duration(TimeSpan.FromSeconds(0.0)));
-                    Storyboard.SetTarget(initMediaHeight, initMediaItem);
-                    Storyboard.SetTargetProperty(initMediaHeight, new PropertyPath(DockableItem.HeightProperty));
-                    initMediaHeight.BeginTime = TimeSpan.FromSeconds(timerCount);
-                    TourParallelTL.Children.Add(initMediaHeight);
-
-                    PointAnimation initMediaCenter = new PointAnimation(initMediaItem.Center, initMediaItem.Center, new Duration(TimeSpan.FromSeconds(0.0)));
-                    Storyboard.SetTarget(initMediaCenter, initMediaItem);
-                    Storyboard.SetTargetProperty(initMediaCenter, new PropertyPath(DockableItem.CenterProperty));
-                    initMediaCenter.BeginTime = TimeSpan.FromSeconds(timerCount);
-                    TourParallelTL.Children.Add(initMediaCenter);
-
-                    break;*/
                 case TourEvent.Type.fadeInMedia:
                     FadeInMediaEvent fadeInMediaEvent = (FadeInMediaEvent)tourEvent;
 
@@ -1785,6 +1728,10 @@ namespace LADSArtworkMode
                 tourStoryboard.Completed += new EventHandler(TourStoryboardPlayback_Completed);
                 tourStoryboard.Begin(artModeWin, true);
                 tourPlaybackOn = true;
+
+                artModeWin.ImageArea.IsHitTestVisible = false;
+                artModeWin.MainScatterView.IsHitTestVisible = false;
+
                 Console.WriteLine("Current width" + artModeWin.ImageArea.ActualWidth);
                 Console.WriteLine("Current height" + artModeWin.ImageArea.ActualHeight);
             }
