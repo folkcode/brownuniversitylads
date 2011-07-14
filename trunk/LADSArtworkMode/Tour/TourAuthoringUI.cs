@@ -530,15 +530,79 @@ namespace LADSArtworkMode
             Canvas.SetZIndex(movableScrubHandleExt, 12);
 
             tourControlButton = new SurfaceButton();
-            tourControlButton.Content = "Play/Pause";
+            //tourControlButton.Content = "Play/Pause";
             tourControlButton.Height = 30;
             tourControlButton.MinHeight = 30;
-            tourControlButton.Width = 110;
+            tourControlButton.Width = 70;
             tourControlButton.Padding = new Thickness(7, 1, 7, 0);
+
+
+            //adding triangle for pause/play button
+            Grid g = new Grid();
+            g.Height = 30;
+            g.Width = 100;
+            g.HorizontalAlignment = HorizontalAlignment.Left;
+            Polygon p = new Polygon();
+            PointCollection ppoints = new PointCollection();
+            ppoints.Add(new System.Windows.Point(4, 5));
+            ppoints.Add(new System.Windows.Point(4, 26));
+            ppoints.Add(new System.Windows.Point(23, 14));
+            p.Points = ppoints;
+            p.Fill = Brushes.Green;
+            //p.Opacity = 1;
+            p.Visibility = Visibility.Visible;
+            p.Margin = new Thickness(0, 0, 0, 0);
+            p.Stroke = Brushes.Black;
+            p.StrokeThickness = 1;
+            p.HorizontalAlignment = HorizontalAlignment.Left;
+            p.VerticalAlignment = VerticalAlignment.Center;
+            p.Height = 36;
+            p.Width = 30;
+
+            Polygon pause = new Polygon();
+            PointCollection pausepoints = new PointCollection();
+            pausepoints.Add(new System.Windows.Point(29, -1));
+            pausepoints.Add(new System.Windows.Point(29, 22));
+            pausepoints.Add(new System.Windows.Point(37, 22));
+            pausepoints.Add(new System.Windows.Point(37, -1));
+            pause.Points = pausepoints;
+            pause.Fill = Brushes.Blue;
+            //p.Opacity = 1;
+            pause.Visibility = Visibility.Visible;
+            pause.Margin = new Thickness(0, 0, 0, 0);
+            pause.Stroke = Brushes.Black;
+            pause.StrokeThickness = 1;
+            pause.HorizontalAlignment = HorizontalAlignment.Left;
+            pause.VerticalAlignment = VerticalAlignment.Center;
+            //pause.Height = 36;
+            //pause.Width = 30;
+
+            Polygon pause2 = new Polygon();
+            PointCollection pausepoints2 = new PointCollection();
+            pausepoints2.Add(new System.Windows.Point(43, -1));
+            pausepoints2.Add(new System.Windows.Point(43, 22));
+            pausepoints2.Add(new System.Windows.Point(51, 22));
+            pausepoints2.Add(new System.Windows.Point(51, -1));
+            pause2.Points = pausepoints2;
+            pause2.Fill = Brushes.Blue;
+            //p.Opacity = 1;
+            pause2.Visibility = Visibility.Visible;
+            pause2.Margin = new Thickness(0, 0, 0, 0);
+            pause2.Stroke = Brushes.Black;
+            pause2.StrokeThickness = 1;
+            pause2.HorizontalAlignment = HorizontalAlignment.Left;
+            pause2.VerticalAlignment = VerticalAlignment.Center;
+
+            g.Children.Add(p);
+            g.Children.Add(pause);
+            g.Children.Add(pause2);
+            g.Visibility = Visibility.Visible;
+            tourControlButton.Content = g;
+
             tourControlButton.HorizontalContentAlignment = HorizontalAlignment.Center;
             tourControlButton.Click += tourSystem.TourControlButton_Click;
             canvasWrapper.Children.Add(tourControlButton);
-            Canvas.SetLeft(tourControlButton, textWidth - movableScrubHandle.Width / 2 - 5 - tourControlButton.Width + 20);
+            Canvas.SetLeft(tourControlButton, textWidth - movableScrubHandle.Width / 2 - 5 - tourControlButton.Width); //+20
             Canvas.SetTop(tourControlButton, (movableScrubHandleBackground.Height - tourControlButton.Height) / 2);
             Canvas.SetZIndex(tourControlButton, 30);
 
