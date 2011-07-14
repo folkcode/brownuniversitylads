@@ -82,12 +82,14 @@ namespace LADSArtworkMode
             mainScatterView = _mainScatterView;
             bar = _bar;
             win = _win;
-            this.MinHeight = 80;
-            this.MinWidth = 80;
+            //this.MinHeight = 80;
+            //this.MinWidth = 80;
             isDocked = false;
             touchDown = false;
             //this.CanScale = true;
             //aldbi = _aldbi;
+
+            this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
             dpd.AddValueChanged(this, RemoveListener);
@@ -105,7 +107,6 @@ namespace LADSArtworkMode
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
-            this.SizeChanged += new SizeChangedEventHandler(DockableItem_SizeChanged);
 
             Random rnd = new Random();
 
@@ -134,15 +135,6 @@ namespace LADSArtworkMode
 
         }
 
-        void DockableItem_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            /*if (e.NewSize.Width < 200 || e.NewSize.Height < 200)
-            {
-                this.Width = e.PreviousSize.Width;
-                this.Height = e.PreviousSize.Height;
-            }*/
-        }
-
         /// <summary>
         /// used by artwork mode
         /// </summary>
@@ -152,12 +144,6 @@ namespace LADSArtworkMode
             image = new Image();
             aldbi = null;
             _helpers = new Helpers();
-
-            /*BitmapImage bi3 = new BitmapImage();
-            bi3.BeginInit();
-            bi3.UriSource = new Uri(imageURIPathParam, UriKind.Absolute);
-            bi3.EndInit();
-            image.Source = bi3;*/
 
             FileStream stream = new FileStream(imageURIPathParam, FileMode.Open);
             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
@@ -173,8 +159,8 @@ namespace LADSArtworkMode
             mainScatterView = _mainScatterView;
             bar = _bar;
             win = _win;
-            this.MinHeight = 80;
-            this.MinWidth = 80;
+            //this.MinHeight = 80;
+            //this.MinWidth = 80;
             isDocked = false;
             touchDown = false;
             //this.CanScale = true;
@@ -195,7 +181,6 @@ namespace LADSArtworkMode
 
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
-            this.SizeChanged += new SizeChangedEventHandler(DockableItem_SizeChanged);
 
             Random rnd = new Random();
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
@@ -206,8 +191,10 @@ namespace LADSArtworkMode
 
             //Canvas.SetZIndex(this, 95);
 
-            imageURIPath = imageURIPathParam;
+            this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
+            imageURIPath = imageURIPathParam;
+            
         }
 
         //constructor for videos
@@ -219,21 +206,6 @@ namespace LADSArtworkMode
 
             image = new Image();
             aldbi = null;
-
-            //might be able to edit this and get rid of generating thumbnail here - only need to generate once (in content authoring)
-            //DexterLib.MediaDet md = new MediaDet();
-            //md.Filename = _targetVid;
-            //md.CurrentStream = 0;
-            //string fBitmapName = _targetVid;
-            //fBitmapName = fBitmapName.Remove(fBitmapName.Length - 4, 4);
-            //fBitmapName += ".bmp";
-            //md.WriteBitmapBits(0, 320, 240, fBitmapName);
-
-            //BitmapImage bmp = new BitmapImage();
-            //bmp.BeginInit();
-            //bmp.UriSource = new Uri(fBitmapName, UriKind.RelativeOrAbsolute);
-            //bmp.EndInit();
-            //image.Source = bmp;
             String thumbFileName = _targetVid;
 
             int decrement = System.IO.Path.GetExtension(thumbFileName).Length;
@@ -273,7 +245,6 @@ namespace LADSArtworkMode
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
-            this.SizeChanged += new SizeChangedEventHandler(DockableItem_SizeChanged);
 
             mainScatterView.Items.Add(this);
             //this.SetCurrentValue(HeightProperty, vidBub.Height);
@@ -289,6 +260,8 @@ namespace LADSArtworkMode
             Console.WriteLine(pt.X + " " + pt.Y);
             this.Orientation = rnd.Next(-20, 20);
 
+            this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
+
             //Canvas.SetZIndex(this, 95);
             imageURIPath = _targetVid;
             MediaElement vid = new MediaElement();
@@ -297,7 +270,39 @@ namespace LADSArtworkMode
             this.MinHeight = 100;
             Console.WriteLine("ActualWidth " + vidBub.ActualWidth);
             //imageURIPath = imageURIPathParam;
+        }
 
+        void DockableItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            changeInitialSize();
+        }
+
+        public void changeInitialSize()
+        {
+            double aspectRatio = (double)this.ActualWidth / (double)this.ActualHeight;
+            Console.WriteLine(aspectRatio + " = aspect ratio");
+            if (aspectRatio>1 && this.ActualHeight < 150)
+            {
+                this.Height = 150;
+                this.Width = aspectRatio * 150;
+            }
+            if (aspectRatio<1 && this.ActualWidth < 150)
+            {
+                this.Width = 150;
+                this.Height = 150 / aspectRatio;
+            }
+            this.SizeChanged += DockableItem_SizeChanged;
+        }
+
+        void DockableItem_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Console.WriteLine("NEW SIZE: W-" + e.NewSize.Width + " H-" + e.NewSize.Height);
+            Console.WriteLine("PREVIOUS SIZE: W-" + e.PreviousSize.Width + " H-" + e.PreviousSize.Height);
+            if (e.NewSize.Width < 150 || e.NewSize.Height < 150)
+            {
+                this.Width = e.PreviousSize.Width;
+                this.Height = e.PreviousSize.Height;
+            }
         }
 
         public void removeDockability()
