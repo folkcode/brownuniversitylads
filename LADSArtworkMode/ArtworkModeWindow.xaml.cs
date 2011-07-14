@@ -70,6 +70,7 @@ namespace LADSArtworkMode
         EventHandler _timerHandler;
         private bool _noHotspots;
         private bool _searchedHotspots, _searchedAssets;
+        public List<DockableItem> DockedDockableItems = new List<DockableItem>();
 
         private TourSystem tourSystem; // tour authoring & playback system
 
@@ -1303,6 +1304,7 @@ namespace LADSArtworkMode
 
         private void switchToCatalogButton_Click(object sender, RoutedEventArgs e)
         {
+            
             this.Close();
             //this.Hide();
         }
@@ -1891,6 +1893,20 @@ namespace LADSArtworkMode
         }
 
 
+
+        public void addDockedItems(List<DockableItem> docked)
+        {
+            return;
+            if (docked == null) return;
+            foreach (object item in docked)
+            {
+                DockableItem dockitem = item as DockableItem;
+                dockitem.resetValues(MainScatterView, this, Bar);
+                dockitem.AddtoDock(dockitem, null);
+                (dockitem.Parent as Microsoft.Surface.Presentation.Controls.ScatterView).Items.Remove(dockitem);
+                MainScatterView.Items.Add(dockitem);
+            }
+        }
     }
 
 
