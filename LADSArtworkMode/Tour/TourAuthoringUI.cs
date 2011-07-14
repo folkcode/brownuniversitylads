@@ -2360,6 +2360,7 @@ namespace LADSArtworkMode
             //currentScatter.SizeChanged -= new SizeChangedEventHandler(tourEventSVI_SizeChanged);
             double newWidth = 0;
             double delta = ((double)e.Delta) / 3.0;
+
             double oldWidth = currentScatter.Width;
             if (currentScatter != null)
 
@@ -2375,9 +2376,9 @@ namespace LADSArtworkMode
 
             //ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
-            if ((current.beginTime + (newWidth - (delta / 2.0)) * (timelineLength / timelineWidth)) > tourDuration.TotalSeconds)
+            if (e.Delta > 0)
             {
-                return;
+                if (current.beginTime + current.tourEvent.duration > tourDuration.TotalSeconds - 0.5) return;
             }
             current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
 
