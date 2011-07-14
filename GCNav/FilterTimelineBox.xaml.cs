@@ -191,7 +191,7 @@ namespace GCNav
 
         private void filt_touchdown(object sender, TouchEventArgs e)
         {
-            //toggleFilterbox();
+            toggleFilterbox();
         }
 
         private void reset_timeline()
