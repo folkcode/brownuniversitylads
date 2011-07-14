@@ -89,6 +89,11 @@ namespace GCNav
             }
         }
 
+        public void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         public void setTimelineMouseUpFalse()
         {
             timeline.setMouseOnAndDown(false);
@@ -104,6 +109,7 @@ namespace GCNav
         /// </summary>
         public void loadCollection()
         {
+            exitButton.Visibility = Visibility.Visible;
             XmlDocument doc = new XmlDocument();
             doc.Load(dataDir + "NewCollection.xml");
             if (doc.HasChildNodes)

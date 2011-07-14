@@ -1315,7 +1315,7 @@ namespace LADSArtworkMode
             resetAll();
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        public void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
