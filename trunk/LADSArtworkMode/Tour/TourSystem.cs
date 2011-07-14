@@ -1685,7 +1685,8 @@ namespace LADSArtworkMode
                 SurfaceButton button = new SurfaceButton();
                 button.Content = name;
                 button.Tag = filename;
-                button.Click += new RoutedEventHandler(TourButton_Click);
+                button.PreviewMouseDown += TourButton_Click;
+                button.PreviewTouchDown += new EventHandler<TouchEventArgs>(TourButton_Click);
                 artModeWin.TourScroll.Items.Add(button);
                 object o = button.Parent;
                 artModeWin.TourScroll.SelectionChanged += new SelectionChangedEventHandler(TourScroll_SelectionChanged);
@@ -1744,7 +1745,7 @@ namespace LADSArtworkMode
             int k;
         }
 
-        private void TourButton_Click(object sender, RoutedEventArgs e)
+        private void TourButton_Click(object sender, EventArgs e)
         {
             string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
             this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");

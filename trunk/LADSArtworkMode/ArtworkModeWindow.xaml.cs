@@ -1902,6 +1902,11 @@ namespace LADSArtworkMode
             }
         }
 
+        private void sTextBoxDocsSearch_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            sTextBoxDocsSearch.Text = "";
+        }
+
 
     }
 
