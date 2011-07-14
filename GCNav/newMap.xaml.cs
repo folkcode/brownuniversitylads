@@ -346,7 +346,8 @@ namespace GCNav
                 //newColor.Color = Color.FromRgb(244, 234, 150);
             }
             //Console.Out.WriteLine(labelText);
-            infoLabel.Content = labelText;
+            infoLabel.Text = labelText;
+            //infoLabel1.Text = labelText;
           
         }
 
@@ -356,7 +357,8 @@ namespace GCNav
            
             data = e.getImage();
             this.hideButtons();
-            infoLabel.Content = "";
+            infoLabel.Text = "";
+           // infoLabel1.Text = "";
             List<String> locInfo = e.getImage().getLocButtonInfo();
 
             //Console.Out.WriteLine(locInfo.Count);
