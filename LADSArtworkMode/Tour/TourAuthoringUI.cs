@@ -894,6 +894,7 @@ namespace LADSArtworkMode
             timelineSlider.Maximum = 1;
             timelineSlider.IsSnapToTickEnabled = false;
             timelineSlider.Value = .6;
+            Canvas.SetZIndex(timelineSlider, 500);
             timelineSlider.ValueChanged += timeLineSlider_ValueChanged;
             timelineSlider.ManipulationCompleted += timeLineSlider_Completed;
             timelineSlider.TickFrequency = .1;
