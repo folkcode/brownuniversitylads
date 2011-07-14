@@ -17,7 +17,6 @@ using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
-using Knowledge_Web;
 using DeepZoom;
 using System.IO;
 using DexterLib;
@@ -53,138 +52,9 @@ namespace LADSArtworkMode
         AssociatedDocListBoxItem aldbi;
         private List<ScatterViewItem> svLists;
         bool knowledgeStack = false;
-        Knowledge_Web.KnowledgeWeb kw;
         private String imageURIPath;
         private LADSVideoBubble vidBub;
         private Helpers _helpers;
-
-        /// <summary>
-        /// used by knowledge web
-        /// </summary>
-        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, ImageSource img, List<ScatterViewItem> svList, KnowledgeWeb web)
-        {
-            kw = web;
-            svLists = svList;
-            knowledgeWebUse = true;
-            knowledgeStack = true;
-
-            aldbi = null;
-            image = new Image();
-            image.Source = img;
-
-            this.isAnimating = false;
-            this.AddChild(image);
-            mainScatterView = _mainScatterView;
-            bar = _bar;
-            win = _win;
-            this.MinHeight = 80;
-            this.MinWidth = 80;
-
-            isDocked = false;
-            touchDown = false;
-            //this.CanScale = true;
-
-
-            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd.AddValueChanged(this, RemoveListener);
-
-            this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
-
-            mainScatterView.Items.Add(this);
-            this.SetCurrentValue(HeightProperty, image.Height);
-            this.SetCurrentValue(WidthProperty, image.Width);
-
-            this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
-            this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
-            this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
-            this.CaptureMouse();
-            this.Opacity = 0.5;
-            _helpers = new Helpers();
-        }
-
-        /// <summary>
-        /// used by knowledge web 
-        /// </summary>
-        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, ImageSource img, ref ScatterViewItem saveScatter, KnowledgeWeb web)
-        {
-            kw = web;
-            knowledgeWebUse = true;
-            dockedItem = saveScatter;
-
-            aldbi = null;
-            image = new Image();
-            image.Source = img;
-
-            this.isAnimating = false;
-            this.AddChild(image);
-            mainScatterView = _mainScatterView;
-            bar = _bar;
-            win = _win;
-            this.MinHeight = 80;
-            this.MinWidth = 80;
-
-            isDocked = false;
-            touchDown = false;
-            //this.CanScale = true;
-
-
-            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd.AddValueChanged(this, RemoveListener);
-
-            this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
-
-            mainScatterView.Items.Add(this);
-            this.SetCurrentValue(HeightProperty, image.Height);
-            this.SetCurrentValue(WidthProperty, image.Width);
-
-            this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
-            this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
-            this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
-            this.CaptureMouse();
-            this.Opacity = 0.5;
-            _helpers = new Helpers();
-        }
-
-        /// <summary>
-        /// Dockable item that doesn't preload an image, used by the knowledge web
-        /// </summary>
-        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, ImageSource img)
-        {
-            aldbi = null;
-            image = new Image();
-            image.Source = img;
-            _helpers = new Helpers();
-
-            this.isAnimating = false;
-            this.AddChild(image);
-            mainScatterView = _mainScatterView;
-            bar = _bar;
-            win = _win;
-            this.MinHeight = 80;
-            this.MinWidth = 80;
-            isDocked = false;
-            touchDown = false;
-            //this.CanScale = true;
-
-
-            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd.AddValueChanged(this, RemoveListener);
-
-            this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
-
-            mainScatterView.Items.Add(this);
-            this.SetCurrentValue(HeightProperty, image.Height);
-            this.SetCurrentValue(WidthProperty, image.Width);
-
-            this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
-            this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
-            this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
-            this.CaptureMouse();
-            _helpers = new Helpers();
-        }
 
         /// <summary>
         /// used by artwork mode, including the tour authoring & playback system
@@ -235,6 +105,7 @@ namespace LADSArtworkMode
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
+            this.SizeChanged += new SizeChangedEventHandler(DockableItem_SizeChanged);
 
             Random rnd = new Random();
 
@@ -260,7 +131,16 @@ namespace LADSArtworkMode
             imageURIPath = imageURIPathParam;
 
             stream.Close();
-            
+
+        }
+
+        void DockableItem_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            /*if (e.NewSize.Width < 200 || e.NewSize.Height < 200)
+            {
+                this.Width = e.PreviousSize.Width;
+                this.Height = e.PreviousSize.Height;
+            }*/
         }
 
         /// <summary>
@@ -315,6 +195,7 @@ namespace LADSArtworkMode
 
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
+            this.SizeChanged += new SizeChangedEventHandler(DockableItem_SizeChanged);
 
             Random rnd = new Random();
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
@@ -326,7 +207,7 @@ namespace LADSArtworkMode
             //Canvas.SetZIndex(this, 95);
 
             imageURIPath = imageURIPathParam;
-            
+
         }
 
         //constructor for videos
@@ -347,7 +228,7 @@ namespace LADSArtworkMode
             //fBitmapName = fBitmapName.Remove(fBitmapName.Length - 4, 4);
             //fBitmapName += ".bmp";
             //md.WriteBitmapBits(0, 320, 240, fBitmapName);
-            
+
             //BitmapImage bmp = new BitmapImage();
             //bmp.BeginInit();
             //bmp.UriSource = new Uri(fBitmapName, UriKind.RelativeOrAbsolute);
@@ -392,6 +273,7 @@ namespace LADSArtworkMode
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
+            this.SizeChanged += new SizeChangedEventHandler(DockableItem_SizeChanged);
 
             mainScatterView.Items.Add(this);
             //this.SetCurrentValue(HeightProperty, vidBub.Height);
@@ -453,14 +335,14 @@ namespace LADSArtworkMode
             double newWidth = 0;
             double newHeight = 0;
 
-            newWidth = ((double)e.Delta)/5.0 + this.ActualWidth;
+            newWidth = ((double)e.Delta) / 5.0 + this.ActualWidth;
             newHeight = this.ActualHeight * newWidth / this.ActualWidth;
 
             if (newWidth < 40 || newHeight < 40) return;
 
             this.Height = newHeight;
             this.Width = newWidth;
-            
+
 
         }
 
@@ -479,100 +361,25 @@ namespace LADSArtworkMode
                 {
                     vidBub.pauseVideo();
                 }
-                if (knowledgeWebUse)
-                {
-                    if (knowledgeStack)
-                    {
-                        foreach (ScatterViewItem i in svLists)
-                        {
-                            WebStack.sviContent content = (WebStack.sviContent)i.Tag;
-                            content.used = true;
-                            content.r.Visibility = Visibility.Visible;
-                            for (int j = 0; j < kw.sviList.Count; j++)
-                            {
-                                WebStack.sviContent content2 = (WebStack.sviContent)kw.sviList[j].Tag;
-                                if (content.im.Source == content2.im.Source)
-                                {
-                                    content2.used = true;
-                                    kw.sviList[j].Tag = content2;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        WebStack.sviContent content = (WebStack.sviContent)dockedItem.Tag;
-
-                        for (int j = 0; j < kw.sviList.Count; j++)
-                        {
-                            WebStack.sviContent content2 = (WebStack.sviContent)kw.sviList[j].Tag;
-                            if (content.im.Source == content2.im.Source)
-                            {
-                                content2.used = true;
-                                kw.sviList[j].Tag = content2;
-                                break;
-                            }
-                        }
-                        content.r.Visibility = Visibility.Visible;
-                        //dockedItem.Tag = content;
-                    }
-                }
 
                 this.isAnimating = true;
                 barImageHeight = bar.ActualHeight * .8;
                 barImageWidth = bar.ActualHeight * this.Width / this.Height;
 
-                if (knowledgeStack)
-                {
-                    Canvas scatterCanvas = new Canvas();
-                    scatterCanvas.Height = 100;
-                    scatterCanvas.Width = 100;
-                    double offsetCount = 0;
+                dockImage = new Image();
+                dockImage.Source = this.image.Source;
+                dockImage.SetCurrentValue(HeightProperty, barImageHeight);
+                dockImage.SetCurrentValue(WidthProperty, barImageWidth);
+                wke = new WorkspaceElement();
+                wke.SetCurrentValue(BackgroundProperty, bar.GetValue(BackgroundProperty));
 
-                    foreach (ScatterViewItem i in svLists)
-                    {
-                        WebStack.sviContent content = (WebStack.sviContent)i.Tag;
-                        Image temp = new Image();
-                        temp.Source = content.im.Source;
-                        temp.Height = 100;
-                        temp.Width = 100;
+                wke.Content = dockImage;
+                wke.Opacity = 0;
+                wke.Background = Brushes.LightGray;
 
-                        scatterCanvas.Children.Add(temp);
-                        Canvas.SetLeft(temp, offsetCount);
-                        offsetCount += 10;
-                    }
-
-                    wke = new WorkspaceElement();
-                    wke.SetCurrentValue(BackgroundProperty, bar.GetValue(BackgroundProperty));
-
-                    wke.Content = scatterCanvas;
-                    wke.Opacity = 0;
-                    wke.Background = Brushes.LightGray;
-
-                    wke.item = this;
-                    win.DockedItems.Add(wke);
-                    bar.Items.Add(wke);
-                }
-                else
-                {
-
-                    dockImage = new Image();
-                    dockImage.Source = this.image.Source;
-                    dockImage.SetCurrentValue(HeightProperty, barImageHeight);
-                    dockImage.SetCurrentValue(WidthProperty, barImageWidth);
-                    //dockImage.Opacity = 0.0;
-                    wke = new WorkspaceElement();
-                    wke.SetCurrentValue(BackgroundProperty, bar.GetValue(BackgroundProperty));
-
-                    wke.Content = dockImage;
-                    wke.Opacity = 0;
-                    wke.Background = Brushes.LightGray;
-
-                    wke.item = this;
-                    win.DockedItems.Add(wke);
-                    bar.Items.Add(wke);
-                }
+                wke.item = this;
+                win.DockedItems.Add(wke);
+                bar.Items.Add(wke);
 
                 Point startPoint = wke.TransformToAncestor(win.getMain()).Transform(new Point(0, 0));
                 Point relPoint = wke.TransformToAncestor(bar).Transform(new Point(0, 0));
@@ -611,11 +418,6 @@ namespace LADSArtworkMode
                 this.BeginAnimation(MaxWidthProperty, widthAnim);
                 this.BeginAnimation(OrientationProperty, orientAnim);
             }
-            else if (knowledgeWebUse)
-            {
-                ScatterView sv = this.Parent as ScatterView;
-                sv.Items.Remove(this);
-            }
         }
 
         public void anim1Completed(object sender, EventArgs e)
@@ -646,45 +448,6 @@ namespace LADSArtworkMode
             touchDown = true;
             if (isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating && win.bottomPanelVisible)
             {
-                if (knowledgeWebUse)
-                {
-                    if (knowledgeStack)
-                    {
-                        foreach (ScatterViewItem i in svLists)
-                        {
-                            WebStack.sviContent content = (WebStack.sviContent)i.Tag;
-                            content.used = true;
-                            content.r.Visibility = Visibility.Collapsed;
-                            for (int j = 0; j < kw.sviList.Count; j++)
-                            {
-                                WebStack.sviContent content2 = (WebStack.sviContent)kw.sviList[j].Tag;
-                                if (content.im.Source == content2.im.Source)
-                                {
-                                    content2.used = false;
-                                    kw.sviList[j].Tag = content2;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        WebStack.sviContent content = (WebStack.sviContent)dockedItem.Tag;
-
-                        for (int j = 0; j < kw.sviList.Count; j++)
-                        {
-                            WebStack.sviContent content2 = (WebStack.sviContent)kw.sviList[j].Tag;
-                            if (content.im.Source == content2.im.Source)
-                            {
-                                content2.used = false;
-                                kw.sviList[j].Tag = content2;
-                                break;
-                            }
-                        }
-                        content.r.Visibility = Visibility.Collapsed;
-                    }
-                }
-
                 //this.SetCurrentValue(HeightProperty, dockImage.Height);
                 this.isAnimating = true;
                 this.Opacity = 1.0;
@@ -822,13 +585,13 @@ namespace LADSArtworkMode
             if (_helpers.IsImageFile(_scatteruri))
             {
                 image = new Image();
-            _helpers = new Helpers();
+                _helpers = new Helpers();
 
-            FileStream stream = new FileStream(imageUri, FileMode.Open);
+                FileStream stream = new FileStream(imageUri, FileMode.Open);
 
-            System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
-            System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
-            stream.Close();
+                System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
+                System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+                stream.Close();
 
                 wpfImage.SetCurrentValue(DockPanel.DockProperty, Dock.Left);
 
@@ -851,11 +614,12 @@ namespace LADSArtworkMode
             //equivalent for videos
             else if (_helpers.IsVideoFile(_scatteruri))
             {
-                if (_helpers.IsDirShowFile(_scatteruri)) {
+                if (_helpers.IsDirShowFile(_scatteruri))
+                {
                     image = new Image();
-                
+
                     imageUri = System.IO.Path.GetFullPath(imageUri);
-                    int decrement = System.IO.Path.GetExtension(imageUri).Length ;
+                    int decrement = System.IO.Path.GetExtension(imageUri).Length;
                     imageUri = imageUri.Remove(imageUri.Length - decrement, decrement);
                     imageUri += ".bmp";
                     FileStream stream = new FileStream(imageUri, FileMode.Open);
