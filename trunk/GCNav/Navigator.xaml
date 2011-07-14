@@ -6,14 +6,20 @@
              xmlns:m="clr-namespace:GCNav"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" xmlns:my="http://schemas.microsoft.com/surface/2008">
-    <Grid >
+    
+      <Grid >
         <Grid Name="curImageContainer" HorizontalAlignment="Right" VerticalAlignment="Top"> <!-- jcchin - HorizontalAlignment temporarily changed from Right to Center so I can open Artwork Mode in 1280 x 800 resolution -->
             <Border CornerRadius="5" Padding="10"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="#FF002D0C" BorderThickness="4">
                 <Grid Name="curImageCanvas" Height="250" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top">
                 </Grid>
             </Border>
         </Grid>
-       
+        <Grid Name="filterBoxContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Height="540" Width="360" Visibility="Hidden">
+            <!--jmond: Changed visibility to hidden for now since it will be moved and the event info will be displayed there instead -->
+            <Border Name="filterBorder" CornerRadius="5" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10" Background = "#B6002D0C" BorderBrush="#FF002D0C" BorderThickness="4,4,4,0">
+                <m:FilterTimelineBox x:Name="timelineFilt" Padding="0,0,0,0"/>
+            </Border>
+        </Grid>
         <Grid Name="eventInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top" Height="500" Visibility="Hidden">
             <Border CornerRadius="5" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Background = "#FFA7C99F" BorderBrush="#FF002D0C" BorderThickness="4,4,4,4">
                 <TextBlock Name="eventInfo" Grid.Row="0" Grid.Column="0"  Text="" Foreground="Black" TextAlignment="Left" FontSize="15"></TextBlock>
@@ -41,12 +47,7 @@
 
         </Grid>
         
-        <Canvas Name="filterBoxContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Height="540" Width="620" Visibility="Hidden">
-            <!--jmond: Changed visibility to hidden for now since it will be moved and the event info will be displayed there instead -->
-            <Border CornerRadius="5" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Background = "#B6002D0C" BorderBrush="#FF002D0C" BorderThickness="4,4,4,0">
-                <m:FilterTimelineBox x:Name="timelineFilt" Padding="0,0,0,0"/>
-            </Border>
-        </Canvas>
+       
 
         <!--The catalog-->
         <my:ScatterView Height="100" HorizontalAlignment="Left" Name="mainScatterView" VerticalAlignment="Top" Width="192" Background="#FFA7C99F">
@@ -60,4 +61,5 @@
         <m:Timeline x:Name="timeline"/>
         <TextBlock Name="Message" Text="No images found in selection." Foreground="Black" FontSize="22" FontWeight="Bold" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
+       
 </UserControl>
