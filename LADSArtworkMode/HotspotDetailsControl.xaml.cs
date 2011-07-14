@@ -98,6 +98,7 @@ namespace LADSArtworkMode
             set { m_msi = value; }
         }
         //ScatterViewItem scatterItem;
+        private double _volume;
 
         /// <summary>
         /// Constructor
@@ -115,6 +116,7 @@ namespace LADSArtworkMode
             isOnScreen = false;
             hasVideo = false;
             _hasBeenOpened = false;
+            _volume = .5;
         }
 
         void HotspotDetailsControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -173,6 +175,16 @@ namespace LADSArtworkMode
             Volume.Source = volume;
             // newImage.UriSource = new Uri(@filePath);
             // newImage.EndInit();
+        }
+
+        public void showMuteIcon()
+        {
+            BitmapImage mute = new BitmapImage();
+            mute.BeginInit();
+            String mutePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\muteIcon1.png";
+            mute.UriSource = new Uri(@mutePath);
+            mute.EndInit();
+            Volume.Source = mute;
         }
         /// <summary>
         /// Called when the closed button is clicked.
@@ -645,7 +657,12 @@ namespace LADSArtworkMode
 
         private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            try { myMediaElement.Volume = (double)volumeSlider.Value; }
+            try 
+            { 
+                myMediaElement.Volume = (double)volumeSlider.Value;
+                //_volume = (double)volumeSlider.Value;
+            
+            }
             catch { }
         }
 
@@ -838,6 +855,27 @@ namespace LADSArtworkMode
         }
 
         bool isPlaying;
+
+        private void MuteButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Unmute
+            if (myMediaElement.Volume == 0)
+            {
+                myMediaElement.Volume = _volume;
+                volumeSlider.Value = _volume;
+                showAudioIcon();
+            }
+
+            //Mute
+            else
+            {
+                _volume = myMediaElement.Volume;
+                myMediaElement.Volume = 0;
+                volumeSlider.Value = 0;
+                showMuteIcon();
+                
+            }
+        }
 
         private void SurfacePlayButton_Click(object sender, RoutedEventArgs e)
         {

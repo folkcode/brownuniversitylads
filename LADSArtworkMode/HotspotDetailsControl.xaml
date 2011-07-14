@@ -74,7 +74,11 @@
                 </StackPanel>
 
                     <Grid  Width="250" HorizontalAlignment="Center">
-                        <Image Name="Volume" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="15" />
+
+                    <s:SurfaceButton Name="MuteButton"  Background="Transparent" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="15"  Click="MuteButton_Click" >
+                        <Image Name="Volume" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="0" />
+                    </s:SurfaceButton>
+                    <!--<Image Name="Volume" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="15" />-->
                     <s:SurfaceSlider Name="volumeSlider" Width="100" Height="25" Background ="#618276" Canvas.Left="35" Minimum="0" Maximum="1" Value="0.5" ValueChanged="volumeSlider_ValueChanged"/>
                         <!--<Label Name="audioName" Width="163" Height="40" Canvas.Left="141" Foreground="Black" Canvas.Top="0" />-->
                     </Grid>
