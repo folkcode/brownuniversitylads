@@ -975,12 +975,15 @@ namespace LADSArtworkMode
             if (highlightActive)
             {
                 artModeWin.renameTimelineBox.Visibility = Visibility.Visible;
+                artModeWin.RenameBorder.Visibility = Visibility.Visible;
+
             }
         }
 
         public void cancelRenameTimelineButton_Click(object sender, RoutedEventArgs e)
         {
             artModeWin.renameTimelineBox.Visibility = Visibility.Collapsed;
+            artModeWin.RenameBorder.Visibility = Visibility.Collapsed;
 
         }
         public void applyRenameTimelineButton_Click(object sender, RoutedEventArgs e)
@@ -993,6 +996,7 @@ namespace LADSArtworkMode
                 //highlightData.titlebox.Text = artModeWin.renameTimelineTextBox.Text;
                 this.refreshUI();
                 artModeWin.renameTimelineBox.Visibility = Visibility.Collapsed;
+                artModeWin.RenameBorder.Visibility = Visibility.Collapsed;
             }
 
             //}
@@ -1165,6 +1169,7 @@ namespace LADSArtworkMode
         public void resetTimeButton_Click(object sender, EventArgs e)
         {
             artModeWin.TourLengthBox.Visibility = Visibility.Visible;
+            artModeWin.TimeBorder.Visibility = Visibility.Visible;
 
         }
 

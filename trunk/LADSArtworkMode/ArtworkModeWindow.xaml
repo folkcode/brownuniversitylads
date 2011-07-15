@@ -382,32 +382,38 @@
         <s:SurfaceButton Name="tourAuthoringDeleteButton" Content="Delete" Background="Red" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="80" Visibility="Collapsed" Canvas.ZIndex="100"/>
         <s:SurfaceButton Name="exitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
         <s:SurfaceButton Name="quitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" Visibility="Collapsed"/>
-        <Canvas Visibility="Collapsed" Background="#eceff0" Name="TourLengthBox" Canvas.Bottom="50" Canvas.Left="50" Width="300" Height="150" Canvas.ZIndex="100">
-            <Label>Change Tour Length</Label>
-            <s:SurfaceTextBox Height="30" Width="50" Name="TourLengthTextBox" Canvas.Left="40" Canvas.Top="50" FontSize="20">60</s:SurfaceTextBox>
-            <Label Canvas.Top="50" Canvas.Left="90">Seconds</Label>
-            <Label Name="shortTimeLabel" Canvas.Top="20" FontSize="14" Visibility="Hidden">Events will be lost - choose longer duration</Label>
-            <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyTimeTourButton" Background="CadetBlue" Click="applyTimeTourButton_Click">
-                Apply
-            </s:SurfaceButton>
-            <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelTimeTourButton" Background="CadetBlue" Click="cancelTimeTourButton_Click">
-                Cancel
-            </s:SurfaceButton>
-        </Canvas>
-        <Canvas Visibility="Collapsed" Background="#eceff0" Name="renameTimelineBox" Canvas.Bottom="200" Canvas.Left="200" Width="250" Height="150" Canvas.ZIndex="100">
-            <Label>Type New Name</Label>
-            <s:SurfaceTextBox Height="30" Width="200" Name="renameTimelineTextBox" Canvas.Left="20" Canvas.Top="50" FontSize="20">
-                new name here
-            </s:SurfaceTextBox>
+        <Border Name="TimeBorder" BorderBrush="#214236" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="50" Canvas.Left="50" Width="300" Height="150" Canvas.ZIndex="100">
+            <Canvas Visibility="Collapsed" Background="#ccd6c1" Name="TourLengthBox">
+                <Label>Change Tour Length</Label>
+                <s:SurfaceTextBox Height="30" Width="50" Name="TourLengthTextBox" Canvas.Left="40" Canvas.Top="50" FontSize="20">60</s:SurfaceTextBox>
+                <Label Canvas.Top="50" Canvas.Left="90">Seconds</Label>
+                <Label Name="shortTimeLabel" Canvas.Top="20" FontSize="14" Visibility="Hidden">Events will be lost - choose longer duration</Label>
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyTimeTourButton" Background="CadetBlue" Click="applyTimeTourButton_Click">
+                    Apply
+                </s:SurfaceButton>
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelTimeTourButton" Background="CadetBlue" Click="cancelTimeTourButton_Click">
+                    Cancel
+                </s:SurfaceButton>
+            </Canvas>
+        </Border>
+        <Border Name="RenameBorder" BorderBrush="#214236" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="200" Canvas.Left="200" Width="250" Height="150" Canvas.ZIndex="100">
+            <Canvas Visibility="Collapsed" Background="#ccd6c1" Name="renameTimelineBox" >
+
+                <Label>Type New Name</Label>
+                <s:SurfaceTextBox Height="30" Width="200" Name="renameTimelineTextBox" Canvas.Left="20" Canvas.Top="50" FontSize="20">
+                    new name here
+                </s:SurfaceTextBox>
 
 
-            <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyRenameTimelineButton" Background="CadetBlue">
-                Apply
-            </s:SurfaceButton>
-            <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelRenameTimelineButton" Background="CadetBlue">
-                Cancel
-            </s:SurfaceButton>
-        </Canvas>
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyRenameTimelineButton" Background="CadetBlue">
+                    Apply
+                </s:SurfaceButton>
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelRenameTimelineButton" Background="CadetBlue">
+                    Cancel
+                </s:SurfaceButton>
+
+            </Canvas>
+        </Border>
     </Canvas>
 
 </s:SurfaceWindow>

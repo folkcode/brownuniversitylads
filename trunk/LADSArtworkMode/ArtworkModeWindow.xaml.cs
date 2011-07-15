@@ -1717,6 +1717,7 @@ namespace LADSArtworkMode
 
 
             TourLengthBox.Visibility = Visibility.Collapsed;
+            TimeBorder.Visibility = Visibility.Collapsed;
 
 
 
@@ -1725,6 +1726,8 @@ namespace LADSArtworkMode
         private void cancelTimeTourButton_Click(object sender, RoutedEventArgs e)
         {
             TourLengthBox.Visibility = Visibility.Collapsed;
+            TimeBorder.Visibility = Visibility.Collapsed;
+
             shortTimeLabel.Visibility = Visibility.Hidden;
         }
 

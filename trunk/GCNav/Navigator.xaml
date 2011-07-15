@@ -61,7 +61,7 @@
         </my:ScatterView>
         <m:Timeline x:Name="timeline"/>
         <TextBlock Name="Message" Text="No images found in selection." Foreground="Black" FontSize="22" FontWeight="Bold" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
             <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Collapsed" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Canvas.Bottom="20"  Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
         </Grid>
     </Grid>
