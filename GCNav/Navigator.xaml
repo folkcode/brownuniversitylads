@@ -64,6 +64,30 @@
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
             <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Collapsed" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Canvas.Bottom="20"  Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
         </Grid>
+        <!--<Border Name="instructionBorder" BorderBrush="#ccd6c1" Visibility ="Visible" BorderThickness="4" CornerRadius="4" Canvas.Bottom="10" Canvas.Left="50" Width="300" Height="40" Canvas.ZIndex="100" VerticalAlignment="Bottom">
+        <Canvas Visibility="Visible" Background="#ccd6c1" Name="instructionBox" HorizontalAlignment="Center" >
+            <TextBlock Name="instruction" Text="Select Artwork to Show Details" Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" FontSize="15"></TextBlock>
+        </Canvas>
+        </Border>-->
+        <Grid Name="InstructionBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50" Width ="500" Visibility="Collapsed" Opacity=".75" IsHitTestVisible="False">
+            <Border Name ="InstructionBorder" CornerRadius="5" Width ="500" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#ccd6c1" BorderBrush="#ccd6c1" BorderThickness="4">
+                <!--<Grid>-->
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="20"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>-->
+
+                    <TextBlock Name="infoBox" Visibility ="Visible" Text="Select Artwork to View Details" Foreground="Black" TextAlignment="Center" FontSize="15" Width="500"></TextBlock>
+
+                <!--</Grid>-->
+            </Border>
+
+        </Grid>
+
     </Grid>
     
        

@@ -57,7 +57,6 @@ namespace GCNav
         {
             InitializeComponent();
 
-
             curImageContainer.Visibility = Visibility.Hidden;
             curInfoContainer.Visibility = Visibility.Hidden;
             mainScatterViewItem.Width = 1920;
@@ -110,7 +109,7 @@ namespace GCNav
         /// </summary>
         public void loadCollection()
         {
-            exitButton.Visibility = Visibility.Visible;
+            InstructionBox.Width = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
             XmlDocument doc = new XmlDocument();
             doc.Load(dataDir + "NewCollection.xml");
             if (doc.HasChildNodes)
@@ -505,6 +504,13 @@ namespace GCNav
             {
                 MainCanvas.Width = _windowSize.Width;
             }
+            exitButton.Visibility = Visibility.Visible;
+            InstructionBox.Visibility = Visibility.Visible;
+            InstructionBox.Width = (_windowSize.Width / 4);
+            InstructionBorder.Width = (_windowSize.Width / 4) -5;
+            infoBox.Width = (_windowSize.Width / 4) -5;
+            //InstructionBox.Width = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            //MessageBox.Show("Screenwidth is: " + System.Windows.SystemParameters.PrimaryScreenWidth / 2);
 
         }
 
@@ -663,6 +669,7 @@ namespace GCNav
         /// <param name="previous"></param>
         private void setDimension(Size previous)
         {
+
             mainScatterView.Width = _windowSize.Width * 1000;
             mainScatterView.Height = _windowSize.Height * 1000;
             mainScatterView.Margin = new Thickness(0, _windowSize.Height / 2, 0, 0);
