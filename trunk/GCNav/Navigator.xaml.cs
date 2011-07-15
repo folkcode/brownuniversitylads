@@ -57,7 +57,6 @@ namespace GCNav
         {
             InitializeComponent();
 
-            timeline.nav = this;
             curImageContainer.Visibility = Visibility.Hidden;
             curInfoContainer.Visibility = Visibility.Hidden;
             mainScatterViewItem.Width = 1920;
@@ -700,10 +699,12 @@ namespace GCNav
             mainScatterViewItem.Center = new Point(_windowSize.Width / 2, _windowSize.Height / 4);
 
             curImageContainer.Height = _windowSize.Height / 3;
-            curImageContainer.Width = _windowSize.Width / 3;
+            curImageContainer.Width = _windowSize.Width / 4;
 
             curInfoContainer.Height = _windowSize.Height / 3;
-            curInfoContainer.Width = _windowSize.Width / 6;
+            curInfoContainer.Width = _windowSize.Width / 4;
+            //Console.Out.WriteLine("curinfo" + curInfoContainer.Width);
+           // Console.Out.WriteLine("curImage" + curImageContainer.Width);
 
             //filterBoxContainer.Width =576;
 
@@ -713,14 +714,14 @@ namespace GCNav
             // Console.Out.WriteLine("filter width" + filterBoxContainer.Width);
             // Console.Out.WriteLine("filter" + _windowSize.Width / 4);
             // timelineFilt.Width = _windowSize.Width/2;
-            double margin = (-_windowSize.Width / 4 + mapWidth / 2);
+           // double margin = (-_windowSize.Width / 4 + mapWidth / 2);
             //  Console.Out.WriteLine("previous" + previous.Width);
             //  Console.Out.WriteLine("current" + _windowSize.Width);
             //MessageBox.Show("mapWidth"+mapWidth);
-            Console.Out.WriteLine("margin" + margin);
+          //  Console.Out.WriteLine("margin" + margin);
             // filterBoxContainer.Margin = new Thickness(margin, 0, -margin, 0);
             //filterBorder.Margin = new Thickness(margin, 0, -margin, 0);
-            timelineFilt.Margin = new Thickness(margin, 0, -margin, 0);
+           // timelineFilt.Margin = new Thickness(margin, 0, -margin, 0);
             //   filterBoxContainer.Width = 1600 / _windowSize.Width;
             // Console.Out.WriteLine("scaleX"+tran.ScaleX);
             //Canvas.SetLeft(filterBoxContainer, _windowSize.Width / 4);
@@ -737,6 +738,7 @@ namespace GCNav
         {
             _windowSize = e.NewSize;
             setDimension(e.PreviousSize);
+
         }
 
         public delegate void MainImageSelectedHandler(object sender, EventArgs e);
@@ -827,22 +829,13 @@ namespace GCNav
             foreach (Event e in events)
             {
                 e.setParent(this);
-                //e.PreviewMouseDown +=new MouseButtonEventHandler(EventTouchedHandler);
                 //e.PreviewTouchDown+=new EventHandler<TouchEventArgs>(EventTouchedHandler);
-                //e.PreviewMouseUp += EventTouchedHandler;
+                e.PreviewMouseDown += EventTouchedHandler;
             }
         }
 
         public void EventTouchedHandler(object sender, EventArgs e)
         {
-            (sender as UIElement).ReleaseAllTouchCaptures();
-            (sender as UIElement).ReleaseMouseCapture();
-            try
-            {
-                (e as RoutedEventArgs).Handled = false;
-            }
-            catch (Exception exc) {
-            }
             eventSelected((Event)sender);
         }
 
@@ -918,22 +911,31 @@ namespace GCNav
             Image _curImage = new Image();
             _curImage.Source = img.Source;
             _curImage.Height = this.ActualHeight / 4;
-            curImageCanvas.Height = _curImage.Height + 50;
-            curImageCanvas.Width = _curImage.Width + 50;
+           // curImageCanvas.Height = _curImage.Height + 50;
+           // curImageCanvas.Width = _curImage.Width + 50;
+            curImageCanvas.Width = _windowSize.Width / 4;
             curImageCanvas.Children.Add(_curImage);
             currentImage = img;
             _curImage.TouchDown += HandleImageTouched;
             _curImage.MouseDown += HandleImageTouched;
             Canvas.SetTop(_curImage, 25);
             Canvas.SetLeft(_curImage, 25);
+            
 
+            
             curInfo.Text = "";
             curInfo.Text += "Title: " + img.title + "\n";
             curInfo.Text += "Artist: " + img.artist + "\n";
             curInfo.Text += "Medium: " + img.medium + "\n";
             curInfo.Text += "Year: " + img.year;
             curInfo.FontSize = 20 * _windowSize.Height / 1080.0;
+            curInfoCol.Width = _windowSize.Width / 4;
+            curInfoCol.Height = this.ActualHeight / 4;
+           // Canvas.SetTop(curInfo, 35);
 
+            
+            // newColWidth.Width = _windowSize.Width / 4;
+            //column.Width = _windowSize.Width / 4;
             if (currentImage.keywords.Count() > 0)
             {
                 KeywordsTitle.Visibility = Visibility.Visible;

@@ -32,7 +32,7 @@ namespace GCNav
         private Dictionary<SurfaceRadioButton, String> locButtons;
         private Dictionary<SurfaceRadioButton, Ellipse> ellipses,backEllipses;
         private ImageData data;
-        public Double tranScale;
+        public Double tranScaleX,tranScaleY;
      
         public newMap()
         {
@@ -151,9 +151,9 @@ namespace GCNav
            Size newSize = e.NewSize;
            Size oldSize = e.PreviousSize;
 
-           CanvasLeft = (int)(newSize.Width / 4);
+           CanvasLeft = (int)(newSize.Width *0.316);
 
-         //  Console.Out.WriteLine("map" + CanvasLeft);
+           Console.Out.WriteLine("map" + CanvasLeft);
            Canvas.SetLeft(this, CanvasLeft);
            Canvas.SetTop(this, 30);
 
@@ -164,12 +164,14 @@ namespace GCNav
            ScaleTransform tran = new ScaleTransform();
 
            double scale = Math.Max(newSize.Width / 1600, newSize.Height / 900);
-           tran.ScaleX = scale;// newSize.Width / 1600; //scale according to 1600* 900 resolution
-           tran.ScaleY = scale;// newSize.Height / 900;
+           tran.ScaleX = newSize.Width / 1600; //scale according to 1600* 900 resolution
+           tran.ScaleY = newSize.Height / 900;
 
           this.RenderTransform = tran;
-          tranScale = tran.ScaleX;
-
+          tranScaleX = tran.ScaleX;
+          tranScaleY = tran.ScaleY;
+         // Console.Out.WriteLine("scale" + tran.ScaleX);
+         // Console.Out.WriteLine("map width" + this.ActualWidth);
         }
 
         public void hideButtons()

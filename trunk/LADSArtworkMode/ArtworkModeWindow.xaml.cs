@@ -553,7 +553,34 @@ namespace LADSArtworkMode
                 MessageBox.Show(ex.Message);
             }*/
         }
+        private void toggleHotspot()
+        {
+            if (m_hotspotOnOff == false)
+            {
+                if (m_currentSelectedHotspotIndex != -1)
+                {
+                    SurfaceListBoxItem item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(m_currentSelectedHotspotIndex);
+                    int index = (int)item.Tag;
+                    m_hotspotCollection.unloadHotspotIcon(index);
+                }
+                //m_hotspotCollection.loadAllHotspotsIcon(HotspotOverlay, MainScatterView,msi);
+                m_hotspotCollection.loadAllHotspotsIcon(HotspotOverlay, MSIScatterView, msi);
+                if (m_currentSelectedHotspotIndex != -1)
+                {
+                    SurfaceListBoxItem item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(m_currentSelectedHotspotIndex);
+                    int index = (int)item.Tag;
+                    m_hotspotCollection.HotspotIcons[index].changeToHighLighted();
+                }
+                toggleHotspots.Content = "Hotspots Off";
 
+            }
+            else
+            {
+                m_hotspotCollection.unloadAllHotspotsIcon();
+                toggleHotspots.Content = "Hotspots On";
+            }
+            m_hotspotOnOff = !m_hotspotOnOff;
+        }
 
         /// <summary>
         /// Called a user chooses to turn on/off hotspot icons.
@@ -1112,6 +1139,7 @@ namespace LADSArtworkMode
         {
             if (!_noHotspots)
             {
+              
                 SurfaceListBoxItem item;
                 int index;
                 if (listHotspotNav.SelectedIndex != -1)

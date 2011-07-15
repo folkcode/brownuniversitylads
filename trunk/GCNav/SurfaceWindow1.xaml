@@ -25,10 +25,15 @@
     </s:SurfaceWindow.Resources>
     
         <Grid Background="#24524A" >
+        <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="800" Height="600" Canvas.Top="10" HorizontalAlignment="Left">
+           
+        </Canvas>
         <Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
             <m:newMap x:Name="Map" Height="355.25" Width="576.35" />
-         <!--   <m:FilterTimelineBox x:Name="filter" Width="300" Visibility="Hidden"/> -->
+            <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="5" />
+            <!--   <m:FilterTimelineBox x:Name="filter" Width="300" Visibility="Hidden"/> -->
         </Canvas>
+        
         <m:Navigator x:Name="nav" />
 
         <!-- <Image Name="startImg" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/GCNav;component/startup.jpg" Width="600" Height="330"/>
