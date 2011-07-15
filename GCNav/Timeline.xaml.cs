@@ -35,6 +35,7 @@ namespace GCNav
         private List<Event> _events;
         private bool mouseOnAndDown = false;
         private Point previousPoint = new Point(0,0);
+        public Navigator nav;
 
         public List<Event> getEvents()
         {
@@ -53,6 +54,7 @@ namespace GCNav
             //mainCanvas.PreviewTouchMove += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchMove);
             timelineSVI.Deceleration = double.NaN;
             this.Loaded += new RoutedEventHandler(Timeline_Loaded);
+            _eventsCanvas.Background = null;
             
         }
 
@@ -393,12 +395,42 @@ namespace GCNav
 
         private void MainScatterItem_TouchDown(object sender, TouchEventArgs e)
         {
+            foreach (UIElement ele in _eventsCanvas.Children)
+            {
+                Event t = ele as Event;
 
+                Point p = (sender as UIElement).TranslatePoint(e.GetTouchPoint(sender as UIElement).Position, t._eventRec);
+                if (p.X > 0 && p.X < t._eventRec.Width && p.Y > 0 && p.Y < t._eventRec.Height)
+                {
+                    nav.eventSelected(t);
+                }
+                //Point p = e.GetPosition(currentEvent);
+                
+                /*if (p.X < currentEvent._eventRec.Width && p.X > 0 && p.Y < currentEvent._eventRec.Height && p.Y > 0)
+                {
+                    (this.Parent as Navigator).eventSelected(currentEvent);
+                }*/
+                }
         }
 
-        private void MainScatterView_TouchDown(object sender, TouchEventArgs e)
+        public void mainScatterView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Console.WriteLine("jf312jpf23");
+            foreach (UIElement ele in _eventsCanvas.Children)
+            {
+                Event t = ele as Event;
+
+                Point p = (sender as UIElement).TranslatePoint(e.GetPosition(sender as UIElement), t._eventRec);
+                if (p.X > 0 && p.X < t._eventRec.Width && p.Y > 0 && p.Y < t._eventRec.Height)
+                {
+                    nav.eventSelected(t);
+                }
+                //Point p = e.GetPosition(currentEvent);
+                
+                /*if (p.X < currentEvent._eventRec.Width && p.X > 0 && p.Y < currentEvent._eventRec.Height && p.Y > 0)
+                {
+                    (this.Parent as Navigator).eventSelected(currentEvent);
+                }*/
+                }
         }
     }
 }

@@ -186,7 +186,7 @@ namespace GCNav
 
         }
 
-        private void filt_mousedown(object sender, EventArgs e)
+        private void filt_mousedown(object sender, MouseEventArgs e)
         {
             toggleFilterbox();
         }
@@ -194,6 +194,7 @@ namespace GCNav
         private void filt_touchdown(object sender, TouchEventArgs e)
         {
             toggleFilterbox();
+            e.Handled = true;
         }
 
         private void reset_timeline()

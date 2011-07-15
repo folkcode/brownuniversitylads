@@ -21,7 +21,7 @@ namespace GCNav
     {
         private double _height, _width;
         private int _start, _end;
-        private Rectangle _eventRec;
+        public Rectangle _eventRec;
         private string _name, _location, _description;
         private TextBlock _eventText;
         private Color _recColor;
@@ -74,7 +74,7 @@ namespace GCNav
             _eventRec.Fill = brush;
             canvas.Children.Insert(0, _eventRec);
             canvas.Children.Add(_eventText);
-            _eventRec.PreviewTouchUp += new EventHandler<TouchEventArgs>(TouchUpHandler);
+            //this.PreviewTouchUp += new EventHandler<TouchEventArgs>(TouchUpHandler);
             //_eventRec.PreviewMouseUp += new MouseButtonEventHandler(TouchUpHandler);
         }
 
@@ -144,6 +144,11 @@ namespace GCNav
             if (_parent!=null) {
                 _parent.eventSelected(this);
             }
+            try
+            {
+                (e as RoutedEventArgs).Handled = false;
+            }
+            catch (Exception exc) { }
             
         }
 
