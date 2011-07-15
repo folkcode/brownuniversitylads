@@ -369,7 +369,7 @@ namespace LADSArtworkMode
             DockableItem item = sender as DockableItem;
             Console.WriteLine("AddToDock Called");
             Helpers helpers = new Helpers();
-
+            this.SizeChanged -= DockableItem_SizeChanged;
             //if (isDocked) isDocked = false;
             if (this.Center.Y > (win.ActualHeight * .8) && !isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating)
             {

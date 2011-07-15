@@ -765,7 +765,9 @@ namespace GCNav
                 artmode.LayoutArtworkMode(currentImage.filename);
                 //artmode.currentArtworkFileName = currentImage.filename;
                 artmode.currentArtworkTitle = currentImage.title;
-                artmode.addDockedItems(dockedItems);
+                
+                //artmode.addDockedItems(dockedItems);
+                
                 Console.WriteLine(currentImage.filename);// add an input param in order to handle different artworks hotspots.
             }
             else
@@ -805,7 +807,7 @@ namespace GCNav
         public void onArtmodeClose(object sender, EventArgs e)
         {
             _timer.Tick -= TimerTick_Handler;
-            dockedItems = artmode.DockedDockableItems;
+            //dockedItems = artmode.DockedDockableItems;
             _artOpen = false;
             artmode.Close();
         }
