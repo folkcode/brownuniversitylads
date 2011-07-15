@@ -57,6 +57,7 @@ namespace GCNav
         {
             InitializeComponent();
 
+            timeline.nav = this;
             curImageContainer.Visibility = Visibility.Hidden;
             curInfoContainer.Visibility = Visibility.Hidden;
             mainScatterViewItem.Width = 1920;
@@ -824,13 +825,22 @@ namespace GCNav
             foreach (Event e in events)
             {
                 e.setParent(this);
+                //e.PreviewMouseDown +=new MouseButtonEventHandler(EventTouchedHandler);
                 //e.PreviewTouchDown+=new EventHandler<TouchEventArgs>(EventTouchedHandler);
-                e.PreviewMouseDown += EventTouchedHandler;
+                //e.PreviewMouseUp += EventTouchedHandler;
             }
         }
 
         public void EventTouchedHandler(object sender, EventArgs e)
         {
+            (sender as UIElement).ReleaseAllTouchCaptures();
+            (sender as UIElement).ReleaseMouseCapture();
+            try
+            {
+                (e as RoutedEventArgs).Handled = false;
+            }
+            catch (Exception exc) {
+            }
             eventSelected((Event)sender);
         }
 

@@ -1899,15 +1899,25 @@ namespace LADSArtworkMode
 
         public void addDockedItems(List<DockableItem> docked)
         {
-            return;
             if (docked == null) return;
             foreach (object item in docked)
             {
                 DockableItem dockitem = item as DockableItem;
-                dockitem.resetValues(MainScatterView, this, Bar);
-                dockitem.AddtoDock(dockitem, null);
                 (dockitem.Parent as Microsoft.Surface.Presentation.Controls.ScatterView).Items.Remove(dockitem);
+                dockitem.resetValues(MainScatterView, this, Bar);
                 MainScatterView.Items.Add(dockitem);
+                Random rnd = new Random();
+                Point pt = new Point(rnd.Next((int)(dockitem.win.ActualWidth * .4), (int)(dockitem.win.ActualWidth*.6)),
+                                                              rnd.Next((int)(dockitem.win.ActualHeight * .4), (int)(dockitem.win.ActualWidth * .6)));
+                dockitem.Center = pt;
+                Console.WriteLine(pt.X + " " + pt.Y);
+                dockitem.Orientation = rnd.Next(-20, 20);
+                if (dockitem.image != null)
+                {
+                    dockitem.SetCurrentValue(HeightProperty, dockitem.image.Height);
+                    dockitem.SetCurrentValue(WidthProperty, dockitem.image.Width);
+                }
+                dockitem.AddtoDock(dockitem, null);
             }
         }
     }

@@ -30,7 +30,7 @@ namespace LADSArtworkMode
     {
         public bool isDocked;
         ScatterView mainScatterView;
-        ArtworkModeWindow win;
+        public ArtworkModeWindow win;
         MouseEventHandler mousem;
         SurfaceListBox bar;
         double barX;
@@ -496,7 +496,12 @@ namespace LADSArtworkMode
 
                 if (!knowledgeStack)
                 {
-                    dockImage.BeginAnimation(WidthProperty, dockwidthAnim);
+                    dockImage.BeginAnimation(WidthProperty, dockwidthAnim); 
+                    this.isAnimating = false;
+                    this.isDocked = false;
+                    bar.Items.Remove(wke);
+                    win.DockedItems.Remove(wke);
+                    win.DockedDockableItems.Remove(this);
                 }
                 else
                 {
@@ -505,7 +510,6 @@ namespace LADSArtworkMode
                     bar.Items.Remove(wke);
                     win.DockedItems.Remove(wke);
                     win.DockedDockableItems.Remove(this);
-
                 }
                 win.BarOffset -= actualWKEWidth;
                 int dex = win.DockedItems.IndexOf(wke);
