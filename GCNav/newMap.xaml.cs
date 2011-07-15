@@ -64,6 +64,7 @@ namespace GCNav
             
             blur.RenderTransform = newT;
             Canvas.SetZIndex(blur, 20);
+            blur.Visibility = Visibility.Hidden;
             
         }
 
@@ -72,7 +73,7 @@ namespace GCNav
             
             //MultiScaleImage newImage = new MultiScaleImage();
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
-            String mapUri = dataUri + "Map/newMap.jpg/dz.xml";
+            String mapUri = dataUri + "Map/MAP.png/dz.xml";
             
             mapImage.SetImageSource(mapUri);
             mapImage.UpdateLayout();
