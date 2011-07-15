@@ -32,7 +32,7 @@ namespace LADSArtworkMode
     /// </summary>
     public partial class HotspotDetailsControl : ScatterViewItem
     {
-        //MediaElement myMediaElement;
+        MediaElement myMediaElement;
         ScatterView m_parentScatterView;
         Canvas m_parentCanvas;
         public Hotspot m_hotspotData;
@@ -194,15 +194,15 @@ namespace LADSArtworkMode
             //m_xpsdocument.Close();
             //m_parentCanvas.Children.Remove(this);
 
-            if (!m_hotspotData.Type.ToLower().Contains("audio"))
-            {
+            //if (!m_hotspotData.Type.ToLower().Contains("audio"))
+            //{
                 m_parentScatterView.Items.Remove(this);
-            }
+            //}
                 //audio is buggy so it can't be removed or it breaks
-            else
-            {
-                this.Visibility = Visibility.Collapsed;
-            }
+            //else
+            //{
+            //    this.Visibility = Visibility.Collapsed;
+            //}
             
             isOnScreen = false;
             if (hasVideo)
@@ -217,11 +217,14 @@ namespace LADSArtworkMode
             }
             //hopefully this works
             if (m_hotspotData.Type.ToLower().Contains("audio")) {
-                //(myMediaElement.Parent as Panel).Children.Remove(myMediaElement);
+                (myMediaElement.Parent as Panel).Children.Remove(myMediaElement);
                 myMediaElement.Pause();
                 _sliderTimer.Stop();
                 myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
                 timelineSlider.Value = 0;
+                myMediaElement = null;
+
+
                 //myMediaElement = null;
             }
             
@@ -279,7 +282,7 @@ namespace LADSArtworkMode
         /// <summary>
         /// Update the screen location of the control with respect to the artwork.
         /// </summary>
-        /// //not called with audio...
+        /// 
         public void updateScreenLocation(MultiScaleImage msi)
         {
             Double[] size = this.findImageSize();
@@ -370,9 +373,10 @@ namespace LADSArtworkMode
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
 
-                //myMediaElement = new MediaElement();
-                //String newaudioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
-                //myMediaElement.Source = new Uri(newaudioUri); 
+                myMediaElement = new MediaElement();
+                String newaudioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
+                myMediaElement.Source = new Uri(newaudioUri);
+                AudioScroll.Children.Add(myMediaElement);
                 AudioScroll.Width = hotspotCanvas.Width - 24;
                 AudioScroll.Height = hotspotCanvas.Height - 47;
                 myMediaElement.Width = VideoStackPanel.Width;
@@ -391,7 +395,6 @@ namespace LADSArtworkMode
                 textBoxScroll.Visibility = Visibility.Collapsed;
 
                 //this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
-
 
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
                 myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
@@ -534,6 +537,7 @@ namespace LADSArtworkMode
            // Console.Out.WriteLine("center1" + this.Center);
            // m_parentScatterView.Items.Add(this);
         }
+
 
         void SurfaceTimelineSlider_ManipulationStarted(object sender, EventArgs e)
         {

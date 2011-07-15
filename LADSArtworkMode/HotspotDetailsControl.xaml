@@ -38,7 +38,7 @@
 
             <StackPanel Name="AudioScroll" Height="272" Width="366" Background="#618276" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
                 
-                    <MediaElement Name="myMediaElement"  Width="280" Height="10" Stretch="Fill" />
+                    <!--<MediaElement Name="myMediaElement"  Width="280" Height="10" Stretch="Fill" />-->
                 <s:SurfaceSlider Name="timelineSlider" Margin="0" Height ="0" Width="250" HorizontalAlignment="Center" Background="#618276" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
                 <!-- Button controls for play, pause, resume, and stop. -->
                 
