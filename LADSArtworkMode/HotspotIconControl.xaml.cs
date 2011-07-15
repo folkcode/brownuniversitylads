@@ -193,6 +193,7 @@ namespace LADSArtworkMode
         /// </summary>
         private void showHotspotDetails()
         {
+            //MessageBox.Show("hotpsot click");
             if (m_parentScatterView.Items.Contains(m_detailControl) == false)
             {
                 if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))

@@ -31,6 +31,7 @@ namespace GCNav
         /// </summary>
         private StartCard _startCard;
         private FilterTimelineBox filter;
+       
         public SurfaceWindow1()
         {
 
@@ -74,30 +75,44 @@ namespace GCNav
             //nav.startAll();
             filter = new FilterTimelineBox();
             nav.filter = filter;
-            
+           
             map.Children.Add(filter);
+           
             this.SizeChanged += SurfaceWindow1_SizeChanged;
            
         }
 
         void SurfaceWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Double canvasLeft = e.NewSize.Width / 2 - filter.ActualWidth / 2;
             nav.setMapWidth(Map.ActualWidth);
-            filter.Width = 420;
+            Double filterWidth = 420;
             if (e.NewSize.Width < 1600)
             {
                 ScaleTransform tran = new ScaleTransform();
                 tran.ScaleX = e.NewSize.Width / 1600;
                 filter.RenderTransform = tran;
+                canvasLeft = e.NewSize.Width / 2 - filter.Width * tran.ScaleX / 2;
+                filterWidth = filterWidth * tran.ScaleX;
             }
-            Double scale = Map.tranScale;
-            Double canvasLeft = e.NewSize.Width / 4 + Map.Width * scale/ 2 - filter.Width/2;
-            Console.Out.WriteLine("filterwidth" + filter.ActualWidth);
-            Console.Out.WriteLine("mapwidth" + Map.Width * scale);
+            
+            Double scaleX= Map.tranScaleX;
+            Double scaleY = Map.tranScaleY;
+            //Console.Out.WriteLine("filterwidth" + filter.ActualWidth);
+           // Console.Out.WriteLine("mapwidth" + Map.Width * scale);
             Canvas.SetLeft(filter, canvasLeft);
             Canvas.SetZIndex(filter, 10);
             filter.Visibility = Visibility.Hidden;
 
+            backRec.Width = map.Width*scaleX +10;
+            backRec.Height = map.Height*scaleY + 30+10;
+            Console.Out.WriteLine("width rec" + backRec.Width);
+            Console.Out.WriteLine("REC HE" +backRec.Height);
+            //Canvas.SetTop(backRec, 20);
+            Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
+            Canvas.SetZIndex(backRec, -10);
+          
+            
         }
 
 

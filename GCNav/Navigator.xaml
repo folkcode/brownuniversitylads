@@ -10,8 +10,8 @@
     
       <Grid >
         <Grid Name="curImageContainer" HorizontalAlignment="Right" VerticalAlignment="Top"> <!-- jcchin - HorizontalAlignment temporarily changed from Right to Center so I can open Artwork Mode in 1280 x 800 resolution -->
-            <Border CornerRadius="5" Padding="10"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="#FF002D0C" BorderThickness="4">
-                <Grid Name="curImageCanvas" Height="250" Width="250" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Border CornerRadius="5" Padding="10"  HorizontalAlignment="Left" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
+                <Grid Name="curImageCanvas" Height="250" HorizontalAlignment="Center" VerticalAlignment="Top">
                 </Grid>
             </Border>
         </Grid>
@@ -26,22 +26,22 @@
                 <TextBlock Name="eventInfo" Grid.Row="0" Grid.Column="0"  Text="" Foreground="Black" TextAlignment="Left" FontSize="15"></TextBlock>
             </Border>
         </Grid>
-        <Grid Name="curInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top" Height="800">
-            <Border CornerRadius="5" Padding="10"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="#FF002D0C" BorderThickness="4">
-                <Grid>
+        <Grid Name="curInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Border CornerRadius="5" Padding="10"  HorizontalAlignment="Right" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
+                <Grid Name="curInfoCol">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="20"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="500" />                        
                     </Grid.ColumnDefinitions>
-                   
-                        <TextBlock Name="curInfo" Grid.Row="0" Grid.Column="0"  Text="" Foreground="Black" TextAlignment="Left" FontSize="20"></TextBlock>
+                                    
+                    <TextBlock Name="curInfo" Grid.Row="0" Grid.Column="0" Text="" Foreground="Black" TextAlignment="Center" FontSize="20"></TextBlock>
 
-                    <TextBlock Grid.Row="1"  Grid.Column="0" Name="KeywordsTitle" HorizontalAlignment="Center"  Text="Keywords" Visibility="Hidden" Background="#66000000" Width="200" Foreground="#FFA7C99F" TextAlignment="Center" FontSize="16"></TextBlock>
-                    <TextBlock Grid.Row="2"  Grid.Column="0" Name="curKeywords" HorizontalAlignment="Center"  Text="" Background="#44000000" Visibility="Hidden" Width="200" Foreground="#FFA7C99F"  TextAlignment="Center" FontSize="12"></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="0"  Name="KeywordsTitle"   Text="Keywords" Visibility="Hidden" Background="#66000000"  Foreground="#FFA7C99F" TextAlignment="Center" FontSize="16"></TextBlock>
+                    <TextBlock Grid.Row="2" Grid.Column="0"  Name="curKeywords" Text="" Background="#44000000" Visibility="Hidden"  Foreground="#FFA7C99F"  TextAlignment="Center" FontSize="12"></TextBlock>
                     
                 </Grid>
             </Border>
