@@ -98,14 +98,13 @@ namespace LADSArtworkMode
             set { m_msi = value; }
         }
         //ScatterViewItem scatterItem;
-        private double _volume;
+        public double _volume;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public HotspotDetailsControl(Canvas parentCanvas, ScatterView parentScatterView, Hotspot hotspotData, MultiScaleImage msi)
         {
-
             InitializeComponent();
             m_hotspotData = hotspotData;
             m_parentCanvas = parentCanvas;
@@ -194,7 +193,17 @@ namespace LADSArtworkMode
         {
             //m_xpsdocument.Close();
             //m_parentCanvas.Children.Remove(this);
-            m_parentScatterView.Items.Remove(this);
+
+            if (!m_hotspotData.Type.ToLower().Contains("audio"))
+            {
+                m_parentScatterView.Items.Remove(this);
+            }
+                //audio is buggy so it can't be removed or it breaks
+            else
+            {
+                this.Visibility = Visibility.Collapsed;
+            }
+            
             isOnScreen = false;
             if (hasVideo)
             {
@@ -206,6 +215,16 @@ namespace LADSArtworkMode
                 
                 //(video as LADSVideoBubble).pauseVideo();
             }
+            //hopefully this works
+            if (m_hotspotData.Type.ToLower().Contains("audio")) {
+                //(myMediaElement.Parent as Panel).Children.Remove(myMediaElement);
+                myMediaElement.Pause();
+                _sliderTimer.Stop();
+                myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
+                timelineSlider.Value = 0;
+                //myMediaElement = null;
+            }
+            
         }
 
         /// <summary>
@@ -225,13 +244,9 @@ namespace LADSArtworkMode
         /// </summary>
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("timelineslider.Value is: " + timelineSlider.Value);
             myMediaElement.Position = new TimeSpan(0,0,0,0,(int)timelineSlider.Value);
             myMediaElement.Play();
             _sliderTimer.Start();
-            Console.WriteLine("Play clicked");
-            Console.WriteLine("media element is: " + myMediaElement.IsLoaded);
-            Console.WriteLine("max is : " + timelineSlider.Maximum);
             //timelineSlider.Start();
         }
         /// <summary>
@@ -264,9 +279,11 @@ namespace LADSArtworkMode
         /// <summary>
         /// Update the screen location of the control with respect to the artwork.
         /// </summary>
+        /// //not called with audio...
         public void updateScreenLocation(MultiScaleImage msi)
         {
             Double[] size = this.findImageSize();
+            Console.WriteLine("volume is: " +_volume);
 
             screenPosX = (msi.GetZoomableCanvas.Scale * m_hotspotData.PositionX * size[0]) - msi.GetZoomableCanvas.Offset.X;
             screenPosY = (msi.GetZoomableCanvas.Scale * m_hotspotData.PositionY * size[1]) - msi.GetZoomableCanvas.Offset.Y;
@@ -353,6 +370,9 @@ namespace LADSArtworkMode
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
 
+                //myMediaElement = new MediaElement();
+                //String newaudioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
+                //myMediaElement.Source = new Uri(newaudioUri); 
                 AudioScroll.Width = hotspotCanvas.Width - 24;
                 AudioScroll.Height = hotspotCanvas.Height - 47;
                 myMediaElement.Width = VideoStackPanel.Width;
@@ -600,12 +620,10 @@ namespace LADSArtworkMode
         // to the total number of miliseconds in the length of the media clip.
         private void myMediaElement_MediaOpened(object sender, EventArgs e)
         {
-            Console.WriteLine("trying to OPEN");
             if (!_hasBeenOpened)
             {
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
                 myMediaElement.Source = new Uri(audioUri);
-                Console.WriteLine("OPENED");
                 myMediaElement.ScrubbingEnabled = true;
                 timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
                 myMediaElement.Play();
@@ -790,7 +808,6 @@ namespace LADSArtworkMode
             if (myMediaElement.Position.TotalMilliseconds >= (timelineSlider.Maximum - 500))
             {
                 myMediaElement.Pause();
-                Console.WriteLine("HSHOULD WORK GODDAMMIT");
                 this.Testing();
                 //myMediaElement.Stop();
                 //_sliderTimer.Stop();
