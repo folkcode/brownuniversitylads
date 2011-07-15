@@ -192,10 +192,13 @@ namespace LADSArtworkMode
                 if (m_isOnScreen[index] == true)
                 {
                     m_hotspotIcons[index].updateScreenLocation(msi);
+                    Console.WriteLine("Index is: " + index);
+                    Console.WriteLine("details is on screen is: " + m_hotspotDetails[index].IsOnScreen);
 
                     if (m_hotspotDetails[index].IsOnScreen == true)
                     {
                         m_hotspotDetails[index].updateScreenLocation(msi);
+                        Console.WriteLine("umm: " + m_hotspotDetails[index]._volume);
                     }
                 }
             }

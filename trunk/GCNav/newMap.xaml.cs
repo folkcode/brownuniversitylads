@@ -94,6 +94,21 @@ namespace GCNav
            // MessageBox.Show("scale" + mapImage.GetZoomableCanvas.Scale);
            
         }
+
+        //fade map and blur when filter box is down
+        public void fadeMap() 
+        {
+            //change opacity of blur and map
+            mapImage.Opacity = .5;
+            //blur.Opacity = .5;
+        }
+
+        public void unfadeMap()
+        {
+            mapImage.Opacity = 1;
+            blur.Opacity = 1;
+        }
+
         public void LocationChanged(Object sender, EventArgs e)
         {
             foreach (SurfaceRadioButton rb in locButtons.Keys)
@@ -374,7 +389,6 @@ namespace GCNav
 
             }
            
-
         }
         
         public class newMapButton

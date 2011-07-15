@@ -193,14 +193,23 @@ namespace LADSArtworkMode
         /// </summary>
         private void showHotspotDetails()
         {
-            //MessageBox.Show("hotpsot click");
+            if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
+            {
+                m_detailControl.Visibility = Visibility.Visible;
+                m_detailControl.IsOnScreen = true;
+            }
             if (m_parentScatterView.Items.Contains(m_detailControl) == false)
             {
                 if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
                 {
-                    m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView, m_hotspotData, _msi);
-                    //m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView,  
+                    //m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView, m_hotspotData, _msi);
 
+                    //m_detailControl.IsOnScreen = true;
+                    //m_parent.Children.Add(this);
+                    //m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView,  
+                    Console.WriteLine("! called");
+                    
+                    //I don't think this does anything:
                     try
                     {
                         String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\normal.png";
@@ -226,7 +235,7 @@ namespace LADSArtworkMode
                          }*/
                         // MessageBox.Show(normal.Format.ToString());
 
-
+                        m_detailControl.IsOnScreen = true;
                     }
                     catch (Exception e)
                     {
