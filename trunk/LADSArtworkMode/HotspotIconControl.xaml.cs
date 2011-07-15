@@ -193,11 +193,11 @@ namespace LADSArtworkMode
         /// </summary>
         private void showHotspotDetails()
         {
-            if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
-            {
-                m_detailControl.Visibility = Visibility.Visible;
-                m_detailControl.IsOnScreen = true;
-            }
+            //if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
+            //{
+            //    m_detailControl.Visibility = Visibility.Visible;
+            //    m_detailControl.IsOnScreen = true;
+            //}
             if (m_parentScatterView.Items.Contains(m_detailControl) == false)
             {
                 if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
@@ -210,38 +210,38 @@ namespace LADSArtworkMode
                     Console.WriteLine("! called");
                     
                     //I don't think this does anything:
-                    try
-                    {
-                        String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\normal.png";
-                        normal = new BitmapImage();
-                        normal.BeginInit();
-                        normal.UriSource = new Uri(imgUri, UriKind.Relative);
-                        normal.CacheOption = BitmapCacheOption.OnLoad;
-                        normal.EndInit();
+                    //try
+                    //{
+                    //    String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\normal.png";
+                    //    normal = new BitmapImage();
+                    //    normal.BeginInit();
+                    //    normal.UriSource = new Uri(imgUri, UriKind.Relative);
+                    //    normal.CacheOption = BitmapCacheOption.OnLoad;
+                    //    normal.EndInit();
 
-                        highlighted = new BitmapImage();
-                        imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\highlighted.png";
-                        highlighted.BeginInit();
-                        highlighted.UriSource = new Uri(imgUri, UriKind.Relative);
-                        highlighted.CacheOption = BitmapCacheOption.OnLoad;
-                        highlighted.EndInit();
+                    //    highlighted = new BitmapImage();
+                    //    imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\highlighted.png";
+                    //    highlighted.BeginInit();
+                    //    highlighted.UriSource = new Uri(imgUri, UriKind.Relative);
+                    //    highlighted.CacheOption = BitmapCacheOption.OnLoad;
+                    //    highlighted.EndInit();
 
-                        WriteableBitmap wbmap = new WriteableBitmap(normal);
-                        /* wbmap.Lock();
-                         IntPtr bbuff = wbmap.BackBuffer;
-                         unsafe
-                         {
-                             byte* pbuff = (byte*)bbuff.ToPointer();
-                         }*/
-                        // MessageBox.Show(normal.Format.ToString());
+                    //    WriteableBitmap wbmap = new WriteableBitmap(normal);
+                    //    /* wbmap.Lock();
+                    //     IntPtr bbuff = wbmap.BackBuffer;
+                    //     unsafe
+                    //     {
+                    //         byte* pbuff = (byte*)bbuff.ToPointer();
+                    //     }*/
+                    //    // MessageBox.Show(normal.Format.ToString());
 
-                        m_detailControl.IsOnScreen = true;
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.ToString());
+                    //    m_detailControl.IsOnScreen = true;
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //    MessageBox.Show(e.ToString());
 
-                    }
+                    //}
                 }
                 //m_detailControl = new HotspotDetailsControl(
                 m_parentScatterView.Items.Add(m_detailControl);
