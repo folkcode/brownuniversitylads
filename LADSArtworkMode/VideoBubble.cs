@@ -315,7 +315,7 @@ namespace LADSArtworkMode
             double hMargin = _video.ActualWidth * .025;
 
             _controls.SetWidth(_video.ActualWidth - 2 * hMargin);
-            _controls.Margin = new Thickness(hMargin, 0, hMargin, vMargin);
+            _controls.Margin = new Thickness(hMargin, 10, hMargin, vMargin);
 
             _layoutRoot.UpdateLayout();
         }

@@ -53,7 +53,7 @@ namespace GCNav
         private Double mapWidth;
         public FilterTimelineBox filter;
 
-        public List<string> SavedDockedItems;
+        public List<DockedItemInfo> SavedDockedItems;
 
         public Navigator()
         {
