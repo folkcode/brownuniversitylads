@@ -73,7 +73,7 @@ namespace LADSArtworkMode
         public List<DockableItem> DockedDockableItems = new List<DockableItem>();
         
         
-       public List<string> SavedDockedItems = new List<string>();
+        public List<DockedItemInfo> SavedDockedItems = new List<DockedItemInfo>();
 
         private TourSystem tourSystem; // tour authoring & playback system
 
@@ -257,26 +257,26 @@ namespace LADSArtworkMode
             //TODO: disable audio, animations here
         }
 
-        public void LoadDockedItems(List<string> SavedDockedItemsFromNav)
+        public void LoadDockedItems(List<DockedItemInfo> SavedDockedItemsFromNav)
         {
             SavedDockedItems = SavedDockedItemsFromNav;
             //Console.WriteLine(this.opened);
             //if (!this.opened)
             Helpers _helpers=new Helpers();
-            foreach (string scatteruri in SavedDockedItemsFromNav)
+            foreach (DockedItemInfo info in SavedDockedItemsFromNav)
             {
                 //if it's an image, do this:
-                Console.WriteLine("scatter uri: " + scatteruri);
-                if (_helpers.IsImageFile(scatteruri))
+                Console.WriteLine("scatter uri: " + info.scatteruri);
+                if (_helpers.IsImageFile(info.scatteruri))
                 {
-                    DockableItem item = new DockableItem(MainScatterView, this, Bar, scatteruri, null);
-                    //item.AddtoDockFromSaved();
+                    DockableItem item = new DockableItem(MainScatterView, this, Bar, info.scatteruri, null);
+                    item.AddtoDockFromSaved(info.savedOldWidth, info.savedOldHeight, info.savedWKEWidth, info);
                 }
-                else if (_helpers.IsVideoFile(scatteruri))
+                else if (_helpers.IsVideoFile(info.scatteruri))
                 {
                     //perhaps the initializatoin of this bubble should have the height and width of the thumbnail... if I could extract one...
-                    DockableItem item = new DockableItem(MainScatterView, this, Bar, scatteruri, null, new LADSVideoBubble(scatteruri, 500, 500), new VideoItem());
-                    //item.AddtoDockFromSaved();//video-specific constructor
+                    DockableItem item = new DockableItem(MainScatterView, this, Bar, info.scatteruri, null, new LADSVideoBubble(info.scatteruri, 500, 500), new VideoItem());
+                    item.AddtoDockFromSaved(info.savedOldWidth, info.savedOldHeight, info.savedWKEWidth, info);//video-specific constructor
                 }
                 else
                 { //not image or video...
@@ -2014,6 +2014,9 @@ namespace LADSArtworkMode
         public ArtworkModeWindow artmodewin;
         public SurfaceListBox bar;
         public string scatteruri;
+        public DockedItemInfo info;
+        public Point trackedCenter;
+        DependencyPropertyDescriptor dpd;
 
 
 
@@ -2028,20 +2031,30 @@ namespace LADSArtworkMode
 
         public void releaseItem() {
 
-            
+                //dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
+                //dpd.AddValueChanged(item, TrackCenterListener);
+
+
                 
                 item.Opacity = 1.0;
                 item.CanRotate = true;
                 item.isDocked = false;
                 item.CanMove = true;
 
+                item.MinHeight = 80;
+                item.MinWidth = 80.0 * item.oldWidth / item.oldHeight;
+
+                Helpers helper = new Helpers();
+                
+
                 DoubleAnimation heightAnim = new DoubleAnimation();
-                heightAnim.From = item.ActualHeight;
+                
+                heightAnim.From = item.barImageHeight;
                 heightAnim.To = item.oldHeight; // barVersion.Height;
                 heightAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
                 heightAnim.FillBehavior = FillBehavior.Stop;
                 DoubleAnimation widthAnim = new DoubleAnimation();
-                widthAnim.From = item.ActualWidth;
+                widthAnim.From = item.barImageWidth;
                 widthAnim.To = item.oldWidth; // barVersion.Width;
                 widthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
                 widthAnim.FillBehavior = FillBehavior.Stop;
@@ -2065,7 +2078,7 @@ namespace LADSArtworkMode
                 //bar.Items.Remove(this);
                 //artmodewin.DockedItems.Remove(this);
                 artmodewin.DockedDockableItems.Remove(item);
-                artmodewin.SavedDockedItems.Remove(scatteruri);
+                artmodewin.SavedDockedItems.Remove(info);
 
                 artmodewin.BarOffset -= this.ActualWidth;
                 int dex = artmodewin.DockedItems.IndexOf(this);
@@ -2090,6 +2103,10 @@ namespace LADSArtworkMode
                 item.CaptureMouse();
                 item.Center = new Point(e.MouseDevice.GetPosition(artmodewin).X, e.MouseDevice.GetPosition(artmodewin).Y);
 
+
+                trackedCenter = item.Center;
+                item.MouseMove += new MouseEventHandler(WorkspaceElement_MouseMove);
+
                 this.releaseItem();
             }
             
@@ -2108,6 +2125,9 @@ namespace LADSArtworkMode
                 item.CaptureTouch(e.TouchDevice);
                 item.Center = new Point(e.TouchDevice.GetPosition(artmodewin).X, e.TouchDevice.GetPosition(artmodewin).Y);
 
+                trackedCenter = item.Center;
+                item.TouchMove +=new EventHandler<TouchEventArgs>(WorkspaceElement_TouchMove);
+
                 this.releaseItem();
             }
         }
@@ -2124,6 +2144,29 @@ namespace LADSArtworkMode
             item.isDocked = false;
             item.isAnimating = false;
             this.IsHitTestVisible = true;
+            item.MouseMove -= WorkspaceElement_MouseMove;
+            item.Center = trackedCenter;
+            item.Height = item.oldHeight;
+            item.Width = item.oldWidth;
+            dpd = null;
+        }
+
+        void WorkspaceElement_MouseMove(object sender, MouseEventArgs e)
+        {
+            item.Center = new Point(e.MouseDevice.GetPosition(artmodewin).X, e.MouseDevice.GetPosition(artmodewin).Y);
+            trackedCenter = item.Center;
+        }
+
+        void WorkspaceElement_TouchMove(object sender, TouchEventArgs e)
+        {
+            item.Center = new Point(e.TouchDevice.GetPosition(artmodewin).X, e.TouchDevice.GetPosition(artmodewin).Y);
+            trackedCenter = item.Center;
+
+        }
+
+        void TrackCenterListener(object sender, EventArgs e)
+        {
+            item.Center = trackedCenter;
         }
     }
 
@@ -2131,7 +2174,10 @@ namespace LADSArtworkMode
 
     public class DockedItemInfo
     {
-
+        public string scatteruri;
+        public double savedOldHeight;
+        public double savedOldWidth;
+        public double savedWKEWidth;
 
     }
 
