@@ -57,6 +57,7 @@ namespace LADSArtworkMode
         private Helpers _helpers;
         public string scatteruri;
         public DockedItemInfo info;
+        public double aspectRatio;
    
 
 
@@ -147,6 +148,12 @@ namespace LADSArtworkMode
             imageURIPath = imageURIPathParam;
 
             stream.Close();
+
+            //this.PreviewMouseDown += maintainAspectRatio;
+            //this.MouseEnter += maintainAspectRatio;
+            //this.PreviewMouseMove += maintainAspectRatio;
+            //this.PreviewTouchMove += maintainAspectRatio;
+            //this.MouseWheel += maintainAspectRatio;
             //bar.Items.Add(wke);
 
         }
@@ -214,6 +221,10 @@ namespace LADSArtworkMode
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
             imageURIPath = imageURIPathParam;
+
+            //this.MouseEnter += maintainAspectRatio;
+            //this.TouchMove += maintainAspectRatio;
+
            // bar.Items.Add(wke);
             
         }
@@ -290,11 +301,13 @@ namespace LADSArtworkMode
             vid = vidBub.getVideo();
             vid.MediaOpened += new RoutedEventHandler(video_MediaOpened);
             this.MinHeight = 100;
-            //this.MinHeight = 100;
-            //this.MinWidth = 100 * image.Width / image.Height;
+            //this.MinHeigh = 100;
+            //this.MinWidth = 100 * vidBub.ActualWidth / vidBub.ActualHeight;
             Console.WriteLine("ActualWidth " + vidBub.ActualWidth);
             //bar.Items.Add(wke);
             //imageURIPath = imageURIPathParam;
+            //this.MouseEnter += maintainAspectRatio;
+            //this.TouchMove += maintainAspectRatio;
         }
 
         void DockableItem_Loaded(object sender, RoutedEventArgs e)
@@ -304,10 +317,10 @@ namespace LADSArtworkMode
 
         public void changeInitialSize()
         {
-            double aspectRatio = (double)this.ActualWidth / (double)this.ActualHeight;
+            aspectRatio = (double)this.ActualWidth / (double)this.ActualHeight;
             Console.WriteLine(aspectRatio + " = aspect ratio");
             this.MinHeight = 80;
-            this.MinWidth = aspectRatio * 80;
+            this.MinWidth = 80 * aspectRatio;
             if (aspectRatio>1 && this.ActualHeight < 150)
             {
                 this.Height = 150;
@@ -325,6 +338,9 @@ namespace LADSArtworkMode
 
         void DockableItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Helpers helper = new Helpers();
+
+            
             Console.WriteLine("NEW SIZE: W-" + e.NewSize.Width + " H-" + e.NewSize.Height);
             Console.WriteLine("PREVIOUS SIZE: W-" + e.PreviousSize.Width + " H-" + e.PreviousSize.Height);
             if (e.NewSize.Width < 150 || e.NewSize.Height < 150)
@@ -332,7 +348,21 @@ namespace LADSArtworkMode
                 this.Width = e.PreviousSize.Width;
                 this.Height = e.PreviousSize.Height;
             }
+            //else if (helper.IsVideoFile(scatteruri))
+            //{
+            //    this.SizeChanged -= DockableItem_SizeChanged;
+            //    this.Width = e.NewSize.Width;
+            //    this.Height = e.NewSize.Width * aspectRatio + 25;
+            //    this.SizeChanged += DockableItem_SizeChanged;
+            //}
         }
+
+        public void maintainAspectRatio(object sender, EventArgs e)
+        {
+            this.MinHeight = 80;
+            this.MinWidth = 80 * aspectRatio;
+        }
+
 
         public void removeDockability()
         {
@@ -464,6 +494,7 @@ namespace LADSArtworkMode
 
         public void AddtoDock(object sender, EventArgs e)
         {
+            
             touchDown = false;
             DockableItem item = sender as DockableItem;
          //   Console.WriteLine("AddToDock Called");
