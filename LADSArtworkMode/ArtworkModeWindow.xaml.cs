@@ -190,6 +190,17 @@ namespace LADSArtworkMode
 
             // Remove handlers for window availability events
             RemoveWindowAvailabilityHandlers();
+            Helpers helper = new Helpers();
+            foreach (DockableItem item in MainScatterView.Items)
+            {
+                if (item.Visibility == Visibility.Visible)
+                {
+                    if (helper.IsVideoFile(item.scatteruri))
+                    {
+                        item.stopVideo();
+                    }
+                }
+            }
         }
 
         /// <summary>
