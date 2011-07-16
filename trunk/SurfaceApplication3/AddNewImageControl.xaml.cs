@@ -1102,22 +1102,50 @@ namespace SurfaceApplication3
             mainWindow = main;
         }
 
+
+        int previousYear = 100000;
+        int previousCursor = 1000;
         /// <summary>
         /// Handle input in the 'year' textbox.
         /// </summary>
         private void year_tag_TextChanged(object sender, TextChangedEventArgs e)
         {
+            int cursorPosition = year_tag.CaretIndex;
+            bool changed = true;
+            if (previousYear == 100000)
+            {
+                previousYear = int.Parse(year_tag.Text);
+            }
+            if (previousCursor == 1000)
+            {
+                previousCursor = cursorPosition;
+            }
             if (year_tag.Text.Length > 0)
             {
                 string s = year_tag.Text.Substring(0, 1);
+                string replacement = Regex.Replace(year_tag.Text, "[^0-9]", "");
+                if (!(replacement.Length == year_tag.Text.Length - 1))
+                    changed = false;
                 if (s == "-")
                 {
-                    s = s + Regex.Replace(year_tag.Text, "[^0-9]", "");
+                    s = s + replacement;
                 }
                 else
-                    s = Regex.Replace(year_tag.Text, "[^0-9]", "");
+                    s = replacement;
+                int currentYear = int.Parse(s);
+                if (!(currentYear > -9999 && currentYear < 9999))
+                {
+                    changed = false;
+                    s = "" + previousYear;
+                }
+                if (!changed)
+                {
+                    cursorPosition = cursorPosition - (year_tag.Text.Length - s.Length);
+                }
                 year_tag.Text = s;
-                
+                year_tag.CaretIndex = cursorPosition;
+                previousCursor = year_tag.CaretIndex;
+                previousYear = int.Parse(s);
             }
         }
 

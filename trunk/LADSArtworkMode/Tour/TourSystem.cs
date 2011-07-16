@@ -638,7 +638,7 @@ namespace LADSArtworkMode
                 artModeWin.ImageArea.RenderTransform = null;
                 artModeWin.ArtModeLayout();
 
-                artModeWin.msi_ViewboxUpdate(); // force msi viewbox to refresh itself
+                //artModeWin.msi_ViewboxUpdate(); // force msi viewbox to refresh itself
 
                 // swap tour control buttons with artwork inter-mode navigation ones
                 artModeWin.toggleLeftSide();
@@ -699,7 +699,7 @@ namespace LADSArtworkMode
                 artModeWin.msi.Visibility = Visibility.Visible;
                 artModeWin.msi_thumb.Visibility = Visibility.Visible;
 
-                artModeWin.msi_ViewboxUpdate(); // force msi viewbox to refresh itself
+                //artModeWin.msi_ViewboxUpdate(); // force msi viewbox to refresh itself
                 tourAuthoringUI.removeAuthTools();
 
                 // swap tour control buttons with artwork inter-mode navigation ones
@@ -1707,7 +1707,7 @@ namespace LADSArtworkMode
                 artModeWin.msi_tour.DisableEventHandlers();
                 artModeWin.msi_tour.ResetArtwork();
                 artModeWin.msi_tour.Visibility = Visibility.Visible;
-                artModeWin.InitTourLayout();
+                artModeWin.TourLayout();
 
                 artModeWin.msi_tour_thumb.Visibility = Visibility.Visible;
                 DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
@@ -1736,9 +1736,6 @@ namespace LADSArtworkMode
 
                 artModeWin.ImageArea.IsHitTestVisible = false;
                 artModeWin.MainScatterView.IsHitTestVisible = false;
-
-                Console.WriteLine("Current width" + artModeWin.ImageArea.ActualWidth);
-                Console.WriteLine("Current height" + artModeWin.ImageArea.ActualHeight);
             }
         }
 

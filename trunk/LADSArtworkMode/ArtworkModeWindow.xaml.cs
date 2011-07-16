@@ -277,8 +277,10 @@ namespace LADSArtworkMode
             
         
 
-        public void InitTourLayout()
+        public void TourLayout()
         {
+            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
+            dpd.RemoveValueChanged(msi.GetZoomableCanvas, msi_ViewboxChanged);
             msi.Visibility = Visibility.Hidden;
             msi_thumb.Visibility = Visibility.Hidden;
             tourAuthoringButton.Visibility = Visibility.Collapsed;
@@ -296,6 +298,8 @@ namespace LADSArtworkMode
             MainScatterView.Height = 1080;
             DeepZoomGrid.Width = 1920;
             DeepZoomGrid.Height = 1080;
+            HotspotOverlay.Width = 1920;
+            HotspotOverlay.Height = 1080;
             if (Main.ActualWidth / 1920.0 > Main.ActualHeight / 1080.0)
             {
                 //We have to do more scaling to get height, so we scale to the width (else we'll overscale width)
@@ -346,6 +350,8 @@ namespace LADSArtworkMode
             MainScatterView.SetCurrentValue(WidthProperty, MainWidth);
             DeepZoomGrid.SetCurrentValue(HeightProperty, MainHeight);
             DeepZoomGrid.SetCurrentValue(WidthProperty, MainWidth);
+            HotspotOverlay.SetCurrentValue(HeightProperty, MainHeight);
+            HotspotOverlay.SetCurrentValue(WidthProperty, MainWidth);
             msi.Visibility = Visibility.Visible;
             msi_thumb.Visibility = Visibility.Visible;
             tourAuthoringButton.Visibility = Visibility.Visible;
@@ -356,6 +362,8 @@ namespace LADSArtworkMode
             MainScatterView.Visibility = Visibility.Visible;
             HotspotOverlay.Visibility = Visibility.Visible;
             ImageArea.RenderTransform = null;
+            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
+            dpd.AddValueChanged(msi.GetZoomableCanvas, msi_ViewboxChanged);
         }
         /// <summary>
         /// Called when the user choose an artwork from the artwork selection mode. Initialize necessary properties.
@@ -1669,7 +1677,7 @@ namespace LADSArtworkMode
             tourSystem.LoadTourPlaybackFromDict();
             tourSystem.LoadTourAuthoringUIFromDict();
             tourSystem.loadAuthoringGUI();
-            InitTourLayout();
+            TourLayout();
 
 
         }
