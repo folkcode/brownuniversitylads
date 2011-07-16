@@ -707,6 +707,10 @@ namespace GCNav
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 4;
             curInfoCol.Width = _windowSize.Width / 4;
+            curInfoCol.Height = _windowSize.Height / 3;
+           // infoScroll.Width = curInfoCol.Width + 20;
+           // infoScroll.Height = curInfoCol.Height + 20;
+            
             //Console.Out.WriteLine("curinfo" + curInfoContainer.Width);
            // Console.Out.WriteLine("curImage" + curImageContainer.Width);
 
@@ -983,6 +987,7 @@ namespace GCNav
             
             Canvas.SetTop(KeywordsTitle, artistTop + 75);
             Canvas.SetTop(curKeywords, artistTop + 105);
+           
             //infoCanvas.Height = this.ActualHeight / 4;
            // Canvas.SetTop(curInfo, 35);
             //infoCanvas.Width = _windowSize.Width / 4;
@@ -1017,10 +1022,15 @@ namespace GCNav
                 curKeywords.Text += s;
             }
             curInfoCol.UpdateLayout();
+           // curInfoCol.Height = artistTop + 105 + curKeywords.Height;
             //curKeywordsBack.Width = _windowSize.Width / 4 - 46;
             
            // curKeywordsBack.Height = curKeywords.ActualHeight + 5;
             //Canvas.SetTop(curKeywordsBack, artistTop + 105);
+            if (artistTop + 105 + curKeywords.ActualHeight > curInfoCol.Height)
+            {
+                curInfoCol.Height = artistTop + 105 + curKeywords.ActualHeight;
+            }
             KeywordBack.Height = KeywordsTitle.ActualHeight + curKeywords.ActualHeight + 15;
         }
 

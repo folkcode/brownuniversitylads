@@ -26,10 +26,12 @@
                 <TextBlock Name="eventInfo" Grid.Row="0" Grid.Column="0"  Text="" Foreground="Black" TextAlignment="Left" FontSize="15"></TextBlock>
             </Border>
         </Grid>
+        
         <Grid Name="curInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Border CornerRadius="5" Padding="10"  HorizontalAlignment="Right" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
-                <!--<s:SurfaceScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">-->
-                    <Canvas Name="curInfoCol">
+         
+            <Border CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
+              <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <Canvas Name="curInfoCol">
                     <!--<Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="30"/>
@@ -44,12 +46,12 @@
                         <Rectangle Name="KeywordBack" Canvas.Top="110" Fill ="#44000000"/>
                         <TextBlock  Name="KeywordsTitle" Canvas.Top="110" Canvas.Left="10" Text="Keywords:" Visibility="Hidden"  Foreground="White" TextAlignment="Center" FontSize="16"></TextBlock>
                         <!--<Rectangle Name="curKeywordsBack" Canvas.Top="135" Fill ="#44000000"/>-->
-                        <TextBlock  Name="curKeywords" Canvas.Top="135" Canvas.Left="10" Text=""  Visibility="Hidden"  Foreground="White"  TextAlignment="Left" FontSize="16"></TextBlock>
+                        <TextBlock  Name="curKeywords" TextWrapping="Wrap" Canvas.Top="135" Canvas.Left="10" Text=""  Visibility="Hidden"  Foreground="White"  TextAlignment="Left" FontSize="16"></TextBlock>
                     
                     </Canvas>
-              <!--</s:SurfaceScrollViewer>-->
+               </s:SurfaceScrollViewer>
             </Border>
-
+          
         </Grid>
 
 
