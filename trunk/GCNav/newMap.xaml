@@ -40,7 +40,7 @@
             </dz:MultiScaleImage>
             
             <Canvas Name="Location" Height="325.25" Width="576.35" Canvas.Top="0">
-                <Image x:Name="blur" Height="328" Width="576.35" Canvas.Left="0" Canvas.Top="0" HorizontalAlignment="Left" IsHitTestVisible="False" VerticalAlignment="Top"/>
+                <Image x:Name="blur" Height="328" Width="576.35" Canvas.Left="0" Canvas.Top="-2" HorizontalAlignment="Left" IsHitTestVisible="False" VerticalAlignment="Top"/>
             </Canvas>
            <!-- <Border VerticalAlignment="Bottom" Canvas.Left="98" BorderThickness="3" CornerRadius="10,10,10,10" Background="#FFA7C99F" Height="36" Width="403" > -->
                 <TextBlock x:Name="infoLabel" Canvas.Left="80" Width="400" Height="30" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ><!--Will have a background for the text-->

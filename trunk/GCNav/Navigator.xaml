@@ -10,7 +10,7 @@
     
       <Grid >
         <Grid Name="curImageContainer" HorizontalAlignment="Right" VerticalAlignment="Top"> <!-- jcchin - HorizontalAlignment temporarily changed from Right to Center so I can open Artwork Mode in 1280 x 800 resolution -->
-            <Border CornerRadius="5" Padding="10"  HorizontalAlignment="Left" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
+            <Border CornerRadius="5" Padding="10"  HorizontalAlignment="Left" VerticalAlignment="center" Margin="5" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
                 <Grid Name="curImageCanvas" Height="250" HorizontalAlignment="Center" VerticalAlignment="Top">
                 </Grid>
             </Border>
@@ -28,22 +28,26 @@
         </Grid>
         <Grid Name="curInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Border CornerRadius="5" Padding="10"  HorizontalAlignment="Right" VerticalAlignment="center" Margin="10" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
-                <Grid Name="curInfoCol">
-                    <Grid.RowDefinitions>
+                <!--<s:SurfaceScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">-->
+                    <Canvas Name="curInfoCol">
+                    <!--<Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="500" />                        
-                    </Grid.ColumnDefinitions>
-                                    
-                    <TextBlock Name="curInfo" Grid.Row="0" Grid.Column="0" Text="" Foreground="Black" TextAlignment="Center" FontSize="20"></TextBlock>
+                    </Grid.RowDefinitions>-->
 
-                    <TextBlock Grid.Row="1" Grid.Column="0"  Name="KeywordsTitle"   Text="Keywords" Visibility="Hidden" Background="#66000000"  Foreground="#FFA7C99F" TextAlignment="Center" FontSize="16"></TextBlock>
-                    <TextBlock Grid.Row="2" Grid.Column="0"  Name="curKeywords" Text="" Background="#44000000" Visibility="Hidden"  Foreground="#FFA7C99F"  TextAlignment="Center" FontSize="12"></TextBlock>
+                        <Rectangle Name="titleBack" Fill ="#24524A" Canvas.Top="5" />
+                        <TextBlock Name="title" Text="" Canvas.Top="5" Canvas.Left="10" Foreground="White" TextAlignment="Center" FontSize="20" ></TextBlock>
+                        <TextBlock Name="artist" Text="" Canvas.Top="35" Canvas.Left="10" Foreground="Black"  TextAlignment="Center" FontSize="20"/>
+                        <TextBlock Name="date" Text="" Canvas.Top="60" Canvas.Left="10" Foreground="Black"  TextAlignment="Center" FontSize="20"/>
+                        <TextBlock Name="medium" Text="" Canvas.Top="85" Canvas.Left="10" Foreground="Black" TextAlignment="Center" FontSize="20"/>
+                        <Rectangle Name="KeywordBack" Canvas.Top="110" Fill ="#44000000"/>
+                        <TextBlock  Name="KeywordsTitle" Canvas.Top="110" Canvas.Left="10" Text="Keywords:" Visibility="Hidden"  Foreground="White" TextAlignment="Center" FontSize="16"></TextBlock>
+                        <!--<Rectangle Name="curKeywordsBack" Canvas.Top="135" Fill ="#44000000"/>-->
+                        <TextBlock  Name="curKeywords" Canvas.Top="135" Canvas.Left="10" Text=""  Visibility="Hidden"  Foreground="White"  TextAlignment="Left" FontSize="16"></TextBlock>
                     
-                </Grid>
+                    </Canvas>
+              <!--</s:SurfaceScrollViewer>-->
             </Border>
 
         </Grid>

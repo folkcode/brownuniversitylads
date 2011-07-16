@@ -30,7 +30,7 @@
         </Canvas>
         <Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
             <m:newMap x:Name="Map" Height="355.25" Width="576.35" />
-            <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="5" />
+            <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="0" Visibility="Hidden" />
             <!--   <m:FilterTimelineBox x:Name="filter" Width="300" Visibility="Hidden"/> -->
         </Canvas>
         
