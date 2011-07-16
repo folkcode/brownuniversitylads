@@ -75,6 +75,7 @@ namespace GCNav
             _timer.Start();
             _artOpen = false;
             _collectionEmpty = true;
+            timeline.nav = this;
             /*_artists = new List<String>();
             _mediums = new List<String>();
             _years = new List<String>();*/
@@ -132,7 +133,7 @@ namespace GCNav
                                 String artist = node.Attributes.GetNamedItem("artist").InnerText;
                                 String medium = node.Attributes.GetNamedItem("medium").InnerText;
                                 String title = node.Attributes.GetNamedItem("title").InnerText;
-                                int year = Convert.ToInt16(node.Attributes.GetNamedItem("year").InnerText);
+                                int year = Convert.ToInt32(node.Attributes.GetNamedItem("year").InnerText);
 
                                 /*if (!_artists.Contains(artist))
                                     _artists.Add(artist);
