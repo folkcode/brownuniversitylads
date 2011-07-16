@@ -71,6 +71,9 @@ namespace LADSArtworkMode
         private bool _noHotspots;
         private bool _searchedHotspots, _searchedAssets;
         public List<DockableItem> DockedDockableItems = new List<DockableItem>();
+        
+        
+       public List<string> SavedDockedItems = new List<string>();
 
         private TourSystem tourSystem; // tour authoring & playback system
 
@@ -242,6 +245,37 @@ namespace LADSArtworkMode
         {
             //TODO: disable audio, animations here
         }
+
+        public void LoadDockedItems(List<string> SavedDockedItemsFromNav)
+        {
+            SavedDockedItems = SavedDockedItemsFromNav;
+            //Console.WriteLine(this.opened);
+            //if (!this.opened)
+            Helpers _helpers=new Helpers();
+            foreach (string scatteruri in SavedDockedItemsFromNav)
+            {
+                //if it's an image, do this:
+                Console.WriteLine("scatter uri: " + scatteruri);
+                if (_helpers.IsImageFile(scatteruri))
+                {
+                    DockableItem item = new DockableItem(MainScatterView, this, Bar, scatteruri, null);
+                    //item.AddtoDockFromSaved();
+                }
+                else if (_helpers.IsVideoFile(scatteruri))
+                {
+                    //perhaps the initializatoin of this bubble should have the height and width of the thumbnail... if I could extract one...
+                    DockableItem item = new DockableItem(MainScatterView, this, Bar, scatteruri, null, new LADSVideoBubble(scatteruri, 500, 500), new VideoItem());
+                    //item.AddtoDockFromSaved();//video-specific constructor
+                }
+                else
+                { //not image or video...
+                }
+            }
+                //for all, do this:
+        }
+
+            
+        
 
         public void InitTourLayout()
         {
@@ -1958,6 +1992,127 @@ namespace LADSArtworkMode
         public bool isDocked = false;
         public Point Center;
         public DockableItem item;
+        public ArtworkModeWindow artmodewin;
+        public SurfaceListBox bar;
+        public string scatteruri;
+
+
+
+        public WorkspaceElement()
+        {
+            this.PreviewMouseDown += new MouseButtonEventHandler(WorkspaceElement_PreviewMouseDown);
+            this.PreviewTouchDown += new EventHandler<TouchEventArgs>(WorkspaceElement_PreviewTouchDown);
+
+        }
+
+
+
+        public void releaseItem() {
+
+            
+                
+                item.Opacity = 1.0;
+                item.CanRotate = true;
+                item.isDocked = false;
+                item.CanMove = true;
+
+                DoubleAnimation heightAnim = new DoubleAnimation();
+                heightAnim.From = item.ActualHeight;
+                heightAnim.To = item.oldHeight; // barVersion.Height;
+                heightAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
+                heightAnim.FillBehavior = FillBehavior.Stop;
+                DoubleAnimation widthAnim = new DoubleAnimation();
+                widthAnim.From = item.ActualWidth;
+                widthAnim.To = item.oldWidth; // barVersion.Width;
+                widthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
+                widthAnim.FillBehavior = FillBehavior.Stop;
+                item.BeginAnimation(HeightProperty, heightAnim);
+                item.BeginAnimation(WidthProperty, widthAnim);
+
+                //wke.Children.RemoveAt(0);
+                //dockImage.Opacity = 0;
+                this.Opacity = 0;
+                DoubleAnimation dockwidthAnim = new DoubleAnimation();
+                dockwidthAnim.Completed += anim2Completed;
+                dockwidthAnim.From = item.barImageWidth;
+                dockwidthAnim.To = 0; // barVersion.Width;
+                dockwidthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
+                dockwidthAnim.FillBehavior = FillBehavior.Stop;
+                this.BeginAnimation(WidthProperty, dockwidthAnim);
+
+
+                item.isAnimating = false;
+                item.isDocked = false;
+                //bar.Items.Remove(this);
+                //artmodewin.DockedItems.Remove(this);
+                artmodewin.DockedDockableItems.Remove(item);
+                artmodewin.SavedDockedItems.Remove(scatteruri);
+
+                artmodewin.BarOffset -= this.ActualWidth;
+                int dex = artmodewin.DockedItems.IndexOf(this);
+                for (int i = dex + 1; i < artmodewin.DockedItems.Count; i++)
+                {
+                    WorkspaceElement w = artmodewin.DockedItems[i] as WorkspaceElement;
+                    w.item.Center = new Point(w.item.Center.X - this.ActualWidth, w.item.Center.Y);
+                }
+            
+
+        }
+
+
+        public void WorkspaceElement_PreviewMouseDown(object sender, MouseEventArgs e)
+        {
+            item.touchDown = true;
+            if (item.isDocked && item.Center.X > artmodewin.ActualWidth * .2 && !item.isAnimating && artmodewin.bottomPanelVisible)
+            {
+                this.IsHitTestVisible = false;
+                item.isAnimating = true;
+                item.Visibility = Visibility.Visible;
+                item.CaptureMouse();
+                item.Center = new Point(e.MouseDevice.GetPosition(artmodewin).X, e.MouseDevice.GetPosition(artmodewin).Y);
+
+                this.releaseItem();
+            }
+            
+
+
+        }
+
+
+        public void WorkspaceElement_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            item.touchDown = true;
+            if (item.isDocked && item.Center.X > artmodewin.ActualWidth * .2 && !item.isAnimating && artmodewin.bottomPanelVisible)
+            {
+                item.isAnimating = true;
+                item.Visibility = Visibility.Visible;
+                item.CaptureTouch(e.TouchDevice);
+                item.Center = new Point(e.TouchDevice.GetPosition(artmodewin).X, e.TouchDevice.GetPosition(artmodewin).Y);
+
+                this.releaseItem();
+            }
+        }
+
+
+        public void anim2Completed(object sender, EventArgs e)
+        {
+            Console.WriteLine("ANIM 2");
+
+            this.Visibility = Visibility.Collapsed;
+            //bar.Items.Remove(this);
+            artmodewin.DockedItems.Remove(this);
+            //flushItems();
+            item.isDocked = false;
+            item.isAnimating = false;
+            this.IsHitTestVisible = true;
+        }
+    }
+
+
+
+    public class DockedItemInfo
+    {
+
 
     }
 

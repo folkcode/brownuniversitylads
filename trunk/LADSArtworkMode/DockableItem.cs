@@ -37,24 +37,26 @@ namespace LADSArtworkMode
         public double oldHeight;
         public double oldWidth;
         public Image image;
-        WorkspaceElement wke;
+        WorkspaceElement wke;// = new WorkspaceElement();
         int wke_index;
         Image dockImage;
         private Point rootPoint;
-        private double barImageWidth;
+        public double barImageWidth;
         private double barImageHeight;
         private double actualWKEWidth;
         private Point pt;
         private ScatterViewItem dockedItem = null;
         private bool knowledgeWebUse = false;
-        Boolean touchDown;
-        Boolean isAnimating;
+        public Boolean touchDown;
+       public Boolean isAnimating;
         AssociatedDocListBoxItem aldbi;
         private List<ScatterViewItem> svLists;
         bool knowledgeStack = false;
         private String imageURIPath;
         private LADSVideoBubble vidBub;
         private Helpers _helpers;
+        public string scatteruri;
+   
 
 
         public void resetValues(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar)
@@ -70,6 +72,7 @@ namespace LADSArtworkMode
         /// </summary>
         public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, String imageURIPathParam)
         {
+            scatteruri = imageURIPathParam;
             Console.WriteLine("Constructor 1");
             image = new Image();
             aldbi = null;
@@ -141,6 +144,7 @@ namespace LADSArtworkMode
             imageURIPath = imageURIPathParam;
 
             stream.Close();
+            //bar.Items.Add(wke);
 
         }
 
@@ -149,6 +153,7 @@ namespace LADSArtworkMode
         /// </summary>
         public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, String imageURIPathParam, AssociatedDocListBoxItem _aldbi)
         {
+            scatteruri = imageURIPathParam;
             Console.WriteLine("Constructor 2");
             image = new Image();
             aldbi = null;
@@ -203,12 +208,14 @@ namespace LADSArtworkMode
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
             imageURIPath = imageURIPathParam;
+           // bar.Items.Add(wke);
             
         }
 
         //constructor for videos
         public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, string _targetVid, AssociatedDocListBoxItem _aldbi, LADSVideoBubble _video, VideoItem _vidctrl)
         {
+            scatteruri = _targetVid;
             //_video
             vidBub = _video;
             _helpers = new Helpers();
@@ -278,6 +285,7 @@ namespace LADSArtworkMode
             vid.MediaOpened += new RoutedEventHandler(video_MediaOpened);
             this.MinHeight = 100;
             Console.WriteLine("ActualWidth " + vidBub.ActualWidth);
+            //bar.Items.Add(wke);
             //imageURIPath = imageURIPathParam;
         }
 
@@ -360,7 +368,117 @@ namespace LADSArtworkMode
 
         }
 
-        
+        private void DockableItemFromSaved_Loaded(object sender, EventArgs e)
+        {
+            touchDown = false;
+            //DockableItem item = sender as DockableItem;
+            Console.WriteLine("AddToDock Called");
+            Helpers helpers = new Helpers();
+
+            this.SizeChanged -= DockableItem_SizeChanged;
+            //if (isDocked) isDocked = false;
+
+            this.isAnimating = true;
+            this.IsHitTestVisible = false;
+            if (helpers.IsVideoFile(imageURIPath))
+            {
+                vidBub.pauseVideo();
+            }
+            this.isAnimating = true;
+            barImageHeight = bar.ActualHeight * .8;
+            barImageWidth = bar.ActualHeight * this.Width / this.Height;
+
+            dockImage = new Image();
+            dockImage.Source = this.image.Source;
+            dockImage.SetCurrentValue(HeightProperty, barImageHeight);
+            dockImage.SetCurrentValue(WidthProperty, barImageWidth);
+            wke = new WorkspaceElement();
+            wke.Visibility = Visibility.Visible;
+            wke.SetCurrentValue(BackgroundProperty, bar.GetValue(BackgroundProperty));
+            wke = new WorkspaceElement();
+            wke.Content = dockImage;
+            wke.Opacity = 0;
+            wke.Background = Brushes.LightGray;
+            wke.bar = bar;
+            wke.item = this;
+            wke.artmodewin = win;
+            win.DockedItems.Add(wke);
+            win.DockedDockableItems.Add(this);
+            bar.Items.Add(wke);
+
+            Point startPoint = wke.TransformToAncestor(win.getMain()).Transform(new Point(0, 0));
+            Point relPoint = wke.TransformToAncestor(bar).Transform(new Point(0, 0));
+            rootPoint = new Point(startPoint.X + relPoint.X, startPoint.Y + relPoint.Y);
+
+            Console.WriteLine("x:" + rootPoint.X + " y:" + rootPoint.Y);
+
+            PointAnimation anim1 = new PointAnimation();
+            anim1.Completed += anim1Completed;
+            anim1.From = new Point(this.Center.X, this.Center.Y);
+            Console.WriteLine("this.Center.X : " + this.Center.X + " AND this.Center.Y : " + this.Center.Y);
+            anim1.To = new Point(rootPoint.X + win.BarOffset + barImageWidth / 2.0, rootPoint.Y + barImageHeight / 2.0);
+            anim1.Duration = new Duration(TimeSpan.FromSeconds(.4));
+            anim1.FillBehavior = FillBehavior.Stop;
+
+
+            //win.BarOffset += wke.ActualWidth;
+            isDocked = true;
+            oldHeight = this.Height;
+            oldWidth = this.Width;
+            DoubleAnimation heightAnim = new DoubleAnimation();
+            heightAnim.From = this.Height;
+            heightAnim.To = barImageHeight;
+            heightAnim.Duration = new Duration(TimeSpan.FromSeconds(.4));
+            heightAnim.FillBehavior = FillBehavior.Stop;
+            DoubleAnimation orientAnim = new DoubleAnimation();
+            orientAnim.From = this.ActualOrientation;
+            orientAnim.To = 0;
+            orientAnim.Duration = new Duration(TimeSpan.FromSeconds(.4));
+            orientAnim.FillBehavior = FillBehavior.Stop;
+            DoubleAnimation widthAnim = new DoubleAnimation();
+            widthAnim.From = this.Width;
+            widthAnim.To = barImageWidth;// barVersion.Width;
+            widthAnim.Duration = new Duration(TimeSpan.FromSeconds(.4));
+            widthAnim.FillBehavior = FillBehavior.Stop;
+            //this.BeginAnimation(CenterProperty, anim1);
+            //this.BeginAnimation(MaxHeightProperty, heightAnim);
+            //this.BeginAnimation(MaxWidthProperty, widthAnim);
+            //this.BeginAnimation(OrientationProperty, orientAnim);
+            Console.WriteLine("ANIM 1");
+
+
+            this.Opacity = .5;
+            wke.Opacity = 1.0;
+            this.SetCurrentValue(CenterProperty, new Point(rootPoint.X + win.BarOffset + barImageWidth / 2.0, rootPoint.Y + barImageHeight / 2.0));
+            this.CanMove = false;
+            //this.SetCurrentValue(CenterProperty, pt);
+            //dockImage.Opacity = 1.0;
+            double imgRatio = oldHeight / oldWidth;
+            this.SetCurrentValue(HeightProperty, barImageHeight * .9);
+            this.SetCurrentValue(WidthProperty, barImageWidth * .9);
+            this.CanRotate = false;
+            this.Orientation = 0;
+            actualWKEWidth = wke.ActualWidth;
+            win.BarOffset += wke.ActualWidth;
+            Console.WriteLine("ACTUAL WIDTH " + wke.ActualWidth);
+            Console.WriteLine(win.BarOffset);
+            this.Visibility = Visibility.Collapsed;
+
+            isDocked = true;
+            this.isAnimating = false;
+            this.IsHitTestVisible = true;
+            //win.SavedDockedItems.Add(scatteruri);
+            this.Loaded -= DockableItemFromSaved_Loaded;
+        }
+
+        public void AddtoDockFromSaved()
+        {
+
+
+            this.Loaded += new RoutedEventHandler(DockableItemFromSaved_Loaded);
+            
+
+        }
 
 
         public void AddtoDock(object sender, EventArgs e)
@@ -373,6 +491,8 @@ namespace LADSArtworkMode
             //if (isDocked) isDocked = false;
             if (this.Center.Y > (win.ActualHeight * .8) && !isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating)
             {
+                this.isAnimating = true;
+                this.IsHitTestVisible = false;
                 if (helpers.IsVideoFile(imageURIPath))
                 {
                     vidBub.pauseVideo();
@@ -386,15 +506,17 @@ namespace LADSArtworkMode
                 dockImage.SetCurrentValue(HeightProperty, barImageHeight);
                 dockImage.SetCurrentValue(WidthProperty, barImageWidth);
                 wke = new WorkspaceElement();
+                wke.Visibility = Visibility.Visible;
                 wke.SetCurrentValue(BackgroundProperty, bar.GetValue(BackgroundProperty));
-
+                wke = new WorkspaceElement();
                 wke.Content = dockImage;
                 wke.Opacity = 0;
                 wke.Background = Brushes.LightGray;
-
+                wke.bar = bar;
                 wke.item = this;
+                wke.artmodewin = win;
                 win.DockedItems.Add(wke);
-                win.DockedDockableItems.Add(item);
+                win.DockedDockableItems.Add(this);
                 bar.Items.Add(wke);
 
                 Point startPoint = wke.TransformToAncestor(win.getMain()).Transform(new Point(0, 0));
@@ -411,6 +533,8 @@ namespace LADSArtworkMode
                 anim1.Duration = new Duration(TimeSpan.FromSeconds(.4));
                 anim1.FillBehavior = FillBehavior.Stop;
 
+
+                //win.BarOffset += wke.ActualWidth;
                 isDocked = true;
                 oldHeight = this.Height;
                 oldWidth = this.Width;
@@ -439,9 +563,9 @@ namespace LADSArtworkMode
         public void anim1Completed(object sender, EventArgs e)
         {
             Console.WriteLine("ANIM 1");
-            isDocked = true;
-            this.isAnimating = false;
-            this.Opacity = 0;
+            
+            
+            this.Opacity = .5;
             wke.Opacity = 1.0;
             this.SetCurrentValue(CenterProperty, new Point(rootPoint.X + win.BarOffset + barImageWidth / 2.0, rootPoint.Y + barImageHeight / 2.0));
             this.CanMove = false;
@@ -456,11 +580,19 @@ namespace LADSArtworkMode
             win.BarOffset += wke.ActualWidth;
             Console.WriteLine("ACTUAL WIDTH " + wke.ActualWidth);
             Console.WriteLine(win.BarOffset);
+            this.Visibility = Visibility.Collapsed;
+
+            isDocked = true;
+            this.isAnimating = false;
+            this.IsHitTestVisible = true;
+            if (!win.SavedDockedItems.Contains(scatteruri))
+                win.SavedDockedItems.Add(scatteruri);
             //flushItems();
         }
 
         public void barversTouchDown(object sender, EventArgs e)
         {
+            /*
             touchDown = true;
             if (isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating && win.bottomPanelVisible)
             {
@@ -519,6 +651,8 @@ namespace LADSArtworkMode
                     w.item.SetCurrentValue(CenterProperty, new Point(w.item.Center.X - actualWKEWidth, w.item.Center.Y));
                 }
             }
+             * */
+            
         }
         public void anim2Completed(object sender, EventArgs e)
         {
@@ -559,6 +693,8 @@ namespace LADSArtworkMode
             Console.WriteLine("ANIM 3");
             aldbi = null;
             mainScatterView.Items.Remove(this);
+            if (win.SavedDockedItems.Contains(scatteruri))
+            win.SavedDockedItems.Remove(scatteruri);
         }
 
 

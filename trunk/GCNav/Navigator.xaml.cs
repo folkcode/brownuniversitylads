@@ -53,6 +53,8 @@ namespace GCNav
         private Double mapWidth;
         public FilterTimelineBox filter;
 
+        public List<string> SavedDockedItems;
+
         public Navigator()
         {
             InitializeComponent();
@@ -763,8 +765,21 @@ namespace GCNav
                 artmode.MultiImage.SetImageSource(@currentImage.xmlpath);
                 artmode.MultiImageThumb.SetImageSource(@currentImage.xmlpath);
                 artmode.Show();
+
+               
+                
                 _artOpen = true;
                 artmode.LayoutArtworkMode(currentImage.filename);
+
+                if (SavedDockedItems != null)
+                {
+                    Console.WriteLine("Saved Docked Items not null!");
+                    artmode.LoadDockedItems(SavedDockedItems);
+                }
+                else
+                {
+                    Console.WriteLine("Saved Docked Items is null!");
+                }
                 //artmode.currentArtworkFileName = currentImage.filename;
                 artmode.currentArtworkTitle = currentImage.title;
                 
@@ -782,6 +797,8 @@ namespace GCNav
                         artmode.Close();
                         artmode = newWindow;
                         artmode.Closed += new EventHandler(onArtmodeClose);
+                        
+                        
                         _timer.Tick += new EventHandler(TimerTick_Handler);
                         artmode.MultiImage.SetImageSource(@currentImage.xmlpath);
                         artmode.MultiImageThumb.SetImageSource(@currentImage.xmlpath);
@@ -789,6 +806,16 @@ namespace GCNav
                         _artOpen = true;
                         artmode.LayoutArtworkMode(currentImage.filename);
                         artmode.currentArtworkTitle = currentImage.title;
+
+                        if (SavedDockedItems != null)
+                        {
+                            Console.WriteLine("Saved Docked Items not null!");
+                            artmode.LoadDockedItems(SavedDockedItems);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Saved Docked Items is null!");
+                        }
                     }
                     else
                     {
@@ -810,6 +837,7 @@ namespace GCNav
         {
             _timer.Tick -= TimerTick_Handler;
             //dockedItems = artmode.DockedDockableItems;
+            SavedDockedItems = artmode.SavedDockedItems;
             _artOpen = false;
             artmode.Close();
         }
