@@ -243,7 +243,8 @@ namespace SurfaceApplication3
             {
                 canAdd = true;
             }
-
+            if (buttonChecked != null)
+            {
                 if (canAdd)
                 {
                     if (RadioColor != 0)
@@ -338,22 +339,30 @@ namespace SurfaceApplication3
                         //double screenPosX = canvasLeft;
                         //double screenPosY = canvasTop;
                         Canvas.SetLeft(newEllipse, db1 - 20.8);
-                        Canvas.SetTop(newEllipse, db2 -5);
+                        Canvas.SetTop(newEllipse, db2 - 5);
 
                         Canvas.SetLeft(newMarker, db1 - 22.8);
                         Canvas.SetTop(newMarker, db2 - 13);
                         //System.Windows.Forms.MessageBox.Show("scale" + map1.GetZoomableCanvas.Scale);
                         buttonChecked.IsChecked = false; //only enable to create one circle at a time
                         RadioColor = 0;
+                        currentMarker = null;
                     }
                 }
                 else
                 {
                     System.Windows.MessageBox.Show("There may only be one location of origin and one current location.");
-                    buttonChecked.IsChecked = false;
+                    if (buttonChecked != null)
+                    {
+                        buttonChecked.IsChecked = false;
+                        buttonChecked = null;
+                    }
+
                     buttonChecked = null;
+                    currentMarker = null;
                     return;
                 }
+            }
 
         }
         public void newMarker_Click(Object sender, RoutedEventArgs e)
