@@ -111,8 +111,10 @@ namespace LADSArtworkMode
             if (!hasBeenOpened)
             {
                 _aspectRatio = (double)_video.NaturalVideoWidth / (double)_video.NaturalVideoHeight;
-                Resize(_preferredSize.Width, _preferredSize.Height);
-
+                Resize(_preferredSize.Width,_preferredSize.Height);
+                Console.Out.WriteLine("width" + _preferredSize.Width);
+                Console.Out.WriteLine("height" + _preferredSize.Height);
+                
                 _layoutRoot.Children.Add(_controls);
                 Grid.SetRow(_controls, 1);
 
@@ -245,6 +247,7 @@ namespace LADSArtworkMode
         {
             _controls.videoSlider.Value = _video.Position.TotalSeconds / _video.NaturalDuration.TimeSpan.TotalSeconds;
         }
+       
 
         #endregion
 

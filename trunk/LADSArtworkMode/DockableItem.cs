@@ -334,9 +334,12 @@ namespace LADSArtworkMode
         private void video_MediaOpened(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("DOCKABLE EVENT HANDLER");
-            vidBub.setPreferredSize(vidBub.getWidth(), vidBub.getHeight());
+           
+            //Console.Out.WriteLine("newheight" + newHeight);
+            //vidBub.setPreferredSize(vidBub.getWidth(), newHeight);
             this.Height = vidBub.getHeight();
             this.Width = vidBub.getWidth();
+            //Console.Out.WriteLine("height"+vidBub.getHeight());
         }
 
         //scales video with pinch zoom
@@ -345,6 +348,10 @@ namespace LADSArtworkMode
             vidBub.Resize(this.ActualWidth, this.ActualHeight, false);
         }
 
+        public void stopVideo()
+        {
+            vidBub.pauseVideo();
+        }
 
         public String GetImageURIPath
         {
@@ -485,7 +492,7 @@ namespace LADSArtworkMode
         {
             touchDown = false;
             DockableItem item = sender as DockableItem;
-            Console.WriteLine("AddToDock Called");
+         //   Console.WriteLine("AddToDock Called");
             Helpers helpers = new Helpers();
             this.SizeChanged -= DockableItem_SizeChanged;
             //if (isDocked) isDocked = false;
