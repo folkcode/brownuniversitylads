@@ -54,7 +54,7 @@ namespace GCNav
           //  Console.Out.WriteLine("called!");
             foreach (UIElement ele in Location.Children)
             {
-                SurfaceRadioButton t = ele as SurfaceRadioButton;
+                //SurfaceRadioButton t = ele as SurfaceRadioButton;
                 Ellipse ell = ele as Ellipse;
                 if (ell != null)
                 {

@@ -55,6 +55,7 @@ namespace SurfaceApplication3
         {
             InitializeComponent();
             image1.MouseDown += new MouseButtonEventHandler(ImageMouseHandler);
+            image1.TouchDown += new EventHandler<TouchEventArgs>(image1_TouchDown);
             ellipses = new List<Ellipse>();
             hotImageNames = new List<String>();
             hotAudioNames = new List<String>();
@@ -73,6 +74,42 @@ namespace SurfaceApplication3
            
         }
 
+        void image1_TouchDown(object sender, TouchEventArgs e)
+        {
+            Point newPoint = e.TouchDevice.GetCenterPosition(image1);
+            //this.CreateNewPoints(newPoint,null);
+            // this.CreatePointsClick(newPoint, null);
+            this.hotspotValid(newPoint);
+            if (addHotspotsEnabled && addHotspotValid)
+            {
+                addHotspotsEnabled = false;
+                Enable.IsEnabled = true;
+                this.CreateNewPoints(newPoint, null);
+
+            }
+            foreach (UIElement ele in imageCover.Children)
+            {
+                SurfaceRadioButton t = ele as SurfaceRadioButton;
+
+                if (t != null)
+                {
+                    Double canvasLeft = Canvas.GetLeft(t);
+                    Double canvasTop = Canvas.GetTop(t);
+                    image1.UpdateLayout();
+                    Double width = t.ActualWidth - 30;
+                    Double height = t.ActualHeight - 30;
+
+                    if (newPoint.X > canvasLeft && newPoint.X < canvasLeft + width && newPoint.Y > canvasTop && newPoint.Y < canvasTop + height)
+                    {
+                        //Console.Out.WriteLine("buttonselected");
+                        newButton_Checked(t);
+                        // Console.Out.WriteLine("buttonSelected");
+                    }
+
+                }
+            }
+        }
+
         /// <summary>
         /// Get the position of the click and process it
         /// </summary>
@@ -89,6 +126,27 @@ namespace SurfaceApplication3
                 Enable.IsEnabled = true;
                 this.CreateNewPoints(newPoint, null);
                 
+            }
+            foreach (UIElement ele in imageCover.Children)
+            {
+                SurfaceRadioButton t = ele as SurfaceRadioButton;
+
+                if (t != null)
+                {
+                    Double canvasLeft = Canvas.GetLeft(t);
+                    Double canvasTop = Canvas.GetTop(t);
+                    image1.UpdateLayout();
+                    Double width = t.ActualWidth-30;
+                    Double height = t.ActualHeight-30;
+
+                    if (newPoint.X > canvasLeft && newPoint.X < canvasLeft + width && newPoint.Y > canvasTop && newPoint.Y < canvasTop + height)
+                    {
+                        //Console.Out.WriteLine("buttonselected");
+                        newButton_Checked(t);
+                        // Console.Out.WriteLine("buttonSelected");
+                    }
+
+                }
             }
         }
 
@@ -109,12 +167,12 @@ namespace SurfaceApplication3
 
             Double x = newPoint.X;
             Double y = newPoint.Y;
-            Console.Out.WriteLine("x" + x);
-            Console.Out.WriteLine("y" + y);
-            Console.Out.WriteLine("left" + left);
-            Console.Out.WriteLine("right" + right);
-            Console.Out.WriteLine("top" + top);
-            Console.Out.WriteLine("bottom" + bottom);
+          //  Console.Out.WriteLine("x" + x);
+          //  Console.Out.WriteLine("y" + y);
+          //  Console.Out.WriteLine("left" + left);
+          //  Console.Out.WriteLine("right" + right);
+          //  Console.Out.WriteLine("top" + top);
+          //  Console.Out.WriteLine("bottom" + bottom);
             if (x > right|| x < left)
             {
                 addHotspotValid = false;
@@ -164,8 +222,8 @@ namespace SurfaceApplication3
                 String[] locInfo = Regex.Split(str, "/");
                 double lon = Convert.ToDouble(locInfo[0]);
                 double lat = Convert.ToDouble(locInfo[1]);
-                Console.Out.WriteLine("lon" + lon);
-                Console.Out.WriteLine("lat" + lat);
+               // Console.Out.WriteLine("lon" + lon);
+                //Console.Out.WriteLine("lat" + lat);
 
                 Double[] size = this.findImageSize();
                 Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale; //the size of the zoomed image
@@ -401,7 +459,7 @@ namespace SurfaceApplication3
                 {
                     dic.Add(newButton, str);
                 }
-                newButton.Checked += new RoutedEventHandler(newButton_Checked);
+              //  newButton.Checked += new RoutedEventHandler(newButton_Checked);
                 newButton.IsChecked = true;
                 buttonChecked = newButton;
 
@@ -422,6 +480,7 @@ namespace SurfaceApplication3
 
                 Canvas.SetLeft(newButton, x -3.5);
                 Canvas.SetTop(newButton, y -3);
+                Canvas.SetZIndex(newButton, 20);
            
         }
         /// <summary>
@@ -498,9 +557,9 @@ namespace SurfaceApplication3
         
 
          * */
-        public void newButton_Checked(object sender, RoutedEventArgs e)
+        public void newButton_Checked(SurfaceRadioButton sender)
         {
-
+            sender.IsChecked = true;
             AddText.IsEnabled = false;
             AddImage.IsEnabled = false;
             AddAudio.IsEnabled = false;
@@ -917,7 +976,7 @@ namespace SurfaceApplication3
 
                 System.Drawing.Image img = System.Drawing.Image.FromFile(imagePath);
                 img = img.GetThumbnailImage(128, 128, null, new IntPtr());
-                Console.Out.WriteLine("thumbnail path" + newPath + "Thumbnail/" + filename);
+                //Console.Out.WriteLine("thumbnail path" + newPath + "Thumbnail/" + filename);
                 img.Save(newPath + "Thumbnail/" + filename);
                // Console.WriteLine(newPath + "Thumbnail/" + filename + " IMAGE!!");
             
@@ -1388,6 +1447,12 @@ namespace SurfaceApplication3
         internal void setParentWindow(hotspotWindow hotspotWindow)
         {
             parentWindow = hotspotWindow;
+        }
+
+        private void image1_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //Console.Out.WriteLine("image touchdown");
+           
         }
     }
 }

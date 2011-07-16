@@ -130,13 +130,15 @@
     <Canvas Height="510" Width="924">
 
         <Label Content="Click on the artwork to place a hotspot and select the hotspot to enter information: " Height="49" Width="747" FontSize="17" Canvas.Top="6" Canvas.Left="19" Foreground="Black"/>
-
-        <Canvas x:Name="imageCover" Canvas.Top="40" Canvas.Left="20" Height="400" Width="500">
-            <Rectangle Height="400" Name="rectangle1" Stroke="#227174" Width="500" Fill="#B8DAD2" StrokeThickness="4" />
+        
+        
+        <Canvas x:Name="imageCover" Canvas.Top="40" Canvas.Left="20" Height="400" Width="500" IsHitTestVisible="False" Canvas.ZIndex="20" Background="Transparent">
+           
             <!-- <Image Height="392" x:Name="image1" Stretch="Fill" Width="492" Canvas.Top="4" Canvas.Left="4"/> -->
-            <dz:MultiScaleImage x:Name="image1" Height="392" Width="492" Canvas.Top="4" Canvas.Left="4" />
-        </Canvas>
-
+           
+        </Canvas> 
+        <Rectangle Height="400" Canvas.Top="40" Canvas.Left="20" Name="rectangle1" Stroke="#227174" Width="500" Fill="#B8DAD2" StrokeThickness="4" Canvas.ZIndex="0" />
+        <dz:MultiScaleImage x:Name="image1" Height="392" Width="492" Canvas.Top="44" Canvas.Left="24"  Canvas.ZIndex="10"/>
 
         <Canvas Name="detailHotspot" Canvas.Top="40" Canvas.Left="540" Height="400" Width="360">
             <Rectangle Height="400" Stroke="#FF076F72"  Width="360" Fill="#FFEDF5E2" StrokeThickness="3" />
