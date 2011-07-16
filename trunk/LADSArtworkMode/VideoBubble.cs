@@ -92,9 +92,11 @@ namespace LADSArtworkMode
 
         void LADSVideoBubble_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Console.Out.WriteLine("size changed");
             if (e.NewSize.Width > _video.ActualWidth)
             {
                 Width = _video.ActualWidth;
+              
             }
             if (e.NewSize.Height > _video.ActualHeight)
             {
