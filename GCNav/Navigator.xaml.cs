@@ -979,7 +979,7 @@ namespace GCNav
             medium.FontSize = artist.FontSize;
             date.FontSize = artist.FontSize;
 
-            Canvas.SetTop(KeywordBack, artistTop + 75);
+            
             Canvas.SetTop(KeywordsTitle, artistTop + 75);
             Canvas.SetTop(curKeywords, artistTop + 105);
             //infoCanvas.Height = this.ActualHeight / 4;
@@ -992,11 +992,14 @@ namespace GCNav
             {
                 KeywordsTitle.Visibility = Visibility.Visible;
                 curKeywords.Visibility = Visibility.Visible;
+                Canvas.SetTop(KeywordBack, artistTop + 75);
+                KeywordBack.Visibility = Visibility.Visible;
             }
             else
             {
                 KeywordsTitle.Visibility = Visibility.Hidden;
                 curKeywords.Visibility = Visibility.Hidden;
+                KeywordBack.Visibility = Visibility.Hidden;
             }
 
             KeywordBack.Width = _windowSize.Width / 4 - 46;
