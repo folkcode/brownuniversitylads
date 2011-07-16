@@ -92,7 +92,7 @@ namespace GCNav
                 ScaleTransform tran = new ScaleTransform();
                 tran.ScaleX = e.NewSize.Width / 1600;
                 filter.RenderTransform = tran;
-                canvasLeft = e.NewSize.Width / 2 - filter.Width * tran.ScaleX / 2;
+                canvasLeft = e.NewSize.Width / 2 - filterWidth * tran.ScaleX / 2;
                 filterWidth = filterWidth * tran.ScaleX;
             }
             
@@ -106,8 +106,8 @@ namespace GCNav
 
             backRec.Width = map.Width*scaleX +10;
             backRec.Height = map.Height*scaleY + 30+10;
-            Console.Out.WriteLine("width rec" + backRec.Width);
-            Console.Out.WriteLine("REC HE" +backRec.Height);
+         //   Console.Out.WriteLine("width rec" + backRec.Width);
+         //   Console.Out.WriteLine("REC HE" +backRec.Height);
             //Canvas.SetTop(backRec, 20);
             Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
             Canvas.SetZIndex(backRec, -10);
@@ -211,6 +211,7 @@ namespace GCNav
                // filter.Visibility = Visibility.Visible;
               //  nav.filterBoxContainer.Visibility = Visibility.Visible;
                 filter.Visibility = Visibility.Visible;
+                backRec.Visibility = Visibility.Visible;
                 //TODO
             }
         }
