@@ -43,11 +43,53 @@ namespace GCNav
             ellipses = new Dictionary<SurfaceRadioButton, Ellipse>();
             backEllipses = new Dictionary<SurfaceRadioButton, Ellipse>();
             this.loadImageBlur();
-            
+            Canvas.SetZIndex(Location, 20);
           //  Location.TouchUp +=new EventHandler<System.Windows.Input.TouchEventArgs>(Location_TouchUp);
           //  Location.TouchDown +=new EventHandler<System.Windows.Input.TouchEventArgs>(Location_TouchDown);
            // map.Source = "D://newMap.dzi";
         }
+
+        void  Location_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+          //  Console.Out.WriteLine("called!");
+            foreach (UIElement ele in Location.Children)
+            {
+                SurfaceRadioButton t = ele as SurfaceRadioButton;
+                Ellipse ell = ele as Ellipse;
+                if (ell != null)
+                {
+                    Double canvasLeft = Canvas.GetLeft(ell);
+                    Double canvasTop = Canvas.GetTop(ell);
+                    Double width = ell.Width;
+                    Double height = ell.Height;
+                  //  Console.Out.WriteLine("canvasLeft"+canvasLeft);
+                  //  Console.Out.WriteLine("top" + canvasTop);
+                    if (ell.Width != 26)
+                    {
+                        Point p = (sender as UIElement).TranslatePoint(e.GetPosition(sender as UIElement), Location);
+                    //    Console.Out.WriteLine("p.x" + p.X);
+                   //     Console.Out.WriteLine("p.y" + p.Y);
+                        if (p.X > canvasLeft && p.X < canvasLeft + width && p.Y > canvasTop && p.Y < canvasTop + Height)
+                        {
+                            foreach (SurfaceRadioButton rb in ellipses.Keys)
+                            {
+                                if (ellipses[rb] == ell)
+                                {
+                                    newButton_Click(rb);
+                                }
+                            }
+                           // Console.Out.WriteLine("buttonSelected");
+                        }
+                    }
+                }
+                //if (p.X > 0 && p.X < t._eventRec.Width && p.Y > 0 && p.Y < t._eventRec.Height)
+                //{
+                //    nav.eventSelected(t);
+                //}
+            }
+        }
+      
+       
         public void loadImageBlur()
         {
             //This is to add the faded edge effect
@@ -143,7 +185,7 @@ namespace GCNav
                 //Console.Out.WriteLine(screenPosX);
                 //Make sure all the map buttons are displayed within the map image
 
-                Console.Out.Write("screen" +screenPosX);
+               // Console.Out.Write("screen" +screenPosX);
 
                 if (screenPosX < 20 || screenPosX > Location.Width - 20)
                 {
@@ -254,7 +296,7 @@ namespace GCNav
             newEllipse.Fill = mySolidColorBrush;
             backEllipse.Fill = newBrush;
 
-            newButton.Click +=new RoutedEventHandler(newButton_Click);
+           //newButton.Click +=new RoutedEventHandler(newButton_Click);
 
             Location.Children.Add(newEllipse);
             Location.Children.Add(newButton);
@@ -292,9 +334,10 @@ namespace GCNav
             }
 
         }
-        public void newButton_Click(Object sender, RoutedEventArgs e) 
+        public void newButton_Click(SurfaceRadioButton sender) 
         {
             String str = locButtons[(SurfaceRadioButton)sender];
+            sender.IsChecked = true;
             String name = data.title;
             if (name.Length > 20)
             {
@@ -457,6 +500,52 @@ namespace GCNav
                 //((Canvas)RegionImage.Parent).Children.Add(_canvas);
                 _canvas.Visibility = Visibility.Collapsed;
                 _imageData = img;
+            }
+        }
+
+        private void mapImage_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void mapImage_TouchDown(object sender, System.Windows.Input.TouchEventArgs e)
+        {
+            foreach (UIElement ele in Location.Children)
+            {
+                SurfaceRadioButton t = ele as SurfaceRadioButton;
+                Ellipse ell = ele as Ellipse;
+                if (ell != null)
+                {
+                    Double canvasLeft = Canvas.GetLeft(ell);
+                    Double canvasTop = Canvas.GetTop(ell);
+                    Double width = ell.Width;
+                    Double height = ell.Height;
+                    //  Console.Out.WriteLine("canvasLeft"+canvasLeft);
+                    //  Console.Out.WriteLine("top" + canvasTop);
+                    if (ell.Width != 26)
+                    {
+                        
+                        TouchPoint p = e.GetTouchPoint(Location);
+                        
+                        //    Console.Out.WriteLine("p.x" + p.X);
+                        //     Console.Out.WriteLine("p.y" + p.Y);
+                        if (p.Position.X > canvasLeft && p.Position.X < canvasLeft + width && p.Position.Y > canvasTop && p.Position.Y < canvasTop + Height)
+                        {
+                            foreach (SurfaceRadioButton rb in ellipses.Keys)
+                            {
+                                if (ellipses[rb] == ell)
+                                {
+                                    newButton_Click(rb);
+                                }
+                            }
+                            // Console.Out.WriteLine("buttonSelected");
+                        }
+                    }
+                }
+                //if (p.X > 0 && p.X < t._eventRec.Width && p.Y > 0 && p.Y < t._eventRec.Height)
+                //{
+                //    nav.eventSelected(t);
+                //}
             }
         }
 
