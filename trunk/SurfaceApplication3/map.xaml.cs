@@ -208,8 +208,32 @@ namespace SurfaceApplication3
         /// <param name="e"></param>
         private void MapTouchHandler(object sender, TouchEventArgs e)
         {
-            Point newPoint = e.TouchDevice.GetCenterPosition(this);
-            this.CreateNewPoints(newPoint);
+            Point p = e.TouchDevice.GetCenterPosition(this);
+            this.CreateNewPoints(p);
+
+            Point newPoint = e.TouchDevice.GetCenterPosition(map1);
+            foreach (UIElement ele in mapCover.Children)
+            {
+                SurfaceRadioButton t = ele as SurfaceRadioButton;
+
+                if (t != null)
+                {
+                    Double canvasLeft = Canvas.GetLeft(t);
+                    Double canvasTop = Canvas.GetTop(t);
+                    map1.UpdateLayout();
+                    Double width = t.ActualWidth - 20;
+                    Double height = t.ActualHeight - 20;
+                    // Console.Out.WriteLine("Actual width" + width);
+
+                    if (newPoint.X > canvasLeft && newPoint.X < canvasLeft + width && newPoint.Y > canvasTop && newPoint.Y < canvasTop + height)
+                    {
+                        // Console.Out.WriteLine("buttonselected");
+                        newMarker_Click(t);
+                        // Console.Out.WriteLine("buttonSelected");
+                    }
+
+                }
+            }
         }
 
         /// <summary>
@@ -219,11 +243,34 @@ namespace SurfaceApplication3
         /// <param name="e"></param>
         private void MapMouseHandler(object sender, MouseButtonEventArgs e)
         {
-            Point newPoint = e.MouseDevice.GetCenterPosition(this);
-            this.CreateNewPoints(newPoint);
+            Point p = e.MouseDevice.GetCenterPosition(this);
+            this.CreateNewPoints(p);
 
+            Point newPoint = e.MouseDevice.GetCenterPosition(map1);
+            foreach (UIElement ele in mapCover.Children)
+            {
+                SurfaceRadioButton t = ele as SurfaceRadioButton;
+
+                if (t != null)
+                {
+                    Double canvasLeft = Canvas.GetLeft(t);
+                    Double canvasTop = Canvas.GetTop(t);
+                    map1.UpdateLayout();
+                    Double width = t.ActualWidth - 20;
+                    Double height = t.ActualHeight - 20;
+                   // Console.Out.WriteLine("Actual width" + width);
+
+                    if (newPoint.X > canvasLeft && newPoint.X < canvasLeft + width && newPoint.Y > canvasTop && newPoint.Y < canvasTop + height)
+                    {
+                       // Console.Out.WriteLine("buttonselected");
+                        newMarker_Click(t);
+                        // Console.Out.WriteLine("buttonSelected");
+                    }
+
+                }
+            }
         }
-
+       
 
         /// <summary>
         /// Create new hotspots on the map
@@ -319,7 +366,7 @@ namespace SurfaceApplication3
                         {
                             rb.IsChecked = false;
                         }
-                        newMarker.Checked += new RoutedEventHandler(newMarker_Click);
+                      //  newMarker.Checked += new RoutedEventHandler(newMarker_Click);
                         newMarker.IsChecked = true;
 
                         radioButtons.Add(newMarker);
@@ -365,8 +412,9 @@ namespace SurfaceApplication3
             }
 
         }
-        public void newMarker_Click(Object sender, RoutedEventArgs e)
+        public void newMarker_Click(SurfaceRadioButton sender)
         {
+            sender.IsChecked = true;
             date.IsReadOnly = false;
             city.IsReadOnly = false;
             //Make sure that if it's the origin location, no date could be entered
@@ -609,7 +657,7 @@ namespace SurfaceApplication3
              //   originY.Add(lat);
                 dic.Add(newMarker, "red" + "," + lon + "," + lat);
             }
-            newMarker.Checked +=new RoutedEventHandler(newMarker_Click);
+            //newMarker.Checked +=new RoutedEventHandler(newMarker_Click);
             radioButtons.Add(newMarker);
             newEllipse.Width = 13.5;
             newEllipse.Height = 13.5;
