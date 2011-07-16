@@ -2041,8 +2041,8 @@ namespace LADSArtworkMode
                 item.isDocked = false;
                 item.CanMove = true;
 
-                item.MinHeight = 80;
-                item.MinWidth = 80.0 * item.oldWidth / item.oldHeight;
+                //item.MinHeight = 80;
+                //item.MinWidth = 80.0 * item.oldWidth / item.oldHeight;
 
                 Helpers helper = new Helpers();
                 
@@ -2073,7 +2073,7 @@ namespace LADSArtworkMode
                 this.BeginAnimation(WidthProperty, dockwidthAnim);
 
 
-                item.isAnimating = false;
+                
                 item.isDocked = false;
                 //bar.Items.Remove(this);
                 //artmodewin.DockedItems.Remove(this);
@@ -2087,7 +2087,7 @@ namespace LADSArtworkMode
                     WorkspaceElement w = artmodewin.DockedItems[i] as WorkspaceElement;
                     w.item.Center = new Point(w.item.Center.X - this.ActualWidth, w.item.Center.Y);
                 }
-            
+                //item.isAnimating = false;
 
         }
 
@@ -2142,13 +2142,16 @@ namespace LADSArtworkMode
             artmodewin.DockedItems.Remove(this);
             //flushItems();
             item.isDocked = false;
-            item.isAnimating = false;
+           
             this.IsHitTestVisible = true;
             item.MouseMove -= WorkspaceElement_MouseMove;
             item.Center = trackedCenter;
             item.Height = item.oldHeight;
             item.Width = item.oldWidth;
             dpd = null;
+
+            item.isAnimating = false;
+
         }
 
         void WorkspaceElement_MouseMove(object sender, MouseEventArgs e)
