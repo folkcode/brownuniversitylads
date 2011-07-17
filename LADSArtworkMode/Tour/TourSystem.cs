@@ -1829,8 +1829,11 @@ namespace LADSArtworkMode
                 artModeWin.MainScatterView.IsHitTestVisible = false;
             }
 
-            artModeWin.BottomPanel.Visibility = Visibility.Visible;
-            artModeWin.ShowBottomPanel();
+            if (!artModeWin.bottomPanelVisible)
+            {
+                artModeWin.BottomPanel.Visibility = Visibility.Visible;
+                artModeWin.ShowBottomPanel();
+            }
         }
 
         public void loadAuthoringGUI()
