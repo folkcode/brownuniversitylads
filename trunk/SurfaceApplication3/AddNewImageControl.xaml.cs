@@ -57,6 +57,7 @@ namespace SurfaceApplication3
             //MetaDataEntry newSmall = new MetaDataEntry();
             //newSmall.setBigWindow(this);
             //MetaDataList.Items.Add(newSmall);
+            
             DZcreated = false;
             imageName = "";
             // Create a Background Worker
@@ -1162,7 +1163,7 @@ namespace SurfaceApplication3
     
             
 
-        int previousYear = 100000;
+        int previousYear = 2011;
         int previousCursor = 1000;
         /// <summary>
         /// Handle input in the 'year' textbox.
@@ -1171,14 +1172,19 @@ namespace SurfaceApplication3
         {
             int cursorPosition = year_tag.CaretIndex;
             bool changed = true;
-            if (previousYear == 100000)
+            if (previousYear == 2011)
             {
                 try
                 {
+                        
                     previousYear = int.Parse(year_tag.Text);
                 }
                 catch (Exception exception)
-                { }
+                {
+                    previousYear = 0;
+                    year_tag.Text = "2011";
+                    return;
+                }
             }
             if (previousCursor == 1000)
             {
@@ -1192,12 +1198,27 @@ namespace SurfaceApplication3
                     changed = false;
                 if (s == "-")
                 {
+                    if (replacement.Length == 0)
+                    {
+                        year_tag.Text = "-";
+                        return;
+                    }
                     s = s + replacement;
                 }
                 else
                     s = replacement;
-                int currentYear = int.Parse(s);
-                if (!(currentYear > -9999 && currentYear < 9999))
+
+                bool isString = false;
+                int currentYear;
+                try
+                {
+                    currentYear = int.Parse(s);
+                }
+                catch (Exception exc)
+                {
+                    currentYear = 10000999;
+                }
+                if ((!(currentYear > -9999 && currentYear < 9999)))
                 {
                     changed = false;
                     s = "" + previousYear;
@@ -1211,6 +1232,7 @@ namespace SurfaceApplication3
                 previousCursor = year_tag.CaretIndex;
                 previousYear = int.Parse(s);
             }
+            
         }
 
 
