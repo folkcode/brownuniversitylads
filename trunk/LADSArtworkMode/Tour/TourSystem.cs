@@ -299,7 +299,7 @@ namespace LADSArtworkMode
             TourParallelTL tourtl = new TourParallelTL();
             tourtl.type = TourTLType.path;
             tourtl.inkCanvas = currentPathCanvas;
-            tourtl.displayName = "Path";
+            tourtl.displayName = "Drawing";
             tourtl.file = getNextFile("Path");
             currentPathCanvasFile = tourtl.file;
             //Dictionary<double, TourEvent> tldict = new Dictionary<double, TourEvent>();

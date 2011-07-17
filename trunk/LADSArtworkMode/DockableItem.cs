@@ -312,7 +312,7 @@ namespace LADSArtworkMode
 
         void DockableItem_Loaded(object sender, RoutedEventArgs e)
         {
-            changeInitialSize();
+            //changeInitialSize();
         }
 
         public void changeInitialSize()
