@@ -100,7 +100,7 @@ namespace LADSArtworkMode
             }
             if (e.NewSize.Height > _video.ActualHeight)
             {
-                Height = _video.ActualHeight;
+                Height = _video.ActualHeight + 50;
             }
         }
 
@@ -299,9 +299,9 @@ namespace LADSArtworkMode
             else
             {
                 _layoutRoot.Width = newWidth;
-                _layoutRoot.Height = newHeight;
+                _layoutRoot.Height = newHeight + 50;
                 Width = newWidth;
-                Height = newHeight;
+                Height = newHeight + 50;
                 _video.Width = newWidth;
                 _video.Height = newHeight;
             }
