@@ -1778,6 +1778,12 @@ namespace LADSArtworkMode
             int k;
         }
 
+        public Boolean TourPlaybackOn
+        {
+            get { return tourPlaybackOn; }
+            set { tourPlaybackOn = value; }
+        }
+
         private void TourButton_Click(object sender, EventArgs e)
         {
             string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
@@ -1822,6 +1828,9 @@ namespace LADSArtworkMode
                 artModeWin.ImageArea.IsHitTestVisible = false;
                 artModeWin.MainScatterView.IsHitTestVisible = false;
             }
+
+            artModeWin.BottomPanel.Visibility = Visibility.Visible;
+            artModeWin.ShowBottomPanel();
         }
 
         public void loadAuthoringGUI()
@@ -1917,6 +1926,16 @@ namespace LADSArtworkMode
 
                 tourAuthoringOn = true;
             }
+            else
+            {
+                artModeWin.BottomPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        public Boolean TourAuthoringOn
+        {
+            get { return tourAuthoringOn; }
+            set {tourAuthoringOn = value; }
         }
 
         public void CreateNewBlankTour(String XMLfilePath, String artworkFileName, String displayString, String description)
