@@ -29,7 +29,7 @@ namespace SurfaceApplication3
         public MainWindow _newWindow;
         public ImageSource imageToDispose;
         private Helpers _helpers;
-       
+        public int catalogNumber;
 
         public catalogEntry(MainWindow newWindow) //Would have to pass it a window so it can tell the window when to delete or add it
         {
@@ -57,6 +57,7 @@ namespace SurfaceApplication3
         {
             AddImageWindow newBigWindow = new AddImageWindow();
             newBigWindow.WindowState = System.Windows.WindowState.Normal;
+            newBigWindow.big_window1.setCatalogNumber(catalogNumber);
             //newBigWindow.setWindowSize();
             newBigWindow.big_window1.browse.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.createDZ.Visibility = Visibility.Hidden;

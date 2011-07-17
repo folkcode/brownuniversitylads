@@ -46,7 +46,8 @@ namespace SurfaceApplication3
         private List<string> imagesToDelete;
         private hotspotWindow newHotspotWindw;
         public bool mapWinOpened, hotspotWinOpened;
-
+        private int catalogNumber;
+        public bool imageSaved;
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -72,6 +73,7 @@ namespace SurfaceApplication3
             imagesToDelete = new List<string>();
             mapWinOpened = false;
             hotspotWinOpened = false;
+            imageSaved = false; ;
         }
 
         /// <summary>
@@ -533,7 +535,7 @@ namespace SurfaceApplication3
         /// </summary>
         private void save_Click(object sender, RoutedEventArgs e)
         {
-
+            imageSaved = true;
             foreach (string name in imagesToDelete)
             {
                 if(File.Exists("Data/Images/Metadata/" + name))
@@ -887,6 +889,7 @@ namespace SurfaceApplication3
                                             newEntry.AppendChild(newMeta);
                                         }
                                     }
+                                    mainWindow.addOneArtworkToCatalog();
 
                                     string path = imagePath;
                                     String newPath = "data/Images/Thumbnail/" + imageName;
@@ -933,7 +936,7 @@ namespace SurfaceApplication3
                                     medium_tag.BorderBrush = Brushes.DarkGreen;
                                     newOld = true;
 
-
+                                    
                                 }
                                 else
                                 {
@@ -1109,16 +1112,25 @@ namespace SurfaceApplication3
             //Need to clear all the entries in the existing catalog first and then reload
             int p = 0;
             //MessageBox.Show("haha");
-            while (p < mainWindow.EntryListBox.Items.Count)
+            //while (p < mainWindow.EntryListBox.Items.Count)
+            //{
+            //    mainWindow.EntryListBox.Items.RemoveAt(0);
+
+            //}
+            //mainWindow.load();
+            if (imageSaved)
             {
-                mainWindow.EntryListBox.Items.RemoveAt(0);
-
+                this.loadOneArtwork();
             }
-            mainWindow.load();
-
-
             parr.Close();
 
+        }
+
+
+        public void setCatalogNumber(int number)
+        {
+            catalogNumber = number;
+           // Console.Out.WriteLine("number" + number);
         }
 
         public void setMainWindow(MainWindow main)
@@ -1126,6 +1138,29 @@ namespace SurfaceApplication3
             mainWindow = main;
         }
 
+        public void loadOneArtwork()
+        {
+            catalogEntry entryToModify = (catalogEntry)mainWindow.EntryListBox.Items.GetItemAt(catalogNumber);
+            entryToModify.title_tag.Text = title_tag.Text;
+            entryToModify.year_tag.Text = year_tag.Text;
+            entryToModify.medium_tag.Text = medium_tag.Text;
+            entryToModify.artist_tag.Text = artist_tag.Text;
+            entryToModify.summary.Text = summary.Text;
+
+                String dataDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
+                String fullPath = dataDir + "Images\\" + "Thumbnail\\" + imageName;
+
+                System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
+                FileStream stream = new FileStream(fullPath, FileMode.Open);
+                System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
+                wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+                stream.Close();
+                Utils.setAspectRatio(entryToModify.imageCanvas, entryToModify.imageRec, entryToModify.image1, wpfImage, 4);
+                entryToModify.image1.Source = wpfImage.Source;
+            
+        }
+    
+            
 
         int previousYear = 100000;
         int previousCursor = 1000;
@@ -1138,7 +1173,12 @@ namespace SurfaceApplication3
             bool changed = true;
             if (previousYear == 100000)
             {
-                previousYear = int.Parse(year_tag.Text);
+                try
+                {
+                    previousYear = int.Parse(year_tag.Text);
+                }
+                catch (Exception exception)
+                { }
             }
             if (previousCursor == 1000)
             {

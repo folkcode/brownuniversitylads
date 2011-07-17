@@ -94,6 +94,7 @@ namespace SurfaceApplication3
                             if (node.Name == "Image")
                             {
                                 catalogEntry newEntry = new catalogEntry(this);
+                                newEntry.catalogNumber = EntryListBox.Items.Count;
                                 String path = node.Attributes.GetNamedItem("path").InnerText;
                                 String artist = node.Attributes.GetNamedItem("artist").InnerText;
                                 String title = node.Attributes.GetNamedItem("title").InnerText;
@@ -143,7 +144,12 @@ namespace SurfaceApplication3
                 }
             }
         }
-
+        public void addOneArtworkToCatalog()
+        {
+            catalogEntry newEntry = new catalogEntry(this);
+            EntryListBox.Items.Add(newEntry);
+            
+        }
         /// <summary>
         /// Open a new window for users to add new image to the collection
         /// </summary>
@@ -152,6 +158,8 @@ namespace SurfaceApplication3
         private void addImage_Click(object sender, RoutedEventArgs e)
         {
             AddImageWindow newWindow = new AddImageWindow();
+            
+            newWindow.big_window1.setCatalogNumber(EntryListBox.Items.Count);
             newWindow.big_window1.mainWindow = this;
             newWindow.big_window1.setImageProperty(false);
             MetaDataEntry newSmall = new MetaDataEntry();
@@ -167,6 +175,7 @@ namespace SurfaceApplication3
 
             newWindow.WindowState = System.Windows.WindowState.Normal;
             newWindow.ShowDialog();
+            
             //newWindow.big_window1.setMainWindow(this);
         }
 
