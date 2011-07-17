@@ -58,6 +58,7 @@ namespace LADSArtworkMode
         public string scatteruri;
         public DockedItemInfo info;
         public double aspectRatio;
+        public Boolean isVideo = false;
    
 
 
@@ -74,6 +75,7 @@ namespace LADSArtworkMode
         /// </summary>
         public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, String imageURIPathParam)
         {
+            
             scatteruri = imageURIPathParam;
             Console.WriteLine("Constructor 1");
             image = new Image();
@@ -232,6 +234,7 @@ namespace LADSArtworkMode
         //constructor for videos
         public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, string _targetVid, AssociatedDocListBoxItem _aldbi, LADSVideoBubble _video, VideoItem _vidctrl)
         {
+            isVideo = true;
             scatteruri = _targetVid;
             //_video
             vidBub = _video;
@@ -293,12 +296,13 @@ namespace LADSArtworkMode
             Console.WriteLine(pt.X + " " + pt.Y);
             this.Orientation = rnd.Next(-20, 20);
 
-            this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
+            //this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
             //Canvas.SetZIndex(this, 95);
             imageURIPath = _targetVid;
             MediaElement vid = vidBub.getVideo();
             vid.MediaOpened += new RoutedEventHandler(video_MediaOpened);
+            vid.Loaded += new RoutedEventHandler(video_MediaOpened);
             this.MinHeight = 100;
             //this.MinHeigh = 100;
             //this.MinWidth = 100 * vidBub.ActualWidth / vidBub.ActualHeight;
@@ -311,15 +315,18 @@ namespace LADSArtworkMode
 
         void DockableItem_Loaded(object sender, RoutedEventArgs e)
         {
-            //changeInitialSize();
+            changeInitialSize();
         }
 
         public void changeInitialSize()
         {
             aspectRatio = (double)this.ActualWidth / (double)this.ActualHeight;
             Console.WriteLine(aspectRatio + " = aspect ratio");
-            this.MinHeight = 80;
-            this.MinWidth = 80 * aspectRatio;
+            if (!isVideo)
+            {
+                this.MinHeight = 80;
+                this.MinWidth = 80 * aspectRatio;
+            }
             if (aspectRatio>1 && this.ActualHeight < 150)
             {
                 this.Height = 150;
@@ -347,13 +354,20 @@ namespace LADSArtworkMode
                 this.Width = e.PreviousSize.Width;
                 this.Height = e.PreviousSize.Height;
             }
-            //else if (helper.IsVideoFile(scatteruri))
-            //{
-            //    this.SizeChanged -= DockableItem_SizeChanged;
-            //    this.Width = e.NewSize.Width;
-            //    this.Height = e.NewSize.Width * aspectRatio + 25;
-            //    this.SizeChanged += DockableItem_SizeChanged;
-            //}
+            else if (isVideo)
+            {
+                
+                
+                //if (e.NewSize.Height != e.NewSize.Width / aspectRatio + 25.0)
+                //{
+                    vidBub.Resize(e.NewSize.Width, e.NewSize.Width / aspectRatio, false);
+                    //this.Width = e.NewSize.Width;
+                    //this.Height = e.NewSize.Width / aspectRatio;
+                    this.Height = vidBub.getVideo().Height + 50;
+                    this.Width = vidBub.getVideo().Width;
+                //}
+                
+            }
         }
 
         public void maintainAspectRatio(object sender, EventArgs e)
@@ -380,13 +394,15 @@ namespace LADSArtworkMode
             //vidBub.setPreferredSize(vidBub.getWidth(), newHeight);
             this.Height = vidBub.getHeight();
             this.Width = vidBub.getWidth();
+            aspectRatio = vidBub.getVideo().Width / vidBub.getVideo().Height;
+            this.SizeChanged += DockableItem_SizeChanged;
             //Console.Out.WriteLine("height"+vidBub.getHeight());
         }
 
         //scales video with pinch zoom
         public void ScaleVideo(object sender, EventArgs e)
         {
-            vidBub.Resize(this.ActualWidth, this.ActualHeight, false);
+            //vidBub.Resize(this.ActualWidth, this.ActualWidth / aspectRatio + 25, false);
         }
 
         public void stopVideo()
@@ -498,12 +514,14 @@ namespace LADSArtworkMode
             DockableItem item = sender as DockableItem;
          //   Console.WriteLine("AddToDock Called");
             Helpers helpers = new Helpers();
-            this.SizeChanged -= DockableItem_SizeChanged;
+            
             //if (isDocked) isDocked = false;
             if (this.Center.Y > (win.ActualHeight * .8) && !isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating)
             {
+
                 this.isAnimating = true;
                 this.IsHitTestVisible = false;
+                this.SizeChanged -= DockableItem_SizeChanged;
                 if (helpers.IsVideoFile(imageURIPath))
                 {
                     vidBub.pauseVideo();
