@@ -721,7 +721,10 @@ namespace GCNav
 
             curImageContainer.Height = _windowSize.Height / 3;
             curImageContainer.Width = _windowSize.Width / 4;
-
+            curImageCanvas.Width = _windowSize.Width / 4 - 10;
+            curImageCanvas.Height = _windowSize.Height / 3 - 10;
+            curImageCanvas1.Width = _windowSize.Width / 4 - 10;
+            curImageCanvas1.Height = _windowSize.Height / 3 - 10;
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 4;
             curInfoCol.Width = _windowSize.Width / 4;
@@ -949,16 +952,63 @@ namespace GCNav
             curImageCanvas.Children.Clear();
             Image _curImage = new Image();
             _curImage.Source = img.Source;
-            _curImage.Height = this.ActualHeight / 4;
-           // curImageCanvas.Height = _curImage.Height + 50;
-           // curImageCanvas.Width = _curImage.Width + 50;
-            curImageCanvas.Width = _windowSize.Width / 4;
             curImageCanvas.Children.Add(_curImage);
+            //_curImage.Height = this.ActualHeight / 4 - 50;
+            //curImageContainer.Height = 50;
+            curImageContainer.Height = _windowSize.Height / 3;
+            curImageContainer.Width = _windowSize.Width / 4;
+            //curImageCanvas.Height = _curImage.Height + 50;
+            //curImageCanvas.Width = _curImage.Width + 50;
+            curImageCanvas.Width = _windowSize.Width / 4-10;
+            curImageCanvas.Height = _windowSize.Height / 3 - 10;
+            curImageCanvas1.Width = _windowSize.Width / 4 - 10;
+            curImageCanvas1.Height = _windowSize.Height / 3 - 10;
+            
+            //Console.Out.WriteLine("IMAGE WIDTH" + _curImage.Source.Width);
+           // Console.Out.WriteLine("iamge height" + _curImage.Source.Height);
+            Double actualWidth = _curImage.Source.Width;
+            Double actualHeight = _curImage.Source.Height;
+            Double ratio = actualWidth / actualHeight;
+            Double canvasRatio = curImageCanvas.Width / curImageCanvas.Height;
+            ScaleTransform tran = new ScaleTransform();
+            //if (actualHeight > curImageCanvas.Height || actualWidth > curImageCanvas.Width)
+            //{
+                if (ratio > canvasRatio)
+                {
+                  //  Console.Out.WriteLine("called1");
+                    Double scale = (curImageCanvas.ActualWidth-30) / actualWidth;
+                    //  curImageCanvas.Height = curImageCanvas.Width / ratio;
+                    tran.ScaleX = scale;
+                    tran.ScaleY = scale;
+                    // _curImage.Height = _curImage.Width / ratio;
+                    //tran.ScaleX = 0.1;
+                    //tran.ScaleY = 0.1;
+                }
+                else
+                {
+                    //Console.Out.WriteLine("called2");
+                    Double scale = (curImageCanvas.ActualHeight-30) / actualHeight;
+                    // _curImage.Height = curImageCanvas.ActualHeight;
+                    // curImageCanvas.Width = curImageCanvas.Height * ratio;
+                    tran.ScaleX = scale;
+                    tran.ScaleY = scale;
+                }
+                _curImage.RenderTransform = tran;
+                curImageCanvas.UpdateLayout();
+               // Console.Out.WriteLine("imageWidth" + _curImage.ActualWidth);
+               // Console.Out.WriteLine("top" + (curImageCanvas.Height - _curImage.ActualHeight*tran.ScaleY) / 2);
+                Canvas.SetTop(_curImage, (curImageCanvas.Height - _curImage.ActualHeight * tran.ScaleY) / 2);
+                Canvas.SetLeft(_curImage, (curImageCanvas.Width - _curImage.ActualWidth * tran.ScaleX) / 2);
+            //}
+          //  Console.Out.WriteLine("canvas width" + curImageCanvas.ActualWidth);
+          //  Console.Out.WriteLine("canvas height" + curImageCanvas.ActualHeight);
+          //  Console.Out.WriteLine("image width" + _curImage.ActualWidth);
+          //  Console.Out.WriteLine("image height" + _curImage.ActualHeight);
             currentImage = img;
             _curImage.TouchDown += HandleImageTouched;
             _curImage.MouseDown += HandleImageTouched;
-            Canvas.SetTop(_curImage, 25);
-            Canvas.SetLeft(_curImage, 25);
+            //Canvas.SetTop(_curImage, 25);
+            //Canvas.SetLeft(_curImage, 25);
 
            
             curInfoCol.Width = _windowSize.Width / 4;
