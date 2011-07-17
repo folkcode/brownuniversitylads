@@ -483,6 +483,14 @@ namespace DeepZoom.Controls
             e.Handled = true;
         }
 
+        public void ScaleFromWheel(MouseWheelEventArgs e)
+        {
+            var relativeScale = Math.Pow(2, (double)e.Delta / Mouse.MouseWheelDeltaForOneLine);
+            var position = e.GetPosition(_itemsControl);
+
+            ScaleCanvas(relativeScale, position, false);
+        }
+
         /// <summary>
         /// zooming artwork via pinching gesture or mouse wheel
         /// </summary>
@@ -495,7 +503,7 @@ namespace DeepZoom.Controls
 
             ScaleCanvas(relativeScale, position, true);
 
-            e.Handled = true;
+            //e.Handled = true;
         }
 
         #endregion
@@ -534,7 +542,7 @@ namespace DeepZoom.Controls
             _spatialSource.InvalidateSource();
         }
 
-        private void ScaleCanvas(double relativeScale, Point center, bool animate = false)
+        public void ScaleCanvas(double relativeScale, Point center, bool animate = false)
         {
             var scale = _zoomableCanvas.Scale;
 
@@ -542,7 +550,8 @@ namespace DeepZoom.Controls
 
             // minimum size = 80% of size where the whole image is visible
             // maximum size = Max(120% of full resolution of the image, 120% of original scale)
-
+            double a = MinScaleRelativeToMinSize * _originalScale / scale;
+            double b = Math.Max(MaxScaleRelativeToMaxSize, MaxScaleRelativeToMaxSize * _originalScale) / scale;
             relativeScale = relativeScale.Clamp(
                 MinScaleRelativeToMinSize * _originalScale / scale,
                 Math.Max(MaxScaleRelativeToMaxSize, MaxScaleRelativeToMaxSize * _originalScale) / scale);
@@ -581,6 +590,7 @@ namespace DeepZoom.Controls
                     
                 }
             }
+            this.UpdateLayout();
         }
 
         private void ThrottleChangeLevel(int newLevel)

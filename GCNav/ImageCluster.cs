@@ -14,7 +14,7 @@ namespace GCNav
         private int bordMargin = 3;
         private int bordThickness = 4;
         public int size_padding_constant { get { return 2 * (bordMargin + bordPadding + bordThickness); } }
-
+        public int minYear = int.MaxValue;
         private int _numRows;
         private int curRow = 0;
         private List<ImageData> images;
@@ -69,6 +69,7 @@ namespace GCNav
 
         public void addImage(ImageData img)
         {
+            minYear = Math.Min(img.year, minYear);
             images.Add(img);
             //create border thing, add image
             Border bord = new Border();
