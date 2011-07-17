@@ -34,6 +34,7 @@ namespace SurfaceApplication3
 
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
+            this.setWindowSize();
            // big_window1.setUserControl(HotspotControl);
             mapWindow newMapWindow = new mapWindow();
             hotspotWindow newHotWindow = new hotspotWindow();
@@ -54,11 +55,12 @@ namespace SurfaceApplication3
             Double ratio = height / width;
             ScaleTransform tran = new ScaleTransform();
 
-            if (width < 1024 || height < 800)
+            if (width < 1024 || height < 850)
             {
                 if (width / 1024 > height / 800)
                 {
-                    this.Height = height - 100;
+                    
+                    this.Height = height - 60;
                     this.Width = this.Height / 800 * 1024;
                     // this.Width = this.Height/ratio;
                     tran.ScaleY = this.Height / 800;
@@ -67,7 +69,8 @@ namespace SurfaceApplication3
                 }
                 else
                 {
-                    this.Width = width - 100;
+                    this.Width = width - 60;
+                   
                     this.Height = this.Width / 1024 * 800;
                     tran.ScaleX = this.Width / 1024;
                     tran.ScaleY = this.Height / 800;
