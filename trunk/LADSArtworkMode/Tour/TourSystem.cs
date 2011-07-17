@@ -538,7 +538,7 @@ namespace LADSArtworkMode
             dockItem_TL.type = TourTLType.media;
 
             dockItem_TL.displayName = fileName;
-            dockItem_TL.file = fileName;
+            dockItem_TL.file = System.IO.Path.GetFileName(imageFilePath);
 
             itemToTLDict.Add(dockItem, dockItem_TL);
 

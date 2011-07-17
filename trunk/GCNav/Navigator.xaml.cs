@@ -499,11 +499,27 @@ namespace GCNav
                     rightPos = Canvas.GetLeft(cluster) + cluster.topRowWidth();
                 }
 
-                //foreach (ImageCluster c in 
+                Dictionary<int, ImageCluster> clusterdict = new Dictionary<int, ImageCluster>();
+                foreach (ImageCluster c in space.Values)
+                {
+                    clusterdict.Add(c.minYear, c);
+                }
+                List<int> keys = new List<int>();
+                keys.InsertRange(0,clusterdict.Keys);
+                keys.Sort();
+                double totalWidth = 0;
+                /*
+                for (int i = 0; i < keys.Count; i++)
+                {
 
+                    int currentYear = keys[i];
+                    int nextYear = keys[i + 1];
+                }
+*/
                 MainCanvas.Width = rightPos;
                 mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
             }
+
             //empty collection
             else
             {
