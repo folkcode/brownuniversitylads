@@ -75,7 +75,7 @@ namespace LADSArtworkMode
         
         public List<DockedItemInfo> SavedDockedItems = new List<DockedItemInfo>();
 
-        private TourSystem tourSystem; // tour authoring & playback system
+        public TourSystem tourSystem; // tour authoring & playback system
 
 
 

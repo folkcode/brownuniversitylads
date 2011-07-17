@@ -106,7 +106,7 @@ namespace LADSArtworkMode
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd.AddValueChanged(this, RemoveListener);
+            dpd.AddValueChanged(this, CenterChangedListener);
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
@@ -191,7 +191,7 @@ namespace LADSArtworkMode
             aldbi = _aldbi;
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd.AddValueChanged(this, RemoveListener);
+            dpd.AddValueChanged(this, CenterChangedListener);
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
@@ -272,7 +272,7 @@ namespace LADSArtworkMode
             aldbi = _aldbi;
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            dpd.AddValueChanged(this, RemoveListener);
+            dpd.AddValueChanged(this, CenterChangedListener);
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
@@ -297,8 +297,7 @@ namespace LADSArtworkMode
 
             //Canvas.SetZIndex(this, 95);
             imageURIPath = _targetVid;
-            MediaElement vid = new MediaElement();
-            vid = vidBub.getVideo();
+            MediaElement vid = vidBub.getVideo();
             vid.MediaOpened += new RoutedEventHandler(video_MediaOpened);
             this.MinHeight = 100;
             //this.MinHeigh = 100;
@@ -682,10 +681,10 @@ namespace LADSArtworkMode
             //flushItems();
         }
 
-        public void RemoveListener(object sender, EventArgs e)
+        public void CenterChangedListener(object sender, EventArgs e)
         {
             Helpers helpers = new Helpers();
-            if (!this.isDocked && this.Center.X > win.ActualWidth - 100 && !touchDown && this.Center.Y < win.ActualHeight * .7)
+            if (!this.isDocked && this.Center.X > win.ActualWidth - 100 && !touchDown && this.Center.Y < win.ActualHeight * .7 && !win.tourSystem.tourPlaybackOn && !win.tourSystem.tourAuthoringOn)
             {
                 PointAnimation anim1 = new PointAnimation();
                 anim1.Completed += anim3Completed;

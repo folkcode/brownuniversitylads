@@ -721,21 +721,6 @@ namespace GCNav
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
             Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
 
-            // Console.Out.WriteLine("filter width" + filterBoxContainer.Width);
-            // Console.Out.WriteLine("filter" + _windowSize.Width / 4);
-            // timelineFilt.Width = _windowSize.Width/2;
-           // double margin = (-_windowSize.Width / 4 + mapWidth / 2);
-            //  Console.Out.WriteLine("previous" + previous.Width);
-            //  Console.Out.WriteLine("current" + _windowSize.Width);
-            //MessageBox.Show("mapWidth"+mapWidth);
-          //  Console.Out.WriteLine("margin" + margin);
-            // filterBoxContainer.Margin = new Thickness(margin, 0, -margin, 0);
-            //filterBorder.Margin = new Thickness(margin, 0, -margin, 0);
-           // timelineFilt.Margin = new Thickness(margin, 0, -margin, 0);
-            //   filterBoxContainer.Width = 1600 / _windowSize.Width;
-            // Console.Out.WriteLine("scaleX"+tran.ScaleX);
-            //Canvas.SetLeft(filterBoxContainer, _windowSize.Width / 4);
-
 
         }
 
