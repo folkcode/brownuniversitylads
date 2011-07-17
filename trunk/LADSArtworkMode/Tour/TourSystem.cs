@@ -333,10 +333,17 @@ namespace LADSArtworkMode
         {
             if (isPath)
             {
+                canvas.DefaultDrawingAttributes.Width = 3;
+                canvas.DefaultDrawingAttributes.Height = 3;
+                canvas.DefaultDrawingAttributes.Color = System.Windows.Media.Color.FromRgb(0,0,0);
+                canvas.UsesTouchShape = true;
                 currentPathCanvas = canvas;
                 currentPathCanvasFile = file;
                 return;
             }
+            canvas.DefaultDrawingAttributes.Width = 50;
+            canvas.DefaultDrawingAttributes.Height = 50;
+            canvas.DefaultDrawingAttributes.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
             currentHighlightCanvas = canvas;
             currentHighlightCanvasFile = file;
         }
@@ -932,6 +939,84 @@ namespace LADSArtworkMode
             double scrubtime = authorTimerCountSpan.TotalSeconds;
             ZoomableCanvas zcan = (sender as MultiScaleImage).GetZoomableCanvas;
             Timeline tl;
+            if (msiToTLDict.TryGetValue(sender as MultiScaleImage, out tl))
+            {
+                BiDictionary<double, TourEvent> itemDict;
+                //Dictionary<TourEvent, double> itemDictRev;
+                IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
+                if (list.Count != 0)
+                {
+                    itemDict = list[0];
+                    //itemDictRev = tourDictRev[tl];
+                    double startEventTime = System.Double.MaxValue;
+                    bool needToAddEvent = true;
+                    foreach (TourEvent tevent in itemDict.firstValues)
+                    {
+                        // When the object gets moved, set the scrub to where the object first appears.
+                        //startEventTime = Math.Min(startEventTime, itemDictRev[tevent]);
+                        startEventTime = itemDict[tevent][0];
+                        // Dealing with each type of event
+                        // TODO: Fill in the switch which changes to each type of event
+
+                        if ((authorTimerCountSpan.TotalSeconds > startEventTime && authorTimerCountSpan.TotalSeconds <= (startEventTime + tevent.duration)))
+                        {
+                            needToAddEvent = false;
+                            scrubtime = startEventTime + tevent.duration;
+                            switch (tevent.type)
+                            {
+                                case TourEvent.Type.fadeInMSI:
+                                    break;
+                                case TourEvent.Type.fadeOutMSI:
+                                    break;
+                                case TourEvent.Type.zoomMSI:
+                                    ZoomMSIEvent zoomMediaEvent = (ZoomMSIEvent)tevent;
+                                    zoomMediaEvent.zoomToMSIPointX = zcan.Offset.X;
+                                    zoomMediaEvent.zoomToMSIPointY = zcan.Offset.Y;
+                                    zoomMediaEvent.absoluteScale = zcan.Scale;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            tourAuthoringUI.refreshUI();
+                        }
+                    }
+                    if (needToAddEvent)
+                    {
+                        ZoomMSIEvent toAdd = new ZoomMSIEvent(sender as MultiScaleImage, zcan.Scale, zcan.Offset.X, zcan.Offset.Y, 1);
+                        double time = authorTimerCountSpan.TotalSeconds - 1;
+                        if (time < 0) time = 0;
+                        itemDict.Add(time, toAdd);
+                        //itemDictRev.Add(toAdd, time);
+                    }
+                }
+            }
+            tourAuthoringUI.refreshUI();
+            this.StopAndReloadTourAuthoringUIFromDict(scrubtime);
+        }
+
+        public void msiMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!tourAuthoringOn)
+                return;
+
+            undoableActionPerformed();
+            if (!tourAuthoringOn)
+                return;
+
+            MultiScaleImage msi = sender as MultiScaleImage;
+            ZoomableCanvas zcan = (sender as MultiScaleImage).GetZoomableCanvas;
+            Point offset = zcan.Offset;
+            double scale = zcan.Scale;
+            zcan.ApplyAnimationClock(ZoomableCanvas.OffsetProperty, null);
+            zcan.ApplyAnimationClock(ZoomableCanvas.ScaleProperty, null);
+            zcan.Offset = new Point(offset.X, offset.Y);
+            zcan.Scale = scale;
+
+            (sender as MultiScaleImage).ScaleFromWheel(e);
+            double scrubtime = authorTimerCountSpan.TotalSeconds;
+            
+            Timeline tl;
+
             if (msiToTLDict.TryGetValue(sender as MultiScaleImage, out tl))
             {
                 BiDictionary<double, TourEvent> itemDict;
@@ -1902,7 +1987,7 @@ namespace LADSArtworkMode
                                     artModeWin.msi_tour.PreviewMouseMove += new MouseEventHandler(msiTouchMoved);
                                     artModeWin.msi_tour.PreviewTouchUp += new EventHandler<TouchEventArgs>(msiTouchUp);
                                     artModeWin.msi_tour.PreviewMouseUp += new MouseButtonEventHandler(msiTouchUp);
-                                    artModeWin.msi_tour.PreviewMouseWheel += new MouseWheelEventHandler(msiTouchUp);
+                                    artModeWin.msi_tour.PreviewMouseWheel += new MouseWheelEventHandler(msiMouseWheel);
                                     artModeWin.msi_tour.disableInertia();
                                     TourParallelTL msi_tour_TL = new TourParallelTL();
 
@@ -2218,7 +2303,7 @@ namespace LADSArtworkMode
                                     artModeWin.msi_tour.PreviewMouseMove += new MouseEventHandler(msiTouchMoved);
                                     artModeWin.msi_tour.PreviewTouchUp += new EventHandler<TouchEventArgs>(msiTouchUp);
                                     artModeWin.msi_tour.PreviewMouseUp += new MouseButtonEventHandler(msiTouchUp);
-                                    artModeWin.msi_tour.PreviewMouseWheel += new MouseWheelEventHandler(msiTouchUp);
+                                    artModeWin.msi_tour.PreviewMouseWheel += new MouseWheelEventHandler(msiMouseWheel);
                                     artModeWin.msi_tour.disableInertia();
                                     TourParallelTL msi_tour_TL = new TourParallelTL();
 

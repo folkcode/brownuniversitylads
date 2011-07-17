@@ -499,6 +499,8 @@ namespace GCNav
                     rightPos = Canvas.GetLeft(cluster) + cluster.topRowWidth();
                 }
 
+                //foreach (ImageCluster c in 
+
                 MainCanvas.Width = rightPos;
                 mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
             }
