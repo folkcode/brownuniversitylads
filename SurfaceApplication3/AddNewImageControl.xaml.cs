@@ -607,10 +607,12 @@ namespace SurfaceApplication3
                                         }
                                         String keyword = "";
                                         int metaDataCount = 0;
+                                        bool hasKeywords = false;
                                         foreach (XmlNode imgnode in node.ChildNodes)
                                         {
                                             if (imgnode.Name == "Keywords")
                                             {
+                                                hasKeywords = true;
                                                 foreach (XmlNode keywd in imgnode.ChildNodes)
                                                 {
                                                     if (keywd.Name == "Keyword")
@@ -645,9 +647,31 @@ namespace SurfaceApplication3
 
                                                 }
                                             }
+
                                             if (imgnode.Name == "Metadata")
                                             {
                                                 node.RemoveChild(imgnode);
+                                            }
+                                           
+
+
+                                        }
+                                        if (!hasKeywords)
+                                        {
+                                          //  Console.Out.WriteLine("no keywords");
+                                            XmlElement newKeywords = doc.CreateElement("Keywords");
+                                            node.AppendChild(newKeywords);
+                                            String[] keywords = tags.Text.Split(new Char[] { ',' });
+                                            foreach (String kword in keywords)
+                                            {
+                                                XmlElement value = doc.CreateElement("Keyword");
+                                                value.SetAttribute("Value", "" + kword);
+                                                newKeywords.AppendChild(value);
+                                                //XmlAttribute newAttr = doc.CreateAttribute("Keywords Value");
+                                                //keywd.Attributes.SetNamedItem(newAttr);
+                                                //imgnode.AppendChild()
+                                                //imgnode.SetAttribute("Keyword Value", kword);
+                                                //imgnode.AppendChild(elem);
                                             }
                                         }
                                         if (MetaDataList.Items.Count != 0)
