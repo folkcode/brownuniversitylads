@@ -60,22 +60,26 @@ namespace GCNav
                 {
                     Double canvasLeft = Canvas.GetLeft(ell);
                     Double canvasTop = Canvas.GetTop(ell);
+                    Point newPoint = e.MouseDevice.GetPosition(Location);
                     Double width = ell.Width;
                     Double height = ell.Height;
-                  //  Console.Out.WriteLine("canvasLeft"+canvasLeft);
-                  //  Console.Out.WriteLine("top" + canvasTop);
+                   
                     if (ell.Width != 26)
                     {
                         Point p = (sender as UIElement).TranslatePoint(e.GetPosition(sender as UIElement), Location);
-                    //    Console.Out.WriteLine("p.x" + p.X);
-                   //     Console.Out.WriteLine("p.y" + p.Y);
-                        if (p.X > canvasLeft && p.X < canvasLeft + width && p.Y > canvasTop && p.Y < canvasTop + Height)
+                        Console.Out.WriteLine("p.x" + p.X);
+                        Console.Out.WriteLine("p.y" + p.Y);
+                        Console.Out.WriteLine("canvasleft" + canvasLeft);
+                        Console.Out.WriteLine("top" + canvasTop+height);
+                        if (p.X > canvasLeft && p.X < canvasLeft + width && p.Y > canvasTop && p.Y < canvasTop + height)
                         {
                             foreach (SurfaceRadioButton rb in ellipses.Keys)
                             {
                                 if (ellipses[rb] == ell)
                                 {
                                     newButton_Click(rb);
+                              //      Console.Out.WriteLine("rb width" + ell.ActualWidth);
+                               //     Console.Out.WriteLine("rb height" + ell.ActualHeight);
                                 }
                             }
                            // Console.Out.WriteLine("buttonSelected");
@@ -529,7 +533,7 @@ namespace GCNav
                         
                         //    Console.Out.WriteLine("p.x" + p.X);
                         //     Console.Out.WriteLine("p.y" + p.Y);
-                        if (p.Position.X > canvasLeft && p.Position.X < canvasLeft + width && p.Position.Y > canvasTop && p.Position.Y < canvasTop + Height)
+                        if (p.Position.X > canvasLeft && p.Position.X < canvasLeft + width && p.Position.Y > canvasTop && p.Position.Y < canvasTop + height)
                         {
                             foreach (SurfaceRadioButton rb in ellipses.Keys)
                             {
