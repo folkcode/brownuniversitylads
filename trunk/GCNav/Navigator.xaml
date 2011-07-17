@@ -31,7 +31,7 @@
          
             <Border CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" Margin="5" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
               <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled">
-                <Grid Name="curInfoCol">
+                <Grid Name="curInfoCol" VerticalAlignment="Top">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />

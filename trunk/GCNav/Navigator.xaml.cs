@@ -1076,18 +1076,30 @@ namespace GCNav
             Console.Out.WriteLine("height" + curKeywords.ActualHeight);
             
             curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight;
-            if (curInfoCol.Height > _windowSize.Height / 3)
+            
+            if (curInfoCol.Height > _windowSize.Height / 3 - 50)
             {
+                curInfoContainer.Height = _windowSize.Height / 3 ;
+                infoScroll.Height = _windowSize.Height / 3 - 50;
                 //ColumnDefinition width1 = new ColumnDefinition();
                 //length = new GridLength(_windowSize.Width / 4 - 80);
                 //width.Width = length;
                 //curInfoCol.ColumnDefinitions.Add(width1);
                 //curInfoCol.Width = _windowSize.Width / 4 - 80;
                 title.MaxWidth = _windowSize.Width / 4 - 80;
+                title.UpdateLayout();
+                titleBack.Height = title.ActualHeight + 5;
                 curKeywords.MaxWidth = _windowSize.Width / 4 - 80;
+                curKeywords.UpdateLayout();
+                KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+                curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight + 
+                    date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
             }
             else
             {
+                Console.WriteLine("HEIGHT: " + _windowSize.Height);
+                curInfoContainer.Height = curInfoCol.Height + 50;
+                infoScroll.Height = curInfoCol.Height + 50;
                 title.MaxWidth = _windowSize.Width / 4 - 40;
                 curKeywords.MaxWidth = _windowSize.Width / 4 - 40;
             }
