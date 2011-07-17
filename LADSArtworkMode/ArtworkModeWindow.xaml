@@ -80,10 +80,12 @@
                     <!-- tour thumbnail MSI-->
 
                     <Rectangle Name="msi_thumb_rect"  Fill="Red" Opacity="0.5" ManipulationDelta="msi_thumb_rect_ManipulationDelta" Loaded="msi_thumb_rect_Loaded"/>
+                    
                     <!-- zoom navigation indicator -->
                 </Grid>
             </Grid>
             <DockPanel DockPanel.Dock="Right">
+                
                 <Canvas Name="tourSeekBar" Width="1536" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Hidden">
                     <!-- tour seek bar -->
                     <s:SurfaceButton Name="tourControlButton" Content="Play/Pause" Height="30" Width="110" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-200" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
@@ -98,9 +100,12 @@
                     <Rectangle Name="tourSeekBarMarker" Width="40" Height="25" Canvas.Top="-27" Fill="Yellow"></Rectangle>
                     <!-- this could perhaps be changed to widen to 40 px only when initially touched, similar to how Surface sliders and scroll bars behave -->
                 </Canvas>
+                
                 <Canvas Width="1536" MinHeight="5" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
+
                 </Canvas>
                 <s:SurfaceButton DockPanel.Dock="Top" Background="#4e765c" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Click="BottomButtonClick"></s:SurfaceButton>
+                <s:SurfaceListBoxItem Name="Text" Background="Transparent" Width="300" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Bar cannot be docked during a tour" Opacity="0" Foreground="Black"/>
                 <s:SurfaceListBox Name="Bar" DockPanel.Dock="Bottom" ScrollViewer.ScrollChanged="BottomBarScroll" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -365,7 +370,6 @@
         </DockPanel>
 
         <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="100"></s:ScatterView>
-
         <s:SurfaceButton Name="gloriousTestButton" Content="Reload Meta" Visibility="Hidden" FontSize="15" Width="110" Canvas.Left="600" Canvas.Top="25" Canvas.ZIndex="100" Click="testButton_Click"/>
         <s:SurfaceButton Name="switchToCatalogButton" Content="Catalog" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
         <!-- switch to artwork selection mode -->

@@ -1544,36 +1544,78 @@ namespace LADSArtworkMode
 
         public void BottomButtonClick(object sender, RoutedEventArgs e)
         {
-            if (bottomPanelVisible)
+            if (!tourSystem.TourPlaybackOn)
             {
-                DoubleAnimation da = new DoubleAnimation();
-                da.From = (this.Height) * .8;
-                //////
-                da.To = (this.Height) * .8 + Bar.ActualHeight;
-                //da.From = BottomPanel.ActualHeight * .5 + BottomPanel.;
-                //da.To
-                da.Duration = new Duration(TimeSpan.FromSeconds(.4));
-                BottomPanel.BeginAnimation(Canvas.TopProperty, da);
-                foreach (WorkspaceElement wke in DockedItems)
+                if (bottomPanelVisible)
                 {
-                    if (wke.isDocked) wke.item.IsEnabled = false;
+                    DoubleAnimation da = new DoubleAnimation();
+                    da.From = (this.Height) * .8;
+                    //////
+                    da.To = (this.Height) * .8 + Bar.ActualHeight;
+                    //da.From = BottomPanel.ActualHeight * .5 + BottomPanel.;
+                    //da.To
+                    da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                    BottomPanel.BeginAnimation(Canvas.TopProperty, da);
+                    foreach (WorkspaceElement wke in DockedItems)
+                    {
+                        if (wke.isDocked) wke.item.IsEnabled = false;
+                    }
                 }
+                else
+                {
+                    DoubleAnimation da = new DoubleAnimation();
+                    /////
+                    da.From = (this.Height) * .8 + Bar.ActualHeight;
+                    da.To = (this.Height) * .8;
+                    da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                    BottomPanel.BeginAnimation(Canvas.TopProperty, da);
+                    foreach (WorkspaceElement wke in DockedItems)
+                    {
+                        if (wke.isDocked) wke.item.IsEnabled = true;
+                    }
+                }
+                bottomPanelVisible = !bottomPanelVisible;
             }
             else
-            {
+            {//display text
                 DoubleAnimation da = new DoubleAnimation();
                 /////
-                da.From = (this.Height) * .8 + Bar.ActualHeight;
-                da.To = (this.Height) * .8;
-                da.Duration = new Duration(TimeSpan.FromSeconds(.4));
-                BottomPanel.BeginAnimation(Canvas.TopProperty, da);
-                foreach (WorkspaceElement wke in DockedItems)
-                {
-                    if (wke.isDocked) wke.item.IsEnabled = true;
-                }
+                da.From = 0;
+                da.To = 1;
+                da.Duration = new Duration(TimeSpan.FromSeconds(1.4));
+                da.AutoReverse = true;
+                Text.BeginAnimation(OpacityProperty, da);
+
+
+                //DoubleAnimation da2 = new DoubleAnimation();
+                ///////
+                //da2.From = 1;
+                //da2.To = 1;
+                //da2.Duration = new Duration(TimeSpan.FromSeconds(2));
+                //Text.BeginAnimation(OpacityProperty, da2);
+
+                //DoubleAnimation da3 = new DoubleAnimation();
+                ///////
+                //da3.From = 1;
+                //da3.To = 0;
+                //da3.Duration = new Duration(TimeSpan.FromSeconds(3));
+                //Text.BeginAnimation(OpacityProperty, da3);
+            }
+        }
+
+        public void ShowBottomPanel ()
+        {
+            DoubleAnimation da = new DoubleAnimation();
+            /////
+            da.From = (this.Height) * .8 + Bar.ActualHeight;
+            da.To = (this.Height) * .8;
+            da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+            BottomPanel.BeginAnimation(Canvas.TopProperty, da);
+            foreach (WorkspaceElement wke in DockedItems)
+            {
+                if (wke.isDocked) wke.item.IsEnabled = true;
             }
             bottomPanelVisible = !bottomPanelVisible;
-
         }
 
         private void Tours_MouseEnter(object sender, MouseEventArgs e)
