@@ -75,8 +75,13 @@ namespace LADSArtworkMode
         
         public List<DockedItemInfo> SavedDockedItems = new List<DockedItemInfo>();
 
-        public TourSystem tourSystem; // tour authoring & playback system
+        TourSystem tourSystem; // tour authoring & playback system
 
+
+        public bool isTourPlayingOrAuthoring()
+        {
+            return (tourSystem.tourAuthoringOn || tourSystem.tourPlaybackOn);
+        }
 
 
         public DeepZoom.Controls.MultiScaleImage MultiImage

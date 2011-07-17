@@ -684,7 +684,7 @@ namespace LADSArtworkMode
         public void CenterChangedListener(object sender, EventArgs e)
         {
             Helpers helpers = new Helpers();
-            if (!this.isDocked && this.Center.X > win.ActualWidth - 100 && !touchDown && this.Center.Y < win.ActualHeight * .7 && !win.tourSystem.tourPlaybackOn && !win.tourSystem.tourAuthoringOn)
+            if (!this.isDocked && this.Center.X > win.ActualWidth - 100 && !touchDown && this.Center.Y < win.ActualHeight * .7 && !win.isTourPlayingOrAuthoring())
             {
                 PointAnimation anim1 = new PointAnimation();
                 anim1.Completed += anim3Completed;
