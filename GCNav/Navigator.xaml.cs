@@ -957,6 +957,11 @@ namespace GCNav
             
             curInfoCol.Width = _windowSize.Width / 4;
             curInfoCol.Height = this.ActualHeight / 4;
+            ColumnDefinition width = new ColumnDefinition();
+            GridLength length = new GridLength(_windowSize.Width / 4-25);
+            width.Width = length;
+            curInfoCol.ColumnDefinitions.Add(width);
+
             title.Text = "";
             artist.Text = "";
             medium.Text = "";
@@ -964,17 +969,17 @@ namespace GCNav
             //title.UpdateLayout();
             //artist.UpdateLayout();
             //curInfo.Text = "";
-            title.MaxWidth = _windowSize.Width / 4 - 10;
-            curKeywords.MaxWidth = _windowSize.Width / 4 - 55;
+           // title.MaxWidth = _windowSize.Width / 4 - 10;
+           // curKeywords.MaxWidth = _windowSize.Width / 4 - 55;
             title.Text += "Title: " + img.title ;
             curInfoCol.UpdateLayout();
-            titleBack.Width = _windowSize.Width / 4 - 46;
+            titleBack.Width = _windowSize.Width / 4 -20;
             titleBack.Height = title.ActualHeight+5;
-            Double artistTop = title.ActualHeight +10;
+         //   Double artistTop = title.ActualHeight +10;
             Console.Out.WriteLine("title height" + title.ActualHeight);
-            Canvas.SetTop(artist, artistTop);
-            Canvas.SetTop(medium, artistTop + 25);
-            Canvas.SetTop(date, artistTop + 50);
+          //  Canvas.SetTop(artist, artistTop);
+          //  Canvas.SetTop(medium, artistTop + 25);
+          //  Canvas.SetTop(date, artistTop + 50);
             artist.Text += "Artist: " + img.artist;
             medium.Text += "Medium: " + img.medium;
             date.Text += "Year: " + img.year;
@@ -983,10 +988,13 @@ namespace GCNav
             artist.FontSize = 20 * _windowSize.Height / 1080.0;
             medium.FontSize = artist.FontSize;
             date.FontSize = artist.FontSize;
-
+            KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
+            curKeywords.FontSize = 18 *_windowSize.Height / 1080.0;
+            curInfoCol.UpdateLayout();
+            titleBack.Height = titleBack.ActualHeight + 10;
             
-            Canvas.SetTop(KeywordsTitle, artistTop + 75);
-            Canvas.SetTop(curKeywords, artistTop + 105);
+            //Canvas.SetTop(KeywordsTitle, artistTop + 75);
+            //Canvas.SetTop(curKeywords, artistTop + 105);
            
             //infoCanvas.Height = this.ActualHeight / 4;
            // Canvas.SetTop(curInfo, 35);
@@ -998,8 +1006,9 @@ namespace GCNav
             {
                 KeywordsTitle.Visibility = Visibility.Visible;
                 curKeywords.Visibility = Visibility.Visible;
-                Canvas.SetTop(KeywordBack, artistTop + 75);
+                //Canvas.SetTop(KeywordBack, artistTop + 75);
                 KeywordBack.Visibility = Visibility.Visible;
+                
             }
             else
             {
@@ -1008,7 +1017,7 @@ namespace GCNav
                 KeywordBack.Visibility = Visibility.Hidden;
             }
 
-            KeywordBack.Width = _windowSize.Width / 4 - 46;
+            KeywordBack.Width = _windowSize.Width / 4 -20;
           
             curKeywords.Text = "";
 
@@ -1027,11 +1036,32 @@ namespace GCNav
             
            // curKeywordsBack.Height = curKeywords.ActualHeight + 5;
             //Canvas.SetTop(curKeywordsBack, artistTop + 105);
-            if (artistTop + 105 + curKeywords.ActualHeight > curInfoCol.Height)
-            {
-                curInfoCol.Height = artistTop + 105 + curKeywords.ActualHeight;
-            }
-            KeywordBack.Height = KeywordsTitle.ActualHeight + curKeywords.ActualHeight + 15;
+            //if (artistTop + 105 + curKeywords.ActualHeight > curInfoCol.Height)
+            //{
+            //    curInfoCol.Height = artistTop + 105 + curKeywords.ActualHeight;
+            //    //if (infoScroll.Visibility == Visibility.Visible)
+            //    //{
+            //    //    Console.Out.WriteLine("max width" + title.MaxWidth);
+            //    //    title.MaxWidth -= 60;
+            //    //    title.FontSize -= 2;
+            //    //    Console.Out.WriteLine("max width" + title.MaxWidth);
+            //    //    curKeywords.MaxWidth -= 25;
+            //    //    curKeywords.FontSize -= 2;
+            //    //    curInfoCol.UpdateLayout();
+            //    //}
+              
+            //}
+          //  KeywordBack.Height = KeywordsTitle.ActualHeight + curKeywords.ActualHeight + 15;
+            RowDefinition height = new RowDefinition();
+            GridLength height1 = new GridLength(curKeywords.ActualHeight);
+            height.Height = height1;
+            curInfoCol.RowDefinitions.Add(height);
+
+            curKeywords.Height = curKeywords.ActualHeight;
+            Console.Out.WriteLine("height" + curKeywords.ActualHeight);
+            infoScroll.UpdateLayout();
+            Console.Out.WriteLine("height" + curKeywords.ActualHeight);
+            //curInfoCol.Height = title.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + curKeywords.ActualHeight +100;
         }
 
         /// <summary>
