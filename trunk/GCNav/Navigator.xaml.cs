@@ -956,9 +956,11 @@ namespace GCNav
             _curImage.MouseDown += HandleImageTouched;
             Canvas.SetTop(_curImage, 25);
             Canvas.SetLeft(_curImage, 25);
-            
+
+           
             curInfoCol.Width = _windowSize.Width / 4;
             curInfoCol.Height = this.ActualHeight / 4;
+            infoScroll.Height = curInfoCol.Height;
             ColumnDefinition width = new ColumnDefinition();
             GridLength length = new GridLength(_windowSize.Width / 4-25);
             width.Width = length;
