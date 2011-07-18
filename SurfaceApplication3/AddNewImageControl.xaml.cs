@@ -161,14 +161,32 @@ namespace SurfaceApplication3
                     Canvas.SetLeft(imageRec, 0);
                     //BitmapImage myBitmapImage = new BitmapImage();
                     System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
+                    
                     try
                     {
 
-                        /*myBitmapImage.BeginInit();
-                        myBitmapImage.UriSource = new Uri(@filePath[i]);
-                        myBitmapImage.EndInit();*/
-
+                        System.Drawing.Image img = System.Drawing.Image.FromFile(@filePath[i]);
                         
+                        img = img.GetThumbnailImage(128, 128, null, new IntPtr());
+                        String tempname = System.IO.Path.GetTempFileName();
+                        img.Save(tempname);
+                        img.Dispose();
+                    
+                        FileStream fstream = new FileStream(tempname, FileMode.Open);
+                        System.Drawing.Image dImage = System.Drawing.Image.FromStream(fstream);
+                        wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+                        fstream.Close();
+                        File.Delete(tempname);
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show("The image file is broken or not valid");
+                        return;
+                    }
+
+                    /*
+                    try
+                    {
                         FileStream fstream = new FileStream(@filePath[i], FileMode.Open);
                         System.Drawing.Image dImage = System.Drawing.Image.FromStream(fstream);
                         wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
@@ -178,7 +196,7 @@ namespace SurfaceApplication3
                     {
                         MessageBox.Show("The image file is broken or not valid");
                         return;
-                    }
+                    }*/
 
 
                     Utils.setAspectRatio(imageCanvas, imageRec, image1, wpfImage, 7);
@@ -246,6 +264,7 @@ namespace SurfaceApplication3
                 System.Drawing.Image img = System.Drawing.Image.FromFile(path);
                 img = img.GetThumbnailImage(128, 128, null, new IntPtr());
                 img.Save(newPath + "Thumbnail/" + filename);
+                img.Dispose();
                 Console.WriteLine(newPath + "Thumbnail/" + filename + " IMAGE!!");
             }
         }
@@ -712,8 +731,11 @@ namespace SurfaceApplication3
                                             File.Delete(path2);
                                             File.Delete(newPath2); //Going to delete the web image?
                                             // Copy the file.
-                                            File.Copy(path, path2);
-                                            File.Copy(path, newPath2);
+
+                                            System.Drawing.Image img = Helpers.getThumbnail(path,800);
+                                            img.Save(path2);
+                                            img.Save(newPath2);
+                                            img.Dispose();
 
                                         }
                                         catch (Exception ee)
@@ -857,17 +879,23 @@ namespace SurfaceApplication3
             String[] strings = Regex.Split(imagePath, imageName);
             String srcFolderPath = strings[0];
             String destFolderPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\DeepZoom";
+            
             ImageCreator ic = new ImageCreator();
 
             ic.TileFormat = ImageFormat.Jpg;
             ic.TileOverlap = 1;
             ic.TileSize = 256;
             ic.ImageQuality = 0.92;
+            ic.UseOptimizations = true;
             Directory.CreateDirectory(destFolderPath + "\\" + imageName);
 
             string target = destFolderPath + "\\" + imageName + "\\dz.xml";
 
             ic.Create(imagePath, target);
+            ic = null;
+            System.GC.Collect();
+            System.GC.Collect();
+            Thread.Sleep(0);
 
         }
 
