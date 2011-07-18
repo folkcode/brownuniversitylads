@@ -2526,6 +2526,8 @@ namespace LADSArtworkMode
             double left = currentScatter.Center.X - currentScatter.Width / 2.0;
             double delta = current.originalLoc - left;
             currentScatter.Center = new Point(currentScatter.Center.X + delta / 2.0, currentScatter.Center.Y);
+            if (!((currentScatter.Width - delta)<=0))
+
             currentScatter.Width = currentScatter.Width - delta;
             current.r.Width = currentScatter.Width; // can only scale widtd
 

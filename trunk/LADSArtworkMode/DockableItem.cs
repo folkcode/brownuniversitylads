@@ -320,6 +320,8 @@ namespace LADSArtworkMode
 
         public void changeInitialSize()
         {
+            if (win.isTourPlayingOrAuthoring())
+                return;
             aspectRatio = (double)this.ActualWidth / (double)this.ActualHeight;
             Console.WriteLine(aspectRatio + " = aspect ratio");
             if (!isVideo)
