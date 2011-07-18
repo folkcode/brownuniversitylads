@@ -13,6 +13,28 @@ namespace SurfaceApplication3
         {
         }
 
+        public static System.Drawing.Image getThumbnail(string filename, int maxDimension)
+        {
+            System.Drawing.Image fullImage = System.Drawing.Image.FromFile(filename);
+            fullImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+            fullImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+            double newWidth;
+            double newHeight;
+            if (fullImage.Height < fullImage.Width)
+            {
+                newWidth = maxDimension;
+                newHeight = (double)fullImage.Height * ((double)maxDimension / (double)fullImage.Width);
+            }
+            else
+            {
+                newHeight = maxDimension;
+                newWidth = (double)fullImage.Width * ((double)maxDimension / (double)fullImage.Height);
+            }
+            System.Drawing.Image toReturn = fullImage.GetThumbnailImage((int)newWidth, (int)newHeight, null, IntPtr.Zero);
+            fullImage.Dispose();
+            return toReturn;
+        }
+
         public bool IsFileLocked(FileInfo file)
         {
             FileStream stream = null;

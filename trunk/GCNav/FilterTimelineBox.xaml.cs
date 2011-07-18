@@ -192,7 +192,7 @@ namespace GCNav
         {
             DateTime currUtcTime = DateTime.UtcNow;
             TimeSpan span = currUtcTime.Subtract(_lastOpened);
-            if (span.Days > 0 || span.Hours > 0 || span.Minutes > 0 || span.Seconds > 0 || span.Milliseconds > 100)
+            if (span.Days > 0 || span.Hours > 0 || span.Minutes > 0 || span.Seconds > 0 || span.Milliseconds > 400)
             {
                 toggleFilterbox();
                 _lastOpened = currUtcTime;
