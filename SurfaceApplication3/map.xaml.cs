@@ -527,7 +527,7 @@ namespace SurfaceApplication3
         private void save_close_click(object sender, RoutedEventArgs e)
         {
             this.save();
-            newMapWindow.Visibility = Visibility.Collapsed;
+            newMapWindow.Close();
            // newMapWindow.mapControl.Visibility = Visibility.Hidden;
         }
         public void setParentWindow(mapWindow parent)
