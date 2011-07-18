@@ -140,8 +140,11 @@
                 
                 
             </Canvas>
-            <Label Content="Date:" Canvas.Bottom="70" Canvas.Left="80" Foreground="Black" FontSize="16"/>
-            <my:SurfaceTextBox x:Name="date" Canvas.Bottom="70" Canvas.Left="150" Width="150" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" />
+            <Label Name="dateLabel" Content="Date from:" Canvas.Bottom="70" Canvas.Left="30" Foreground="Black" FontSize="16"/>
+            <!--<Label Content="From:" Foreground="Black" FontSize="16" Canvas.Left="80" Canvas.Bottom="80" />-->
+            <my:SurfaceTextBox x:Name="date" Canvas.Bottom="70" Canvas.Left="120" Width="100" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" MaxLength="5" />
+            <Label Content="To:" Canvas.Bottom="70" Canvas.Left="230" Foreground="Black" />
+            <my:SurfaceTextBox x:Name="dateTo" Canvas.Bottom="70" Canvas.Left="260" Width="100" Foreground="Black" FontSize="16" BorderBrush="#227174" Background="Transparent" IsReadOnly="True" MaxLength="5" TextChanged="dateTo_TextChanged" />
             <Label Content="Country and city:" Canvas.Bottom="70" Canvas.Left="380" Foreground="Black" Background="Transparent"  FontSize="16"/>
             <my:SurfaceTextBox x:Name="city" Canvas.Bottom="70" Canvas.Left="550" Width="200" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="city_TextChanged" />
 

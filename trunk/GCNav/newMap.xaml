@@ -44,7 +44,7 @@
                 
             </Canvas>
            <!-- <Border VerticalAlignment="Bottom" Canvas.Left="98" BorderThickness="3" CornerRadius="10,10,10,10" Background="#FFA7C99F" Height="36" Width="403" > -->
-                <TextBlock x:Name="infoLabel" Canvas.Left="80" Width="400" Height="30" FontSize="18" IsHitTestVisible="False" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ><!--Will have a background for the text-->
+                <TextBlock x:Name="infoLabel" Canvas.Left="30" Width="520" Height="30" FontSize="18" IsHitTestVisible="False" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ><!--Will have a background for the text-->
                 <!--<TextBlock.Effect>
                     <DropShadowEffect ShadowDepth="10" Direction="315" Color="Black"  Opacity="1" BlurRadius="0.0" />
                 </TextBlock.Effect>-->
