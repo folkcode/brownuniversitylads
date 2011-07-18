@@ -477,6 +477,7 @@ namespace LADSArtworkMode
             movableScrub.Height = timelineAreaHeight;
             movableScrub.Width = 3;
             movableScrub.Fill = Brushes.Yellow;
+            movableScrub.Visibility = Visibility.Hidden;
 
             leftRightCanvas.Children.Add(movableScrub);
             Console.Out.WriteLine("number of chidren" + leftRightCanvas.Children.Count);
@@ -523,6 +524,7 @@ namespace LADSArtworkMode
             movableScrubHandleExt.Width = 3;
             movableScrubHandleExt.Height = 20;
             movableScrubHandleExt.Fill = Brushes.Yellow;
+           // movableScrubHandleExt.Visibility = Visibility.Hidden;
 
             canvasWrapper.Children.Add(movableScrubHandleExt);
             Canvas.SetLeft(movableScrubHandleExt, textWidth);
