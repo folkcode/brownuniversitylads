@@ -574,6 +574,22 @@ namespace SurfaceApplication3
 
                                     if (this.imageName == path)
                                     {
+                                        int yearInput = 0;
+                                        try
+                                        {
+                                            yearInput = Convert.ToInt32(year_tag.Text);
+                                        }
+                                        catch (Exception exc)
+                                        {
+                                            MessageBox.Show("The year must be a valid number.");
+                                            return;
+                                        }
+                                        if (yearInput < -9999 || yearInput > 9999)
+                                        {
+                                            MessageBox.Show("Year must be between -9999 and 9999.");
+                                            return;
+                                        }
+
                                         String title = node.Attributes.GetNamedItem("title").InnerText;
                                         String artist = node.Attributes.GetNamedItem("artist").InnerText;
                                         String medium = node.Attributes.GetNamedItem("medium").InnerText;
@@ -791,6 +807,21 @@ namespace SurfaceApplication3
                                 }
                                 if (!imageNameExist)
                                 {
+                                    int yearInput = 0;
+                                    try
+                                    {
+                                        yearInput = Convert.ToInt32(year_tag.Text);
+                                    }
+                                    catch (Exception exc)
+                                    {
+                                        MessageBox.Show("The year must be a valid number.");
+                                        return;
+                                    }
+                                    if (yearInput < -9999 || yearInput > 9999)
+                                    {
+                                        MessageBox.Show("Year must be between -9999 and 9999.");
+                                        return;
+                                    }
                                     XmlElement newEntry = doc.CreateElement("Image");
                                     docNode.AppendChild(newEntry);
                                     newEntry.SetAttribute("path", "" + imageName);
@@ -901,7 +932,7 @@ namespace SurfaceApplication3
                                     // Create the file and clean up handles.
                                     //using (FileStream fs = File.Create(path)) 
                                     if (path == path2) {
-                                        MessageBox.Show("The image is already existed");
+                                        MessageBox.Show("The image already exists");
                                         return;
                                     }
                                     else
@@ -1010,6 +1041,7 @@ namespace SurfaceApplication3
                 this.copyFolder(sourcePath, targetPath);
              */
             }
+
 
             doc.Save(dataDir + "NewCollection.xml");
         }
@@ -1172,7 +1204,7 @@ namespace SurfaceApplication3
         /// </summary>
         private void year_tag_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int cursorPosition = year_tag.CaretIndex;
+            /*int cursorPosition = year_tag.CaretIndex;
             bool changed = true;
             if (previousYear == 2011)
             {
@@ -1233,7 +1265,7 @@ namespace SurfaceApplication3
                 year_tag.CaretIndex = cursorPosition;
                 previousCursor = year_tag.CaretIndex;
                 previousYear = int.Parse(s);
-            }
+            }*/
             
         }
 
