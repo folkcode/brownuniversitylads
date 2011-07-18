@@ -29,14 +29,11 @@ namespace LADSArtworkMode
         public bool tourPlaybackOn;
         public bool tourAuthoringOn;
         private bool drawingON;
-
-        //public Dictionary<Timeline, Dictionary<double, TourEvent>> tourDict;
         public BiDictionary<Timeline, BiDictionary<double, TourEvent>> tourBiDictionary;
 
         public Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>> undoStack;
         public Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>> redoStack;
 
-        //public Dictionary<Timeline, Dictionary<TourEvent, double>> tourDictRev;
         private Dictionary<DockableItem, Timeline> itemToTLDict;
         private Dictionary<MultiScaleImage, Timeline> msiToTLDict;
 
@@ -116,18 +113,6 @@ namespace LADSArtworkMode
             double msi_thumb_rect_centerY_dist = msi_thumb_rect_centerY - msi_thumb_centerY + msi_thumb_zc.Offset.Y;
 
             artModeWin.msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
-
-            /* HOTSPOTS - disabled during tour playback */
-            /*double HotspotOverlay_centerX = (artModeWin.msi_tour.GetZoomableCanvas.Scale * artModeWin.msi_tour.GetImageActualWidth * 0.5) - artModeWin.msi_tour.GetZoomableCanvas.Offset.X;
-            double HotspotOverlay_centerY = (artModeWin.msi_tour.GetZoomableCanvas.Scale * artModeWin.msi_tour.GetImageActualHeight * 0.5) - artModeWin.msi_tour.GetZoomableCanvas.Offset.Y;
-
-            double msi_clip_centerX = artModeWin.msi_tour.GetZoomableCanvas.ActualWidth * 0.5;
-            double msi_clip_centerY = artModeWin.msi_tour.GetZoomableCanvas.ActualHeight * 0.5;
-
-            double HotspotOverlay_centerX_dist = HotspotOverlay_centerX - msi_clip_centerX;
-            double HotspotOverlay_centerY_dist = HotspotOverlay_centerY - msi_clip_centerY;
-
-            artModeWin.m_hotspotCollection.updateHotspotLocations(artModeWin.HotspotOverlay, artModeWin.MSIScatterView, artModeWin.msi_tour);*/
         }
 
         /// <summary>
@@ -156,18 +141,6 @@ namespace LADSArtworkMode
             double msi_thumb_rect_centerY_dist = msi_thumb_rect_centerY - msi_thumb_centerY + msi_thumb_zc.Offset.Y;
 
             artModeWin.msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
-
-            /* HOTSPOTS - disabled during tour playback */
-            /*double HotspotOverlay_centerX = (artModeWin.msi_tour.GetZoomableCanvas.Scale * artModeWin.msi_tour.GetImageActualWidth * 0.5) - artModeWin.msi_tour.GetZoomableCanvas.Offset.X;
-            double HotspotOverlay_centerY = (artModeWin.msi_tour.GetZoomableCanvas.Scale * artModeWin.msi_tour.GetImageActualHeight * 0.5) - artModeWin.msi_tour.GetZoomableCanvas.Offset.Y;
-
-            double msi_clip_centerX = artModeWin.msi_tour.GetZoomableCanvas.ActualWidth * 0.5;
-            double msi_clip_centerY = artModeWin.msi_tour.GetZoomableCanvas.ActualHeight * 0.5;
-
-            double HotspotOverlay_centerX_dist = HotspotOverlay_centerX - msi_clip_centerX;
-            double HotspotOverlay_centerY_dist = HotspotOverlay_centerY - msi_clip_centerY;
-
-            artModeWin.m_hotspotCollection.updateHotspotLocations(artModeWin.HotspotOverlay, artModeWin.MSIScatterView, artModeWin.msi_tour);*/
         }
 
         #endregion
@@ -182,23 +155,6 @@ namespace LADSArtworkMode
                 MakeNewPathCanvas();
             }
         }
-        /*
-        public void drawVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue == false)
-            {
-                (sender as SurfaceInkCanvas).IsHitTestVisible = false;
-            }
-            else
-            {
-                if ((sender as SurfaceInkCanvas).Opacity == 0)
-                {
-
-                    (sender as SurfaceInkCanvas).IsHitTestVisible = false;
-                }
-                else (sender as SurfaceInkCanvas).IsHitTestVisible = true;
-            }
-        }*/
 
         public void drawHighlight_Click(object sender, RoutedEventArgs e)
         {
@@ -220,7 +176,6 @@ namespace LADSArtworkMode
         public void MakeNewHighlightCanvas()
         {
             currentHighlightCanvas = new SurfaceInkCanvas();
-            //currentHighlightCanvas.IsVisibleChanged += new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
             inkCanvases.Add(currentHighlightCanvas);
             currentHighlightCanvas.Width = 1920;
             currentHighlightCanvas.Height = 1080;
@@ -235,9 +190,6 @@ namespace LADSArtworkMode
             fadeIn.type = TourEvent.Type.fadeInHighlight;
             TourEvent fadeOut = new FadeOutHighlightEvent(currentHighlightCanvas, 1, 0.7);
             fadeOut.type = TourEvent.Type.fadeOutHighlight;
-
-            //TourEvent startOut = new FadeOutHighlightEvent(currentHighlightCanvas, 1, 0.7);
-            //startOut.type = TourEvent.Type.fadeOutHighlight;
 
             TourParallelTL tourtl = new TourParallelTL();
             tourtl.type = TourTLType.highlight;
@@ -254,23 +206,6 @@ namespace LADSArtworkMode
             tlbidict.Add(start - 1, fadeIn);
             tlbidict.Add(start + 1, fadeOut);
             tourBiDictionary.Add(tourtl, tlbidict);
-            /*
-            Dictionary<double, TourEvent> tldict = new Dictionary<double, TourEvent>();
-            double start = authorTimerCountSpan.TotalSeconds;
-            if (start == 0) start = 1;
-            tldict.Add(start - 1, fadeIn);
-            tldict.Add(start + 1, fadeOut);
-            //tldict.Add(-2, startOut);
-            tourDict.Add(tourtl, tldict);
-
-            Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
-            tldictrev.Add(fadeIn, start - 1);
-            tldictrev.Add(fadeOut, start + 1);
-            //tldictrev.Add(startOut,-2);
-            
-            tourDictRev.Add(tourtl, tldictrev);*/
-            //tourAuthoringUI.addTimelineAndEventPostInit(tourtl, tldict, "Highlight", fadeIn, authorTimerCountSpan.TotalSeconds - 1, 1);
-            //tourAuthoringUI.insertTourEvent(fadeOut, tourtl, authorTimerCountSpan.TotalSeconds);
             if (!tourAuthoringOn)
                 currentHighlightCanvas.IsHitTestVisible = false;
             tourAuthoringUI.refreshUI();
@@ -281,7 +216,6 @@ namespace LADSArtworkMode
         {
             currentPathCanvas = new SurfaceInkCanvas();
             currentPathCanvas.DefaultDrawingAttributes.FitToCurve = true;
-            //currentPathCanvas.IsVisibleChanged += new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
             inkCanvases.Add(currentPathCanvas);
             currentPathCanvas.Width = 1920;
             currentPathCanvas.Height = 1080;
@@ -294,16 +228,12 @@ namespace LADSArtworkMode
             TourEvent fadeOut = new FadeOutPathEvent(currentPathCanvas, 1);
             fadeOut.type = TourEvent.Type.fadeOutPath;
 
-            //TourEvent startOut = new FadeOutPathEvent(currentPathCanvas, 1);
-            //startOut.type = TourEvent.Type.fadeOutPath;
             TourParallelTL tourtl = new TourParallelTL();
             tourtl.type = TourTLType.path;
             tourtl.inkCanvas = currentPathCanvas;
             tourtl.displayName = "Drawing";
             tourtl.file = getNextFile("Path");
             currentPathCanvasFile = tourtl.file;
-            //Dictionary<double, TourEvent> tldict = new Dictionary<double, TourEvent>();
-            //double start = authorTimerCountSpan.TotalSeconds;
             BiDictionary<double, TourEvent> tlbidict = new BiDictionary<double, TourEvent>();
             double start = authorTimerCountSpan.TotalSeconds;
             if (start < 1) start = 1;
@@ -311,19 +241,6 @@ namespace LADSArtworkMode
             tlbidict.Add(start - 1, fadeIn);
             tlbidict.Add(start + 1, fadeOut);
             tourBiDictionary.Add(tourtl, tlbidict);
-
-            /*
-            if (start == 0) start = 1;
-            tldict.Add(start - 1, fadeIn);
-            tldict.Add(start + 1, fadeOut);
-            tourDict.Add(tourtl, tldict);
-            Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
-            tldictrev.Add(fadeIn, start - 1);
-            tldictrev.Add(fadeOut, start + 1);
-            tourDictRev.Add(tourtl, tldictrev);*/
-            //tourAuthoringUI.addTimelineAndEventPostInit(tourtl, tldict, "Path", fadeIn, authorTimerCountSpan.TotalSeconds - 1, 1);
-            //tourAuthoringUI.insertTourEvent(fadeOut, tourtl, authorTimerCountSpan.TotalSeconds);
-            //StopAndReloadTourAuthoringUIFromDict(authorTimerCountSpan.TotalSeconds);
             if (!tourAuthoringOn)
                 currentPathCanvas.IsHitTestVisible = false;
             tourAuthoringUI.refreshUI();
@@ -493,7 +410,6 @@ namespace LADSArtworkMode
             //tourAudio_TL.be
 
             BiDictionary<double, TourEvent> tourAudio_TL_dict = new BiDictionary<double, TourEvent>(); // dummy TL_dict -- tourAudio_timeline obviously doesn't store any TourEvents
-            //tourDict.Add(tourAudio_TL, tourAudio_TL_dict);
             tourBiDictionary.Add(tourAudio_TL, tourAudio_TL_dict);
             tourAudio_element = new MediaElement();
             tourAudio_element.Volume = 0.99;
@@ -507,8 +423,6 @@ namespace LADSArtworkMode
             // took me quite a while to figure out that WPF really can't determine the duration of an MP3 until it's actually loaded (i.e. playing), and then it took me a little longer to finally find and accept this open-source library...argh
             TagLib.File audio_file_tags = TagLib.File.Create(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\Audio\\" + audio_file);
             tourAudio_TL.Duration = audio_file_tags.Properties.Duration;
-            //tourAudio_TL.Duration = TimeSpan.FromSeconds(5.0);
-            //tourAudio_TL.BeginTime = TimeSpan.FromSeconds(2.0);
             if (tourStoryboard.totalDuration < (tourAudio_TL.Duration.TimeSpan.TotalSeconds + 1))
                 resetTourLength(tourAudio_TL.Duration.TimeSpan.TotalSeconds + 1);
             tourAuthoringUI.refreshUI();
@@ -523,7 +437,6 @@ namespace LADSArtworkMode
             dockItem.PreviewMouseWheel += new MouseWheelEventHandler(mediaMouseWheel);
             dockItem.removeDockability();
             dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchDown);
-            //dockItem.MouseLeave += new MouseEventHandler(mediaTouchUp);
             dockItem.PreviewTouchDown += new EventHandler<TouchEventArgs>(mediaTouchDown);
             dockItem.PreviewMouseDown += new MouseButtonEventHandler(mediaTouchDown);
             dockItem.PreviewTouchMove += new EventHandler<TouchEventArgs>(mediaTouchMoved);
@@ -543,12 +456,8 @@ namespace LADSArtworkMode
             itemToTLDict.Add(dockItem, dockItem_TL);
 
             BiDictionary<double, TourEvent> dockItem_TL_dict = new BiDictionary<double, TourEvent>();
-            //BiDictionary<TourEvent, double> dockItem_TL_dict_rev = new Dictionary<TourEvent, double>();
 
             tourBiDictionary.Add(dockItem_TL, dockItem_TL_dict);
-            //tourDict.Add(dockItem_TL, dockItem_TL_dict);
-            //tourDictRev.Add(dockItem_TL, dockItem_TL_dict_rev);
-
 
             // Add fade in
             double toScreenPointX = 500;
@@ -563,7 +472,6 @@ namespace LADSArtworkMode
             if (authorTimerCountSpan.TotalSeconds == 0) FadeInbeginTime += 1;
             authorTimerCountSpan = TimeSpan.FromSeconds(FadeInbeginTime+1);
             dockItem_TL_dict.Add(FadeInbeginTime, fadeInMediaEvent);
-            //dockItem_TL_dict_rev.Add(fadeInMediaEvent, FadeInbeginTime);
 
             // Add fade out
             double FadeOutduration = 1.0;
@@ -572,7 +480,6 @@ namespace LADSArtworkMode
 
             double FadeOutbeginTime = FadeInbeginTime + 2;
             dockItem_TL_dict.Add(FadeOutbeginTime, fadeOutMediaEvent);
-            //dockItem_TL_dict_rev.Add(fadeOutMediaEvent, FadeOutbeginTime);
 
             TourAuthoringUI.timelineInfo tli = tourAuthoringUI.addTimeline(dockItem_TL, dockItem_TL_dict, fileName, tourAuthoringUI.getNextPos());
             tourAuthoringUI.addTourEvent(tli, fadeInMediaEvent, tli.lengthSV, FadeInbeginTime, FadeInduration);
@@ -645,18 +552,13 @@ namespace LADSArtworkMode
                 artModeWin.ImageArea.RenderTransform = null;
                 artModeWin.ArtModeLayout();
 
-                //artModeWin.msi_ViewboxUpdate(); // force msi viewbox to refresh itself
-
                 // swap tour control buttons with artwork inter-mode navigation ones
                 artModeWin.toggleLeftSide();
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Visible;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
-                //artModeWin.activateKW.Visibility = Visibility.Visible;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Visible;
                 artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
-                //artModeWin.tourResumeButton.Visibility = Visibility.Collapsed;
-                //artModeWin.tourPauseButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourStopButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
@@ -706,13 +608,11 @@ namespace LADSArtworkMode
                 artModeWin.msi.Visibility = Visibility.Visible;
                 artModeWin.msi_thumb.Visibility = Visibility.Visible;
 
-                //artModeWin.msi_ViewboxUpdate(); // force msi viewbox to refresh itself
                 tourAuthoringUI.removeAuthTools();
 
                 // swap tour control buttons with artwork inter-mode navigation ones
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Visible;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
-                //artModeWin.activateKW.Visibility = Visibility.Visible;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Visible;
                 artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
@@ -942,20 +842,15 @@ namespace LADSArtworkMode
             if (msiToTLDict.TryGetValue(sender as MultiScaleImage, out tl))
             {
                 BiDictionary<double, TourEvent> itemDict;
-                //Dictionary<TourEvent, double> itemDictRev;
                 IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
                 if (list.Count != 0)
                 {
                     itemDict = list[0];
-                    //itemDictRev = tourDictRev[tl];
                     double startEventTime = System.Double.MaxValue;
                     bool needToAddEvent = true;
                     foreach (TourEvent tevent in itemDict.firstValues)
                     {
-                        // When the object gets moved, set the scrub to where the object first appears.
-                        //startEventTime = Math.Min(startEventTime, itemDictRev[tevent]);
                         startEventTime = itemDict[tevent][0];
-                        // Dealing with each type of event
                         // TODO: Fill in the switch which changes to each type of event
 
                         if ((authorTimerCountSpan.TotalSeconds > startEventTime && authorTimerCountSpan.TotalSeconds <= (startEventTime + tevent.duration)))
@@ -986,7 +881,6 @@ namespace LADSArtworkMode
                         double time = authorTimerCountSpan.TotalSeconds - 1;
                         if (time < 0) time = 0;
                         itemDict.Add(time, toAdd);
-                        //itemDictRev.Add(toAdd, time);
                     }
                 }
             }
@@ -1020,18 +914,15 @@ namespace LADSArtworkMode
             if (msiToTLDict.TryGetValue(sender as MultiScaleImage, out tl))
             {
                 BiDictionary<double, TourEvent> itemDict;
-                //Dictionary<TourEvent, double> itemDictRev;
                 IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
                 if (list.Count != 0)
                 {
                     itemDict = list[0];
-                    //itemDictRev = tourDictRev[tl];
                     double startEventTime = System.Double.MaxValue;
                     bool needToAddEvent = true;
                     foreach (TourEvent tevent in itemDict.firstValues)
                     {
                         // When the object gets moved, set the scrub to where the object first appears.
-                        //startEventTime = Math.Min(startEventTime, itemDictRev[tevent]);
                         startEventTime = itemDict[tevent][0];
                         // Dealing with each type of event
                         // TODO: Fill in the switch which changes to each type of event
@@ -1064,7 +955,6 @@ namespace LADSArtworkMode
                         double time = authorTimerCountSpan.TotalSeconds - 1;
                         if (time < 0) time = 0;
                         itemDict.Add(time, toAdd);
-                        //itemDictRev.Add(toAdd, time);
                     }
                 }
             }
@@ -1121,18 +1011,15 @@ namespace LADSArtworkMode
             if (itemToTLDict.TryGetValue(dockItem, out tl))
             {
                 BiDictionary<double, TourEvent> itemDict;
-                //Dictionary<TourEvent, double> itemDictRev;
                 IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
                 if (list.Count != 0)
                 {
                     itemDict = list[0];
-                    //itemDictRev = tourDictRev[tl];
                     double startEventTime = System.Double.MaxValue;
                     bool needToAddEvent = true;
                     foreach (TourEvent tevent in itemDict.firstValues)
                     {
                         startEventTime = itemDict[tevent][0];
-                        //if (startEventTime < 0) startEventTime = 0;
                         if (tevent.type == TourEvent.Type.zoomMedia)
                         {
                             ZoomMediaEvent ze = (ZoomMediaEvent)tevent;
@@ -1166,13 +1053,6 @@ namespace LADSArtworkMode
                     }
                     if (needToAddEvent)
                     {
-                        /*double time = authorTimerCountSpan.TotalSeconds - 1;
-                        if (time < 0) time = 0;
-                        if (authorTimerCountSpan.TotalSeconds < 1)
-                        {
-                            time = 0;
-                            //time = authorTimerCountSpan.TotalSeconds;
-                        }*/
                         double time = authorTimerCountSpan.TotalSeconds - 1;
                         if (time < 0)
                         {
@@ -1180,7 +1060,6 @@ namespace LADSArtworkMode
                         }
                         ZoomMediaEvent toAdd = new ZoomMediaEvent(dockItem, dockItem.image.ActualWidth / dockItem.image.Source.Width, dockItem.ActualCenter.X, dockItem.ActualCenter.Y, 1);
                         itemDict.Add(time, toAdd);
-                        //itemDictRev.Add(toAdd, time);
                     }
                 }
             }
@@ -1204,23 +1083,19 @@ namespace LADSArtworkMode
 
             undoableActionPerformed();
             double scrubtime = authorTimerCountSpan.TotalSeconds;
-            //DockableItem dockItem = sender as DockableItem;
             Timeline tl;
             if (itemToTLDict.TryGetValue(dockItem, out tl))
             {
                 BiDictionary<double, TourEvent> itemDict;
-                //Dictionary<TourEvent, double> itemDictRev;
                 IList<BiDictionary<double, TourEvent>> list = tourBiDictionary[tl];
                 if (list.Count != 0)
                 {
                     itemDict = list[0];
-                    //itemDictRev = tourDictRev[tl];
                     double startEventTime = System.Double.MaxValue;
                     bool needToAddEvent = true;
                     foreach (TourEvent tevent in itemDict.firstValues)
                     {
                         startEventTime = itemDict[tevent][0];
-                        //if (startEventTime < 0) startEventTime = 0;
                         if (tevent.type == TourEvent.Type.zoomMedia)
                         {
                             ZoomMediaEvent ze = (ZoomMediaEvent)tevent;
@@ -1254,13 +1129,6 @@ namespace LADSArtworkMode
                     }
                     if (needToAddEvent)
                     {
-                        /*double time = authorTimerCountSpan.TotalSeconds - 1;
-                        if (time < 0) time = 0;
-                        if (authorTimerCountSpan.TotalSeconds < 1)
-                        {
-                            time = 0;
-                            //time = authorTimerCountSpan.TotalSeconds;
-                        }*/
                         double time = authorTimerCountSpan.TotalSeconds - 1;
                         if (time < 0)
                         {
@@ -1268,7 +1136,6 @@ namespace LADSArtworkMode
                         }
                         ZoomMediaEvent toAdd = new ZoomMediaEvent(dockItem, newWidth / dockItem.image.Source.Width, dockItem.ActualCenter.X, dockItem.ActualCenter.Y, 1);
                         itemDict.Add(time, toAdd);
-                        //itemDictRev.Add(toAdd, time);
                     }
                 }
             }
@@ -1285,8 +1152,6 @@ namespace LADSArtworkMode
         {
             try
             {
-                //Console.WriteLine("Current width" + artModeWin.ImageArea.ActualWidth);
-                //Console.WriteLine("Current height" + artModeWin.ImageArea.ActualHeight);
                 // update seek bar time values
                 if ((TimeSpan)tourStoryboard.GetCurrentTime(artModeWin) != null)
                 {
@@ -1349,12 +1214,9 @@ namespace LADSArtworkMode
                 artModeWin.toggleLeftSide();
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Visible;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
-                //artModeWin.activateKW.Visibility = Visibility.Visible;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Visible;
                 artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
-                //artModeWin.tourResumeButton.Visibility = Visibility.Collapsed;
-                //artModeWin.tourPauseButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourStopButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
@@ -1386,10 +1248,7 @@ namespace LADSArtworkMode
                 if (tourBiDictionary.TryGetValue(tl, out itemDictList))
                 {
                     itemDict = itemDictList[0];
-                    //itemDictRev = tourDictRev[tl];
                     itemDict.Add(start, toAdd);
-                    //itemDictRev.Add(toAdd, start);
-
                 }
             }
         }
@@ -1410,8 +1269,6 @@ namespace LADSArtworkMode
 
                     // used to use MSI points, but now using screen points -- see artwork mode documentation in Google Doc
                     Point mediaPoint = new Point();
-                    //mediaPoint.X = (artModeWin.msi_tour.GetZoomableCanvas.Scale * initMediaEvent.initMediaToMSIPointX) - artModeWin.msi_tour.GetZoomableCanvas.Offset.X;
-                    //mediaPoint.Y = (artModeWin.msi_tour.GetZoomableCanvas.Scale * initMediaEvent.initMediaToMSIPointY) - artModeWin.msi_tour.GetZoomableCanvas.Offset.Y;
                     mediaPoint.X = fadeInMediaEvent.fadeInMediaToScreenPointX;
                     mediaPoint.Y = fadeInMediaEvent.fadeInMediaToScreenPointY;
 
@@ -1503,8 +1360,6 @@ namespace LADSArtworkMode
 
                     // used to use MSI points, but now using screen points -- see artwork mode documentation in Google Doc
                     Point zoomEndPoint = new Point();
-                    //zoomEndPoint.X = (artModeWin.msi_tour.GetZoomableCanvas.Scale * zoomMediaEvent.zoomMediaToMSIPointX) - artModeWin.msi_tour.GetZoomableCanvas.Offset.X;
-                    //zoomEndPoint.Y = (artModeWin.msi_tour.GetZoomableCanvas.Scale * zoomMediaEvent.zoomMediaToMSIPointY) - artModeWin.msi_tour.GetZoomableCanvas.Offset.Y;
                     zoomEndPoint.X = zoomMediaEvent.zoomMediaToScreenPointX;
                     zoomEndPoint.Y = zoomMediaEvent.zoomMediaToScreenPointY;
 
@@ -1514,45 +1369,7 @@ namespace LADSArtworkMode
                     zoomMediaPan.BeginTime = TimeSpan.FromSeconds(timerCount);
                     tourParallelTL.Children.Add(zoomMediaPan);
 
-                    break;/*
-                case TourEvent.Type.fadeInMSI:
-                    FadeInMSIEvent fadeInMSIEvent = (FadeInMSIEvent)tourEvent;
-
-                    ObjectAnimationUsingKeyFrames fadeInMSIAnim_vis = new ObjectAnimationUsingKeyFrames();
-                    fadeInMSIAnim_vis.Duration = new TimeSpan(0, 0, 0);
-                    DiscreteObjectKeyFrame fadeInMSIAnim_vis_kf1 = new DiscreteObjectKeyFrame(Visibility.Visible, new TimeSpan(0, 0, 0));
-                    fadeInMSIAnim_vis.KeyFrames.Add(fadeInMSIAnim_vis_kf1);
-                    Storyboard.SetTarget(fadeInMSIAnim_vis, fadeInMSIEvent.msi);
-                    Storyboard.SetTargetProperty(fadeInMSIAnim_vis, new PropertyPath(MultiScaleImage.VisibilityProperty));
-                    fadeInMSIAnim_vis.BeginTime = TimeSpan.FromSeconds(timerCount);
-                    tourParallelTL.Children.Add(fadeInMSIAnim_vis);
-
-                    DoubleAnimation fadeInMSIAnim = new DoubleAnimation(0.0, 1.0, new Duration(TimeSpan.FromSeconds(fadeInMSIEvent.duration)));
-                    Storyboard.SetTarget(fadeInMSIAnim, fadeInMSIEvent.msi);
-                    Storyboard.SetTargetProperty(fadeInMSIAnim, new PropertyPath(MultiScaleImage.OpacityProperty));
-                    fadeInMSIAnim.BeginTime = TimeSpan.FromSeconds(timerCount);
-                    tourParallelTL.Children.Add(fadeInMSIAnim);
-
                     break;
-                case TourEvent.Type.fadeOutMSI:
-                    FadeOutMSIEvent fadeOutMSIEvent = (FadeOutMSIEvent)tourEvent;
-
-                    DoubleAnimation fadeOutMSIAnim = new DoubleAnimation(1.0, 0.0, new Duration(TimeSpan.FromSeconds(fadeOutMSIEvent.duration)));
-                    Storyboard.SetTarget(fadeOutMSIAnim, fadeOutMSIEvent.msi);
-                    Storyboard.SetTargetProperty(fadeOutMSIAnim, new PropertyPath(MultiScaleImage.OpacityProperty));
-                    fadeOutMSIAnim.BeginTime = TimeSpan.FromSeconds(timerCount);
-                    tourParallelTL.Children.Add(fadeOutMSIAnim);
-
-                    ObjectAnimationUsingKeyFrames fadeOutMSIAnim_vis = new ObjectAnimationUsingKeyFrames();
-                    fadeOutMSIAnim_vis.Duration = new TimeSpan(0, 0, 0);
-                    DiscreteObjectKeyFrame fadeOutMSIAnim_vis_kf1 = new DiscreteObjectKeyFrame(Visibility.Hidden, new TimeSpan(0, 0, 0));
-                    fadeOutMSIAnim_vis.KeyFrames.Add(fadeOutMSIAnim_vis_kf1);
-                    Storyboard.SetTarget(fadeOutMSIAnim_vis, fadeOutMSIEvent.msi);
-                    Storyboard.SetTargetProperty(fadeOutMSIAnim_vis, new PropertyPath(MultiScaleImage.VisibilityProperty));
-                    fadeOutMSIAnim_vis.BeginTime = TimeSpan.FromSeconds(timerCount + fadeOutMSIEvent.duration);
-                    tourParallelTL.Children.Add(fadeOutMSIAnim_vis);
-
-                    break;*/
                 case TourEvent.Type.zoomMSI:
                     ZoomMSIEvent zoomMSIEvent = (ZoomMSIEvent)tourEvent;
 
@@ -1564,7 +1381,6 @@ namespace LADSArtworkMode
                     ZoomableCanvas zoomMSI_canvas = zoomMSIEvent.msi.GetZoomableCanvas;
                     targetMSIScale = zoomMSIEvent.msi.ClampTargetScale(targetMSIScale);
 
-                    //Point targetOffset = new Point((zoomToMSIPoint.X * targetMSIScale) - (zoomMSI_canvas.ActualWidth * 0.5), (zoomToMSIPoint.Y * targetMSIScale) - (zoomMSI_canvas.ActualHeight * 0.5));
                     Point targetOffset = new Point(zoomToMSIPoint.X, zoomToMSIPoint.Y);
 
                     PointAnimation zoomMSI_pan = new PointAnimation(targetOffset, new Duration(TimeSpan.FromSeconds(zoomMSIEvent.duration)));
@@ -1730,45 +1546,6 @@ namespace LADSArtworkMode
         void TourScroll_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             artModeWin.TourScroll.UnselectAll();
-            /*
-            string filename = (string)(button).Content;
-            this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
-            this.LoadTourPlaybackFromDict();
-
-            if (!tourPlaybackOn)
-            {
-                artModeWin.msi.Visibility = Visibility.Hidden;
-                artModeWin.msi_thumb.Visibility = Visibility.Hidden;
-
-                artModeWin.msi_tour.DisableEventHandlers();
-                artModeWin.msi_tour.ResetArtwork();
-                artModeWin.msi_tour.Visibility = Visibility.Visible;
-
-                artModeWin.msi_tour_thumb.Visibility = Visibility.Visible;
-                DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
-                dpd.AddValueChanged(artModeWin.msi_tour.GetZoomableCanvas, msi_tour_ViewboxChanged);
-                dpd.RemoveValueChanged(artModeWin.msi.GetZoomableCanvas, artModeWin.msi_ViewboxChanged);
-                this.msi_tour_ViewboxUpdate();
-
-                artModeWin.toggleLeftSide();
-                artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
-                artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
-                artModeWin.activateKW.Visibility = Visibility.Collapsed;
-                artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
-                artModeWin.exitButton.Visibility = Visibility.Collapsed;
-                artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
-                //artModeWin.tourResumeButton.Visibility = Visibility.Visible;
-                //artModeWin.tourPauseButton.Visibility = Visibility.Visible;
-                artModeWin.tourControlButton.Visibility = Visibility.Visible;
-                artModeWin.tourStopButton.Visibility = Visibility.Visible;
-                //   artModeWin.showMetaList();
-                artModeWin.tourSeekBar.Visibility = Visibility.Visible;
-
-                tourStoryboard.CurrentTimeInvalidated += new EventHandler(TourStoryboardPlayback_CurrentTimeInvalidated);
-                tourStoryboard.Completed += new EventHandler(TourStoryboardPlayback_Completed);
-                tourStoryboard.Begin(artModeWin, true);
-                tourPlaybackOn = true;
-            }*/
         }
         private void artareasizechanged(object sender, EventArgs e)
         {
@@ -1809,15 +1586,11 @@ namespace LADSArtworkMode
                 artModeWin.toggleLeftSide();
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
-                //artModeWin.activateKW.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
                 artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
-                //artModeWin.tourResumeButton.Visibility = Visibility.Visible;
-                //artModeWin.tourPauseButton.Visibility = Visibility.Visible;
                 artModeWin.tourControlButton.Visibility = Visibility.Visible;
                 artModeWin.tourStopButton.Visibility = Visibility.Visible;
-                //   artModeWin.showMetaList();
                 artModeWin.tourSeekBar.Visibility = Visibility.Visible;
 
                 tourStoryboard.CurrentTimeInvalidated += new EventHandler(TourStoryboardPlayback_CurrentTimeInvalidated);
@@ -1843,9 +1616,7 @@ namespace LADSArtworkMode
                 artModeWin.msi.Visibility = Visibility.Hidden;
                 artModeWin.msi_thumb.Visibility = Visibility.Hidden;
 
-                //artModeWin.hotspot
                 artModeWin.MainScatterView.Visibility = Visibility.Hidden;
-                //artModeWin.msi_tour.DisableEventHandlers();
                 artModeWin.msi_tour.ResetArtwork();
                 artModeWin.msi_tour.Visibility = Visibility.Visible;
 
@@ -1855,11 +1626,9 @@ namespace LADSArtworkMode
                 dpd.RemoveValueChanged(artModeWin.msi.GetZoomableCanvas, artModeWin.msi_ViewboxChanged);
                 this.msi_tour_ViewboxUpdate();
 
-                //artModeWin.toggleLeftSide();
                 artModeWin.LeftPanel.Visibility = Visibility.Hidden;
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
-                //artModeWin.activateKW.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
                 artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
@@ -1893,7 +1662,6 @@ namespace LADSArtworkMode
                 artModeWin.msi.Visibility = Visibility.Hidden;
                 artModeWin.msi_thumb.Visibility = Visibility.Hidden;
 
-                //artModeWin.msi_tour.DisableEventHandlers();
                 artModeWin.msi_tour.ResetArtwork();
                 artModeWin.msi_tour.Visibility = Visibility.Visible;
 
@@ -1906,19 +1674,9 @@ namespace LADSArtworkMode
                 artModeWin.toggleLeftSide();
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
-                //artModeWin.activateKW.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
                 artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
-                //artModeWin.tourResumeButton.Visibility = Visibility.Visible;
-                //artModeWin.tourPauseButton.Visibility = Visibility.Visible;
-                //artModeWin.tourAuthoringDoneButton.Visibility = Visibility.Visible;
-                //artModeWin.drawPaths.Visibility = Visibility.Visible;
-                //artModeWin.metaData.Visibility = Visibility.Visible;
-
-                //artModeWin.tourAuthoringSaveButton.Visibility = Visibility.Visible;
-                //artModeWin.addAudioButton.Visibility = Visibility.Visible;
-
                 tourStoryboard.CurrentTimeInvalidated += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_CurrentTimeInvalidated);
                 tourStoryboard.Completed += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_Completed);
                 tourStoryboard.Begin(artModeWin, true);
@@ -1980,14 +1738,12 @@ namespace LADSArtworkMode
                         tourStoryboard.description = tourNode.Attributes.GetNamedItem("description").InnerText;
                         //// Time experiment
                         tourStoryboard.totalDuration = double.Parse(tourNode.Attributes.GetNamedItem("duration").InnerText);
-                        //////
 
                         dockableItemsLoaded = new List<DockableItem>();
                         msiItemsLoaded = new List<MultiScaleImage>();
                         tourBiDictionary = new BiDictionary<Timeline, BiDictionary<double, TourEvent>>();
                         undoStack = new Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>>();
                         redoStack = new Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>>();
-                        //tourDictRev = new Dictionary<Timeline, Dictionary<TourEvent, double>>();
                         itemToTLDict = new Dictionary<DockableItem, Timeline>();
                         msiToTLDict = new Dictionary<MultiScaleImage, Timeline>();
 
@@ -2022,8 +1778,6 @@ namespace LADSArtworkMode
 
                                     BiDictionary<double, TourEvent> msi_tour_TL_dict = new BiDictionary<double, TourEvent>();
                                     tourBiDictionary.Add(msi_tour_TL, msi_tour_TL_dict);
-                                    //Dictionary<TourEvent, double> msi_tour_TL_dict_rev = new Dictionary<TourEvent, double>();
-                                    //tourDictRev.Add(msi_tour_TL, msi_tour_TL_dict_rev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2039,7 +1793,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 msi_tour_TL_dict.Add(beginTime, zoomMSIEvent);
-                                                //msi_tour_TL_dict_rev.Add(zoomMSIEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2049,8 +1802,6 @@ namespace LADSArtworkMode
                                 {
                                     String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     DockableItem dockItem = new DockableItem(artModeWin.MSIScatterView, artModeWin, artModeWin.Bar, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\Metadata\\" + media_file);
-
-                                    //dockItem.PreviewMouseWheel += new MouseWheelEventHandler(mediaMouseWheel);
                                     dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchDown);
                                     dockItem.PreviewTouchDown += new EventHandler<TouchEventArgs>(mediaTouchDown);
                                     dockItem.PreviewMouseDown += new MouseButtonEventHandler(mediaTouchDown);
@@ -2071,9 +1822,7 @@ namespace LADSArtworkMode
                                     itemToTLDict.Add(dockItem, dockItem_TL);
 
                                     BiDictionary<double, TourEvent> dockItem_TL_dict = new BiDictionary<double, TourEvent>();
-                                    //Dictionary<TourEvent, double> dockItem_TL_dict_rev = new Dictionary<TourEvent, double>();
                                     tourBiDictionary.Add(dockItem_TL, dockItem_TL_dict);
-                                    //tourDictRev.Add(dockItem_TL, dockItem_TL_dict_rev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2090,7 +1839,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 dockItem_TL_dict.Add(beginTime, fadeInMediaEvent);
-                                                //dockItem_TL_dict_rev.Add(fadeInMediaEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "ZoomMediaEvent")
@@ -2104,7 +1852,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 dockItem_TL_dict.Add(beginTime, zoomMediaEvent);
-                                                //dockItem_TL_dict_rev.Add(zoomMediaEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutMediaEvent")
@@ -2115,7 +1862,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 dockItem_TL_dict.Add(beginTime, fadeOutMediaEvent);
-                                                //dockItem_TL_dict_rev.Add(fadeOutMediaEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2125,9 +1871,6 @@ namespace LADSArtworkMode
                                 {
                                     String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     SurfaceInkCanvas sic = new SurfaceInkCanvas();
-                                    //sic.IsVisibleChanged+= new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
-
-                                    //currentHighlightCanvas = new SurfaceInkCanvas();
                                     inkCanvases.Add(sic);
                                     sic.Width = 1920;
                                     sic.Height = 1080;
@@ -2148,8 +1891,6 @@ namespace LADSArtworkMode
                                     tourtl.file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     BiDictionary<double, TourEvent> tldict = new BiDictionary<double, TourEvent>();
                                     tourBiDictionary.Add(tourtl, tldict);
-                                    //Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
-                                    //tourDictRev.Add(tourtl, tldictrev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2164,7 +1905,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeInHighlightEvent);
-                                                //tldictrev.Add(fadeInHighlightEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutHighlightEvent")
@@ -2176,7 +1916,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeOutHighlightEvent);
-                                                //tldictrev.Add(fadeOutHighlightEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2186,9 +1925,6 @@ namespace LADSArtworkMode
                                 {
                                     String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     SurfaceInkCanvas sic = new SurfaceInkCanvas();
-                                    //sic.IsVisibleChanged += new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
-
-                                    //currentHighlightCanvas = new SurfaceInkCanvas();
                                     inkCanvases.Add(sic);
                                     sic.Width = 1920;
                                     sic.Height = 1080;
@@ -2208,8 +1944,6 @@ namespace LADSArtworkMode
                                     tourtl.file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     BiDictionary<double, TourEvent> tldict = new BiDictionary<double, TourEvent>();
                                     tourBiDictionary.Add(tourtl, tldict);
-                                    //Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
-                                    //tourDictRev.Add(tourtl, tldictrev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2223,7 +1957,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeInPathEvent);
-                                                //tldictrev.Add(fadeInPathEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutPathEvent")
@@ -2234,7 +1967,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeOutPathEvent);
-                                                //tldictrev.Add(fadeOutPathEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2296,14 +2028,12 @@ namespace LADSArtworkMode
                         tourStoryboard.description = tourNode.Attributes.GetNamedItem("description").InnerText;
                         //// Time experiment
                         tourStoryboard.totalDuration = double.Parse(tourNode.Attributes.GetNamedItem("duration").InnerText);
-                        //////
 
                         dockableItemsLoaded = new List<DockableItem>();
                         msiItemsLoaded = new List<MultiScaleImage>();
                         tourBiDictionary = new BiDictionary<Timeline, BiDictionary<double, TourEvent>>();
                         undoStack = new Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>>();
                         redoStack = new Stack<BiDictionary<Timeline, BiDictionary<double, TourEvent>>>();
-                        //tourDictRev = new Dictionary<Timeline, Dictionary<TourEvent, double>>();
                         itemToTLDict = new Dictionary<DockableItem, Timeline>();
                         msiToTLDict = new Dictionary<MultiScaleImage, Timeline>();
 
@@ -2338,8 +2068,6 @@ namespace LADSArtworkMode
 
                                     BiDictionary<double, TourEvent> msi_tour_TL_dict = new BiDictionary<double, TourEvent>();
                                     tourBiDictionary.Add(msi_tour_TL, msi_tour_TL_dict);
-                                    //Dictionary<TourEvent, double> msi_tour_TL_dict_rev = new Dictionary<TourEvent, double>();
-                                    //tourDictRev.Add(msi_tour_TL, msi_tour_TL_dict_rev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2355,7 +2083,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 msi_tour_TL_dict.Add(beginTime, zoomMSIEvent);
-                                                //msi_tour_TL_dict_rev.Add(zoomMSIEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2366,7 +2093,6 @@ namespace LADSArtworkMode
                                     String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     DockableItem dockItem = new DockableItem(artModeWin.MSIScatterView, artModeWin, artModeWin.Bar, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\Metadata\\" + media_file);
 
-                                    //dockItem.PreviewMouseWheel += new MouseWheelEventHandler(mediaMouseWheel);
                                     dockItem.PreviewMouseMove += new MouseEventHandler(mediaTouchDown);
                                     dockItem.PreviewTouchDown += new EventHandler<TouchEventArgs>(mediaTouchDown);
                                     dockItem.PreviewMouseDown += new MouseButtonEventHandler(mediaTouchDown);
@@ -2387,9 +2113,7 @@ namespace LADSArtworkMode
                                     itemToTLDict.Add(dockItem, dockItem_TL);
 
                                     BiDictionary<double, TourEvent> dockItem_TL_dict = new BiDictionary<double, TourEvent>();
-                                    //Dictionary<TourEvent, double> dockItem_TL_dict_rev = new Dictionary<TourEvent, double>();
                                     tourBiDictionary.Add(dockItem_TL, dockItem_TL_dict);
-                                    //tourDictRev.Add(dockItem_TL, dockItem_TL_dict_rev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2406,7 +2130,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 dockItem_TL_dict.Add(beginTime, fadeInMediaEvent);
-                                                //dockItem_TL_dict_rev.Add(fadeInMediaEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "ZoomMediaEvent")
@@ -2420,7 +2143,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 dockItem_TL_dict.Add(beginTime, zoomMediaEvent);
-                                                //dockItem_TL_dict_rev.Add(zoomMediaEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutMediaEvent")
@@ -2431,7 +2153,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 dockItem_TL_dict.Add(beginTime, fadeOutMediaEvent);
-                                                //dockItem_TL_dict_rev.Add(fadeOutMediaEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2441,9 +2162,6 @@ namespace LADSArtworkMode
                                 {
                                     String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     SurfaceInkCanvas sic = new SurfaceInkCanvas();
-                                    //sic.IsVisibleChanged+= new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
-
-                                    //currentHighlightCanvas = new SurfaceInkCanvas();
                                     inkCanvases.Add(sic);
                                     sic.Width = 1920;
                                     sic.Height = 1080;
@@ -2464,8 +2182,6 @@ namespace LADSArtworkMode
                                     tourtl.file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     BiDictionary<double, TourEvent> tldict = new BiDictionary<double, TourEvent>();
                                     tourBiDictionary.Add(tourtl, tldict);
-                                    //Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
-                                    //tourDictRev.Add(tourtl, tldictrev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2480,7 +2196,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeInHighlightEvent);
-                                                //tldictrev.Add(fadeInHighlightEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutHighlightEvent")
@@ -2492,7 +2207,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeOutHighlightEvent);
-                                                //tldictrev.Add(fadeOutHighlightEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2502,9 +2216,6 @@ namespace LADSArtworkMode
                                 {
                                     String media_file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     SurfaceInkCanvas sic = new SurfaceInkCanvas();
-                                    //sic.IsVisibleChanged += new DependencyPropertyChangedEventHandler(drawVisibilityChanged);
-
-                                    //currentHighlightCanvas = new SurfaceInkCanvas();
                                     inkCanvases.Add(sic);
                                     sic.Width = 1920;
                                     sic.Height = 1080;
@@ -2524,8 +2235,6 @@ namespace LADSArtworkMode
                                     tourtl.file = TLNode.Attributes.GetNamedItem("file").InnerText;
                                     BiDictionary<double, TourEvent> tldict = new BiDictionary<double, TourEvent>();
                                     tourBiDictionary.Add(tourtl, tldict);
-                                    //Dictionary<TourEvent, double> tldictrev = new Dictionary<TourEvent, double>();
-                                    //tourDictRev.Add(tourtl, tldictrev);
 
                                     foreach (XmlNode TourEventNode in TLNode.ChildNodes)
                                     {
@@ -2539,7 +2248,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeInPathEvent);
-                                                //tldictrev.Add(fadeInPathEvent, beginTime);
                                             }
 
                                             else if (TourEventNode.Attributes.GetNamedItem("type").InnerText == "FadeOutPathEvent")
@@ -2550,7 +2258,6 @@ namespace LADSArtworkMode
 
                                                 double beginTime = Convert.ToDouble(TourEventNode.Attributes.GetNamedItem("beginTime").InnerText);
                                                 tldict.Add(beginTime, fadeOutPathEvent);
-                                                //tldictrev.Add(fadeOutPathEvent, beginTime);
                                             }
                                         }
                                     }
@@ -2924,25 +2631,9 @@ namespace LADSArtworkMode
 
                     this.addAnim((TourParallelTL)tourTL, tourEvent, beginTime);
                 }
-                /*
-                foreach (KeyValuePair<double, TourEvent> tourTL_dict_KV in tourTL_dict) // MediaTimeline will ignore this
-                {
-                    double beginTime = tourTL_dict_KV.Key;
-                    TourEvent tourEvent = tourTL_dict_KV.Value;
-
-                    double tourEvent_endTime = beginTime + tourEvent.duration;
-
-                    if (tourEvent_endTime > tourTL_endTime)
-                    {
-                        tourTL_endTime = tourEvent_endTime;
-                    }
-
-                    this.addAnim((TourParallelTL)tourTL, tourEvent, beginTime);
-                }*/
 
                 if (!tourTL.Duration.HasTimeSpan) // only MediaTimeline will fail this
                 {
-                    //tourTL.Duration = TimeSpan.FromSeconds(tourTL_endTime);
                     tourTL.Duration = TimeSpan.FromSeconds(tourStoryboard.totalDuration);
 
                 }
@@ -2960,21 +2651,14 @@ namespace LADSArtworkMode
 
         public void LoadTourAuthoringUIFromDict()
         {
-
-
-            //Console.Out.WriteLine("reload here");
             tourAuthoringUI = new TourAuthoringUI(artModeWin, this);
 
             tourAuthoringUI.timelineCount = tourBiDictionary.firstKeys.Count; //clear the old yellow moveable thing
 
-
-            //tourAuthoringUI = new TourAuthoringUI(artModeWin, this);
             tourAuthoringUI.ClearAuthoringUI();
 
             tourAuthoringUI.timelineCount = tourBiDictionary.firstKeys.Count;
 
-            //if (tourStoryboard.Duration.TimeSpan.TotalSeconds < 60)
-            //    tourStoryboard.Duration = TimeSpan.FromSeconds(60);
             tourAuthoringUI.timelineLength = tourStoryboard.Duration.TimeSpan.TotalSeconds;
 
             tourAuthoringUI.canvasWrapper.Children.Clear();
@@ -3019,16 +2703,12 @@ namespace LADSArtworkMode
             tourAuthoringUI.timelineCount = tourBiDictionary.firstKeys.Count; //clear the old yellow moveable thing
 
             Point center = tourAuthoringUI.leftRightSVI.ActualCenter;
-            //tourAuthoringUI = new TourAuthoringUI(artModeWin, this);
             if (!completeReload)
                 tourAuthoringUI.ClearTimelines();
             else
                 tourAuthoringUI.ClearAuthoringUI();
 
             tourAuthoringUI.timelineCount = tourBiDictionary.firstKeys.Count;
-
-            //if (tourStoryboard.Duration.TimeSpan.TotalSeconds < 60)
-            //    tourStoryboard.Duration = TimeSpan.FromSeconds(60);
             tourAuthoringUI.timelineLength = tourStoryboard.Duration.TimeSpan.TotalSeconds;
 
             if (!completeReload)
@@ -3085,11 +2765,6 @@ namespace LADSArtworkMode
             tourStoryboard.Stop(artModeWin);
 
             this.LoadTourPlaybackFromDict();
-            //refreshAuthoringUI();
-            //if (tourAuthoringOn) this.LoadTourAuthoringUIFromDict();
-
-            //artModeWin.msi_tour.UpdateLayout(); // trying to fix bug where first ZoomMSIEvent can't be previewed properly after its beginTime is modified, as the animation just continues from where it left off before it was moved 
-            //artModeWin.msi_tour.ResetArtwork();
 
             tourStoryboard.CurrentTimeInvalidated += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_CurrentTimeInvalidated);
             tourStoryboard.Completed += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_Completed);
