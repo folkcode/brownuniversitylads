@@ -56,6 +56,7 @@ namespace SurfaceApplication3
         private void edit_Click(object sender, EventArgs e)
         {
             AddImageWindow newBigWindow = new AddImageWindow();
+            newBigWindow.mainWindow = _newWindow;
             newBigWindow.WindowState = System.Windows.WindowState.Normal;
             newBigWindow.big_window1.setCatalogNumber(catalogNumber);
             //newBigWindow.setWindowSize();

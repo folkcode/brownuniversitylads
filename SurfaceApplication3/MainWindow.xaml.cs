@@ -57,9 +57,6 @@ namespace SurfaceApplication3
                         tran.ScaleY = this.Height / 800;
                       //  this.Height = this.Width * ratio;
                     }
-                    //Console.Out.WriteLine("width" + this.Width);
-                    //Console.Out.WriteLine("height" + this.Height);
-                     //scale according to 1600* 900 resolution
                     
                     mainCanvas.RenderTransform = tran;
                 }
@@ -67,7 +64,12 @@ namespace SurfaceApplication3
             
             
         }
-
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Application.Current.Shutdown();
+            // Remove handlers for window availability events
+        }
 
 
         /// <summary>
@@ -158,7 +160,7 @@ namespace SurfaceApplication3
         private void addImage_Click(object sender, RoutedEventArgs e)
         {
             AddImageWindow newWindow = new AddImageWindow();
-            
+            newWindow.mainWindow = this;
             newWindow.big_window1.setCatalogNumber(EntryListBox.Items.Count);
             newWindow.big_window1.mainWindow = this;
             newWindow.big_window1.setImageProperty(false);
@@ -172,10 +174,8 @@ namespace SurfaceApplication3
             Canvas.SetLeft(newWindow.big_window1.save, 349);
             Canvas.SetLeft(newWindow.big_window1.mapButton, 513);
             Canvas.SetLeft(newWindow.big_window1.hotspot, 713);
-
             newWindow.WindowState = System.Windows.WindowState.Normal;
             newWindow.ShowDialog();
-            
             //newWindow.big_window1.setMainWindow(this);
         }
 

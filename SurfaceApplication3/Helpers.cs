@@ -16,6 +16,10 @@ namespace SurfaceApplication3
         public static System.Drawing.Image getThumbnail(string filename, int maxDimension)
         {
             System.Drawing.Image fullImage = System.Drawing.Image.FromFile(filename);
+            if (fullImage.Width < maxDimension && fullImage.Height < maxDimension)
+                return fullImage;
+
+
             fullImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
             fullImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
             double newWidth;
