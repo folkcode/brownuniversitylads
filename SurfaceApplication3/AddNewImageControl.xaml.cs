@@ -54,10 +54,6 @@ namespace SurfaceApplication3
         public AddNewImageControl()
         {
             InitializeComponent();
-            //MetaDataEntry newSmall = new MetaDataEntry();
-            //newSmall.setBigWindow(this);
-            //MetaDataList.Items.Add(newSmall);
-            
             DZcreated = false;
             imageName = "";
             // Create a Background Worker
@@ -189,9 +185,6 @@ namespace SurfaceApplication3
 
                     //set image source
                     image1.Source = wpfImage.Source;
-                    //image1.Source = myBitmapImage;
-                    //control.showImage(myBitmapImage)
-                    //Console.Out.WriteLine(safeFilePath[i]);
                     string filename = safeFilePath[i];
                     string extension = System.IO.Path.GetExtension(safeFilePath[i]);
                     string tempFileName = System.IO.Path.GetFileNameWithoutExtension(safeFilePath[i]);
@@ -206,13 +199,6 @@ namespace SurfaceApplication3
                     this.setImageName(filename);
                     this.setImagePath(filePath[i]);
 
-                    // this.setName(fileName);
-                    // FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(filePath[i]);
-                    // Console.Out.WriteLine(Environment.SystemDirectory);
-                    // Console.Out.WriteLine(myFileVersionInfo.FileDescription);
-
-                    //  summary.Text = "File description: " + myFileVersionInfo.Comments;
-                    // Console.Out.WriteLine("Version" + myFileVersionInfo);
                     title_tag.Text = "";
                     year_tag.Text = "";
                     medium_tag.Text = "";
@@ -236,57 +222,22 @@ namespace SurfaceApplication3
             string filename = mde.title_tag.Text;
             string path = mde.metaImagePath;
 
-            //Console.WriteLine("createMetaThumbnail filename" + filename); //microscopic.avi
-            Console.WriteLine("createMetaThumbnail path" + path); //C:\Users...microscopic.avi
-
             if (_helpers.IsVideoFile(path))
             {
                 string newPath = "data/Videos/Metadata/";
-                //DexterLib.MediaDet md = new MediaDet();
-                //md.Filename = path;
-                //md.CurrentStream = 0;
                 string fBitmapName = path;
 
                 int decrement = System.IO.Path.GetExtension(fBitmapName).Length;
                 fBitmapName = fBitmapName.Remove(fBitmapName.Length - decrement, decrement);
-                //fBitmapName = fBitmapName.Remove(fBitmapName.Length - 4, 4);
                 fBitmapName += ".bmp";
-                //md.WriteBitmapBits(md.StreamLength/2, 320, 240, fBitmapName);
 
                 System.Drawing.Image img = System.Drawing.Image.FromFile(fBitmapName);
-                //img = img.GetThumbnailImage(128, 128, null, new IntPtr());
-                //Utils.setAspectRatio(imageCanvas, imageRec, image1, img, 4);
                 int decrement2 = System.IO.Path.GetExtension(filename).Length;
                 filename = filename.Remove(filename.Length - decrement2, decrement2);
 
-                //filename = filename.Remove(filename.Length - 4, 4);
                 filename += ".bmp";
                 img.Save(newPath + filename);
 
-                //DexterLib.MediaDet md = new MediaDet();
-                //md.Filename = path;
-                //md.CurrentStream = 0;
-                ////string fBitmapName = path;
-                ////fBitmapName = fBitmapName.Remove(fBitmapName.Length - 4, 4);
-                ////fBitmapName += ".bmp";
-                ////Console.WriteLine("fBitmapName is : " + fBitmapName);
-                //string newPath = "data/Videos/Metadata/";
-                //Console.WriteLine("filename" + filename);
-                //filename = filename.Remove(path.Length - 4, 4);
-                //filename += ".bmp";
-                //String newfilename = newPath + "Thumbnail/" + 1 + filename;
-                //md.WriteBitmapBits(0, 320, 240, newfilename);
-
-
-                //System.Drawing.Image img = System.Drawing.Image.FromFile(newfilename);
-                //Console.WriteLine("4444444");
-                //img = img.GetThumbnailImage(128, 128, null, new IntPtr());
-                ////String newFileName = filename;
-                ////newFileName = newFileName.Remove(newFileName.Length - 4, 4);
-                ////newFileName += ".bmp";
-                //Console.WriteLine("WADDUPPPPPPP");
-                //img.Save(newPath + "Thumbnail/" + filename);
-                ////img.Save(path 
             }
             else if (_helpers.IsImageFile(path))
             {
@@ -299,42 +250,6 @@ namespace SurfaceApplication3
             }
         }
 
-        /**
-        public void setName(String filename)
-        {
-            fileName = filename;
-
-        }
-        public String getName()
-        {
-            return fileName;
-        }
-
-        public void setAttribute(String attribute)
-        {
-            fileAttribute = attribute;
-        }
-        public String getAttribute()
-        {
-            return fileAttribute;
-        }
-        public void setTime(String time)
-        {
-            fileCreationTime = time;
-        }
-        public String getTime()
-        {
-            return fileCreationTime;
-        }
-        public void setArtist(String artist)
-        {
-            fileArtist = artist;
-        }
-        public String getArtist()
-        {
-            return fileArtist;
-        }
-        */
         public void setImage(BitmapImage importImage)
         {
             fileImage = importImage;
@@ -345,132 +260,6 @@ namespace SurfaceApplication3
             return fileImage;
         }
 
-        /**
-        private void import_multiple_Click(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
-            ofd.Multiselect = true;
-
-            ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*"; //Is there a limit on type of metedata?
-
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string[] filePath = ofd.FileNames;
-                string[] safeFilePath = ofd.SafeFileNames;
-
-                for (int i = 0; i < safeFilePath.Length; i++)
-                {
-                   // Console.Out.WriteLine(filePath[i]);
-                   // Console.Out.WriteLine(safeFilePath[i]);
-
-                    FileInfo info = new FileInfo(safeFilePath[i]);
-                    
-                    //Check what type of the metedata
-                    String fileName = info.Name;
-                    String time = "";
-                    String attributes = "";
-                    time += string.Format("{0}\n", info.CreationTime);
-                    //attributes += string.Format("{0}\n", info.FileDescription);
-                    //attributes += string.Format("{0}\n", info.Attributes);
-                    this.setName(fileName);
-                    this.setTime(time);
-                    this.setAttribute(attributes);
-                    
-                    FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(filePath[i]);
-                   // Console.Out.WriteLine(Environment.SystemDirectory);
-                   // Console.Out.WriteLine(myFileVersionInfo.FileDescription);
-
-                    summary.Text = "File description: " + myFileVersionInfo.Comments;
-                    Console.Out.WriteLine("Version" + myFileVersionInfo);
-                   // Console.Out.WriteLine("File Description" + myFileVersionInfo.FileDescription);
-                   // Console.Out.WriteLine("File Description" + myFileVersionInfo.Comments);
-                   // Console.Out.WriteLine("File Description" + myFileVersionInfo.FileVersion);
-
-                    // Create source
-                    BitmapImage myBitmapImage = new BitmapImage();
-                    myBitmapImage.BeginInit();
-                    myBitmapImage.UriSource = new Uri(@filePath[i]);
-                    myBitmapImage.EndInit();
-                                       
-                    //set image source
-                    image1.Source = myBitmapImage;
-                    control.showImage(myBitmapImage);
-                    //set image of the hotspot window
-                    
-                }
-               
-
-                title_tag.Text = this.getName();
-                year_tag.Text = this.getTime();
-                
-            }
-           
-        }
-        */
-        /*
-        private void hot_spot_Click(object sender, RoutedEventArgs e)
-        {
-            string content = (sender as Button).Content.ToString();
-
-            int index = content.IndexOf("Edit");
-
-            if (index > -1)
-            {
-
-
-                string newContent = "Add Meatadata";
-                hot_spot.Content = newContent;
-                hot_spot.Width = 115;
-                MeteDataList.Visibility = System.Windows.Visibility.Visible;
-
-                string newContent1 = "Create Hotspots";
-                Preview.Content = newContent1;
-                Preview.Width = 115;
-
-                string newContent2 = "Save Edits";
-                Save_edit.Content = newContent2;
-
-
-                //hot_spot.Content = 
-            }
-            else 
-            {
-                MeteDataList.Items.Add(new MetaDataEntry());
-            
-            }         
-        }
-
-        */
-
-        /**
-        /// <summary>
-        /// Upon clicking the 'Create hotspots' button, a hotspotAdd control appears
-        /// </summary>
-        private void hotspot_Click(object sender, RoutedEventArgs e)
-        {
-            Console.Out.WriteLine("url" + imagePath);
-            BitmapImage myBitmapImage = new BitmapImage();
-            myBitmapImage.BeginInit();
-            myBitmapImage.UriSource = new Uri(imagePath);
-            myBitmapImage.EndInit();
-            //To set the image on the hotspot control while preserving the ration of the image 
-            Double width = myBitmapImage.Width;
-            Double height = myBitmapImage.Height;
-
-            control.setImage(myBitmapImage);
-            control.setImagePath(imageName);
-            //control.showImage(width,height);
-           // Utils.setAspectRatio(newWindow.hotspot.imageCover, newWindow.hotspot.rectangle1, newWindow.hotspot.image1, myBitmapImage, 4);
-          //  newWindow.hotspot.image1.Source = myBitmapImage;
-            newWindow.hotspot.showImage();
-            newWindow.hotspot.LoadHotsptos();
-            newWindow.hotspot.Show();
-            newWindow.Show();
-
-        }
-
-         **/
         /// <summary>
         /// Open a control to handle metadata processing.
         /// </summary>
@@ -498,9 +287,6 @@ namespace SurfaceApplication3
             }
             else
             {
-
-                //  newMapWindow.Visibility = Visibility.Visible;
-                //   newMapWindow.mapControl.Visibility = Visibility.Visible;
                 newMapWindow = new mapWindow();
                 newMapWindow.mapControl.setBigWindow(this);
                 newMapWindow.Show();
@@ -552,8 +338,6 @@ namespace SurfaceApplication3
             mapButton.IsEnabled = true;
             //Write in Xml file
             String dataDir = "Data/";
-            //String dataDir = "C://LADS-yc60/";
-            //String dataDir = "E://";
             XmlDocument doc = new XmlDocument();
             doc.Load(dataDir + "NewCollection.xml");
             //If it's an old image
@@ -649,18 +433,12 @@ namespace SurfaceApplication3
                                                     {
                                                         imgnode.RemoveAll();
                                                         //Split the keywords and write them into xml seperately
-                                                        //keywd.Attributes.RemoveNamedItem();
                                                         String[] keywords = tags.Text.Split(new Char[] { ',' });
                                                         foreach (String kword in keywords)
                                                         {
                                                             XmlElement value = doc.CreateElement("Keyword");
                                                             value.SetAttribute("Value", "" + kword);
                                                             imgnode.AppendChild(value);
-                                                            //XmlAttribute newAttr = doc.CreateAttribute("Keywords Value");
-                                                            //keywd.Attributes.SetNamedItem(newAttr);
-                                                            //imgnode.AppendChild()
-                                                            //imgnode.SetAttribute("Keyword Value", kword);
-                                                            //imgnode.AppendChild(elem);
                                                         }
                                                     }
 
@@ -677,7 +455,6 @@ namespace SurfaceApplication3
                                         }
                                         if (!hasKeywords)
                                         {
-                                          //  Console.Out.WriteLine("no keywords");
                                             XmlElement newKeywords = doc.CreateElement("Keywords");
                                             node.AppendChild(newKeywords);
                                             String[] keywords = tags.Text.Split(new Char[] { ',' });
@@ -686,11 +463,6 @@ namespace SurfaceApplication3
                                                 XmlElement value = doc.CreateElement("Keyword");
                                                 value.SetAttribute("Value", "" + kword);
                                                 newKeywords.AppendChild(value);
-                                                //XmlAttribute newAttr = doc.CreateAttribute("Keywords Value");
-                                                //keywd.Attributes.SetNamedItem(newAttr);
-                                                //imgnode.AppendChild()
-                                                //imgnode.SetAttribute("Keyword Value", kword);
-                                                //imgnode.AppendChild(elem);
                                             }
                                         }
                                         if (MetaDataList.Items.Count != 0)
@@ -928,9 +700,6 @@ namespace SurfaceApplication3
                                     String newPath2 = "data/Images/" + imageName;
 
                                     string path2 = newPath;
-                                    //Copy the image intothe Thumbnail and copy the folder into the deepzoom folder
-                                    // Create the file and clean up handles.
-                                    //using (FileStream fs = File.Create(path)) 
                                     if (path == path2) {
                                         MessageBox.Show("The image already exists");
                                         return;
@@ -981,7 +750,6 @@ namespace SurfaceApplication3
                 }
                 else
                 {
-                    //MessageBox.Show("Some items are not complete!");
                     statusLabel.Foreground = Brushes.DarkRed;
                     statusLabel.Content = "Some items are still missing:";
                     if (imageName == "")
@@ -1008,38 +776,8 @@ namespace SurfaceApplication3
                     {
                         year_tag.BorderBrush = Brushes.DarkGreen;
                     }
-                    /**
-                    if (artist_tag.Text == "")
-                    {
-                        artist_tag.BorderBrush = Brushes.DarkRed;
-                        statusLabel.Content += " Artist;";
-                    }
-                    else
-                    {
-                        artist_tag.BorderBrush = Brushes.DarkGreen;
-                    }
-                    if (medium_tag.Text == "")
-                    {
-                        medium_tag.BorderBrush = Brushes.DarkRed;
-                        statusLabel.Content += " Medium;" ;
-                    }
-                    else
-                    {
-                        medium_tag.BorderBrush = Brushes.DarkGreen;
-                    }
-                     * **/
+                  
                 }
-                /**
-                //Copy the folders
-                string[] imagePathComplete = Regex.Split(imagePath, imageName);
-                String sourcePath1 = imagePathComplete[0];
-                
-                string sourcePath = sourcePath1;
-                string targetPath = "data/Images/Deepzoom/" + imageName;
-              
-               
-                this.copyFolder(sourcePath, targetPath);
-             */
             }
 
 
@@ -1072,8 +810,6 @@ namespace SurfaceApplication3
                     System.IO.File.Copy(s, desFile, true);
                 }
                 string[] folders = Directory.GetDirectories(sourceFolder);
-                Console.Out.WriteLine(sourceFolder);
-                //Console.Out.WriteLine(folders[0]);
                 foreach (String folder in folders)
                 {
                     String name = System.IO.Path.GetFileName(folder);
@@ -1144,13 +880,6 @@ namespace SurfaceApplication3
             AddImageWindow parr = (AddImageWindow)par.Parent;
             //Need to clear all the entries in the existing catalog first and then reload
             int p = 0;
-            //MessageBox.Show("haha");
-            //while (p < mainWindow.EntryListBox.Items.Count)
-            //{
-            //    mainWindow.EntryListBox.Items.RemoveAt(0);
-
-            //}
-            //mainWindow.load();
             if (imageSaved)
             {
                 this.loadOneArtwork();
@@ -1163,7 +892,6 @@ namespace SurfaceApplication3
         public void setCatalogNumber(int number)
         {
             catalogNumber = number;
-           // Console.Out.WriteLine("number" + number);
         }
 
         public void setMainWindow(MainWindow main)
@@ -1194,81 +922,6 @@ namespace SurfaceApplication3
                 entryToModify.setImageTitle(title_tag.Text);
                 entryToModify.setImageName(imageName);
         }
-    
-            
-
-        int previousYear = 2011;
-        int previousCursor = 1000;
-        /// <summary>
-        /// Handle input in the 'year' textbox.
-        /// </summary>
-        private void year_tag_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            /*int cursorPosition = year_tag.CaretIndex;
-            bool changed = true;
-            if (previousYear == 2011)
-            {
-                try
-                {
-                        
-                    previousYear = int.Parse(year_tag.Text);
-                }
-                catch (Exception exception)
-                {
-                    previousYear = 0;
-                    year_tag.Text = "2011";
-                    return;
-                }
-            }
-            if (previousCursor == 1000)
-            {
-                previousCursor = cursorPosition;
-            }
-            if (year_tag.Text.Length > 0)
-            {
-                string s = year_tag.Text.Substring(0, 1);
-                string replacement = Regex.Replace(year_tag.Text, "[^0-9]", "");
-                if (!(replacement.Length == year_tag.Text.Length - 1))
-                    changed = false;
-                if (s == "-")
-                {
-                    if (replacement.Length == 0)
-                    {
-                        year_tag.Text = "-";
-                        return;
-                    }
-                    s = s + replacement;
-                }
-                else
-                    s = replacement;
-
-                bool isString = false;
-                int currentYear;
-                try
-                {
-                    currentYear = int.Parse(s);
-                }
-                catch (Exception exc)
-                {
-                    currentYear = 10000999;
-                }
-                if ((!(currentYear > -9999 && currentYear < 9999)))
-                {
-                    changed = false;
-                    s = "" + previousYear;
-                }
-                if (!changed)
-                {
-                    cursorPosition = cursorPosition - (year_tag.Text.Length - s.Length);
-                }
-                year_tag.Text = s;
-                year_tag.CaretIndex = cursorPosition;
-                previousCursor = year_tag.CaretIndex;
-                previousYear = int.Parse(s);
-            }*/
-            
-        }
-
 
         private void tagsMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -1327,24 +980,6 @@ namespace SurfaceApplication3
 
     }
 }
-
-
-/*
-    private void Preview_Click(object sender, RoutedEventArgs e)
-   { 
-        string content = (sender as Button).Content.ToString();
-
-        int index = content.IndexOf("Create");
-
-        if (index > -1)
-        {
-            control.Show();
-
-        }
-        else {
-            this.knowledgeWeb(); //when clicking the preview button
-        }
-    }*/
 
 
 
