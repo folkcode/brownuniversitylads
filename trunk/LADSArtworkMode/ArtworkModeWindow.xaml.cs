@@ -126,7 +126,6 @@ namespace LADSArtworkMode
             {
                 if (c[1].Contains("noauthoring"))
                 {
-                    //tourAuthoring.Visibility = Visibility.Hidden;
                     Main.Children.Remove(tourAuthoringButton);
                 }
             }
@@ -146,13 +145,7 @@ namespace LADSArtworkMode
             _searchedAssets = false;
             _searchedHotspots = false;
 
-            //newWeb = new KnowledgeWeb(ImageArea, ImageArea.Height, ImageArea.Width, "", this);
-
-            //newWeb.Hide();
-
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-            //dpd.AddValueChanged(MainScatterViewItem, ScatterViewCenterChanged);
-            //this.LayoutArtworkMode();
 
             // Hotspots
             m_hotspotCollection = new HotspotCollection();
@@ -179,9 +172,6 @@ namespace LADSArtworkMode
 
         private void SurfaceWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // HotspotModel hotspotModel = this.Resources["HotspotBindingData"] as HotspotModel;
-            // this.m_hotspotCollection.Initialize(hotspotModel);
-
             fillHotspotNavListBox();
         }
 
@@ -265,8 +255,6 @@ namespace LADSArtworkMode
         public void LoadDockedItems(List<DockedItemInfo> SavedDockedItemsFromNav)
         {
             SavedDockedItems = SavedDockedItemsFromNav;
-            //Console.WriteLine(this.opened);
-            //if (!this.opened)
             Helpers _helpers=new Helpers();
             foreach (DockedItemInfo info in SavedDockedItemsFromNav)
             {
@@ -301,7 +289,6 @@ namespace LADSArtworkMode
             msi_thumb.Visibility = Visibility.Hidden;
             tourAuthoringButton.Visibility = Visibility.Collapsed;
             switchToCatalogButton.Visibility = Visibility.Collapsed;
-            //artModeWin.activateKW.Visibility = Visibility.Collapsed;
             resetArtworkButton.Visibility = Visibility.Collapsed;
             exitButton.Visibility = Visibility.Collapsed;
             MainScatterView.Visibility = Visibility.Collapsed;
@@ -319,15 +306,11 @@ namespace LADSArtworkMode
             if (Main.ActualWidth / 1920.0 > Main.ActualHeight / 1080.0)
             {
                 //We have to do more scaling to get height, so we scale to the width (else we'll overscale width)
-                Console.WriteLine("Scaling to Width:" + (Main.ActualWidth));
                 ImageArea.RenderTransform = new ScaleTransform((Main.ActualWidth - 1) / 1920.0, (Main.ActualWidth - 1) / 1920.0);
-                //artModeWin.MainScatterView.RenderTransform = new ScaleTransform((System.Windows.SystemParameters.WorkArea.Width) / 1920.0, (System.Windows.SystemParameters.WorkArea.Width) / 1920.0);
             }
             else
             {
-                Console.WriteLine("Scaling to height:" + (Main.ActualHeight));
                 ImageArea.RenderTransform = new ScaleTransform((Main.ActualHeight - 1) / 1080.0, (Main.ActualHeight - 1) / 1080.0);
-                //artModeWin.MainScatterView.RenderTransform = new ScaleTransform((System.Windows.SystemParameters.WorkArea.Height) / 1080.0, (System.Windows.SystemParameters.WorkArea.Height) / 1080.0);
             }
         }
 
@@ -372,7 +355,6 @@ namespace LADSArtworkMode
             msi_thumb.Visibility = Visibility.Visible;
             tourAuthoringButton.Visibility = Visibility.Visible;
             switchToCatalogButton.Visibility = Visibility.Visible;
-            //artModeWin.activateKW.Visibility = Visibility.Collapsed;
             resetArtworkButton.Visibility = Visibility.Visible;
             exitButton.Visibility = Visibility.Visible;
             MainScatterView.Visibility = Visibility.Visible;
@@ -386,13 +368,9 @@ namespace LADSArtworkMode
         /// </summary>
         public void LayoutArtworkMode(String filename)
         {
-            //Console.WriteLine("LayoutArworkMode called");
             double MainHeight = this.Height;// -30; // 1094 - 14
             double MainWidth = this.Width;// -30;  // 1934 - 14
 
-            //Console.WriteLine("MainWidth = " + MainWidth + ", MainHeight = " + MainHeight);
-            //Console.WriteLine(this.ActualHeight);
-            //Console.WriteLine(this.ActualWidth);
             ImageArea.SetCurrentValue(HeightProperty, MainHeight);
             ImageArea.SetCurrentValue(WidthProperty, MainWidth);
 
@@ -429,13 +407,9 @@ namespace LADSArtworkMode
             AuthLeftPanel.SetCurrentValue(HeightProperty, MainHeight * .8);
             AuthLeftPanel.SetCurrentValue(WidthProperty, MainWidth * .2);
 
-            //sTextBoxDocsSearch.Width = sectionWidth - sBDocsSearch.ActualWidth * 2.0;
-            //sTextBoxHotSpotSearch.Width = sectionWidth - sBHotSpotSearch.ActualWidth *2.0;
             SectionListBoxMaster.SetCurrentValue(Canvas.TopProperty, labelSize * 2.1);
-            //SectionListBoxMaster.Height = sectionHeight - labelSize * 2.1;
             SectionListBoxMaster.Width = sectionWidth - 10;
 
-            //LeftPanelButtonMaster.Height = labelSize * .75;
             LeftPanelButtonMaster.Width = 10;
             LeftPanelButtonMaster.FontSize = SectionTitlesMaster.FontSize * .75;
             LeftPanelButtonMaster.Height = labelSize * .75;
@@ -476,7 +450,6 @@ namespace LADSArtworkMode
             treeDocs.Items.Clear();
 
             loadMetadata(filename);
-            // m_hotspotCollection = new HotspotCollection();
             if (m_hotspotCollection.loadDocument(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\XMLFiles\\" + filename + ".xml"))
                 fillHotspotNavListBox();
             this.initWorkspace();
@@ -489,15 +462,12 @@ namespace LADSArtworkMode
             Helpers helpers = new Helpers();
             XmlDocument doc = new XmlDocument();
             doc.Load("data/NewCollection.xml");
-            //new AssociatedDocListBoxItem("video", "Data\\Videos\\Metadata\\lightning.avi", "c:\\Users\\Public\\Documents\\3rdLADS\\GCNav\\bin\\Debug\\Data\\Videos\\Metadata\\lightning.avi", this); 
             if (doc.HasChildNodes)
             {
                 foreach (XmlNode docNode in doc.ChildNodes)
                 {
                     if (docNode.Name == "Collection")
                     {
-                        int startY = 1;
-                        int endY = 0;
                         foreach (XmlNode node in docNode.ChildNodes)
                         {
                             if (node.Name == "Image")
@@ -566,27 +536,6 @@ namespace LADSArtworkMode
 
         public void initWorkspace()
         {
-            /*
-            images = new WorkspaceElement[num_images];
-
-            double spaceWidth = this.ActualWidth / num_images;
-            Console.WriteLine("spaceWidth: " + spaceWidth);
-            Console.WriteLine("Bar.ActualHeight: " + Bar.ActualHeight);
-            for (int i = 0; i < num_images; i++)
-            {
-                images[i] = new WorkspaceElement();
-                
-                Bar.Children.Add(images[i]);
-                //images[i].Background = Brushes.Fuchsia;
-                images[i].Visibility = Visibility.Visible;
-                images[i].Center = new Point(spaceWidth * i + spaceWidth / 2.0 + this.ActualWidth * .2, this.ActualHeight * .8 + Bar.ActualHeight / 2.0);
-                images[i].SetCurrentValue(ScatterViewItem.WidthProperty, spaceWidth - 2 * spaceBuffer); 
-                images[i].SetCurrentValue(ScatterViewItem.HeightProperty, Bar.ActualHeight - 2 * spaceBuffer);
-                images[i].SetCurrentValue(Canvas.LeftProperty, spaceWidth * i);
-                images[i].SetCurrentValue(Canvas.TopProperty, spaceBuffer);
-                
-            }
-             */
         }
 
         #endregion
@@ -596,20 +545,6 @@ namespace LADSArtworkMode
         private void Main_Loaded(object sender, RoutedEventArgs e)
         {
             mainArtwork = new Artwork();
-
-            /*try
-            {
-                ImageSourceConverter imgConv = new ImageSourceConverter();
-                String path = "C:/temp/Penguins.jpg";
-                ImageSource imageSource = (ImageSource)imgConv.ConvertFromString(path);
-                mainArtwork.addImage("C:/temp/Penguins.jpg");
-
-                mainImage.Source = imageSource;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }*/
         }
         private void toggleHotspot()
         {
@@ -621,7 +556,6 @@ namespace LADSArtworkMode
                     int index = (int)item.Tag;
                     m_hotspotCollection.unloadHotspotIcon(index);
                 }
-                //m_hotspotCollection.loadAllHotspotsIcon(HotspotOverlay, MainScatterView,msi);
                 m_hotspotCollection.loadAllHotspotsIcon(HotspotOverlay, MSIScatterView, msi);
                 if (m_currentSelectedHotspotIndex != -1)
                 {
@@ -654,7 +588,6 @@ namespace LADSArtworkMode
                     int index = (int)item.Tag;
                     m_hotspotCollection.unloadHotspotIcon(index);
                 }
-                //m_hotspotCollection.loadAllHotspotsIcon(HotspotOverlay, MainScatterView,msi);
                 m_hotspotCollection.loadAllHotspotsIcon(HotspotOverlay, MSIScatterView, msi);
                 if (m_currentSelectedHotspotIndex != -1)
                 {
@@ -681,8 +614,6 @@ namespace LADSArtworkMode
         {
             listHotspotNav.Items.Clear();
             m_hotspotCollection.unloadAllHotspotsIcon();
-            // m_hotspotOnOff = false;
-            //toggleHotspots.Content = "Hotspots On";
             if (m_hotspotCollection.Hotspots != null)
             {
                 for (int i = 0; i < m_hotspotCollection.Hotspots.Length; i++)
@@ -695,9 +626,7 @@ namespace LADSArtworkMode
                         listHotspotNav.Items.Add(item);
                         if (m_hotspotOnOff == true)
                         {
-                            //m_hotspotCollection.loadHotspotIcon(i, HotspotOverlay, MainScatterView, msi);
                             m_hotspotCollection.loadHotspotIcon(i, HotspotOverlay, MSIScatterView, msi);
-                            //m_hotspotCollection.HotspotIcons[i].changeToHighLighted();
                         }
                     }
                 }
@@ -755,7 +684,6 @@ namespace LADSArtworkMode
                 hotspotHeightAnim.Completed += new EventHandler(hotspotHeightAnim_Completed);
                 DoubleAnimation assocDocHeightAnim = getDoubleAnimation(treeDocs.ActualHeight, 140, .3);
                 DoubleAnimation opacityAnim = getDoubleAnimation(0, 1, .3);
-                //opacityAnim.Completed += new EventHandler(opacityAnim_Completed);
 
                 treeDocs.BeginAnimation(HeightProperty, assocDocHeightAnim);
                 treeDocs.BeginAnimation(OpacityProperty, opacityAnim);
@@ -825,7 +753,6 @@ namespace LADSArtworkMode
                 DoubleAnimation hotspotHeightAnim = getDoubleAnimation(listHotspotNav.ActualHeight, 140, .3);
                 DoubleAnimation opacityAnim = getDoubleAnimation(0, 1, .3);
                 DoubleAnimation hotspotCanvasHeightAnim = getDoubleAnimation(HotspotNav.ActualHeight, 80, .3);
-                //opacityAnim.Completed += new EventHandler(opacityAnim_Completed);
 
                 listHotspotNav.BeginAnimation(HeightProperty, hotspotHeightAnim);
                 listHotspotNav.BeginAnimation(OpacityProperty, opacityAnim);
@@ -866,7 +793,6 @@ namespace LADSArtworkMode
         /// </summary>
         public void resetAll()
         {
-            // testButtons.Text = "Reset All clicked"; 
             try
             {
 
@@ -902,9 +828,6 @@ namespace LADSArtworkMode
             catch (Exception exc)
             {
             }
-            //hs.LoadDocument("abc");
-
-            //hs.LoadDocument("abc"); // jcchin - commented out for now so I can compile LADS
         }
 
 
@@ -913,8 +836,6 @@ namespace LADSArtworkMode
         /// </summary>
         private void loadHotspots()
         {
-            //HotspotIconControl hotspotIcon = new HotspotIconControl(HotspotOverlay, MainScatterView);
-            //HotspotOverlay.Children.Add(hotspotIcon);
         }
 
 
@@ -924,15 +845,12 @@ namespace LADSArtworkMode
         /// </summary>
         private void sBDocsSearch_Click(object sender, RoutedEventArgs e)
         {
-            //  testButtons.Text = "Docs search clicked";
             String keyword = sTextBoxDocsSearch.Text;
-            Console.WriteLine("Keyword = " + keyword);
             //treeViewSearch(keyword, treeDocs.Items); // jcchin - commented out to build LADS
             try
             {
                 foreach (AssociatedDocListBoxItem currentItem in treeDocs.Items)
                 {
-                    Console.WriteLine("current item = " + currentItem.getLabel());
                     string lowercaseLabel = currentItem.getLabel().ToLower();
                     string lowercaseKeyword = keyword.ToLower();
                     if (lowercaseLabel.Contains(lowercaseKeyword))
@@ -972,25 +890,6 @@ namespace LADSArtworkMode
         /// </summary>
         private void sliderBrightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
-            /* if (!sliderBrightnessDragStarted)
-            {
-                if (mainArtwork != null)
-                {
-                    try
-                    {
-                        mainArtwork.captureScreen(384, 0, 1536, 864);
-                        mainArtwork.Tools.adjustBrightness((int)sliderBrightness.Value);
-                        ImageSource imgs = (ImageSource)mainArtwork.returnImage();
-                        mainImage.Source = imgs;
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-            } */
         }
 
 
@@ -999,44 +898,6 @@ namespace LADSArtworkMode
         /// </summary>
         private void sliderBrightness_DragCompleted(object sender, EventArgs e)
         {
-            /*//  if (mainArtwork != null)
-              {
-                  try
-                  {
-                      //mainArtwork.captureScreen(384, 0, 1536, 864);
-                      mainArtwork.captureScreen(msi, 1);
-                      //mainArtwork.Tools.adjustBrightness((int)sliderBrightness.Value);
-                      //ImageSource imgs = (ImageSource)mainArtwork.returnImage();
-                     // mainImage.Source = imgs;
-
-
-                      Byte[] result = mainArtwork.Tools.applyFilter("Brightness", (int)sliderBrightness.Value, (int)sliderContrast.Value, (int)sliderSaturation.Value);
-                      mainArtwork.Tools.Modified = true;
-                      BitmapSource myNewImage = BitmapSource.Create(mainArtwork.Tools.ImageWidth, mainArtwork.Tools.ImageHeight, 96, 96, PixelFormats.Bgra32, null, result, mainArtwork.Tools.ImageWidth * 4);
-                      mainImage.Height = msi.RenderSize.Height;
-                      mainImage.Width = msi.RenderSize.Width;
-                      mainImage.Source = myNewImage;
-
-                      TransformGroup transformGroup = new TransformGroup();
-                      transformGroup.Children.Add(new ScaleTransform(1 * (1), -1 * (1)));
-                     // transformGroup.Children.Add(new TranslateTransform(1832, -70));
-                      //MessageBox.Show(msi.GetZoomableCanvas.Scale.ToString());
-
-                      transformGroup.Children.Add(new TranslateTransform(0,  msi.RenderSize.Height));
-                      mainImage.RenderTransform = transformGroup;
-
-                      MultiScaleImageSpatialItemsSource ss = msi.SpatialSource;
-                      //ss.applyTools();
-                  }
-                  catch (Exception ex)
-                  {
-                      MessageBox.Show(ex.Message);
-                  }
-                 // msi.Brightness = (int)sliderBrightness.Value;
-                 // msi.Modified = true;
-                  //msi.LoadCurrentZoomLevelTiles();
-              }
-             // sliderBrightnessDragStarted = false;*/
         }
 
 
@@ -1055,24 +916,6 @@ namespace LADSArtworkMode
         /// </summary>
         private void sliderContrast_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            /* if (!sliderContrastDragStarted)
-            {
-                if (mainArtwork != null)
-                {
-                    try
-                    {
-                        mainArtwork.captureScreen(384, 0, 1536, 864);
-                        mainArtwork.Tools.adjustContrast((int)sliderContrast.Value);
-                        ImageSource imgs = (ImageSource)mainArtwork.returnImage();
-                        mainImage.Source = imgs;
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-            } */
         }
 
         /// <summary>
@@ -1080,34 +923,6 @@ namespace LADSArtworkMode
         /// </summary>
         private void sliderContrast_DragCompleted(object sender, EventArgs e)
         {
-            /*if (mainArtwork != null)
-            {
-                try
-                {
-                    //mainArtwork.captureScreen(384, 0, 1536, 864);
-                    mainArtwork.captureScreen(msi, 1);
-                   // mainArtwork.Tools.adjustContrast((int)sliderContrast.Value);
-                   // ImageSource imgs = (ImageSource)mainArtwork.returnImage();
-                   // mainImage.Source = imgs;
-
-                    Byte[] result = mainArtwork.Tools.applyFilter("Contrast", (int)sliderBrightness.Value, (int)sliderContrast.Value, (int)sliderSaturation.Value);
-                    mainArtwork.Tools.Modified = true;
-                    BitmapSource myNewImage = BitmapSource.Create(mainArtwork.Tools.ImageWidth, mainArtwork.Tools.ImageHeight, 96, 96, PixelFormats.Bgra32, null, result, mainArtwork.Tools.ImageWidth * 4);
-                    mainImage.Height = msi.RenderSize.Height;
-                    mainImage.Width = msi.RenderSize.Width;
-                    mainImage.Source = myNewImage;
-
-                    TransformGroup transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(new ScaleTransform(1 * (1), -1 * (1)));
-                    // transformGroup.Children.Add(new TranslateTransform(1832, -70));
-                    transformGroup.Children.Add(new TranslateTransform(0, msi.RenderSize.Height));
-                    mainImage.RenderTransform = transformGroup;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }*/
         }
 
         /// <summary>
@@ -1124,24 +939,6 @@ namespace LADSArtworkMode
         /// </summary>
         private void sliderSaturation_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            /* if (!sliderSaturationDragStarted)
-            {
-                if (mainArtwork != null)
-                {
-                    try
-                    {
-                        mainArtwork.captureScreen(384, 0, 1536, 864);
-                        mainArtwork.Tools.adjustSaturation((int)sliderSaturation.Value);
-                        ImageSource imgs = (ImageSource)mainArtwork.returnImage();
-                        mainImage.Source = imgs;
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-            } */
         }
 
         /// <summary>
@@ -1149,35 +946,6 @@ namespace LADSArtworkMode
         /// </summary>
         private void sliderSaturation_DragCompleted(object sender, EventArgs e)
         {
-            /*if (mainArtwork != null)
-            {
-                try
-                {
-                    //mainArtwork.captureScreen(384, 0, 1536, 864);
-                    mainArtwork.captureScreen(msi, 1);
-                    //mainArtwork.Tools.adjustSaturation((int)sliderSaturation.Value);
-                    //ImageSource imgs = (ImageSource)mainArtwork.returnImage();
-                    //mainImage.Source = imgs;
-
-                    Byte[] result = mainArtwork.Tools.applyFilter("Saturation", (int)sliderBrightness.Value, (int)sliderContrast.Value, (int)sliderSaturation.Value);
-                    mainArtwork.Tools.Modified = true;
-                    BitmapSource myNewImage = BitmapSource.Create(mainArtwork.Tools.ImageWidth, mainArtwork.Tools.ImageHeight, 96, 96, PixelFormats.Bgra32, null, result, mainArtwork.Tools.ImageWidth * 4);
-                    mainImage.Height = msi.RenderSize.Height;
-                    mainImage.Width = msi.RenderSize.Width;
-                    mainImage.Source = myNewImage;
-
-                    // jcchin - fixes mirroring issue as well, but still just an overlay
-                    TransformGroup transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(new ScaleTransform(1 * (1), -1 * (1)));
-                    // transformGroup.Children.Add(new TranslateTransform(1832, -70));
-                    transformGroup.Children.Add(new TranslateTransform(0, msi.RenderSize.Height));
-                    mainImage.RenderTransform = transformGroup;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }*/
         }
 
         /// <summary>
@@ -1205,7 +973,6 @@ namespace LADSArtworkMode
                     Hotspot selectedHotspot = m_hotspotCollection.Hotspots[listHotspotNav.SelectedIndex];
                     if (m_hotspotOnOff == true)
                     {
-                        // if (m_currentSelectedHotspotIndex != listHotspotNav.SelectedIndex )
                         {
                             if (m_currentSelectedHotspotIndex != -1)
                             {
@@ -1223,7 +990,6 @@ namespace LADSArtworkMode
                         m_hotspotCollection.unloadAllHotspotsIcon();
                         item = (SurfaceListBoxItem)listHotspotNav.Items.GetItemAt(listHotspotNav.SelectedIndex);
                         index = (int)item.Tag;
-                        //m_hotspotCollection.loadHotspotIcon(index, HotspotOverlay, MainScatterView, msi);
                         m_hotspotCollection.loadHotspotIcon(index, HotspotOverlay, MSIScatterView, msi);
                         m_hotspotCollection.HotspotIcons[index].changeToHighLighted();
                     }
@@ -1279,7 +1045,6 @@ namespace LADSArtworkMode
         /// <param name="e"></param>
         public void msi_ViewboxChanged(Object sender, EventArgs e)
         {
-            //resetAll(); 
             Rect viewbox = msi.GetZoomableCanvas.ActualViewbox;
 
             /* SIZE OF OVERLAY */
@@ -1363,11 +1128,6 @@ namespace LADSArtworkMode
         /// <param name="e"></param>
         private void msi_thumb_rect_ManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
-            /*base.OnManipulationDelta(e);
-
-            msi_thumb_rect.RenderTransform = new TranslateTransform(e.DeltaManipulation.Translation.X, e.DeltaManipulation.Translation.Y);
-
-            e.Handled = true;*/
         }
 
         /// <summary>
@@ -1390,9 +1150,7 @@ namespace LADSArtworkMode
 
         private void switchToCatalogButton_Click(object sender, RoutedEventArgs e)
         {
-            
             this.Close();
-            //this.Hide();
         }
 
 
@@ -1440,9 +1198,8 @@ namespace LADSArtworkMode
         public DoubleAnimation getDoubleAnimation(double from, double to, double duration)
         {
             DoubleAnimation anim = new DoubleAnimation();
-            //anim.Completed += anim2Completed;
             anim.From = from;
-            anim.To = to; // barVersion.Width;
+            anim.To = to;
             anim.Duration = new Duration(TimeSpan.FromSeconds(duration));
             anim.FillBehavior = FillBehavior.Stop;
             return anim;
@@ -1464,16 +1221,13 @@ namespace LADSArtworkMode
                 toolsOriginalHeight = Tools.ActualHeight;
                 toolsOriginalWidth = Tools.ActualWidth;
                 toolsOriginalSliderWidth = sliderBrightness.ActualWidth;
-                //DoubleAnimation heightAnim = getDoubleAnimation(Tools.ActualHeight, Tools.ActualHeight * 1.2, LeftPanelAnimationDuration);
                 DoubleAnimation widthAnim = getDoubleAnimation(Tools.ActualWidth, Tools.ActualWidth * expansionRatio, LeftPanelAnimationDuration);
                 DoubleAnimation sliderAnim = getDoubleAnimation(sliderContrast.ActualWidth, sliderContrast.ActualWidth * expansionRatio, LeftPanelAnimationDuration);
-                //Tools.BeginAnimation(HeightProperty, heightAnim);
 
                 Tools.BeginAnimation(WidthProperty, widthAnim);
                 sliderBrightness.BeginAnimation(WidthProperty, sliderAnim);
                 sliderContrast.BeginAnimation(WidthProperty, sliderAnim);
                 sliderSaturation.BeginAnimation(WidthProperty, sliderAnim);
-                //Tools.Height = Tools.ActualHeight * 1.2;
                 Tools.Width = Tools.ActualWidth * expansionRatio;
                 sliderBrightness.Width = sliderContrast.ActualWidth * expansionRatio;
                 sliderContrast.Width = sliderContrast.ActualWidth * expansionRatio;
@@ -1483,16 +1237,13 @@ namespace LADSArtworkMode
             {
                 toolsExpanded = false;
                 Tools.ClipToBounds = true;
-                //DoubleAnimation heightAnim = getDoubleAnimation(Tools.ActualHeight, toolsOriginalHeight, LeftPanelAnimationDuration);
                 DoubleAnimation widthAnim = getDoubleAnimation(Tools.ActualWidth, toolsOriginalWidth, LeftPanelAnimationDuration);
                 DoubleAnimation sliderAnim = getDoubleAnimation(sliderContrast.ActualWidth, toolsOriginalSliderWidth, LeftPanelAnimationDuration);
-                //Tools.BeginAnimation(HeightProperty, heightAnim);
                 Tools.BeginAnimation(WidthProperty, widthAnim);
                 sliderBrightness.BeginAnimation(WidthProperty, sliderAnim);
                 sliderContrast.BeginAnimation(WidthProperty, sliderAnim);
                 sliderSaturation.BeginAnimation(WidthProperty, sliderAnim);
 
-                //Tools.Height = toolsOriginalHeight;
                 Tools.Width = toolsOriginalWidth;
                 sliderBrightness.Width = toolsOriginalSliderWidth;
                 sliderContrast.Width = toolsOriginalSliderWidth;
@@ -1555,10 +1306,7 @@ namespace LADSArtworkMode
                 {
                     DoubleAnimation da = new DoubleAnimation();
                     da.From = (this.Height) * .8;
-                    //////
                     da.To = (this.Height) * .8 + Bar.ActualHeight;
-                    //da.From = BottomPanel.ActualHeight * .5 + BottomPanel.;
-                    //da.To
                     da.Duration = new Duration(TimeSpan.FromSeconds(.4));
                     BottomPanel.BeginAnimation(Canvas.TopProperty, da);
                     foreach (WorkspaceElement wke in DockedItems)
@@ -1569,7 +1317,6 @@ namespace LADSArtworkMode
                 else
                 {
                     DoubleAnimation da = new DoubleAnimation();
-                    /////
                     da.From = (this.Height) * .8 + Bar.ActualHeight;
                     da.To = (this.Height) * .8;
                     da.Duration = new Duration(TimeSpan.FromSeconds(.4));
@@ -1584,27 +1331,11 @@ namespace LADSArtworkMode
             else
             {//display text
                 DoubleAnimation da = new DoubleAnimation();
-                /////
                 da.From = 0;
                 da.To = 1;
                 da.Duration = new Duration(TimeSpan.FromSeconds(1.4));
                 da.AutoReverse = true;
                 Text.BeginAnimation(OpacityProperty, da);
-
-
-                //DoubleAnimation da2 = new DoubleAnimation();
-                ///////
-                //da2.From = 1;
-                //da2.To = 1;
-                //da2.Duration = new Duration(TimeSpan.FromSeconds(2));
-                //Text.BeginAnimation(OpacityProperty, da2);
-
-                //DoubleAnimation da3 = new DoubleAnimation();
-                ///////
-                //da3.From = 1;
-                //da3.To = 0;
-                //da3.Duration = new Duration(TimeSpan.FromSeconds(3));
-                //Text.BeginAnimation(OpacityProperty, da3);
             }
         }
 
@@ -1625,42 +1356,16 @@ namespace LADSArtworkMode
 
         private void Tours_MouseEnter(object sender, MouseEventArgs e)
         {
-            //Tours.Width = 800;
-            ////Tours.Background = Brushes.Red;
-            ////Tours.Background.Opacity = .5;
-            //Tours.ClipToBounds = false;
 
         }
 
         private void Tours_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //Tours.Width = 800;
-            ////Tours.Background.Opacity = .5;
-            //Tours.ClipToBounds = false;
-
         }
 
         private void Tours_MouseLeave(object sender, MouseEventArgs e)
         {
-            //Tours.Width = 344;
-            //Tours.ClipToBounds = true;
         }
-        /*
-        public void ScatterViewCenterChanged(object sender, EventArgs e)
-        {
-            if (MainScatterViewItem.ActualCenter.Y > 830.0 && !scatteremoved)
-            {
-                ScatterViewItem move = new ScatterViewItem();
-                ScatterViewItem i = MainScatterView.Items.GetItemAt(MainScatterView.Items.IndexOf(MainScatterViewItem)) as ScatterViewItem;
-                move.Background = i.Background;
-                //move.Content = i.Content;
-                MainScatterView.Items.Remove(MainScatterViewItem);
-                scatteremoved = true;
-                Bar.Children.Add(move);
-                //Bar.ItemsSource = items;
-            }
-        }
-         */
 
         public Canvas getMain()
         {
@@ -1685,7 +1390,6 @@ namespace LADSArtworkMode
         private void mainImage_TouchDown(object sender, TouchEventArgs e)
         {
             resetAll();
-            //mainArtwork.captureScreen(msi, 1);
         }
 
         private void labelTools_MouseUp(object sender, MouseButtonEventArgs e)
@@ -1701,12 +1405,10 @@ namespace LADSArtworkMode
 
         private void mainImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //  mainArtwork.captureScreen(msi, 1);
         }
 
         private void mainImage_TouchUp(object sender, TouchEventArgs e)
         {
-            // mainArtwork.captureScreen(msi, 1);
         }
 
         #endregion
@@ -1718,7 +1420,6 @@ namespace LADSArtworkMode
 
             if (!System.IO.File.Exists(filePath))
             {
-                //tourSystem.CreateNewBlankTour(filePath, currentArtworkFileName, currentArtworkTitle, "No title");
                 String fileContentString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n" +
 
@@ -1758,7 +1459,6 @@ namespace LADSArtworkMode
         public void hideMetaList()
         {
             Main.Children.Remove(newMeta);
-            //metaData.Content = "Assets list";
         }
         public void showMetaList()
         {
@@ -1768,12 +1468,9 @@ namespace LADSArtworkMode
                 return;
             }
             Main.Children.Add(newMeta);
-            //MainScatterView.Items.Add(newMeta);
             Canvas.SetZIndex(newMeta, 75);
             Canvas.SetLeft(newMeta, 410);
             Canvas.SetTop(newMeta, 100);
-
-            //metaData.Content = "Fold list";
         }
 
 
@@ -1785,7 +1482,7 @@ namespace LADSArtworkMode
             tourSystem.SaveInkCanvases();
             DoubleAnimation saveAnim = new DoubleAnimation();
             saveAnim.From = 1.0;
-            saveAnim.To = 0.0;// barVersion.Width;
+            saveAnim.To = 0.0;
             saveAnim.Duration = new Duration(TimeSpan.FromSeconds(2.0));
             saveAnim.FillBehavior = FillBehavior.Stop;
             tourSystem.getSaveSuccessfulLabel().BeginAnimation(OpacityProperty, saveAnim);
@@ -1907,20 +1604,11 @@ namespace LADSArtworkMode
                                                         {
                                                             string filepath = "Data/Images/Metadata/" + metadatafilename;
                                                             DateTime lastModifiedTime = File.GetLastWriteTimeUtc(@filepath);
-
-                                                            Console.WriteLine("File last modified at: " + lastModifiedTime);
                                                             DateTime currUtcTime = DateTime.UtcNow;
-                                                            Console.WriteLine("Current Time: " + currUtcTime);
                                                             TimeSpan span = currUtcTime.Subtract(lastModifiedTime);
-                                                            Console.WriteLine("It has been " + span.Hours + " hours, " + span.Minutes + " minutes, and " + span.Seconds + " seconds since the image was last modified");
-                                                            //if (span.Minutes > 1)
                                                             if (span.Seconds > 20)
                                                             {
-                                                                Console.WriteLine("URL = " + url + ", Filepath = " + filepath);
-                                                                //webClient.DownloadFile(url, @filepath);
                                                                 downloadAndSaveImage(url, @filepath);
-                                                                Console.WriteLine("Updating");
-                                                                //webClient.Dispose();
                                                                 reloadMetadata(currentArtworkFileName);
                                                             }
                                                         }
@@ -2077,19 +1765,11 @@ namespace LADSArtworkMode
 
 
         public void releaseItem() {
-
-                //dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
-                //dpd.AddValueChanged(item, TrackCenterListener);
-
-
                 
                 item.Opacity = 1.0;
                 item.CanRotate = true;
                 item.isDocked = false;
                 item.CanMove = true;
-
-                //item.MinHeight = 80;
-                //item.MinWidth = 80.0 * item.oldWidth / item.oldHeight;
 
                 Helpers helper = new Helpers();
                 
@@ -2097,24 +1777,22 @@ namespace LADSArtworkMode
                 DoubleAnimation heightAnim = new DoubleAnimation();
                 
                 heightAnim.From = item.barImageHeight;
-                heightAnim.To = item.oldHeight; // barVersion.Height;
+                heightAnim.To = item.oldHeight;
                 heightAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
                 heightAnim.FillBehavior = FillBehavior.Stop;
                 DoubleAnimation widthAnim = new DoubleAnimation();
                 widthAnim.From = item.barImageWidth;
-                widthAnim.To = item.oldWidth; // barVersion.Width;
+                widthAnim.To = item.oldWidth;
                 widthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
                 widthAnim.FillBehavior = FillBehavior.Stop;
                 item.BeginAnimation(HeightProperty, heightAnim);
                 item.BeginAnimation(WidthProperty, widthAnim);
 
-                //wke.Children.RemoveAt(0);
-                //dockImage.Opacity = 0;
                 this.Opacity = 0;
                 DoubleAnimation dockwidthAnim = new DoubleAnimation();
                 dockwidthAnim.Completed += anim2Completed;
                 dockwidthAnim.From = item.barImageWidth;
-                dockwidthAnim.To = 0; // barVersion.Width;
+                dockwidthAnim.To = 0;
                 dockwidthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
                 dockwidthAnim.FillBehavior = FillBehavior.Stop;
                 this.BeginAnimation(WidthProperty, dockwidthAnim);
@@ -2122,8 +1800,6 @@ namespace LADSArtworkMode
 
                 
                 item.isDocked = false;
-                //bar.Items.Remove(this);
-                //artmodewin.DockedItems.Remove(this);
                 artmodewin.DockedDockableItems.Remove(item);
                 artmodewin.SavedDockedItems.Remove(info);
 
@@ -2134,7 +1810,6 @@ namespace LADSArtworkMode
                     WorkspaceElement w = artmodewin.DockedItems[i] as WorkspaceElement;
                     w.item.Center = new Point(w.item.Center.X - this.ActualWidth, w.item.Center.Y);
                 }
-                //item.isAnimating = false;
 
         }
 
@@ -2185,9 +1860,7 @@ namespace LADSArtworkMode
             Console.WriteLine("ANIM 2");
 
             this.Visibility = Visibility.Collapsed;
-            //bar.Items.Remove(this);
             artmodewin.DockedItems.Remove(this);
-            //flushItems();
             item.isDocked = false;
            
             this.IsHitTestVisible = true;
