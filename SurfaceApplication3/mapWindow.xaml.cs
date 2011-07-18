@@ -22,6 +22,7 @@ namespace SurfaceApplication3
         {
             InitializeComponent();
             mapControl.setParentWindow(this);
+            
         }
 
     }

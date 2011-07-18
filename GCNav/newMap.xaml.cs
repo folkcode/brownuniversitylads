@@ -165,7 +165,7 @@ namespace GCNav
                 newEllipse.Visibility = Visibility.Visible;
                 backEllipse.Visibility = Visibility.Visible;
                 String str = locButtons[rb];
-                String[] locInfo = Regex.Split(str, "/");
+                String[] locInfo = Regex.Split(str, "///");
                 double lon = Convert.ToDouble(locInfo[1]);
                 double lat = Convert.ToDouble(locInfo[2]);
 
@@ -257,7 +257,7 @@ namespace GCNav
         public void createButtons(String str)
         {
             //MessageBox.Show("scale" + mapImage.GetZoomableCanvas.Scale);
-            String[] buttonsInfo = System.Text.RegularExpressions.Regex.Split(str, "/");
+            String[] buttonsInfo = System.Text.RegularExpressions.Regex.Split(str, "///");
             String lon = buttonsInfo[1];
             String lat = buttonsInfo[2];
             
@@ -356,7 +356,7 @@ namespace GCNav
           //  backEllipse.Fill = newBrush;
 
             String labelText = name + " ";
-            String[] displayInfo = Regex.Split(str, "/");
+            String[] displayInfo = Regex.Split(str, "///");
             String locCategory = displayInfo[0];
             String date = displayInfo[3];
             String city = displayInfo[4];
@@ -374,7 +374,22 @@ namespace GCNav
                 }
                 if (date != "")
                 {
-                    labelText += ", " + date;
+                    String[] strings = Regex.Split(date, "/");
+                    if (strings[0] != "null" && strings[1] != "null")
+                    {
+                        labelText += ", " + "from" + " " + strings[0] + " to " + strings[1];
+                    }
+                    else
+                    {
+                        if (strings[0] == "null")
+                        {
+                            labelText += ", " + strings[1];
+                        }
+                        else
+                        {
+                            labelText += ", " + strings[0];
+                        }
+                    }
                 }
               //  newColor.Color = Color.FromRgb(244, 234, 150);
                 
@@ -391,7 +406,22 @@ namespace GCNav
                 }
                 if (date != "")
                 {
-                    labelText += ", " + date;
+                    String[] strings = Regex.Split(date, "/");
+                    if (strings[0] != "null" && strings[1] != "null")
+                    {
+                        labelText += ", " + "from" + " " + strings[0] + " to " + strings[1];
+                    }
+                    else
+                    {
+                        if (strings[0] == "null")
+                        {
+                            labelText += ", " + strings[1];
+                        }
+                        else
+                        {
+                            labelText += ", " + strings[0];
+                        }
+                    }
                 }
               //  newColor.Color = Color.FromRgb(0,169,184);
             }
@@ -408,12 +438,28 @@ namespace GCNav
                 }
                 if (date != "")
                 {
-                    labelText += ", " + date;
+                    String[] strings = Regex.Split(date, "/");
+                    if (strings[0] != "null" && strings[1] != "null")
+                    {
+                        labelText += ", " + "from" + " " + strings[0] + " to " + strings[1];
+                    }
+                    else
+                    {
+                        if (strings[0] == "null")
+                        {
+                            labelText += ", " + strings[1];
+                        }
+                        else
+                        {
+                            labelText += ", " + strings[0];
+                        }
+                    }
                 }
                 //newColor.Color = Color.FromRgb(244, 234, 150);
             }
             //Console.Out.WriteLine(labelText);
             infoLabel.Text = labelText;
+            Console.Out.WriteLine(infoLabel.Text);
             Canvas.SetZIndex(infoLabel, 20);
             //infoLabel1.Text = labelText;
           
@@ -432,6 +478,7 @@ namespace GCNav
             //Console.Out.WriteLine(locInfo.Count);
             foreach (String info in locInfo)
             {
+                Console.Out.WriteLine(info);
                 this.createButtons(info);
 
             }

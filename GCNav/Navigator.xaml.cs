@@ -194,7 +194,7 @@ namespace GCNav
                                                     {
                                                         city = locInfo.Attributes.GetNamedItem("city").InnerText;
                                                     }
-                                                    currentImage.setLocButtonInfo("red" + "/" + lon + "/" + lat + "/" + date + "/" + city);
+                                                    currentImage.setLocButtonInfo("red" + "///" + lon + "///" + lat + "///" + date + "///" + city);
                                                 }
 
                                             }
@@ -218,7 +218,7 @@ namespace GCNav
                                                     {
                                                         city = locInfo.Attributes.GetNamedItem("city").InnerText;
                                                     }
-                                                    currentImage.setLocButtonInfo("yellow" + "/" + lon + "/" + lat + "/" + date + "/" + city);
+                                                    currentImage.setLocButtonInfo("yellow" + "///" + lon + "///" + lat + "///" + date + "///" + city);
 
                                                 }
 
@@ -247,7 +247,7 @@ namespace GCNav
                                                             {
                                                                 city = displayLoc.Attributes.GetNamedItem("city").InnerText;
                                                             }
-                                                            currentImage.setLocButtonInfo("blue" + "/" + lon + "/" + lat + "/" + date + "/" + city);
+                                                            currentImage.setLocButtonInfo("blue" + "///" + lon + "///" + lat + "///" + date + "///" + city);
                                                         }
                                                         // currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 1, currentImage));
 

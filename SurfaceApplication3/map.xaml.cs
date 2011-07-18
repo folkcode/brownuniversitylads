@@ -417,6 +417,9 @@ namespace SurfaceApplication3
             sender.IsChecked = true;
             date.IsReadOnly = false;
             city.IsReadOnly = false;
+            dateTo.IsReadOnly = false;
+            //date.Text = "";
+            //dateTo.Text = "";
             //Make sure that if it's the origin location, no date could be entered
             String str = dic[(SurfaceRadioButton)sender];
             String[] strs = Regex.Split(str, ",");
@@ -424,16 +427,49 @@ namespace SurfaceApplication3
             if (strs[0] == "red")
             {
                 date.IsReadOnly = true;
+                dateTo.IsReadOnly = true;
             }
 
             if (dateInfo.ContainsKey((SurfaceRadioButton)sender))
             {
-                Console.Out.WriteLine("contains");
-                date.Text = dateInfo[(SurfaceRadioButton)sender];
+
+                if (dateInfo[(SurfaceRadioButton)sender].Contains("/"))
+                {
+
+                    String[] strings = Regex.Split(dateInfo[(SurfaceRadioButton)sender], "/");
+                    //Console.Out.WriteLine("string length"+strings.Length);
+                    if (strings[0] == "null")
+                    {
+                        date.Text = "";
+                        dateTo.Text = strings[1];
+                    }
+                    else if (strings[1] == "null")
+                    {
+                        date.Text = strings[0];
+                        dateTo.Text = "";
+                    }
+
+                    else if (strings[0] == "null" && strings[1] == "null")
+                    {
+                        date.Text = "";
+                        dateTo.Text = "";
+                    }
+                    else
+                    {
+                        date.Text = strings[0];
+                        dateTo.Text = strings[1];
+                    }
+                }
+                else
+                {
+                    date.Text = "";
+                    dateTo.Text = "";
+                }
             }
             else
             {
                 date.Text = "";
+                dateTo.Text = "";
             }
 
             if (cityInfo.ContainsKey((SurfaceRadioButton)sender))
@@ -623,6 +659,7 @@ namespace SurfaceApplication3
             SurfaceRadioButton newMarker = new SurfaceRadioButton();
             //newMarker.Checked += new RoutedEventHandler(newButton_Checked);
             newMarker.IsChecked = true;
+            
 
             foreach (SurfaceRadioButton rb in radioButtons)
             {
@@ -686,7 +723,7 @@ namespace SurfaceApplication3
 
             Canvas.SetLeft(newMarker, screenPosX - 22.8);
             Canvas.SetTop(newMarker, screenPosY - 13);
-           
+            this.newMarker_Click(newMarker);
         }
 
 
@@ -970,15 +1007,44 @@ namespace SurfaceApplication3
 
                 if (dateInfo.ContainsKey(checkedButton))
                 {
-                    
-                    dateInfo[checkedButton] = date.Text;
+                    if (dateTo.Text != "")
+                    {
+                        if (date.Text != "")
+                        {
+                            dateInfo[checkedButton] = date.Text + "/" + dateTo.Text;
+                        }
+                        else
+                        {
+                            dateInfo[checkedButton] = "null/" + dateTo.Text;
+                        }
+                    }
+                    else
+                    {
+                        if (date.Text != null)
+                        {
+                            dateInfo[checkedButton] = date.Text + "/null";
+                        }
+                        else
+                        {
+                            dateInfo[checkedButton] = "";
+                        }
+                    }
                 }
                 else
                 {
-                    if (date.Text != "")
+                    if (date.Text != "" || dateTo.Text!="")
                     {
-                        String newStr = date.Text;
-                        dateInfo.Add(checkedButton, newStr);
+                        if(dateTo.Text =="")
+                        {
+                            
+                            String newStr = date.Text+ "/null";
+                            dateInfo.Add(checkedButton, newStr);
+                        }
+                        else
+                        {
+                            String newStr = date.Text + dateTo.Text;
+                            dateInfo.Add(checkedButton,newStr);
+                        }
                     }
                 }
             }
@@ -1011,6 +1077,66 @@ namespace SurfaceApplication3
                     {
                         String newStr = city.Text;
                         cityInfo.Add(checkedButton, newStr);
+                    }
+                }
+            }
+        }
+
+        private void dateTo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Boolean isChecked = false;
+            SurfaceRadioButton checkedButton = new SurfaceRadioButton();
+            foreach (SurfaceRadioButton rb in radioButtons)
+            {
+                if (rb.IsChecked == true)
+                {
+                    isChecked = true;
+                    checkedButton = rb;
+                }
+
+            }
+            if (isChecked)
+            {
+
+                if (dateInfo.ContainsKey(checkedButton))
+                {
+                    if (date.Text != "")
+                    {
+                        if (dateTo.Text != "")
+                        {
+                            dateInfo[checkedButton] = date.Text + "/" + dateTo.Text;
+                        }
+                        else
+                        {
+                            dateInfo[checkedButton] = date.Text;
+                        }
+                    }
+                    else
+                    {
+                        if (dateTo.Text != "")
+                        {
+                            dateInfo[checkedButton] = "null/" + dateTo.Text;
+                        }
+                        else
+                        {
+                            dateInfo[checkedButton] = "";
+                        }
+                    }
+                }
+                else
+                {
+                    if (dateTo.Text != "" || date.Text!="")
+                    {
+                        if (date.Text != "")
+                        {
+                            String newStr = date.Text + "/" + dateTo.Text;
+                            dateInfo.Add(checkedButton, newStr);
+                        }
+                        else
+                        {
+                            String newStr = "null/" + dateTo.Text;
+                            dateInfo.Add(checkedButton, newStr);
+                        }
                     }
                 }
             }
