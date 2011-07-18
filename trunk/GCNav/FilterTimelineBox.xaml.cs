@@ -30,6 +30,7 @@ namespace GCNav
         List<String> _artists;
         List<String> _mediums;
         List<String> _years;
+        DateTime _lastOpened;
      
 
 
@@ -37,6 +38,7 @@ namespace GCNav
         {
             InitializeComponent();
             timelineFilter.Height = 30;
+            _lastOpened = DateTime.UtcNow;
 
         }
 
@@ -186,14 +188,25 @@ namespace GCNav
 
         }
 
+        private void handle_filt()
+        {
+            DateTime currUtcTime = DateTime.UtcNow;
+            TimeSpan span = currUtcTime.Subtract(_lastOpened);
+            if (span.Days > 0 || span.Hours > 0 || span.Minutes > 0 || span.Seconds > 0 || span.Milliseconds > 100)
+            {
+                toggleFilterbox();
+                _lastOpened = currUtcTime;
+            }
+        }
+
         private void filt_mousedown(object sender, MouseEventArgs e)
         {
-            toggleFilterbox();
+            this.handle_filt();
         }
 
         private void filt_touchdown(object sender, TouchEventArgs e)
         {
-            toggleFilterbox();
+            this.handle_filt();
             e.Handled = true;
         }
 
