@@ -766,14 +766,14 @@ namespace SurfaceApplication3
                         }
                     }
                     doc.Save("Data/XMLFiles/" + imageName + "." + "xml");
-                    parentWindow.Visibility = Visibility.Hidden;
+                    parentWindow.Close();
 
                     //doc.Save("C://LADS-yc60/data/XMLFiles/" + imageName + "." + "xml");
                     //doc.Save("F://lads_data/XMLFiles/" + imageName + "." + "xml");
                 }
                 else
                 {
-                    parentWindow.Visibility = Visibility.Hidden;
+                    parentWindow.Close();
                 }
             }
             else
@@ -870,7 +870,7 @@ namespace SurfaceApplication3
 
                     }
                     doc.Save("Data/XMLFiles/" + imageName + "." + "xml");
-                    parentWindow.Visibility = Visibility.Hidden;
+                    parentWindow.Close();
                 }
 
                 
@@ -999,7 +999,7 @@ namespace SurfaceApplication3
         {
             this.cancel();
             this.LoadHotspots();
-            parentWindow.Visibility = Visibility.Hidden;
+            parentWindow.Close();
         }
 
         /// <summary>
