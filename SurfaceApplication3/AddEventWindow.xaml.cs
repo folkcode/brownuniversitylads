@@ -310,7 +310,12 @@ namespace SurfaceApplication3
             }
             if (endYear - startYear <= 0)
             {
-                MessageBox.Show("End year must be later than start year");
+                MessageBox.Show("End year must be later than start year.");
+                return;
+            }
+            if (startYear < -9999 || startYear > 9999 || endYear < -9999 || endYear > 9999)
+            {
+                MessageBox.Show("Years must be between -9999 and 9999.");
                 return;
             }
             doc.Save(dataDir + "EventXML.xml");
