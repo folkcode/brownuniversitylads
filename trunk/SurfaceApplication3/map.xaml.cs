@@ -402,7 +402,7 @@ namespace SurfaceApplication3
         private void save_close_click(object sender, RoutedEventArgs e)
         {
             this.save();
-            newMapWindow.Close();
+            
         }
         public void setParentWindow(mapWindow parent)
         {
@@ -590,19 +590,104 @@ namespace SurfaceApplication3
             Canvas.SetTop(newMarker, screenPosY - 13);
             this.newMarker_Click(newMarker);
         }
+        public Boolean checkDateValid()
+        {
+            bool isValid = true;
+            foreach (SurfaceRadioButton rb in radioButtons)
+            {
+                String dateInfos = dateInfo[rb];
+                if (dateInfos != "")
+                {
+                    String[] strs = Regex.Split(dateInfos, "/");
+                    int toYear;
+                    int fromYear;
+                    if (strs[0] != "null" && strs[1] != "null")
+                    {
 
+                        try
+                        {
+                            fromYear = int.Parse(strs[0]);
+                        }
+                        catch (Exception excep)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Please put in the valid From year!");
+                            isValid = false;
+                            break;
+                        }
+
+                        try
+                        {
+                            toYear = int.Parse(strs[1]);
+                        }
+                        catch (Exception excep)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Please put in the valid To year!");
+                            isValid = false;
+                            break;
+                        }
+                        if (fromYear < -9999 || fromYear > 9999 || toYear < -9999 || toYear > 9999)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Please put in valid numbers");
+                            isValid = false;
+                            break;
+                        }
+                        if (fromYear > toYear)
+                        {
+                            System.Windows.Forms.MessageBox.Show("To year must be after From year");
+                            isValid = false;
+                        }
+
+                    }
+                    else if (strs[0] == "null")
+                    {
+                        try
+                        {
+                            toYear = int.Parse(strs[1]);
+                        }
+                        catch (Exception excep)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Please put in the valid To year!");
+                            isValid = false;
+                            break;
+                        }
+                    }
+                    else if (strs[1] == "null")
+                    {
+                        try
+                        {
+                            fromYear = int.Parse(strs[0]);
+                        }
+                        catch (Exception excep)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Please put in the valid From year!");
+                            isValid = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            return isValid;
+        }
 
         /// <summary>
         /// ` hotspots to XML file
         /// </summary>
         private void save()
         {
+            
             //There can be only one point of origin and current location
             if (currentX.Count > 1 || originX.Count > 1)
             {
                 System.Windows.Forms.MessageBox.Show("There can be only one point of origin and current location");
                 
                 return;
+            }
+            else if (!checkDateValid())
+            {
+                
+                //System.Windows.Forms.MessageBox.Show("To year must be after From year");
+                return;
+
             }
             else
             {
@@ -632,7 +717,7 @@ namespace SurfaceApplication3
                                             {
                                                 node.RemoveChild(imgnode);
                                             }
-                                            
+
                                         }
                                         if (radioButtons.Count != 0)
                                         {
@@ -700,7 +785,7 @@ namespace SurfaceApplication3
                 }
                 doc.Save(dataDir + "NewCollection.xml");
                 this.cancel();
-                this.Hide();
+                newMapWindow.Close();
             }
         }
                             
@@ -780,6 +865,7 @@ namespace SurfaceApplication3
             currLocationExists = false;
             date.Text = "";
             city.Text = "";
+            dateTo.Text = "";
 
         }
         /// <summary>
@@ -835,7 +921,9 @@ namespace SurfaceApplication3
                 }
                 date.IsReadOnly = true;
                 city.IsReadOnly = true;
-
+                date.Text = "";
+                city.Text = "";
+                dateTo.Text = "";
             }
             else
             {
@@ -858,7 +946,7 @@ namespace SurfaceApplication3
             }
             if (isChecked)
             {
-
+               
                 if (dateInfo.ContainsKey(checkedButton))
                 {
                     if (dateTo.Text != "")
@@ -951,7 +1039,7 @@ namespace SurfaceApplication3
             }
             if (isChecked)
             {
-
+                
                 if (dateInfo.ContainsKey(checkedButton))
                 {
                     if (date.Text != "")
@@ -962,7 +1050,7 @@ namespace SurfaceApplication3
                         }
                         else
                         {
-                            dateInfo[checkedButton] = date.Text;
+                            dateInfo[checkedButton] = date.Text +"/null";
                         }
                     }
                     else
