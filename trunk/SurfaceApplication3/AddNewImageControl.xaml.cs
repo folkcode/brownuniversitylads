@@ -165,9 +165,7 @@ namespace SurfaceApplication3
                     try
                     {
 
-                        System.Drawing.Image img = System.Drawing.Image.FromFile(@filePath[i]);
-                        
-                        img = img.GetThumbnailImage(128, 128, null, new IntPtr());
+                        System.Drawing.Image img = Helpers.getThumbnail(@filePath[i],400);
                         String tempname = System.IO.Path.GetTempFileName();
                         img.Save(tempname);
                         img.Dispose();
@@ -175,6 +173,7 @@ namespace SurfaceApplication3
                         FileStream fstream = new FileStream(tempname, FileMode.Open);
                         System.Drawing.Image dImage = System.Drawing.Image.FromStream(fstream);
                         wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+                        dImage.Dispose();
                         fstream.Close();
                         File.Delete(tempname);
                     }
@@ -255,6 +254,7 @@ namespace SurfaceApplication3
 
                 filename += ".bmp";
                 img.Save(newPath + filename);
+                img.Dispose();
 
             }
             else if (_helpers.IsImageFile(path))
@@ -912,8 +912,11 @@ namespace SurfaceApplication3
             {
                 this.loadOneArtwork();
             }
+            
             parr.Close();
-
+            System.GC.Collect();
+            System.GC.Collect();
+            Thread.Sleep(0);
         }
 
 
@@ -943,6 +946,7 @@ namespace SurfaceApplication3
                 FileStream stream = new FileStream(fullPath, FileMode.Open);
                 System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
                 wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+                dImage.Dispose();
                 stream.Close();
                 Utils.setAspectRatio(entryToModify.imageCanvas, entryToModify.imageRec, entryToModify.image1, wpfImage, 4);
                 entryToModify.image1.Source = wpfImage.Source;

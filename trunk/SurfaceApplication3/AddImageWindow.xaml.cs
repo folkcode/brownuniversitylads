@@ -24,7 +24,9 @@ namespace SurfaceApplication3
     /// </summary>
     public partial class AddImageWindow : SurfaceWindow
     {
-        
+
+        public MainWindow mainWindow;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
