@@ -566,6 +566,7 @@ namespace LADSArtworkMode
                 artModeWin.ImageArea.IsHitTestVisible = true;
                 artModeWin.MainScatterView.IsHitTestVisible = true;
                 tourPlaybackOn = false;
+                artModeWin.msi_tour.EnableEventHandlers();
             }
         }
 
