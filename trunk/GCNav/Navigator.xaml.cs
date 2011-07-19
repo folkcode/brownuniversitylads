@@ -317,7 +317,7 @@ namespace GCNav
             _displayedCollection = _imageCollection;
             this.loadCollection();
             this.arrangeImages(_starty, _endy, _windowSize.Height / 2);
-            mainScatterViewItem.Center = new Point(MainCanvas.Width / 2, mainScatterViewItem.Center.Y);
+            mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
             _initScatterPos = mainScatterViewItem.Center;
             _initScatterWH = new Point();
             _initScatterWH.X = mainScatterViewItem.Width;
@@ -410,7 +410,7 @@ namespace GCNav
             _displayedCollection = images;
 
             arrangeImages(_starty, _endy, MainCanvas.Height);
-            mainScatterViewItem.Center = new Point(MainCanvas.Width / 2, mainScatterViewItem.Center.Y);
+            mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
             timeline.update(_starty, _endy, MainCanvas.Width);
             filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
@@ -561,8 +561,8 @@ namespace GCNav
 
         public void changeSize(Size PreviousSize, Size NewSize)
         {
-            _background.Height = NewSize.Height;
-            _background.Width = NewSize.Width;
+            //_background.Height = NewSize.Height;
+            //_background.Width = NewSize.Width;
             if (PreviousSize.Height != 0)
             {
                 double zoomPercent = NewSize.Height / (PreviousSize.Height);
@@ -590,12 +590,12 @@ namespace GCNav
         {
 
             //Console.WriteLine("New Width = " + e.NewSize.Width);
-            if (e.NewSize.Width < 13000)
+            if (e.NewSize.Height < 11000 && e.NewSize.Height > _windowSize.Height / 2)
             {
                 if (!zoomStopped)
                 {
-                    _background.Height = e.NewSize.Height;
-                    _background.Width = e.NewSize.Width;
+                    //_background.Height = e.NewSize.Height;
+                    //_background.Width = e.NewSize.Width;
                     if (e.PreviousSize.Height != 0)
                     {
                         double zoomPercent = e.NewSize.Height / (e.PreviousSize.Height);
@@ -667,11 +667,11 @@ namespace GCNav
         private void mainScatterViewItem_CenterChanged(Object sender, EventArgs e)
         {
             //left
-            if (mainScatterViewItem.Center.X + MainCanvas.Width / 2 < _windowSize.Width * 1 / 2)
-                mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 - MainCanvas.Width / 2, mainScatterViewItem.Center.Y);
+            if (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2 + MainCanvas.Width / 2 < _windowSize.Width * 1 / 2)
+                mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 - MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
             //right
-            if (mainScatterViewItem.Center.X - MainCanvas.Width / 2 > _windowSize.Width * 1 / 2)
-                mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 + MainCanvas.Width / 2, mainScatterViewItem.Center.Y);
+            if (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2 - MainCanvas.Width / 2 > _windowSize.Width * 1 / 2)
+                mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 + MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
             //up
             if (mainScatterViewItem.Center.Y + MainCanvas.Height / 2 < (_windowSize.Height / 2) * 1 / 2)
                 mainScatterViewItem.Center = new Point(mainScatterViewItem.Center.X, (_windowSize.Height / 2) * 1 / 2 - MainCanvas.Height / 2);
@@ -679,7 +679,7 @@ namespace GCNav
             if (mainScatterViewItem.Center.Y - MainCanvas.Height / 2 > (_windowSize.Height / 2) * 1 / 2)
                 mainScatterViewItem.Center = new Point(mainScatterViewItem.Center.X, (_windowSize.Height / 2) * 1 / 2 + MainCanvas.Height / 2);
 
-            double panPercent = (MainCanvas.ActualWidth / 2 - mainScatterViewItem.Center.X) / MainCanvas.ActualWidth;
+            double panPercent = (MainCanvas.ActualWidth / 2 - (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2)) / MainCanvas.ActualWidth;
             if (MainCanvas.ActualWidth != Double.NaN && MainCanvas.ActualWidth != 0)
                 timeline.pan(panPercent);
         }
@@ -693,7 +693,8 @@ namespace GCNav
 
             mainScatterView.Width = _windowSize.Width * 1000;
             mainScatterView.Height = _windowSize.Height * 1000;
-            mainScatterView.Margin = new Thickness(0, _windowSize.Height / 2, 0, 0);
+            //shift the main scatterview to the left by _windowSize.Width * 999 / 2
+            mainScatterView.Margin = new Thickness(-_windowSize.Width * 999 / 2, _windowSize.Height / 2, 0, 0);
 
             double zoomPercent = _windowSize.Height / previous.Height;
 
@@ -714,10 +715,13 @@ namespace GCNav
             MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
 
             mainScatterViewItem.MaxHeight = 11000;
-            mainScatterViewItem.MaxWidth = 16000;
+            //mainScatterViewItem.MaxWidth = 16000;
             mainScatterViewItem.MinWidth = _windowSize.Width;
             mainScatterViewItem.MinHeight = _windowSize.Height / 2;
-            mainScatterViewItem.Center = new Point(_windowSize.Width / 2, _windowSize.Height / 4);
+            mainScatterViewItem.Center = new Point(_windowSize.Width / 2 + _windowSize.Width * 999 / 2, _windowSize.Height / 4);
+            //the scatterview item needs to be shifted to the right by _windowSize.Width * 999 / 2, so that we can see it on screen
+
+            MainCanvas.MaxHeight = mainScatterViewItem.MaxHeight - _windowSize.Height / 2;
 
             curImageContainer.Height = _windowSize.Height / 3;
             curImageContainer.Width = _windowSize.Width / 4;
