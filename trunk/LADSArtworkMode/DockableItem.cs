@@ -322,6 +322,7 @@ namespace LADSArtworkMode
         {
             if (win.isTourPlayingOrAuthoring())
                 return;
+            this.UpdateLayout();
             aspectRatio = (double)this.ActualWidth / (double)this.ActualHeight;
             Console.WriteLine(aspectRatio + " = aspect ratio");
             if (!isVideo)
