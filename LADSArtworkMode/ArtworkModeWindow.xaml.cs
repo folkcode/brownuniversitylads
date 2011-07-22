@@ -1330,12 +1330,15 @@ namespace LADSArtworkMode
             }
             else
             {//display text
+               // textMessage.Opacity = 1;
                 DoubleAnimation da = new DoubleAnimation();
                 da.From = 0;
                 da.To = 1;
                 da.Duration = new Duration(TimeSpan.FromSeconds(1.4));
                 da.AutoReverse = true;
                 Text.BeginAnimation(OpacityProperty, da);
+                textMessage.BeginAnimation(OpacityProperty, da);
+                               
             }
         }
 
