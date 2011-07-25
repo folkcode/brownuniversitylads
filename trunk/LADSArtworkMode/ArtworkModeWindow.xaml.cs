@@ -1609,7 +1609,7 @@ namespace LADSArtworkMode
                                                             DateTime lastModifiedTime = File.GetLastWriteTimeUtc(@filepath);
                                                             DateTime currUtcTime = DateTime.UtcNow;
                                                             TimeSpan span = currUtcTime.Subtract(lastModifiedTime);
-                                                            if (span.Seconds > 20)
+                                                            if (span.Days > 0 || span.Hours > 0 || span.Minutes > 5)
                                                             {
                                                                 downloadAndSaveImage(url, @filepath);
                                                                 reloadMetadata(currentArtworkFileName);
