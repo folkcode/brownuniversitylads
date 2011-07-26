@@ -73,7 +73,7 @@ namespace SurfaceApplication3
         {
             
             XmlDocument newDoc = new XmlDocument();
-            String imageFolder = "Data/Map/newmap.jpg" + "/" + "dz.xml";
+            String imageFolder = "Data/Map/Map.png" + "/" + "dz.xml";
             newDoc.Load(imageFolder);
             if (newDoc.HasChildNodes)
             {
@@ -102,7 +102,7 @@ namespace SurfaceApplication3
         {
             
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
-            String mapUri = dataUri + "Map/newmap.jpg/dz.xml";
+            String mapUri = dataUri + "Map/Map.png/dz.xml";
             map1.SetImageSource(mapUri);
             map1.UpdateLayout();
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
@@ -595,6 +595,7 @@ namespace SurfaceApplication3
             bool isValid = true;
             foreach (SurfaceRadioButton rb in radioButtons)
             {
+                if (!dateInfo.ContainsKey(rb)) continue;
                 String dateInfos = dateInfo[rb];
                 if (dateInfos != "")
                 {
