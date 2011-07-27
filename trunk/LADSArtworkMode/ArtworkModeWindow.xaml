@@ -41,7 +41,7 @@
         <Canvas Name="ImageArea" Background="#ccd6c1" Height="1080" Width="1920" Canvas.ZIndex ="-1">
 
             <Grid Name="DeepZoomGrid" Height="1080" Width="1920" Canvas.Top="0" Canvas.Left="0">
-                <dz:MultiScaleImage Name="msi" MouseLeave="Tours_MouseLeave">
+                <dz:MultiScaleImage Name="msi">
                     <dz:MultiScaleImage.Effect>
                         <ae:ImageShaderEffects
                         Brightness="{Binding ElementName=sliderBrightness, Path=Value}"
@@ -54,7 +54,7 @@
                 <!-- Source="C:\LADS - jcchin\checkout (2-27-2011)\GCNav\bin\Debug\Data\Images\DeepZoom\gari0001.bmp\dz.xml" -->
                 <!-- <dz:MultiScaleImage Source="file:///garibaldi/garibaldi/Panels DeepZoom/Panel 1/Exported Data/panel1/dzc_output_images/gari0001.xml" Name="msi"/> -->
                 <!--<Rectangle Fill=" Blue" Width="1536" Height="864" FlowDirection="RightToLeft" RenderTransformOrigin="100,10" HorizontalAlignment="Right" VerticalAlignment="Top" /> -->
-                <Image Name="mainImage" TouchDown="mainImage_TouchDown" MouseLeftButtonDown="mainImage_MouseLeftButtonDown" MouseLeftButtonUp="mainImage_MouseLeftButtonUp" TouchUp="mainImage_TouchUp" />
+                <Image Name="mainImage" TouchDown="mainImage_TouchDown" MouseLeftButtonDown="mainImage_MouseLeftButtonDown" />
                 <Canvas Name="HotspotOverlay">
                     <Canvas.RenderTransform>
                         <TransformGroup>
@@ -148,11 +148,8 @@
                                       Canvas.Top="63" 
                                       Name="sliderBrightness" 
                                       Width="290"
-                                      ValueChanged="sliderBrightness_ValueChanged" 
                                       IsSnapToTickEnabled="True" 
-                                      Value="0" 
-                                      Thumb.DragCompleted ="sliderBrightness_DragCompleted" 
-                                      Thumb.DragStarted ="sliderBrightness_DragStarted"/>
+                                      Value="0" />
                     <TextBlock 
                                Name="textBlockBrightness"
                                Canvas.Top="63" Canvas.Right="15" 
@@ -167,10 +164,9 @@
                                      Minimum="-100" Maximum="100" Canvas.Top="106"
                                      Name="sliderContrast" 
                                      Width="290" 
-                                     ValueChanged="sliderContrast_ValueChanged" 
                                      IsSnapToTickEnabled="True" 
                                      Value="0"  
-                                     Thumb.DragCompleted ="sliderContrast_DragCompleted" Thumb.DragStarted ="sliderContrast_DragStarted"/>
+                                     />
                     <TextBlock
                         Name="textBlockContrast"
                         Canvas.Top="106" Canvas.Right="15" 
@@ -188,10 +184,9 @@
                                      Minimum="-100" Maximum="100" Canvas.Top="148" 
                                      Name="sliderSaturation" 
                                      Width="290" 
-                                     ValueChanged="sliderSaturation_ValueChanged" 
                                      IsSnapToTickEnabled="True" 
                                      Value="0"  
-                                     Thumb.DragCompleted ="sliderSaturation_DragCompleted" Thumb.DragStarted ="sliderSaturation_DragStarted"/>
+                                     />
                     <TextBlock Name="textBlockSaturation"
                                 Canvas.Top="148" Canvas.Right="15" 
                                Width ="40" Height="23" Foreground="White" 
@@ -310,7 +305,7 @@
                         MinHeight="{Binding Height, ElementName=SectionBoxMaster}"
                         MaxHeight="{Binding Height, ElementName=SectionBoxMaster}"
                         Width="{Binding Width, ElementName=SectionBoxMaster}"
-                        MouseEnter="Tours_MouseEnter" MouseLeave="Tours_MouseLeave" Background="#ee618276">
+                        Background="#ee618276">
                     <Label Grid.Row="3" Content="Tours" FontFamily="Segoe360" FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" HorizontalAlignment="Left" Margin="2,1,0,0" Name="labelTours" VerticalAlignment="Top" Width="380" />
 
                     <s:SurfaceListBox Name="TourScroll" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" 

@@ -35,6 +35,7 @@ namespace SurfaceApplication3
             eventName = name;
         }
 
+        //deletes event
         private void delete_Click(object sender, RoutedEventArgs e)
         {
             DialogResult result = System.Windows.Forms.MessageBox.Show("Are you sure you want to remove this event" + " " + eventName +"?", "Remove the event", MessageBoxButtons.YesNo);
@@ -74,7 +75,6 @@ namespace SurfaceApplication3
             }
         }
             
-            
         private void edit_Click(object sender, TouchEventArgs e)
         {
             this.editClicked();
@@ -85,6 +85,9 @@ namespace SurfaceApplication3
             this.editClicked();
         }
 
+        /// <summary>
+        /// edit existing events
+        /// </summary>
         public void editClicked()
         {
             AddEventWindow newBigWindow = new AddEventWindow(_eventWindow);

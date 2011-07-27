@@ -34,14 +34,10 @@ namespace SurfaceApplication3
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
             this.load();
-            
         }
-
-
 
         public void setWindowSize()
         {
-
             Double width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
             Double height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
             Double ratio = height / width;
@@ -53,7 +49,6 @@ namespace SurfaceApplication3
                 {
                     this.Height = height - 100;
                     this.Width = this.Height / 800 * 1024;
-                    // this.Width = this.Height/ratio;
                     tran.ScaleY = this.Height / 800;
                     tran.ScaleX = this.Width / 1024;
                 }
@@ -63,18 +58,15 @@ namespace SurfaceApplication3
                     this.Height = this.Width / 1024 * 800;
                     tran.ScaleX = this.Width / 1024;
                     tran.ScaleY = this.Height / 800;
-                    //  this.Height = this.Width * ratio;
                 }
-                //Console.Out.WriteLine("width" + this.Width);
-                //Console.Out.WriteLine("height" + this.Height);
                 //scale according to 1600* 900 resolution
-
                 mainCanvas.RenderTransform = tran;
             }
-
-
-
         }
+        
+        /// <summary>
+        /// load event info
+        /// </summary>
         public void load()
         {
             String filepath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
@@ -114,6 +106,7 @@ namespace SurfaceApplication3
             }
         }
 
+        //reloads event info
         public void reload()
         {
             EventWindow newEventWindow = new EventWindow();
@@ -191,7 +184,6 @@ namespace SurfaceApplication3
         private void addEvent_Click(object sender, RoutedEventArgs e)
         {
             AddEventWindow newWindow = new AddEventWindow(this);
-            
             newWindow.Show();
         }
        

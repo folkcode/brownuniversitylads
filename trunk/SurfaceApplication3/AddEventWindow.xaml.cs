@@ -34,9 +34,6 @@ namespace SurfaceApplication3
         private bool editingExistingEvent;
         private String eventName;
 
-
-       
-
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -49,10 +46,7 @@ namespace SurfaceApplication3
 
             _eventWindow = eventWindow;
             eventName = "";
-            //this.setWindowSize();
         }
-
-       
 
         /// <summary>
         /// Occurs when the window is about to close. 
@@ -120,11 +114,6 @@ namespace SurfaceApplication3
             //TODO: disable audio, animations here
         }
 
-        private void SurfaceWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         public void isEditingEvent(bool isEditing)
         {
             editingExistingEvent = isEditing;
@@ -133,15 +122,20 @@ namespace SurfaceApplication3
         public void setEventName(String name)
         {
             eventName = name;
-
         }
 
+        /// <summary>
+        /// reloads the event window to reflect the new changes
+        /// </summary>
         private void close_Click(object sender, RoutedEventArgs e)
         {
             _eventWindow.reload();
             this.Close();
         }
 
+        /// <summary>
+        /// Saves events and writes the information to XML
+        /// </summary>
         private void save_Click(object sender, RoutedEventArgs e)
         {
             SolidColorBrush brush = new SolidColorBrush();
@@ -214,8 +208,6 @@ namespace SurfaceApplication3
                     }
 
                 }
-
-
             }
             //If it's a new event (not editing existing one)
             else
@@ -269,7 +261,6 @@ namespace SurfaceApplication3
             }
             if (name_tag.Text == "" || start_tag.Text == "" || end_tag.Text == "")
             {
-                //MessageBox.Show("Some items are not complete! Event must have a name, start year, and end year.");
                 incomplete_information.Content = "Some items are not complete! Event must have a name, start year, and end year.";
 
                 if (name_tag.Text == "")
@@ -348,7 +339,5 @@ namespace SurfaceApplication3
             description_tag.SelectionStart = selectionStart;
             description_tag.SelectionLength = trimmedString.Length;
         }
-
-
     }
 }
