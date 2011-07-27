@@ -153,7 +153,7 @@ namespace DeepZoom.Controls
         }
 
         //NEW
-        // The following methods were added by Brown CS (jcchin) -------------------------------------------------------------------------------------------
+        // The following methods were added by Brown CS -------------------------------------------------------------------------------------------
         public ZoomableCanvas GetZoomableCanvas
         {
             get { return _zoomableCanvas; }
@@ -378,44 +378,6 @@ namespace DeepZoom.Controls
 
         #region Overriden Input Event Handlers
 
-        // orignal event handlers - copied below with different method signatures so that they can be added and removed
-        /*protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
-        {
-            base.OnManipulationDelta(e);
-
-            var oldScale = _zoomableCanvas.Scale;
-            _zoomableCanvas.ApplyAnimationClock(ZoomableCanvas.ScaleProperty, null);
-            _zoomableCanvas.Scale = oldScale;
-
-            var oldOffset = _zoomableCanvas.Offset;
-            _zoomableCanvas.ApplyAnimationClock(ZoomableCanvas.OffsetProperty, null);
-            _zoomableCanvas.Offset = oldOffset;
-
-            var scale = e.DeltaManipulation.Scale.X;
-            ScaleCanvas(scale, e.ManipulationOrigin);
-
-            _zoomableCanvas.Offset -= e.DeltaManipulation.Translation;
-            e.Handled = true;
-        }
-
-        protected override void OnManipulationInertiaStarting(ManipulationInertiaStartingEventArgs e)
-        {
-            base.OnManipulationInertiaStarting(e);
-            e.TranslationBehavior = new InertiaTranslationBehavior { DesiredDeceleration = 0.0096 };
-            e.ExpansionBehavior = new InertiaExpansionBehavior { DesiredDeceleration = 0.000096 };
-            e.Handled = true;
-        }
-
-        protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
-        {
-            var relativeScale = Math.Pow(2, (double)e.Delta / Mouse.MouseWheelDeltaForOneLine);
-            var position = e.GetPosition(_itemsControl);
-
-            ScaleCanvas(relativeScale, position, true);
-
-            e.Handled = true;
-        }*/
-
         /// <summary>
         /// panning artwork via single-finger dragging gesture or mouse drag
         /// </summary>
@@ -431,7 +393,6 @@ namespace DeepZoom.Controls
 
             var oldOffset = _zoomableCanvas.Offset;
 
-            // jcchin - bounds (there's a better way to do this (artwork should not bounce awkwardly at boundaries (half of width and/or height))
             var minOffsetX = -(_zoomableCanvas.ActualWidth / 2);
             var maxOffsetX = (_zoomableCanvas.Scale * this.GetImageActualWidth) - (_zoomableCanvas.ActualWidth / 2);
             var minOffsetY = -(_zoomableCanvas.ActualHeight / 2);
@@ -454,8 +415,6 @@ namespace DeepZoom.Controls
             {
                 oldOffset.Y = minOffsetY;
             }
-
-            // jcchin - bounds
 
             _zoomableCanvas.ApplyAnimationClock(ZoomableCanvas.OffsetProperty, null);
             _zoomableCanvas.Offset = oldOffset;

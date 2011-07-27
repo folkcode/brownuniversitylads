@@ -34,7 +34,7 @@ namespace LADSArtworkMode
         public double oldHeight;
         public double oldWidth;
         public Image image;
-        WorkspaceElement wke;// = new WorkspaceElement();
+        WorkspaceElement wke;
         int wke_index;
         Image dockImage;
         private Point rootPoint;
@@ -104,14 +104,11 @@ namespace LADSArtworkMode
             this.SetCurrentValue(HeightProperty, image.Height);
             this.SetCurrentValue(WidthProperty, image.Width);
 
-            this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
-            this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
 
             Random rnd = new Random();
 
-            // remove white background of ScatterViewItem to allow for transparency (added by jcchin on 4/4/2011)
             this.Background = new SolidColorBrush(Colors.Transparent);
             RoutedEventHandler loadedEventHandler = null;
             loadedEventHandler = new RoutedEventHandler(delegate
@@ -169,9 +166,6 @@ namespace LADSArtworkMode
             mainScatterView.Items.Add(this);
             this.SetCurrentValue(HeightProperty, image.Height);
             this.SetCurrentValue(WidthProperty, image.Width);
-
-            this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
-            this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
 
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
@@ -234,9 +228,6 @@ namespace LADSArtworkMode
             this.CaptureMouse();
 
             mainScatterView.Items.Add(this);
-
-            this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
-            this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
 
             Random rnd = new Random();
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + vidBub.ActualWidth * 3), (int)(win.ActualWidth - vidBub.ActualWidth * 3 - 100)),
@@ -497,73 +488,8 @@ namespace LADSArtworkMode
             wke.info = info;
             if (!win.SavedDockedItems.Contains(info))
                 win.SavedDockedItems.Add(info);
-            //flushItems();
         }
 
-        public void barversTouchDown(object sender, EventArgs e)
-        {
-            /*
-            touchDown = true;
-            if (isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating && win.bottomPanelVisible)
-            {
-                //this.SetCurrentValue(HeightProperty, dockImage.Height);
-                this.isAnimating = true;
-                this.Opacity = 1.0;
-                this.CanRotate = true;
-                this.isDocked = false;
-                this.CanMove = true;
-
-                DoubleAnimation heightAnim = new DoubleAnimation();
-                heightAnim.From = this.ActualHeight;
-                heightAnim.To = oldHeight; // barVersion.Height;
-                heightAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
-                heightAnim.FillBehavior = FillBehavior.Stop;
-                DoubleAnimation widthAnim = new DoubleAnimation();
-                widthAnim.From = this.ActualWidth;
-                widthAnim.To = oldWidth; // barVersion.Width;
-                widthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
-                widthAnim.FillBehavior = FillBehavior.Stop;
-                this.BeginAnimation(HeightProperty, heightAnim);
-                this.BeginAnimation(WidthProperty, widthAnim);
-
-                //wke.Children.RemoveAt(0);
-                //dockImage.Opacity = 0;
-                wke.Opacity = 0;
-                DoubleAnimation dockwidthAnim = new DoubleAnimation();
-                dockwidthAnim.Completed += anim2Completed;
-                dockwidthAnim.From = barImageWidth;
-                dockwidthAnim.To = 0; // barVersion.Width;
-                dockwidthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
-                dockwidthAnim.FillBehavior = FillBehavior.Stop;
-
-                if (!knowledgeStack)
-                {
-                    dockImage.BeginAnimation(WidthProperty, dockwidthAnim); 
-                    this.isAnimating = false;
-                    this.isDocked = false;
-                    bar.Items.Remove(wke);
-                    win.DockedItems.Remove(wke);
-                    win.DockedDockableItems.Remove(this);
-                }
-                else
-                {
-                    this.isAnimating = false;
-                    this.isDocked = false;
-                    bar.Items.Remove(wke);
-                    win.DockedItems.Remove(wke);
-                    win.DockedDockableItems.Remove(this);
-                }
-                win.BarOffset -= actualWKEWidth;
-                int dex = win.DockedItems.IndexOf(wke);
-                for (int i = dex + 1; i < win.DockedItems.Count; i++)
-                {
-                    WorkspaceElement w = win.DockedItems[i] as WorkspaceElement;
-                    w.item.SetCurrentValue(CenterProperty, new Point(w.item.Center.X - actualWKEWidth, w.item.Center.Y));
-                }
-            }
-             * */
-            
-        }
         public void anim2Completed(object sender, EventArgs e)
         {
             this.isAnimating = false;
@@ -646,7 +572,6 @@ namespace LADSArtworkMode
                 label.FontSize = 18;
                 label.SetCurrentValue(DockPanel.DockProperty, Dock.Right);
                 dp.Children.Add(label);
-                //.GotFocus += new RoutedEventHandler(onTouch);
                 this.PreviewTouchDown += new EventHandler<TouchEventArgs>(onTouch);
                 this.PreviewMouseDown += new MouseButtonEventHandler(onTouch);
                 lb.getAssociatedDocToolBar().Items.Add(this);
