@@ -339,7 +339,7 @@ namespace SurfaceApplication3
                                         }
                                         catch (Exception e)
                                         {
-                                            MessageBox.Show("You must save edits before click on the hotspot and location button!");
+                                            MessageBox.Show("You must save the artwork before you can add hotspots.");
                                             return;
                                         }
 
@@ -754,7 +754,7 @@ namespace SurfaceApplication3
                             //This is to inform that parts of the information is not compelete
                             else
                             {
-                                MessageBox.Show("Please make sure every hotspot has complete name and its description");
+                                MessageBox.Show("Every hotspot must have a name and description.");
                                 return;
                             }
                         }
@@ -853,7 +853,7 @@ namespace SurfaceApplication3
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Please make sure every hotspot has complete name and its description");
+                                            MessageBox.Show("Every hotspot must have a name and description.");
                                             return;
                                         }
                                     }
@@ -900,7 +900,7 @@ namespace SurfaceApplication3
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("File is destroyed or not existed!");
+                        MessageBox.Show("File is destroyed or does not exist!");
                         return;
                     }
 
@@ -929,7 +929,7 @@ namespace SurfaceApplication3
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("File is destroyed or not existed!");
+                        MessageBox.Show("File is destroyed or does not exist!");
                         return;
                     }
                 }
@@ -960,7 +960,7 @@ namespace SurfaceApplication3
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("File is destroyed or not existed!");
+                        MessageBox.Show("File is destroyed or does not exist!");
                         return;
                     }
                 }

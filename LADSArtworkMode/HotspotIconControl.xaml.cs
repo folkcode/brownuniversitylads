@@ -129,7 +129,7 @@ namespace LADSArtworkMode
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
 
             }
 
@@ -152,7 +152,7 @@ namespace LADSArtworkMode
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
             }
             //Console.Out.WriteLine("display LOCATIONS");
             Double[] size = m_detailControl.findImageSize();

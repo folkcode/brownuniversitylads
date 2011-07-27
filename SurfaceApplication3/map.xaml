@@ -129,8 +129,8 @@
 
     <Grid >
         <Canvas>
-            <Label Content="Select what type of marker from the right," Canvas.Left="19" FontSize="16" Foreground="Black" Width="481" Canvas.Top="0" />
-            <Label Content="then select the spot on the map and fill in the location information below:" Canvas.Left="19" FontSize="16" Canvas.Top="18" Foreground="Black"/>
+            <Label Content="Select the type of marker by clicking one of the circles." Canvas.Left="19" FontSize="16" Foreground="Black" Width="481" Canvas.Top="0" />
+            <Label Content="Then select the location on the map and fill in the information below." Canvas.Left="19" FontSize="16" Canvas.Top="18" Foreground="Black"/>
             
             <dz:MultiScaleImage Name="map1" Width="768.5" Height="433.7" Canvas.Left="42" Canvas.Top="89" Canvas.ZIndex="10"/>
             <Rectangle Height="433.7"  Stroke="#227174" Width="768.5" Fill="#FFEDF5E2" StrokeThickness="3" Canvas.ZIndex="0" Canvas.Top="87" Canvas.Left="40"/>
@@ -140,10 +140,10 @@
                 
                 
             </Canvas>
-            <Label Name="dateLabel" Content="Date from:" Canvas.Bottom="70" Canvas.Left="30" Foreground="Black" FontSize="16"/>
+            <Label Name="dateLabel" Content="Date:  From:" Canvas.Bottom="70" Canvas.Left="30" Foreground="Black" FontSize="16"/>
             <!--<Label Content="From:" Foreground="Black" FontSize="16" Canvas.Left="80" Canvas.Bottom="80" />-->
-            <my:SurfaceTextBox x:Name="date" Canvas.Bottom="70" Canvas.Left="120" Width="100" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" MaxLength="5" />
-            <Label Content="To:" Canvas.Bottom="70" Canvas.Left="230" Foreground="Black" />
+            <my:SurfaceTextBox x:Name="date" Canvas.Bottom="70" Canvas.Left="128" Width="100" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" MaxLength="5" />
+            <Label Content="To:" Canvas.Bottom="70" Canvas.Left="227" Foreground="Black" />
             <my:SurfaceTextBox x:Name="dateTo" Canvas.Bottom="70" Canvas.Left="260" Width="100" Foreground="Black" FontSize="16" BorderBrush="#227174" Background="Transparent" IsReadOnly="True" MaxLength="5" TextChanged="dateTo_TextChanged" />
             <Label Content="Country and city:" Canvas.Bottom="70" Canvas.Left="380" Foreground="Black" Background="Transparent"  FontSize="16"/>
             <my:SurfaceTextBox x:Name="city" Canvas.Bottom="70" Canvas.Left="550" Width="200" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="city_TextChanged" />
