@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
@@ -49,7 +47,6 @@ namespace GCNav
                 double w = 0;
                 foreach (Border b in stacks[i].Children)
                 {
-                    //w += ((ImageData)b.Child).Width;
                     w += ((ImageData)((Canvas)b.Child).Children[0]).Width;
                     w += size_padding_constant;
                 }
@@ -96,8 +93,6 @@ namespace GCNav
             Canvas.SetBottom(tb, 0);
 
             tb.IsHitTestVisible = false;
-            //tb.PreviewTouchDown += new EventHandler<TouchEventArgs>
-
 
             Canvas c = new Canvas();
             c.Height = img.Height;
@@ -106,7 +101,6 @@ namespace GCNav
             
 
             c.Children.Add(tb);
-            //bord.Child = img;
             bord.Child = c;
             img.setCluster(this);
 

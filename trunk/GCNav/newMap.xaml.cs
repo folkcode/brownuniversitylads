@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DeepZoom;
-using DeepZoom.Controls;
 using Microsoft.Surface.Presentation.Controls;
-using System.Windows.Input;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 
@@ -25,15 +18,12 @@ namespace GCNav
     /// </summary>
     public partial class newMap : UserControl
     {
-        private String mapImageLocations;
-        private Size windowSize;
-        private int CanvasLeft, CanvasRight, CanvasTop, CanvasBottom;
-        ImageData currentImage;
+        private int CanvasLeft, CanvasTop, CanvasBottom;
         private Dictionary<SurfaceRadioButton, String> locButtons;
-        private Dictionary<SurfaceRadioButton, Ellipse> ellipses,backEllipses;
+        private Dictionary<SurfaceRadioButton, Ellipse> ellipses, backEllipses;
         private ImageData data;
-        public Double tranScaleX,tranScaleY;
-     
+        public Double tranScaleX, tranScaleY;
+
         public newMap()
         {
             InitializeComponent();
@@ -43,13 +33,12 @@ namespace GCNav
             backEllipses = new Dictionary<SurfaceRadioButton, Ellipse>();
             this.loadImageBlur();
             Canvas.SetZIndex(Location, 20);
-         
         }
 
         //This checks if the mapButtons are clicked.
-        void  Location_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        void Location_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-         
+
             foreach (UIElement ele in Location.Children)
             {
                 Ellipse ell = ele as Ellipse;
@@ -60,7 +49,7 @@ namespace GCNav
                     Point newPoint = e.MouseDevice.GetPosition(Location);
                     Double width = ell.Width;
                     Double height = ell.Height;
-                   
+
                     if (ell.Width != 26)
                     {
                         Point p = (sender as UIElement).TranslatePoint(e.GetPosition(sender as UIElement), Location);
@@ -71,21 +60,19 @@ namespace GCNav
                                 if (ellipses[rb] == ell)
                                 {
                                     newButton_Click(rb);
-                             
+
                                 }
                             }
-                          
                         }
                     }
                 }
-           
             }
         }
 
         //This is to add the faded edge effect
         public void loadImageBlur()
         {
-            
+
             BitmapImage blurImage = new BitmapImage();
             blurImage.BeginInit();
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
@@ -99,34 +86,33 @@ namespace GCNav
             blur.RenderTransform = newT;
             Canvas.SetZIndex(blur, 20);
             blur.Visibility = Visibility.Hidden;
-            
+
         }
-        
+
         //This load the deepzoom map
         public void loadMap()
         {
-            
+
             //MultiScaleImage newImage = new MultiScaleImage();
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
             String mapUri = dataUri + "Map/MAP.png/dz.xml";
-            
+
             mapImage.SetImageSource(mapUri);
             mapImage.UpdateLayout();
             Canvas.SetZIndex(mapImage, -10);
-                       
+
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
-           
+
             ZoomableCanvas msi = mapImage.GetZoomableCanvas;
             dpd.AddValueChanged(msi, LocationChanged);
 
         }
 
         //fade map and blur when filter box is down
-        public void fadeMap() 
+        public void fadeMap()
         {
             //change opacity of blur and map
             mapImage.Opacity = .5;
-            
         }
 
         public void unfadeMap()
@@ -150,22 +136,22 @@ namespace GCNav
                 double lon = Convert.ToDouble(locInfo[1]);
                 double lat = Convert.ToDouble(locInfo[2]);
 
-                double long1 = (lon-0.0028) * 11527;
-                double lat1 = (lat-0.002) *6505;
-                
+                double long1 = (lon - 0.0028) * 11527;
+                double lat1 = (lat - 0.002) * 6505;
+
                 Double screenPosX = (mapImage.GetZoomableCanvas.Scale * long1) - mapImage.GetZoomableCanvas.Offset.X; //need to reset the location thing
                 Double screenPosY = (mapImage.GetZoomableCanvas.Scale * lat1) - mapImage.GetZoomableCanvas.Offset.Y;
 
-                Canvas.SetLeft(backEllipse, screenPosX -1/mapImage.GetZoomableCanvas.Scale);
+                Canvas.SetLeft(backEllipse, screenPosX - 1 / mapImage.GetZoomableCanvas.Scale);
                 Canvas.SetTop(backEllipse, screenPosY - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
-                Canvas.SetLeft(newEllipse, screenPosX +2 - 1 / mapImage.GetZoomableCanvas.Scale);
+                Canvas.SetLeft(newEllipse, screenPosX + 2 - 1 / mapImage.GetZoomableCanvas.Scale);
                 Canvas.SetTop(newEllipse, screenPosY + 2 - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
                 Canvas.SetLeft(rb, screenPosX - 1 / mapImage.GetZoomableCanvas.Scale);
                 Canvas.SetTop(rb, screenPosY - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
-              
+
                 //Make sure all the map buttons are displayed within the map image.
                 if (screenPosX < 20 || screenPosX > Location.Width - 20)
                 {
@@ -185,29 +171,29 @@ namespace GCNav
         //This makes sure the display is resolution independent on screens of any resolution.
         public void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
-          
-           Size newSize = e.NewSize;
-           Size oldSize = e.PreviousSize;
 
-           CanvasLeft = (int)(newSize.Width *0.316);
+            Size newSize = e.NewSize;
+            Size oldSize = e.PreviousSize;
 
-           Canvas.SetLeft(this, CanvasLeft);
-           Canvas.SetTop(this, 30);
+            CanvasLeft = (int)(newSize.Width * 0.316);
 
-           Double mapAspectRatio = mapImage.Height / mapImage.Width;
+            Canvas.SetLeft(this, CanvasLeft);
+            Canvas.SetTop(this, 30);
 
-           CanvasBottom = CanvasTop + (int)(newSize.Width / 2 / mapAspectRatio);
+            Double mapAspectRatio = mapImage.Height / mapImage.Width;
 
-           ScaleTransform tran = new ScaleTransform();
+            CanvasBottom = CanvasTop + (int)(newSize.Width / 2 / mapAspectRatio);
 
-           double scale = Math.Max(newSize.Width / 1600, newSize.Height / 900);
-           tran.ScaleX = newSize.Width / 1600; //scale according to 1600* 900 resolution
-           tran.ScaleY = newSize.Height / 900;
+            ScaleTransform tran = new ScaleTransform();
 
-          this.RenderTransform = tran;
-          tranScaleX = tran.ScaleX;
-          tranScaleY = tran.ScaleY;
-       }
+            double scale = Math.Max(newSize.Width / 1600, newSize.Height / 900);
+            tran.ScaleX = newSize.Width / 1600; //scale according to 1600* 900 resolution
+            tran.ScaleY = newSize.Height / 900;
+
+            this.RenderTransform = tran;
+            tranScaleX = tran.ScaleX;
+            tranScaleY = tran.ScaleY;
+        }
 
         //When the new image is selected on the navigator, mapButtons of the previous image should be clear
         public void hideButtons()
@@ -235,23 +221,22 @@ namespace GCNav
             String[] buttonsInfo = System.Text.RegularExpressions.Regex.Split(str, "///");
             String lon = buttonsInfo[1];
             String lat = buttonsInfo[2];
-            
+
             double db1 = Convert.ToDouble(lon);
             double db2 = Convert.ToDouble(lat);
-            
+
             Ellipse newEllipse = new Ellipse();
             Ellipse backEllipse = new Ellipse();
             SurfaceRadioButton newButton = new SurfaceRadioButton();
-           
+
             SolidColorBrush mySolidColorBrush = new SolidColorBrush();
 
-            if (buttonsInfo[0]=="yellow")//yellow
+            if (buttonsInfo[0] == "yellow")//yellow
             {
                 mySolidColorBrush.Color = Color.FromArgb(255, 255, 255, 0);
                 locButtons.Add(newButton, str);
-               
             }
-            else if (buttonsInfo[0]=="blue")//blue
+            else if (buttonsInfo[0] == "blue")//blue
             {
                 mySolidColorBrush.Color = Color.FromArgb(255, 0, 0, 255);
                 locButtons.Add(newButton, str);
@@ -267,7 +252,6 @@ namespace GCNav
             newEllipse.Height = 22;
             backEllipse.Width = 26;
             backEllipse.Height = 26;
-            
 
             SolidColorBrush newBrush = new SolidColorBrush();
             newBrush.Color = Color.FromRgb(0, 255, 127);
@@ -277,23 +261,22 @@ namespace GCNav
             Location.Children.Add(newEllipse);
             Location.Children.Add(newButton);
             Location.Children.Add(backEllipse);
-            
+
             double mapActualWidth = 11527 * mapImage.GetZoomableCanvas.Scale;
             double mapActualHeight = 6505 * mapImage.GetZoomableCanvas.Scale;
             double long1 = db1 * mapActualWidth - mapImage.GetZoomableCanvas.Offset.X;
             double lat1 = db2 * mapActualHeight - mapImage.GetZoomableCanvas.Offset.Y;
 
-
-            ellipses.Add(newButton,newEllipse);
+            ellipses.Add(newButton, newEllipse);
             backEllipses.Add(newButton, backEllipse);
-            Canvas.SetLeft(newButton, long1 -5 - 1 / mapImage.GetZoomableCanvas.Scale);
-            Canvas.SetTop(newButton, lat1-3 - 0.5 / mapImage.GetZoomableCanvas.Scale );
+            Canvas.SetLeft(newButton, long1 - 5 - 1 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetTop(newButton, lat1 - 3 - 0.5 / mapImage.GetZoomableCanvas.Scale);
             Canvas.SetZIndex(newButton, 10);
-            Canvas.SetLeft(newEllipse, long1 -3 - 1 / mapImage.GetZoomableCanvas.Scale);
-            Canvas.SetTop(newEllipse, lat1 -1 - 0.5 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetLeft(newEllipse, long1 - 3 - 1 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetTop(newEllipse, lat1 - 1 - 0.5 / mapImage.GetZoomableCanvas.Scale);
             Canvas.SetZIndex(newEllipse, 10);
-            Canvas.SetLeft(backEllipse, long1-5 - 1 / mapImage.GetZoomableCanvas.Scale);
-            Canvas.SetTop(backEllipse, lat1-3- 0.5 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetLeft(backEllipse, long1 - 5 - 1 / mapImage.GetZoomableCanvas.Scale);
+            Canvas.SetTop(backEllipse, lat1 - 3 - 0.5 / mapImage.GetZoomableCanvas.Scale);
             Canvas.SetZIndex(backEllipse, 8);
 
             //Make sure the buttons are within the map image.
@@ -309,11 +292,10 @@ namespace GCNav
                 newEllipse.Visibility = Visibility.Collapsed;
                 backEllipse.Visibility = Visibility.Collapsed;
             }
-
         }
 
         //Displays the infomation of the mapButtons
-        public void newButton_Click(SurfaceRadioButton sender) 
+        public void newButton_Click(SurfaceRadioButton sender)
         {
             String str = locButtons[(SurfaceRadioButton)sender];
             sender.IsChecked = true;
@@ -323,7 +305,7 @@ namespace GCNav
                 name = name.Substring(0, 20);
                 name = name + "...";
             }
-        
+
             String labelText = name + " ";
             String[] displayInfo = Regex.Split(str, "///");
             String locCategory = displayInfo[0];
@@ -338,7 +320,7 @@ namespace GCNav
                 }
                 else
                 {
-                    labelText += "is currently at" +" "+ city;
+                    labelText += "is currently at" + " " + city;
                 }
                 if (date != "")
                 {
@@ -359,7 +341,7 @@ namespace GCNav
                         }
                     }
                 }
-           
+
             }
             else if (locCategory == "blue")
             {
@@ -390,13 +372,11 @@ namespace GCNav
                         }
                     }
                 }
-             
             }
             else
             {
                 if (city == "")
                 {
-
                     labelText += " was created here";
                 }
                 else
@@ -422,30 +402,24 @@ namespace GCNav
                         }
                     }
                 }
-               
             }
-           
             infoLabel.Text = labelText;
             Canvas.SetZIndex(infoLabel, 20);
-
         }
 
         //This method is called when the user select a new image
         public void HandleImageSelectedEvent(Object sender, Helpers.ImageSelectedEventArgs e)
         {
-           
             data = e.getImage();
             this.hideButtons();
             infoLabel.Text = "";
-           // infoLabel1.Text = "";
+            // infoLabel1.Text = "";
             List<String> locInfo = e.getImage().getLocButtonInfo();
 
             foreach (String info in locInfo)
             {
                 this.createButtons(info);
-
             }
-           
         }
         //Class for the mapButtons on the map
         public class newMapButton
@@ -462,7 +436,7 @@ namespace GCNav
                     switch (_type)
                     {
                         case 0:
-                            return " was worked on here";
+                            return " was created here";
                         case 1:
                             return " was displayed here";
                         case 2:
@@ -506,12 +480,10 @@ namespace GCNav
                         _ellipse.Fill = Brushes.White;
                         break;
                 }
-                //_ellipse.PreviewTouchDown += ButtonSelected;
                 _ellipse.StrokeThickness = 0;
                 _ellipse.Width = 20;
                 _ellipse.Height = 20;
                 _canvas.Children.Add(_ellipse);
-                //((Canvas)RegionImage.Parent).Children.Add(_canvas);
                 _canvas.Visibility = Visibility.Collapsed;
                 _imageData = img;
             }
@@ -530,12 +502,10 @@ namespace GCNav
                     Double canvasTop = Canvas.GetTop(ell);
                     Double width = ell.Width;
                     Double height = ell.Height;
-                
+
                     if (ell.Width != 26)
                     {
-                        
                         TouchPoint p = e.GetTouchPoint(Location);
-                    
                         if (p.Position.X > canvasLeft && p.Position.X < canvasLeft + width && p.Position.Y > canvasTop && p.Position.Y < canvasTop + height)
                         {
                             foreach (SurfaceRadioButton rb in ellipses.Keys)
@@ -545,13 +515,10 @@ namespace GCNav
                                     newButton_Click(rb);
                                 }
                             }
-                           
                         }
                     }
                 }
-               
             }
         }
-
     }
 }
