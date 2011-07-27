@@ -133,9 +133,7 @@
         
         
         <Canvas x:Name="imageCover" Canvas.Top="40" Canvas.Left="20" Height="400" Width="500" IsHitTestVisible="False" Canvas.ZIndex="20" Background="Transparent">
-           
-            <!-- <Image Height="392" x:Name="image1" Stretch="Fill" Width="492" Canvas.Top="4" Canvas.Left="4"/> -->
-           
+                
         </Canvas> 
         <Rectangle Height="400" Canvas.Top="40" Canvas.Left="20" Name="rectangle1" Stroke="#227174" Width="500" Fill="#B8DAD2" StrokeThickness="4" Canvas.ZIndex="0" />
         <dz:MultiScaleImage x:Name="image1" Height="392" Width="492" Canvas.Top="44" Canvas.Left="24"  Canvas.ZIndex="10"/>
@@ -144,26 +142,11 @@
             <Rectangle Height="400" Stroke="#FF076F72"  Width="360" Fill="#FFEDF5E2" StrokeThickness="3" />
 
             <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="60" Canvas.Left="30" Content="Set Hotspot to Text" Click="AddText_Click" IsEnabled="False"/>
-            <!--     <my:SurfaceButton Name="ModifyText" Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="40" Canvas.Left="220" Content="Modify" Click="ModifyText_Click" IsEnabled="False"/> -->
             <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="130" Canvas.Left="30" Content="Set Hotspot to Image" Click="AddImage_Click" IsEnabled="False" />
-            <!--     <my:SurfaceButton Name="ModifyImage"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="110" Canvas.Left="220" Content="Modify" Click="ModifyImage_Click" IsEnabled="False"/>-->
             <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="200" Canvas.Left="30" Content="Set Hotspot to Audio" Click="AddAudio_Click" IsEnabled="False"/>
-            <!--    <my:SurfaceButton Name="ModifyAudio"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="180" Canvas.Left="220" Content="Modify" Click="ModifyAudio_Click" IsEnabled="False"/>-->
             <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="270" Canvas.Left="30" Content="Set Hotspot to Video" Click="AddVideo_Click" IsEnabled="False" />
 
             <my:SurfaceButton Name="Edit" Style="{StaticResource browse}" Width="90" Height="26" MinHeight="0" Canvas.Top="170" Canvas.Left="230" Content="Edit" Click="Edit_Click" IsEnabled="False" />
-            <!--   <my:SurfaceButton Name="ModifyVideo"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="250" Canvas.Left="220" Content="Modify" Click="ModifyVideo_Click" IsEnabled="False"/>-->
-            <!--         <my:SurfaceButton Content=" -" Height="45" x:Name="surfaceButton1" Width="45" FontSize="32" FontWeight="Bold" Canvas.Bottom="5" Canvas.Left="260" Background="#FFA5AB9E" Visibility="Hidden"/>
-            <my:SurfaceButton Content=" +" FontWeight="Bold" Height="45" Name="surfaceButton2"  Width="45" FontSize="32"  Canvas.Bottom="5" Canvas.Left="80" Background="#FFA5AB9E" Foreground="White" Visibility="Hidden" />
-            <Label Content="ZOOM" Height="40" Canvas.Bottom="5" Canvas.Left="160" Foreground="Black" Visibility="Hidden"/>
-            <Label Content="Name:" Width="100" Canvas.Top="6" Canvas.Right="250" Foreground="#FF030000" />
-            <my:SurfaceTextBox x:Name="name" TextWrapping="Wrap" Canvas.Top="36" Canvas.Right="21" Width="321" Background="{x:Null}" Foreground="Black" TextChanged="name_TextChanged" MinHeight="0" MinWidth="0" Height="35" />
-            <Label Content="Text:" Height="40" Width="62" Canvas.Top="82" Canvas.Right="289" Foreground="Black" />
-            <Label Content=" Image:" Height="40" Width="80" Canvas.Top="304" Canvas.Right="274" Foreground="#FF030000" />
-            <my:SurfaceButton Style="{StaticResource browse}" Content="Browse" x:Name="Browse" Canvas.Right="21" Canvas.Bottom="28" Width="98" Height="30" Foreground="Black" BorderBrush="#FF076F72" BorderThickness="13" MinHeight="0" ClickMode="Release" Click="Browse_Click" OpacityMask="#FFD6FFD1" MinWidth="0" VerticalAlignment="Top" VerticalContentAlignment="Bottom" AllowDrop="False" />
-            <my:SurfaceTextBox x:Name="URL" Width="208" Height="30" Canvas.Right="133" Background="{x:Null}" Foreground="Black" Canvas.Bottom="27" MinHeight="0" MinWidth="0" />
-            <my:SurfaceTextBox Height="180" x:Name="text" Width="320" SelectionBrush="#FFFFF8F8"  Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" Canvas.Top="118" Canvas.Right="22" VerticalScrollBarVisibility="Auto" TextChanged="text_TextChanged" />
--->
         </Canvas>
 
         <my:SurfaceButton Style="{StaticResource gen}" Content="Save and Close" Height="30" Foreground="White" Canvas.Top="458" Canvas.Right="23" Click="save_close_click" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" MinHeight="0" MinWidth="0" FontSize="14" Width="122" />
