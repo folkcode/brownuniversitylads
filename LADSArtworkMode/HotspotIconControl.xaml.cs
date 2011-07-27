@@ -120,7 +120,6 @@ namespace LADSArtworkMode
             }
             catch (Exception e)
             {
-                //MessageBox.Show(e.ToString());
 
             }
 
@@ -158,7 +157,6 @@ namespace LADSArtworkMode
         /// </summary>
         public void updateScreenLocation(MultiScaleImage msi)
         {
-           // Console.Out.WriteLine("update location");
             Double[] size = m_detailControl.findImageSize();
             screenPosX = (msi.GetZoomableCanvas.Scale * m_hotspotData.PositionX *size[0]) - msi.GetZoomableCanvas.Offset.X;
             screenPosY = (msi.GetZoomableCanvas.Scale * m_hotspotData.PositionY *size[1]) - msi.GetZoomableCanvas.Offset.Y;
