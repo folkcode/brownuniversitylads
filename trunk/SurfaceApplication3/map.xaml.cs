@@ -111,7 +111,7 @@ namespace SurfaceApplication3
             dpd.AddValueChanged(msi, LocationChanged);
         }
 
-        
+        //This changed the mapButtons location when the map is zoomed in or out
          public void LocationChanged(Object sender, EventArgs e)
         {
            foreach (SurfaceRadioButton rb in radioButtons)
