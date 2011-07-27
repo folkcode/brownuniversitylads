@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 
 namespace LADSArtworkMode
@@ -19,8 +8,6 @@ namespace LADSArtworkMode
     /// Interaction logic for metaDataEntry.xaml
     /// </summary>
     /// 
-
-    
 
     public partial class metaDataEntry : UserControl
     {
@@ -36,10 +23,6 @@ namespace LADSArtworkMode
             String dataDir = dataDir1 + "Images\\Metadata\\";
             _helpers = new Helpers();
             _fileName = fileName;
-            //imageName.Text = _fileName;
-            //_fileName = fileName.Substring(0, fileName.Length - 3) + "jpg";
-            //_fileName = fileName;
-            //_filePath = dataDir + _fileName;
             if (_helpers.IsImageFile(filepath))
             {
                 dataDir = dataDir1 + "Images\\Metadata\\";
@@ -55,8 +38,6 @@ namespace LADSArtworkMode
             InitializeComponent();
             this.Focusable = true;
             
-            //this.PreviewTouchDown += new EventHandler<TouchEventArgs>(chooseMetaData);
-            
         }
         public void loadPictures()
         {
@@ -66,12 +47,6 @@ namespace LADSArtworkMode
             System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
             image.Source = wpfImage.Source;
             stream.Close();
-            /*BitmapImage newImage = new BitmapImage();
-
-            newImage.BeginInit();
-            newImage.UriSource = new Uri(@filePath);
-            newImage.EndInit();
-            image.Source = newImage;*/
         }
 
         private void image_PreviewTouchUp(object sender, EventArgs e)

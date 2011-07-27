@@ -368,7 +368,6 @@
         </DockPanel>
 
         <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="100"></s:ScatterView>
-        <s:SurfaceButton Name="gloriousTestButton" Content="Reload Meta" Visibility="Hidden" FontSize="15" Width="110" Canvas.Left="600" Canvas.Top="25" Canvas.ZIndex="100" Click="testButton_Click"/>
         <s:SurfaceButton Name="switchToCatalogButton" Content="Catalog" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
         <!-- switch to artwork selection mode -->
         <!--s:SurfaceButton Name="activateKW" Content="Knowledge Web"  Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right ="367" Canvas.ZIndex="100" Visibility="Collapsed" /-->

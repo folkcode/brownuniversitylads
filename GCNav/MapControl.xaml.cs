@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.IO;
@@ -507,8 +503,8 @@ namespace GCNav
                             TextBox text = new TextBox();
                             text.Background = new SolidColorBrush(Color.FromRgb(167, 201, 159));
                             text.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                            if (r.GetArtworks().Count == 1) text.Text = "1 artwork was purchased, displayed, or worked on in this region";
-                            else text.Text = r.GetArtworks().Count + " artworks were purchased, displayed, or worked on in this region";
+                            if (r.GetArtworks().Count == 1) text.Text = "1 artwork was purchased, displayed, or created in this region";
+                            else text.Text = r.GetArtworks().Count + " artworks were purchased, displayed, created in this region";
                             subdivadded.Add(text);
                             Canvas can = (Canvas)((Canvas)RegionImage.Parent).Parent;
                             can.Children.Add(text);
@@ -891,7 +887,7 @@ namespace GCNav
                     switch (_type)
                     {
                         case 0:
-                            return " was worked on here";
+                            return " was created here";
                         case 1:
                             return " was displayed here";
                         case 2:
