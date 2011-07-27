@@ -74,15 +74,9 @@ namespace LADSArtworkMode
         {
             
             scatteruri = imageURIPathParam;
-            Console.WriteLine("Constructor 1");
             image = new Image();
             aldbi = null;
             _helpers = new Helpers();
-            /*BitmapImage bi3 = new BitmapImage();
-            bi3.BeginInit();
-            bi3.UriSource = new Uri(imageURIPathParam, UriKind.Absolute);
-            bi3.EndInit();
-            image.Source = bi3;*/
 
             FileStream stream = new FileStream(imageURIPathParam, FileMode.Open);
             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
@@ -95,12 +89,8 @@ namespace LADSArtworkMode
             mainScatterView = _mainScatterView;
             bar = _bar;
             win = _win;
-            //this.MinHeight = 80;
-            //this.MinWidth = 80;
             isDocked = false;
             touchDown = false;
-            //this.CanScale = true;
-            //aldbi = _aldbi;
 
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
@@ -114,10 +104,6 @@ namespace LADSArtworkMode
             this.SetCurrentValue(HeightProperty, image.Height);
             this.SetCurrentValue(WidthProperty, image.Width);
 
-            //this.MinHeight = 100;
-            //this.MinWidth = 100 * image.ActualWidth / image.ActualHeight;
-
-
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
@@ -127,8 +113,6 @@ namespace LADSArtworkMode
 
             // remove white background of ScatterViewItem to allow for transparency (added by jcchin on 4/4/2011)
             this.Background = new SolidColorBrush(Colors.Transparent);
-            //this.BorderBrush = new SolidColorBrush(Colors.Transparent); // not needed...making background transparent is enough for this
-            //this.ShowsActivationEffects = false; // not needed...activation effects are fine for this
             RoutedEventHandler loadedEventHandler = null;
             loadedEventHandler = new RoutedEventHandler(delegate
             {
@@ -148,13 +132,6 @@ namespace LADSArtworkMode
 
             stream.Close();
 
-            //this.PreviewMouseDown += maintainAspectRatio;
-            //this.MouseEnter += maintainAspectRatio;
-            //this.PreviewMouseMove += maintainAspectRatio;
-            //this.PreviewTouchMove += maintainAspectRatio;
-            //this.MouseWheel += maintainAspectRatio;
-            //bar.Items.Add(wke);
-
         }
 
         /// <summary>
@@ -163,7 +140,6 @@ namespace LADSArtworkMode
         public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, String imageURIPathParam, AssociatedDocListBoxItem _aldbi)
         {
             scatteruri = imageURIPathParam;
-            Console.WriteLine("Constructor 2");
             image = new Image();
             aldbi = null;
             _helpers = new Helpers();
@@ -173,8 +149,6 @@ namespace LADSArtworkMode
             System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
             image.Source = wpfImage.Source;
             stream.Close();
-            Console.WriteLine(image.Height);
-            Console.WriteLine(image.Width);
 
             this.isAnimating = false;
             this.Background = Brushes.LightGray;
@@ -269,7 +243,6 @@ namespace LADSArtworkMode
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + vidBub.ActualWidth * 3), (int)(win.ActualWidth - vidBub.ActualWidth * 3 - 100)),
                                                            rnd.Next((int)(vidBub.ActualHeight * 3), (int)(win.ActualHeight * .8 - vidBub.ActualHeight * 3)));
             this.SetCurrentValue(CenterProperty, pt);
-            Console.WriteLine(pt.X + " " + pt.Y);
             this.Orientation = rnd.Next(-20, 20);
 
             imageURIPath = _targetVid;
@@ -379,7 +352,6 @@ namespace LADSArtworkMode
             oldHeight = savedOldHeight;
             oldWidth = savedOldWidth;
             info = oldinfo;
-            //this.SizeChanged -= DockableItem_SizeChanged;
             barImageHeight = bar.ActualHeight * .8;
             barImageWidth = bar.ActualHeight * savedOldWidth / savedOldHeight;
             this.MinHeight = 80;
@@ -402,42 +374,21 @@ namespace LADSArtworkMode
             win.DockedItems.Add(wke);
             win.DockedDockableItems.Add(this);
             bar.Items.Add(wke);
-
-            
-
-
-            //win.BarOffset += wke.ActualWidth;
-          
-            //oldHeight = this.Height;
-            //oldWidth = this.Width;
             Point startPoint = wke.TransformToAncestor(win.getMain()).Transform(new Point(0, 0));
             Point relPoint = wke.TransformToAncestor(bar).Transform(new Point(0, 0));
             rootPoint = new Point(startPoint.X + relPoint.X, startPoint.Y + relPoint.Y);
-            
-
-
             this.Opacity = .5;
             wke.Opacity = 1.0;
             this.SetCurrentValue(CenterProperty, new Point(rootPoint.X + win.BarOffset + barImageWidth / 2.0, rootPoint.Y + barImageHeight / 2.0));
             this.CanMove = false;
-            //this.SetCurrentValue(CenterProperty, pt);
-            //dockImage.Opacity = 1.0;
             double imgRatio = oldHeight / oldWidth;
             this.SetCurrentValue(HeightProperty, barImageHeight * .9);
             this.SetCurrentValue(WidthProperty, barImageWidth * .9);
             this.CanRotate = false;
             this.Orientation = 0;
 
-
-            //actualWKEWidth = wke.ActualWidth;
-            //win.BarOffset += wke.ActualWidth;
             actualWKEWidth = savedWKEWidth;
             win.BarOffset += savedWKEWidth;
-            //Console.WriteLine("ACTUAL WIDTH " + wke.ActualWidth);
-            //Console.WriteLine(win.BarOffset);
-            
-
-
             this.Visibility = Visibility.Hidden;
 
             this.isDocked = true;
@@ -445,9 +396,6 @@ namespace LADSArtworkMode
             this.IsHitTestVisible = true;
             
         }
-
-       
-
 
         public void AddtoDock(object sender, EventArgs e)
         {
@@ -690,9 +638,6 @@ namespace LADSArtworkMode
 
         public AssociatedDocListBoxItem(String labeltext, String imageUri, String _scatteruri, ArtworkModeWindow lb)
         {
-            Console.WriteLine("labeltext: " + labeltext);
-            Console.WriteLine("imageUri: " + imageUri);
-            Console.WriteLine("_scatteruri: " + _scatteruri);
             _helpers = new Helpers();
 
             scatteruri = _scatteruri;
