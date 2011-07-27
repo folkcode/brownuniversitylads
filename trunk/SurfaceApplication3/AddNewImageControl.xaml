@@ -130,13 +130,9 @@
                         
             <Canvas Name="lower_information" Height="430" Width="1004" Canvas.Top="260" Canvas.Left="10">
             <Rectangle Fill="White" Stroke="#227174" Height="430" Width="1004" Canvas.Left="0" StrokeThickness="2"/>
-                <!--<Rectangle x:Name="background3" Fill="#FF2C9B8F" Height="17.5" Margin="8,0,0,8" Stroke="#FF36D231" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="839" Grid.ColumnSpan="2" />-->
-                <!--<m:hotspotAdd  Height="480" Width="780" Canvas.Top="50" Canvas.Left="60" Visibility="Hidden"/> -->
-
+              
             <s:SurfaceListBox x:Name="MetaDataList" Width="1004" Height="375" Canvas.Top="54" Canvas.Left="0" Background="#B0CAB8">
-                <!--s:SurfaceListBoxItem-->
-                <!--<m:MetaDataEntry Loaded="small_window_Loaded" Height="125"  Background="#FF7DD2A5"/>-->
-                <!--/s:SurfaceListBoxItem-->
+         
                 </s:SurfaceListBox>
             <s:SurfaceButton Style="{StaticResource gen}" x:Name="addMetadata" Content="Add Assets" Foreground="WhiteSmoke" BorderBrush="#227174" Height="30" FontFamily="Calibri" FontSize="16" BorderThickness="3,2" Width="122" Canvas.Left="863" Canvas.Top="4" Click="addMetadata_Click" />
                 <Label Canvas.Left="5" Canvas.Top="0" Content="Assets List: " Height="28" Name="label1" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Foreground="Black" FontSize="30" FontWeight="Bold" />
@@ -158,7 +154,5 @@
                 </ProgressBar>
             </Canvas>
             </Canvas>
-        <!--</Grid> -->
-  
-<!--</UserControl> -->
+
 </UserControl>
