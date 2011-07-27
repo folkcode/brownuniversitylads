@@ -223,6 +223,7 @@ namespace SurfaceApplication3
             string filename = mde.title_tag.Text;
             string path = mde.metaImagePath;
 
+            //uses the thumbnail image of the video
             if (_helpers.IsVideoFile(path))
             {
                 string newPath = "data/Videos/Metadata/";
@@ -525,7 +526,6 @@ namespace SurfaceApplication3
                                                             {
                                                                 String newPath = "data/Videos/Metadata/" + smallWindow.title_tag.Text;
                                                                 String path2 = newPath;
-                                                               // Console.WriteLine("Video File save: " + newPath);
                                                                 // Ensure that the target does not exist.
                                                                 try
                                                                 {
@@ -536,7 +536,6 @@ namespace SurfaceApplication3
                                                                 }
                                                                 catch (Exception exc)
                                                                 {
-                                                                  //  Console.WriteLine("CATCH!!");
                                                                 }
                                                             }
                                                         }
