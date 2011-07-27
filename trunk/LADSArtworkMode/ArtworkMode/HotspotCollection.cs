@@ -158,7 +158,7 @@ namespace LADSArtworkMode
                 m_hotspotIcons[index].displayOnScreen(msi);
                 m_isOnScreen[index] = true;
 
-                m_hotspotDetails[index] = m_hotspotIcons[index].DetailControl; // jcchin - key line that was missing
+                m_hotspotDetails[index] = m_hotspotIcons[index].DetailControl;
             }
         }
 
@@ -181,7 +181,7 @@ namespace LADSArtworkMode
         /// <summary>
         /// Specify a hotspot location with respect to its artwork.
         /// </summary>
-        public void updateHotspotLocation(int index, Canvas canvasParent, ScatterView scatterViewParent, MultiScaleImage msi) // new - jcchin
+        public void updateHotspotLocation(int index, Canvas canvasParent, ScatterView scatterViewParent, MultiScaleImage msi)
         {
             if (index >= 0 && index < m_hotspotIcons.Length)
             {
@@ -200,7 +200,7 @@ namespace LADSArtworkMode
         /// <summary>
         /// Specify all hotspots locations with respect to its artwork.
         /// </summary>
-        public void updateHotspotLocations(Canvas canvasParent, ScatterView scatterViewParent, MultiScaleImage msi) // new - jcchin
+        public void updateHotspotLocations(Canvas canvasParent, ScatterView scatterViewParent, MultiScaleImage msi)
         {
             if (m_hotspots != null)
             {

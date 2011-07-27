@@ -51,9 +51,6 @@
                 </dz:MultiScaleImage>
                 <dz:MultiScaleImage Name="msi_tour" Visibility="Hidden" />
                 <dz:MultiScaleImage Name="msi_tour_overlay" Visibility="Hidden" />
-                <!-- Source="C:\LADS - jcchin\checkout (2-27-2011)\GCNav\bin\Debug\Data\Images\DeepZoom\gari0001.bmp\dz.xml" -->
-                <!-- <dz:MultiScaleImage Source="file:///garibaldi/garibaldi/Panels DeepZoom/Panel 1/Exported Data/panel1/dzc_output_images/gari0001.xml" Name="msi"/> -->
-                <!--<Rectangle Fill=" Blue" Width="1536" Height="864" FlowDirection="RightToLeft" RenderTransformOrigin="100,10" HorizontalAlignment="Right" VerticalAlignment="Top" /> -->
                 <Image Name="mainImage" TouchDown="mainImage_TouchDown" MouseLeftButtonDown="mainImage_MouseLeftButtonDown" />
                 <Canvas Name="HotspotOverlay">
                     <Canvas.RenderTransform>

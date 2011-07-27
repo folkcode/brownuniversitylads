@@ -813,13 +813,11 @@ namespace LADSArtworkMode
         }
 
         /// <summary>
-        /// Call when a user chooses 'Search' to filter associated documents.
-        /// Not implemented yet
+        /// Call when a user searches associated media
         /// </summary>
         private void sBDocsSearch_Click(object sender, RoutedEventArgs e)
         {
             String keyword = sTextBoxDocsSearch.Text;
-            //treeViewSearch(keyword, treeDocs.Items); // jcchin - commented out to build LADS
             try
             {
                 foreach (AssociatedDocListBoxItem currentItem in treeDocs.Items)

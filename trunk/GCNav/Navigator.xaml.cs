@@ -291,7 +291,7 @@ namespace GCNav
         }
 
         /// <summary>
-        /// 
+        /// Loads collection, timeline, etc.
         /// </summary>
         public void startAll()
         {
@@ -697,8 +697,6 @@ namespace GCNav
 
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
             Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
-
-
         }
 
         /// <summary>
@@ -710,7 +708,6 @@ namespace GCNav
         {
             _windowSize = e.NewSize;
             setDimension(e.PreviousSize);
-
         }
 
         private void HandleImageTouched(object sender, EventArgs e)
@@ -894,7 +891,6 @@ namespace GCNav
             _curImage.TouchDown += HandleImageTouched;
             _curImage.MouseDown += HandleImageTouched;
 
-
             curInfoCol.Width = _windowSize.Width / 4;
             curInfoCol.Height = _windowSize.Height / 3;
 
@@ -930,7 +926,6 @@ namespace GCNav
                 KeywordsTitle.Visibility = Visibility.Visible;
                 curKeywords.Visibility = Visibility.Visible;
                 KeywordBack.Visibility = Visibility.Visible;
-
             }
             else
             {
@@ -1003,6 +998,5 @@ namespace GCNav
                 mainScatterViewItem.Height *= 0.9;
             }
         }
-
     }
 }

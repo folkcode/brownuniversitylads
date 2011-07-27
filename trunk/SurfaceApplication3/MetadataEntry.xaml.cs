@@ -222,6 +222,9 @@ namespace SurfaceApplication3
             addWeb.ShowDialog();
         }
 
+        /// <summary>
+        /// sets the URL of a web asset
+        /// </summary>
         public void setURL(string url)
         {
             webURL = url;
@@ -229,9 +232,11 @@ namespace SurfaceApplication3
             string filename = Path.GetFileName(url);
             string extension = Path.GetExtension(url);
             string tempFileName = Path.GetFileNameWithoutExtension(url);
+            //assign random characters after the name of the image to prevent duplicates
             Random random = new Random();
             int randomNumber = random.Next(0, 100000000);
             filename = tempFileName + randomNumber + extension;
+            //check if name already exists
             while (File.Exists("Data/Images/Metadata/" + filename))
             {
                 randomNumber = random.Next(0, 100000000);

@@ -27,7 +27,6 @@ namespace GCNav
             InitializeComponent();
             timelineFilter.Height = 30;
             _lastOpened = DateTime.UtcNow;
-
         }
 
         public void init(Navigator Nav)
@@ -54,15 +53,13 @@ namespace GCNav
                     _years.Add(year);
             }
         }
+
         public void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             Double canvasLeft = e.NewSize.Width / 4;
-           
             this.Width = e.NewSize.Width / 4;
-            
             Canvas.SetLeft(this, canvasLeft);
         }
-
 
         public void toggleFilterbox()
         {
@@ -83,7 +80,6 @@ namespace GCNav
                 da.To = 250;
                 da.Duration = new Duration(TimeSpan.FromSeconds(.4));
                 timelineFilter.BeginAnimation(Grid.HeightProperty, da);
-
                 filtCategoryList.Visibility = Visibility.Visible;
                 filtItemList.Visibility = Visibility.Visible;
             }
@@ -119,10 +115,8 @@ namespace GCNav
             }
         }
 
-
         private void filtItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (filtItemList.SelectedItems.Count == 0)
             {
                 _nav.ImagesSelected(_imageCollection);
@@ -140,7 +134,6 @@ namespace GCNav
                             if (_imageCollection[i].artist == (string)((SurfaceListBoxItem)item).Content)
                                 imgs.Add(_imageCollection[i]);
                         }
-
                     }
                     break;
                 case 1:
@@ -168,9 +161,7 @@ namespace GCNav
                 default:
                     break;
             }
-
             _nav.ImagesSelected(imgs);
-
         }
 
         private void handle_filt()
