@@ -14,12 +14,10 @@
     <Border BorderBrush="#214236" BorderThickness="4" CornerRadius="4">
         <Canvas Name="hotspotCanvas" Background="#618276" Opacity="0.95">
            
-        
-        <!-- <Border BorderBrush="Silver" BorderThickness="1"> -->
+       
             <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
                 <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="366" TextWrapping="Wrap" IsReadOnly="True" />
-            <!-- <DocumentViewer Name="HotspotsContent" Foreground="Black" Background="White" Margin="1,1,0,0" Height="380" Canvas.Top="26" Width="600" Canvas.Left="-1" /> -->
-           
+                   
             </s:SurfaceScrollViewer>
                 <Image Name="HotspotImage" Height="272" Width="380"/>
             <Canvas Name="videoCanvas" Background="Transparent">
@@ -32,16 +30,12 @@
                     <s:SurfaceSlider Name="SurfaceTimelineSlider" Margin="5" ValueChanged="SurfaceTimelineSlider_ValueChanged"  Width="70"/>
                 </StackPanel>
             </StackPanel>
-            <!--<s:SurfaceScrollViewer Name="VideoScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="11" Background="#ccd6c1" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                
-            </s:SurfaceScrollViewer>-->
-
+        
             <StackPanel Name="AudioScroll" Height="272" Width="366" Background="#618276" Canvas.Top="35" Canvas.Left="12" Visibility="Hidden" >
                 
-                    <!--<MediaElement Name="myMediaElement"  Width="280" Height="10" Stretch="Fill" />-->
-                <s:SurfaceSlider Name="timelineSlider" Margin="0" Height ="0" Width="250" HorizontalAlignment="Center" Background="#618276" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
-                <!-- Button controls for play, pause, resume, and stop. -->
                 
+                <s:SurfaceSlider Name="timelineSlider" Margin="0" Height ="0" Width="250" HorizontalAlignment="Center" Background="#618276" Foreground="Red" Visibility="Visible" Thumb.DragStarted="timelineSlider_DragStarted" Thumb.DragCompleted="timelineSlider_DragCompleted"/>
+           
                 <StackPanel Width="260" Orientation="Horizontal">
 
                     <s:SurfaceButton Name="PlayButton"  Margin="40,10,10,10" Height="38" Width="38" Padding="0" Background ="#618276">
@@ -69,8 +63,7 @@
                         Stroke="Black" StrokeThickness="1"
                         HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </s:SurfaceButton>
-                    <!--<s:SurfaceSlider Name="Lalala" Width="100" /> -->
-
+                 
                 </StackPanel>
 
                     <Grid  Width="250" HorizontalAlignment="Center">
@@ -78,9 +71,9 @@
                     <s:SurfaceButton Name="MuteButton"  Background="Transparent" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="15"  Click="MuteButton_Click" >
                         <Image Name="Volume" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="0" />
                     </s:SurfaceButton>
-                    <!--<Image Name="Volume" Width="32" Height="32" HorizontalAlignment="Left" Canvas.Left="15" />-->
+                 
                     <s:SurfaceSlider Name="volumeSlider" Width="100" Height="25" Background ="#618276" Canvas.Left="35" Minimum="0" Maximum="1" Value="0.5" ValueChanged="volumeSlider_ValueChanged"/>
-                        <!--<Label Name="audioName" Width="163" Height="40" Canvas.Left="141" Foreground="Black" Canvas.Top="0" />-->
+                       
                     </Grid>
                 <!-- Ths slider shows the progress of the media. -->
                             
