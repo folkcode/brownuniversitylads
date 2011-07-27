@@ -63,6 +63,7 @@ namespace GCNav
             this.SizeChanged += SurfaceWindow1_SizeChanged;
         }
 
+        //This adjusts the winodw size for screens of different resolutions
         void SurfaceWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Double canvasLeft = e.NewSize.Width / 2 - filter.ActualWidth / 2;
