@@ -961,7 +961,7 @@ namespace SurfaceApplication3
                     String info = dic[buttonChecked];
 
                     String[] infos = Regex.Split(info, "/");
-                    Console.Out.WriteLine("info1" + info[1]);
+                    
                     if (infos[1] == "image")
                     {
                         hotImagePaths.Remove(infos[2]);
