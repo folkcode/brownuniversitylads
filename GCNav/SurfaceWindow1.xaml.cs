@@ -205,14 +205,10 @@ namespace GCNav
             else
             {
                 panImg.Visibility = Visibility.Hidden;
-                //Map.Visibility = Visibility.Visible;
                 Map.loadMap();
                 Map.blur.Visibility = Visibility.Visible;
-               // filter.Visibility = Visibility.Visible;
-              //  nav.filterBoxContainer.Visibility = Visibility.Visible;
                 filter.Visibility = Visibility.Visible;
                 backRec.Visibility = Visibility.Visible;
-                //TODO
             }
         }
 
