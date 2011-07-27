@@ -9,7 +9,6 @@ using System.Windows.Media;
 using System.Windows;
 using System.IO;
 using System.Windows.Input;
-//using UICommon;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Windows.Media.Animation;
@@ -18,7 +17,7 @@ using System.Windows.Shapes;
 
 namespace LADSArtworkMode
 {
-
+    //This class creates both the MediaElement and the Control Bar
     public class LADSVideoBubble : UserControl
     {
         private const int SLIDER_TIMER_RESOLUTION = 50; //how often we update the slider based on the video position, in milliseconds
@@ -68,7 +67,6 @@ namespace LADSArtworkMode
             _controls.videoSlider.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(videoSlider_PreviewMouseLeftButtonUp);
             _controls.videoSlider.PreviewTouchDown += new System.EventHandler<TouchEventArgs>(videoSlider_PreviewTouchDown);
             _controls.videoSlider.PreviewTouchUp += new System.EventHandler<TouchEventArgs>(videoSlider_PreviewTouchUp);
-            //_controls.videoSlider += videoSlider_ValueChanged;
 
             _controls.videoSlider.IsMoveToPointEnabled = false;
             _controls.videoSlider.SmallChange = 0;
@@ -85,14 +83,13 @@ namespace LADSArtworkMode
             _layoutRoot.Children.Add(_video);
 
             this.AddChild(_layoutRoot);
-            this.MouseEnter += new MouseEventHandler(VideoBubble_MouseEnter);
-            this.MouseLeave += new MouseEventHandler(VideoBubble_MouseLeave);
+            //this.MouseEnter += new MouseEventHandler(VideoBubble_MouseEnter);
+            //this.MouseLeave += new MouseEventHandler(VideoBubble_MouseLeave);
             this.SizeChanged += new SizeChangedEventHandler(LADSVideoBubble_SizeChanged);
         }
 
         void LADSVideoBubble_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Console.Out.WriteLine("size changed");
             if (e.NewSize.Width > _video.ActualWidth)
             {
                 Width = _video.ActualWidth;
@@ -107,26 +104,20 @@ namespace LADSArtworkMode
         #region Video Event Handlers
 
         bool hasBeenOpened = false;
+
+        //must fire in order for length, width, height etc. to get properly set
         private void video_MediaOpened(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("trying to open video");
             if (!hasBeenOpened)
             {
                 _aspectRatio = (double)_video.NaturalVideoWidth / (double)_video.NaturalVideoHeight;
                 Resize(_preferredSize.Width,_preferredSize.Height);
-                Console.Out.WriteLine("width" + _preferredSize.Width);
-                Console.Out.WriteLine("height" + _preferredSize.Height);
                 
                 _layoutRoot.Children.Add(_controls);
                 Grid.SetRow(_controls, 1);
 
                 _controls.videoSlider.Maximum = 1;
                 _controls.Show();
-
-                //unless you want to fade out the controls whenever the user isn't hovering over them WHICH I SERIOUSLY DOUBT don't uncommment this. But just in case, here ya go.
-                //if for some reason you WANT the controls to fade out, just call controls.fadeout
-                //if (!this.IsMouseOver)
-                //  _controls.FadeOut(CONTROLS_FADE_TIME, CONTROLS_PERSIST_TIME);
 
                 //MediaElement has this weird bug where it always starts from 0:00 the first time it is played, regardless of its actual position - this prevents that
                 _video.Play();
@@ -137,11 +128,11 @@ namespace LADSArtworkMode
             }
         }
 
+        //resets video
         private void video_MediaEnded(object sender, RoutedEventArgs e)
         {
             _video.Position = new TimeSpan(0, 0, 0, 0, 0);
             pauseVideo();
-            Console.WriteLine("VideoEnded");
         }
 
         public void hideControls()
@@ -154,17 +145,17 @@ namespace LADSArtworkMode
 
         #region Fading Events
 
-        private void VideoBubble_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //uncomment this if you want the controls to fade out when you aren't moused over then, which given your touchscreen context makes no frikken sense but hey I wrote the code for it so you can have it
-            //_controls.FadeOut(CONTROLS_FADE_TIME, CONTROLS_PERSIST_TIME);
-        }
+        //private void VideoBubble_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    //uncomment this if you want the controls to fade out when you aren't moused over then, which given your touchscreen context makes no frikken sense but hey I wrote the code for it so you can have it
+        //    //_controls.FadeOut(CONTROLS_FADE_TIME, CONTROLS_PERSIST_TIME);
+        //}
 
-        private void VideoBubble_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //this is also for the fading
-            //_controls.Show();
-        }
+        //private void VideoBubble_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    //this is also for the fading
+        //    //_controls.Show();
+        //}
 
         #endregion
 
@@ -186,16 +177,9 @@ namespace LADSArtworkMode
 
         #region Slider/SliderTimer Event Handlers
 
-        /*
-         * some of this code is working around the fact that sliders in windows suck. since they're tiny and can't be resized, you'll
-         * probably end up making your own anyways. questions? just email me. -nz
-         * (nmzimmt@gmail.com)
-         * */
-        //public void sliderOpacity_ValueChanged(object sender, RoutedEventArgs e)
-        //{
-        //    tourSystem.ChangeOpacity(((SurfaceSlider)sender).Value);
-        //}
-
+        /// <summary>
+        /// The following 3 methods handle scrubbing through video using touch
+        /// </summary>
         public void videoSlider_PreviewTouchDown(object sender, TouchEventArgs e)
         {
             _sliderTimer.Stop();
@@ -220,7 +204,9 @@ namespace LADSArtworkMode
                 _controls.videoSlider.Value = newValue;
             }
         }
-
+        /// <summary>
+        /// The following 3 methods handle scrubbing through video using mouse
+        /// </summary>
         private void videoSlider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _sliderTimer.Stop();
@@ -245,11 +231,13 @@ namespace LADSArtworkMode
             _sliderTimer.Start();
         }
 
+        /// <summary>
+        /// keeps the graphical slider in line with the actual place in the video
+        /// </summary>
         private void sliderTimer_Tick(object sender, EventArgs e)
         {
             _controls.videoSlider.Value = _video.Position.TotalSeconds / _video.NaturalDuration.TimeSpan.TotalSeconds;
         }
-       
 
         #endregion
 
@@ -263,7 +251,6 @@ namespace LADSArtworkMode
             playButtonFunction = pauseVideo;
         }
 
-        //is there anything wrong with this being public?
         public void pauseVideo()
         {
             _video.Pause();
@@ -287,8 +274,10 @@ namespace LADSArtworkMode
                 _video.Position = new TimeSpan(0, 0, 0, seconds, millis);
             }
         }
+        /// <summary>
+        /// Handles resizing of the video bubble
+        /// </summary>
 
-        //tested this as best I could seeing as I basically hacked it together for y'all (Humbub does resizing stuff for you, mostly)
         public void Resize(double newWidth, double newHeight, bool forceAspectRatio = true)
         {
             if (forceAspectRatio)
@@ -312,7 +301,6 @@ namespace LADSArtworkMode
         //call this every time you resize the video
         public void UpdateControls()
         {
-            //double vMargin = _video.ActualHeight * .05;
             double vMargin = 0;
             double hMargin = _video.ActualWidth * .025;
 
@@ -326,13 +314,11 @@ namespace LADSArtworkMode
 
         public double getWidth()
         {
-            Console.WriteLine("ActualVideoWodth : " + _video.ActualWidth);
             return _video.ActualWidth;   
         }
 
         public double getHeight()
         {
-            Console.WriteLine("ActualVidHeight" + _video.ActualHeight);
             return _video.ActualHeight;
         }
 
@@ -346,6 +332,5 @@ namespace LADSArtworkMode
             _preferredSize.Width = width;
             _preferredSize.Height = height;
         }
-        //hills.alex@gmail.com | marguerite_pace@brown.edu | yuting_chen@brown.edu
     }
 }
