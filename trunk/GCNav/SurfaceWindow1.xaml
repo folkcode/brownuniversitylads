@@ -9,9 +9,7 @@
     Height="1080"
     Title="GCNav"
     >
-    <!-- our resolution: MinWidth="1920" MinHeight="1080" -->
-    <!-- andy's resolution: MaxWidth="1280" MaxHeight="800"-->
-    <!--Disable the background in ScatterViewItem-->
+   
     <s:SurfaceWindow.Resources>
         <Style TargetType="{x:Type s:ScatterViewItem}">
             <Setter Property="Template">
@@ -31,15 +29,11 @@
         <Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
             <m:newMap x:Name="Map" Height="355.25" Width="576.35" />
             <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="0" Visibility="Hidden" />
-            <!--   <m:FilterTimelineBox x:Name="filter" Width="300" Visibility="Hidden"/> -->
+           
         </Canvas>
         
         <m:Navigator x:Name="nav" />
 
-        <!-- <Image Name="startImg" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/GCNav;component/startup.jpg" Width="600" Height="330"/>
-        <s:SurfaceButton HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Height="1080" HorizontalAlignment="Left" Margin="0,0,0,0" Padding="0 25 0 0" Name="surfaceButton1" VerticalAlignment="Top" Width="2000" Click="surfaceButton1_Click" Background="#11FFFFFF">
-        -->
-            
         <Canvas Name="panCan">
             <Image Name="panImg" Canvas.ZIndex="100"/>
         </Canvas>
