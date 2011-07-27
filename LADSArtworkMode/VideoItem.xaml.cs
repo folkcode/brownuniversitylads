@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-//using UICommon;
 
 namespace LADSArtworkMode
 {
@@ -37,13 +36,18 @@ namespace LADSArtworkMode
             _fadeTimer.Tick += new EventHandler(fadeHandler);
             _dragging = false;
         }
+        /// <summary>
+        /// Handles switching between pause and play icons
+        /// </summary>
         public void ShowPlay()
         {
             playIcon.Visibility = Visibility.Visible;
             pauseIconLeft.Visibility = Visibility.Hidden;
             pauseIconRight.Visibility = Visibility.Hidden;
         }
-
+        /// <summary>
+        /// Handles switching between play and pause icons
+        /// </summary>
         public void ShowPause()
         {
             playIcon.Visibility = Visibility.Hidden;
@@ -99,7 +103,7 @@ namespace LADSArtworkMode
             }
         }
 
-        //this section may seem useless but trust me it is not. I'll tell you when you're older.
+        //this section may seem useless but it is not.
 
         private void videoSlider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
