@@ -272,7 +272,6 @@ namespace SurfaceApplication3
             MetaDataEntry newSmallWindow = new MetaDataEntry();
             MetaDataList.Items.Add(newSmallWindow);
             newSmallWindow.setBigWindow(this);
-            Console.WriteLine("New Asset Type: "+newSmallWindow.getType());
         }
 
         /// <summary>
@@ -516,7 +515,6 @@ namespace SurfaceApplication3
                                                                     {
                                                                         File.Delete(path2);
                                                                         createMetaThumbnail(smallWindow);
-                                                                       // Console.WriteLine("oldPath: " + oldPath + " path2: " + path2);
                                                                         // Copy the file.
                                                                         File.Copy(oldPath, path2);
                                                                     }

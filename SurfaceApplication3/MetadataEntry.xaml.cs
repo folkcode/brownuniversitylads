@@ -151,7 +151,6 @@ namespace SurfaceApplication3
                             fBitmapName += ".bmp";
                             objBmpImage.Save(fBitmapName);
 
-                            Console.WriteLine("Filepath: " + filePath[i]);
                             FileStream stream = new FileStream(fBitmapName, FileMode.Open);
                             System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
                             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
@@ -232,7 +231,6 @@ namespace SurfaceApplication3
         public void setURL(string url)
         {
             webURL = url;
-            Console.WriteLine("URL: " + webURL);
             string filePath = "Data/Images/Metadata/" + Path.GetFileName(webURL);
             string filename = Path.GetFileName(url);
             string extension = Path.GetExtension(url);

@@ -521,7 +521,6 @@ namespace SurfaceApplication3
                     doc.AppendChild(hotspot);
                     for (int i = 0; i < dicPos.Count; i++)
                     {
-                        Console.Out.WriteLine("number of hotspots" + dicPos.Count);
                         SurfaceRadioButton button = dicPos.ElementAt(i).Key;
                         if (dic.ContainsKey(button))
                         {
@@ -547,8 +546,6 @@ namespace SurfaceApplication3
                                 String newStr = dicPos.ElementAt(i).Value;
                                 String[] strings = Regex.Split(newStr, "/");
 
-                                Console.Out.WriteLine("lon" + strings[0]);
-                                Console.Out.WriteLine("lat" + strings[1]);
                                 positionX.InnerText = strings[0];
                                 positionY.InnerText = strings[1];
 
@@ -601,7 +598,6 @@ namespace SurfaceApplication3
 
                                 for (int i = 0; i < dicPos.Count; i++)
                                 {
-                                    Console.Out.WriteLine("NUMBER" + dicPos.Count);
                                     SurfaceRadioButton button = dicPos.ElementAt(i).Key;
                                     if (dic.ContainsKey(button))
                                     {

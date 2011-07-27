@@ -24,16 +24,11 @@ namespace GCNav
     {
         Navigator _nav;
         List<ImageData> _imageCollection;
-
-
-       
         List<String> _artists;
         List<String> _mediums;
         List<String> _years;
         DateTime _lastOpened;
      
-
-
         public FilterTimelineBox()
         {
             InitializeComponent();
@@ -128,8 +123,6 @@ namespace GCNav
                 b.Content = theItems[i];
                 b.Background =new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#665D9D8E"));
                 filtItemList.Items.Add(b);
-                //filtItemList.Items.Add(theItems[i]);
-                
             }
         }
 

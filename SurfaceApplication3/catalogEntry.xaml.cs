@@ -144,7 +144,6 @@ namespace SurfaceApplication3
                                                     foreach (XmlNode file in meta)
                                                     {
                                                         String fileName = file.Attributes.GetNamedItem("Filename").InnerText; //this is to save the imageName
-                                                        Console.WriteLine("FILE NAME " + fileName);
                                                         
 
                                                         //need to special case this for videos images and audio files

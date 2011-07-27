@@ -125,11 +125,9 @@ namespace LADSArtworkMode
                     m_hotspots[i].PositionY = (double)Convert.ToDouble(m_hotspotList[i].ChildNodes[2].InnerText);
                     m_hotspots[i].Type = m_hotspotList[i].ChildNodes[3].InnerText;
                     m_hotspots[i].Description = m_hotspotList[i].ChildNodes[4].InnerText;
-                   // Console.WriteLine(m_hotspotList[i].ChildNodes[4].InnerText);
                     m_hotspots[i].XmlNode = m_hotspotList[i];
                     m_isSelected[i] = true;
                     m_isOnScreen[i] = false;
-                    //Console.Out.WriteLine("filename" + filename);
                     String fileName = this.getArtworkName(filename);
                     m_hotspots[i].artworkName = fileName;
                 }
@@ -137,7 +135,6 @@ namespace LADSArtworkMode
             catch (Exception ex)
             {
                 return false;
-                //MessageBox.Show(ex.ToString());
             }
             return true;
 
@@ -147,7 +144,6 @@ namespace LADSArtworkMode
         {
             String[] str = Regex.Split(filename, "XMLFiles"); //this is to get the artWork name for the hotspot
             String fileName = str[1].Substring(1,str[1].Length - 5);
-            Console.Out.WriteLine(fileName);
             return fileName;
         }
 
@@ -192,13 +188,10 @@ namespace LADSArtworkMode
                 if (m_isOnScreen[index] == true)
                 {
                     m_hotspotIcons[index].updateScreenLocation(msi);
-                    Console.WriteLine("Index is: " + index);
-                    Console.WriteLine("details is on screen is: " + m_hotspotDetails[index].IsOnScreen);
 
                     if (m_hotspotDetails[index].IsOnScreen == true)
                     {
                         m_hotspotDetails[index].updateScreenLocation(msi);
-                        Console.WriteLine("umm: " + m_hotspotDetails[index]._volume);
                     }
                 }
             }

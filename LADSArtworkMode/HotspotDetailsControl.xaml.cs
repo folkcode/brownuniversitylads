@@ -548,13 +548,11 @@ namespace LADSArtworkMode
                 timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
                 myMediaElement.Play();
                 myMediaElement.Pause();
-                // Console.Out.WriteLine("duration" + myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds);
                 _hasBeenOpened = true;
             }
         }
         private void myMediaElement_MediaEnded(object sender, EventArgs e)
         {
-            Console.WriteLine("MEDIA ENDED");
             myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
             _sliderTimer.Stop();
             myMediaElement.Pause();
@@ -628,28 +626,21 @@ namespace LADSArtworkMode
 
         private void timelineSlider_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("Mouse Move");
            
             if (!IsDragging())
             {
-                Console.WriteLine("Not Dragging");
                 double newValue = e.GetPosition(timelineSlider).X / timelineSlider.ActualWidth; //yields number between 0 and 1
                 newValue = newValue * timelineSlider.Maximum; //should give number between 0 and Maximum (about 300000)
              
                 if (newValue < 0)
                 {
-                    Console.WriteLine("less than zero");
                     newValue = 0;
                 }
                 if (newValue >= (timelineSlider.Maximum - 470))
                 {
                     newValue = (timelineSlider.Maximum - 480);
-                    Console.WriteLine("greater than max");
                 }
-                Console.WriteLine("Is this being read?");
                 timelineSlider.Value = newValue; //this should be in milliseconds
-             
-                Console.WriteLine("newValue is " + newValue);
             }
            
         }
@@ -670,9 +661,6 @@ namespace LADSArtworkMode
         {
             _sliderTimer.Stop();
             timelineSlider.Value = myMediaElement.Position.TotalMilliseconds;
-            Console.WriteLine("myMediaElement.Position.TotalMilliseconds is: " + myMediaElement.Position.TotalMilliseconds);
-            Console.WriteLine("slider value is: " + timelineSlider.Value);
-            Console.WriteLine("slider timeer max is: " + timelineSlider.Maximum);
             if (myMediaElement.Position.TotalMilliseconds >= (timelineSlider.Maximum - 500))
             {
                 myMediaElement.Pause();

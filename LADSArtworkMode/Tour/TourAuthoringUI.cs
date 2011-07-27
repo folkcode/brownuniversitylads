@@ -284,7 +284,6 @@ namespace LADSArtworkMode
             movableScrub.Visibility = Visibility.Hidden;
 
             leftRightCanvas.Children.Add(movableScrub);
-            Console.Out.WriteLine("number of chidren" + leftRightCanvas.Children.Count);
             Canvas.SetLeft(movableScrub, 0);
             Canvas.SetZIndex(movableScrub, 12);
             Canvas.SetTop(movableScrub, 0);
@@ -798,7 +797,6 @@ namespace LADSArtworkMode
             Point current = new Point();
             current.X = timelineSlider.Value * timelineWidth;
             current.Y = centerY;
-            Console.Out.WriteLine("x" + current.X);
             Double dragDistance = current.X;
 
             double tourSeekBarProgressTargetWidth = dragDistance;
@@ -828,12 +826,9 @@ namespace LADSArtworkMode
             newLeftRightSVICenter.Y = centerY;
 
             int ratio = (int)(current.X) / (int)(w - textWidth);
-            Console.Out.WriteLine("ratio" + ratio);
             if (ratio == 0)
             {
-                Console.Out.WriteLine("smaller");
                 leftRightSVI.Center = new Point(centerX_LRScatterView + textWidth, centerY);
-
             }
             else if (ratio == 1)
             {
@@ -946,7 +941,6 @@ namespace LADSArtworkMode
 
         public void TourStoryboardAuthoring_Completed(object sender, EventArgs e)
         {
-            Console.WriteLine("Done tour");
             tourSystem.tourStoryboard.Pause(artModeWin);
 
         }
@@ -1090,7 +1084,6 @@ namespace LADSArtworkMode
 
         private void leftRightSVICenterChanged(Object sender, EventArgs e) // also bidirectional with movableScrubHandle event handler
         {
-            Console.WriteLine("leftRightSVI changed");
             if (scatterViewLR_userDragged)
             {
                 timelineRulerSVI_userDragged = false; // prevents event handler loop
@@ -1126,7 +1119,6 @@ namespace LADSArtworkMode
 
         private void timelineRulerSVICenterChanged(Object sender, EventArgs e) // also bidirectional with movableScrubHandle event handler
         {
-            Console.WriteLine("timeline CHANGED! ");
             if (timelineRulerSVI_userDragged)
             {
                 scatterViewLR_userDragged = false; // prevents event handler loop
@@ -1395,7 +1387,6 @@ namespace LADSArtworkMode
             double scrub = tourSystem.authorTimerCountSpan.TotalSeconds;
             double left = Canvas.GetLeft(movableScrubHandle);
             tourSystem.refreshAuthoringUI(false);
-            Console.WriteLine("SCRUB: " + scrub);
             tourSystem.StopAndReloadTourAuthoringUIFromDict(scrub);
             Canvas.SetLeft(movableScrubHandle, left);
             leftRightSVICenterChanged(leftRightSVI, new EventArgs());
@@ -1807,7 +1798,6 @@ namespace LADSArtworkMode
 
         private void tourEventSVI_ContainerManipulationCompleted(Object sender, EventArgs e)
         {
-            Console.WriteLine("2: tourEventSVI_ContainerManipulationCompleted");
             ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
             if (current.tourEvent == null)
@@ -1815,8 +1805,6 @@ namespace LADSArtworkMode
             // MODIFY TourEvent - beginTime & duration
             current.timelineInfoStruct.tourTL_dict.RemoveByFirst(current.beginTime);
             double newBeginTime = (currentScatter.Center.X - (currentScatter.Width / 2)) * (timelineLength / timelineWidth);
-            Console.WriteLine("New Begin Time = " + newBeginTime);
-
 
             current.beginTime = newBeginTime;
 
@@ -1884,7 +1872,6 @@ namespace LADSArtworkMode
 
         private void tourAudioEventCenterChanged(Object sender, EventArgs e)
         {
-            Console.WriteLine("3: tourEventCenterChanged");
             ScatterViewItem currentScatter = sender as ScatterViewItem;
             tourEventInfo current = (tourEventInfo)currentScatter.Tag;
 

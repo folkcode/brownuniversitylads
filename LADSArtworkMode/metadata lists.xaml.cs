@@ -36,12 +36,10 @@ namespace LADSArtworkMode
         {
             _artModeWin = artModeWin;
             InitializeComponent();
-            Console.WriteLine("Filename = " + filename);
             this.loadAssets(filename);
         }
         public void loadAssets(string filename)
         {
-            Console.Out.WriteLine("called loading");
             String dataDir1 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
             String dataDir = dataDir1 + "Images\\Metadata\\Thumbnail\\";
 
@@ -59,7 +57,6 @@ namespace LADSArtworkMode
                             {
                                 if (filename != node.Attributes.GetNamedItem("path").InnerText)
                                     continue;
-                                Console.WriteLine("Here!");
                                 foreach (XmlNode imgnode in node.ChildNodes)
                                 {
                                     if (imgnode.Name == "Metadata")
@@ -80,12 +77,9 @@ namespace LADSArtworkMode
                                                     {
                                                         name = "Untitled";
                                                     }
-                                                    Console.WriteLine("Metadata called " + name);
                                                     metaDataEntry newEntry = new metaDataEntry(_artModeWin, name, metadatafilename);
 
                                                     newEntry.imageName.Text = name;
-                                                    //Console.Out.WriteLine(fileName.Length);
-                                                    //Console.Out.WriteLine(file);
 
                                                     newEntry.loadPictures();
 
@@ -104,29 +98,6 @@ namespace LADSArtworkMode
                     }
                 }
             }
-
-
-
-
-
-
-            /*String[] files = Directory.GetFiles(dataDir);
-            foreach (String file in files) {
-
-                String[] fileName = Regex.Split(file, "Thumbnail");
-                String subString = fileName[fileName.Length - 1].Substring(1, fileName[fileName.Length - 1].Length - 1);
-                metaDataEntry newEntry = new metaDataEntry(_artModeWin, subString);
-                
-                newEntry.imageName.Text = subString;
-                Console.Out.WriteLine(fileName.Length);
-                Console.Out.WriteLine(file);
-                
-                newEntry.loadPictures(file);
-
-                
-                assetsList.Items.Add(newEntry);
-            }*/
-
         }
 
         public void closeClick(object sender, EventArgs e)

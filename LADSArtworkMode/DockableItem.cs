@@ -180,7 +180,6 @@ namespace LADSArtworkMode
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
                                                           rnd.Next((int)(image.ActualHeight * 3), (int)(win.ActualHeight * .8 - image.ActualHeight * 3)));
             this.SetCurrentValue(CenterProperty, pt);
-            Console.WriteLine(pt.X + " " + pt.Y);
             this.Orientation = rnd.Next(-20, 20);
 
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
@@ -567,12 +566,10 @@ namespace LADSArtworkMode
         }
         public void anim2Completed(object sender, EventArgs e)
         {
-            Console.WriteLine("ANIM 2");
             this.isAnimating = false;
             this.isDocked = false;
             bar.Items.Remove(wke);
             win.DockedItems.Remove(wke);
-            //flushItems();
         }
 
         public void CenterChangedListener(object sender, EventArgs e)
@@ -593,35 +590,15 @@ namespace LADSArtworkMode
                     vidBub.pauseVideo();
                 }
             }
-
-            // jcchin - tour prep debug info
-            /*Console.WriteLine("dockItem.ActualCenter.X = " + this.ActualCenter.X + ", dockItem.ActualCenter.Y = " + this.ActualCenter.Y);
-            Console.WriteLine("dockItem.Scale = " + this.ActualWidth / this.image.Source.Width);*/
         }
 
         public void anim3Completed(object sender, EventArgs e)
         {
-            Console.WriteLine("ANIM 3");
             aldbi = null;
             mainScatterView.Items.Remove(this);
             if (info != null && win.SavedDockedItems.Contains(info))
             win.SavedDockedItems.Remove(info);
         }
-
-
-        //public void flushItems()
-        //{
-        //    foreach (WorkspaceElement w in win.DockedItems)
-        //    {
-        //        if (!w.item.isDocked)
-        //        {
-        //            win.DockedItems.Remove(w);
-        //            bar.Items.Remove(w);
-        //        }
-        //    }
-        // }
-
-
 
     }
 
@@ -749,7 +726,6 @@ namespace LADSArtworkMode
 
         public void onTouch(object sender, EventArgs e)
         {
-            Console.WriteLine(this.opened);
             if (!this.opened)
             {
                 //if it's an image, do this:

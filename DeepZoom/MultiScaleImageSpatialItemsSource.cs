@@ -45,10 +45,6 @@ namespace DeepZoom
         {
             _tileCache.Clear();
             _cachedTiles.Clear();
-            Console.WriteLine("_tileCache:" + _tileCache.Count.ToString());
-            Console.WriteLine("_cachedTiles:" + _cachedTiles.Count.ToString());
-
-
         }
 
         #region ISpatialItemsSource members

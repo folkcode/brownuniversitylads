@@ -100,9 +100,6 @@ namespace DeepZoom.Controls
         private void RenderTile()
         {
 
-                //Console.WriteLine("render tile. " + "Brightness: " + Brightness.ToString() + ". Scale: " + this.Scale + ".Source:" + Source.ToString());
-                //Console.WriteLine(Source.GetType().ToString());
-                
                 if (_visual != null)
                 {
                     _visual = null;

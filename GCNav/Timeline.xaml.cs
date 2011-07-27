@@ -45,13 +45,6 @@ namespace GCNav
         public Timeline()
         {
             InitializeComponent();
-
-            //enable pan on timeline
-            //mainCanvas.PreviewMouseDown += mainCanvas_PreviewMouseDown;
-            //mainCanvas.PreviewMouseMove += mainCanvas_PreviewMouseMove;
-            //mainCanvas.PreviewMouseUp += mainCanvas_PreviewMouseUp;
-            //mainCanvas.PreviewTouchDown += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchDown);
-            //mainCanvas.PreviewTouchMove += new EventHandler<TouchEventArgs>(mainCanvas_PreviewTouchMove);
             timelineSVI.Deceleration = double.NaN;
             this.Loaded += new RoutedEventHandler(Timeline_Loaded);
             _eventsCanvas.Background = null;
@@ -192,7 +185,6 @@ namespace GCNav
 
         void mainCanvas_PreviewTouchDown(object sender, TouchEventArgs e)
         {
-            //((Canvas)sender).CaptureTouch(e.TouchDevice);
             startPoint = e.TouchDevice.GetCenterPosition(this);
             e.Handled = false;
         }
@@ -359,8 +351,6 @@ namespace GCNav
             // Add line to the Grid.
             _tickmarksCanvas.Children.Add(l);
 
-            //this.addLine(xPos);
-
             TextBlock yearLabel = new TextBlock();
             yearLabel.Text = ""+year;
             yearLabel.FontSize = 20;
@@ -404,13 +394,7 @@ namespace GCNav
                 {
                     nav.eventSelected(t);
                 }
-                //Point p = e.GetPosition(currentEvent);
-                
-                /*if (p.X < currentEvent._eventRec.Width && p.X > 0 && p.Y < currentEvent._eventRec.Height && p.Y > 0)
-                {
-                    (this.Parent as Navigator).eventSelected(currentEvent);
-                }*/
-                }
+            }
         }
 
         public void mainScatterView_MouseDown(object sender, MouseButtonEventArgs e)
@@ -424,13 +408,7 @@ namespace GCNav
                 {
                     nav.eventSelected(t);
                 }
-                //Point p = e.GetPosition(currentEvent);
-                
-                /*if (p.X < currentEvent._eventRec.Width && p.X > 0 && p.Y < currentEvent._eventRec.Height && p.Y > 0)
-                {
-                    (this.Parent as Navigator).eventSelected(currentEvent);
-                }*/
-                }
+            }
         }
     }
 }

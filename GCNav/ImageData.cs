@@ -48,7 +48,6 @@ namespace GCNav
             this.Stretch = Stretch.Uniform;
 
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(ImageData_TapGestureHandler);
-            //temp adapter supporting mouse click, in case it's tested without touch screen. Should go away in the final version
             this.MouseDown += new MouseButtonEventHandler(ImageData_TapGestureHandler);
         }
         public void setLocButtonInfo(String info)

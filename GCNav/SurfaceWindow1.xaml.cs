@@ -41,9 +41,6 @@ namespace GCNav
             this.SizeChanged += new SizeChangedEventHandler(SurfaceWindow1_SizeChanged);
             this.SizeChanged += Map.WindowSizeChanged;
             this.SizeChanged += nav.WindowSizeChanged;
-            
-           
-
             this.MouseUp += new MouseButtonEventHandler(MouseUp_Handler);
 
             _startCard = new StartCard();
@@ -66,20 +63,14 @@ namespace GCNav
             panImg.Opacity = 0.2;
             panCan.RenderTransform = t;
             t.BeginAnimation(TranslateTransform.XProperty, myAnimation);
-           // Map.RegionSelected += nav.HandleMapSelectedEvent;
-           // Map.RegionDeselected += nav.HandleMapDeselectedEvent;
-           // nav.ImageLoaded += Map.HandleImageLoadedEvent;
             nav.HandleImageSelected += Map.HandleImageSelectedEvent;
             nav.setMapWidth(Map.Width);
-            //nav.loadCollection();
-            //nav.startAll();
             filter = new FilterTimelineBox();
             nav.filter = filter;
            
             map.Children.Add(filter);
            
             this.SizeChanged += SurfaceWindow1_SizeChanged;
-           
         }
 
         void SurfaceWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -98,23 +89,15 @@ namespace GCNav
             
             Double scaleX= Map.tranScaleX;
             Double scaleY = Map.tranScaleY;
-            //Console.Out.WriteLine("filterwidth" + filter.ActualWidth);
-           // Console.Out.WriteLine("mapwidth" + Map.Width * scale);
             Canvas.SetLeft(filter, canvasLeft);
             Canvas.SetZIndex(filter, 10);
             filter.Visibility = Visibility.Hidden;
 
             backRec.Width = map.Width*scaleX +10;
             backRec.Height = map.Height*scaleY + 30+10;
-         //   Console.Out.WriteLine("width rec" + backRec.Width);
-         //   Console.Out.WriteLine("REC HE" +backRec.Height);
-            //Canvas.SetTop(backRec, 20);
             Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
-            Canvas.SetZIndex(backRec, -10);
-          
-            
+            Canvas.SetZIndex(backRec, -10); 
         }
-
 
         /// <summary>
         /// Occurs when the window is about to close. 
@@ -210,10 +193,6 @@ namespace GCNav
                 filter.Visibility = Visibility.Visible;
                 backRec.Visibility = Visibility.Visible;
             }
-        }
-
-        private void addMapHandler(Helpers.MapEventHandler handler)
-        {
         }
 
         public void MouseUp_Handler(object sender, EventArgs e)
