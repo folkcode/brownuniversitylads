@@ -72,10 +72,10 @@ namespace SurfaceApplication3
                         System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
                         try
                         {
-                            Console.WriteLine("Filepath: " + filePath[i]);
                             FileStream stream = new FileStream(@filePath[i], FileMode.Open);
 
                             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
+                          
                             wpfImage = _helper.ConvertDrawingImageToWPFImage(dImage);
 
                             stream.Close();
@@ -92,6 +92,7 @@ namespace SurfaceApplication3
                     {
                         type = "Video";
                         BitmapImage videoThumb = new BitmapImage();
+
                         if (_helper.IsDirShowFile(filePath[i]))
                         {
                             //creating and saving thumbnail image
@@ -110,11 +111,11 @@ namespace SurfaceApplication3
                             stream.Close();
 
                             Utils.setAspectRatio(imageCanvas, imageRec, image1, wpfImage, 4);
-                            //set image source
                             image1.Source = videoThumb;
+                                                      
                         }
                         else
-                        {
+                        {                            
                             String sImageText = Path.GetFileNameWithoutExtension(filePath[i]);
                             System.Drawing.Bitmap objBmpImage = new System.Drawing.Bitmap(1,1);
 
@@ -159,6 +160,7 @@ namespace SurfaceApplication3
                             stream.Close();
                             image1.Source = wpfImage.Source;
                         } 
+                      
                         title_tag.Text = safeFilePath[i];
                         metaImagePath = filePath[i];
                     }
@@ -175,9 +177,11 @@ namespace SurfaceApplication3
                         filename = tempFileName + randomNumber + extension;
                     }
                     title_tag.Text = filename;
+                
                     metaImagePath = filePath[i];
                 }
             }
+           
         }
 
         /// <summary>
@@ -206,7 +210,6 @@ namespace SurfaceApplication3
             {
                 trimmedString = summary.Text;
             }
-
 
             if (trimmedString.LastIndexOf(' ') != -1)
             {
@@ -242,8 +245,6 @@ namespace SurfaceApplication3
                 randomNumber = random.Next(0, 100000000);
                 filename = tempFileName + randomNumber + extension;
             }
-            
-            Console.WriteLine("File path = " + filePath);
 
             System.Drawing.Image drawingImage = null;
             System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
@@ -267,7 +268,7 @@ namespace SurfaceApplication3
                 wpfImage.Stretch = System.Windows.Media.Stretch.Fill;
 
                 string tempFilepath = System.IO.Path.GetTempPath() + Path.GetFileName(webURL);
-                Console.WriteLine("TEMP FILE PATH = " + tempFilepath);
+                
                 bmp.Save(@tempFilepath);
                 metaImagePath = tempFilepath;
                 stream.Close();
@@ -299,5 +300,6 @@ namespace SurfaceApplication3
         {
 
         }
+        
     }
 }
