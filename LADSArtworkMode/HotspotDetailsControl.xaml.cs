@@ -38,8 +38,6 @@ namespace LADSArtworkMode
         public Hotspot m_hotspotData;
         Boolean hasVideo;
         MediaElement videoElement;
-        //LADSVideoBubble video;
-        //MediaElement _audio;
         Boolean _dragging;
         private const int SLIDER_TIMER_RESOLUTION = 20; //how often we update the slider based on the video position, in milliseconds
         private System.Windows.Threading.DispatcherTimer _sliderTimer;
@@ -137,35 +135,6 @@ namespace LADSArtworkMode
         }
         public void showAudioIcon()
         {
-           // BitmapImage newImage = new BitmapImage();
-           // newImage.BeginInit();
-           // String filePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\audio.png";
-           // newImage.UriSource = new Uri(@filePath);
-           // newImage.EndInit();
-           // audioIcon.Source = newImage;
-
-            //BitmapImage play = new BitmapImage();
-            //play.BeginInit();
-            //String playPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\playbutton.png";
-            //play.UriSource = new Uri(@playPath);
-            //play.EndInit();
-
-            //PlayButton.Source = play;
-
-            //BitmapImage pause = new BitmapImage();
-            //pause.BeginInit();
-            //String pausePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\pausebutton.png";
-            //pause.UriSource = new Uri(@pausePath);
-            //pause.EndInit();
-            ////PauseButton.Source = pause;
-
-            //BitmapImage stop = new BitmapImage();
-            //stop.BeginInit();
-            //String stopPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\stopbutton.png";
-            //stop.UriSource = new Uri(@stopPath);
-            //stop.EndInit();
-            ////StopButton.Source = stop;
-
             BitmapImage volume = new BitmapImage();
             volume.BeginInit();
             String volumePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\volume.png";
@@ -191,19 +160,9 @@ namespace LADSArtworkMode
         /// </summary>
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            //m_xpsdocument.Close();
-            //m_parentCanvas.Children.Remove(this);
-
-            //if (!m_hotspotData.Type.ToLower().Contains("audio"))
-            //{
-                m_parentScatterView.Items.Remove(this);
-            //}
-                //audio is buggy so it can't be removed or it breaks
-            //else
-            //{
-            //    this.Visibility = Visibility.Collapsed;
-            //}
-            
+           
+            m_parentScatterView.Items.Remove(this);
+                      
             isOnScreen = false;
             if (hasVideo)
             {
@@ -212,8 +171,7 @@ namespace LADSArtworkMode
                 videoElement.Pause();
                 videoTimer.Stop();
                 videoElement = null;
-                
-                //(video as LADSVideoBubble).pauseVideo();
+                              
             }
             //hopefully this works
             if (m_hotspotData.Type.ToLower().Contains("audio")) {
@@ -224,8 +182,6 @@ namespace LADSArtworkMode
                 timelineSlider.Value = 0;
                 myMediaElement = null;
 
-
-                //myMediaElement = null;
             }
             
         }
@@ -250,7 +206,6 @@ namespace LADSArtworkMode
             myMediaElement.Position = new TimeSpan(0,0,0,0,(int)timelineSlider.Value);
             myMediaElement.Play();
             _sliderTimer.Start();
-            //timelineSlider.Start();
         }
         /// <summary>
         /// Called when the pause button is clicked.
@@ -339,8 +294,7 @@ namespace LADSArtworkMode
                 textBoxScroll.Visibility = Visibility.Hidden;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Hidden;
-                
-                //this.Width = img.Width;
+              
             }
             else if (m_hotspotData.Type.ToLower().Contains("text"))
             {
@@ -348,23 +302,12 @@ namespace LADSArtworkMode
                 HotspotImage.Visibility = Visibility.Hidden;
                 HotspotImage.IsEnabled = false;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
-                //HotspotTextBox.Visibility = Visibility.Visible;
-                //textBoxScroll.Visibility = Visibility.Visible;
                 AudioScroll.Visibility = Visibility.Hidden;
                 this.CanScale = false;
                // video.Visibility = Visibility.Hidden;
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
             {
-                //scatterItem.Height = 220;
-                //hotspotCanvas.Height = 200;
-                //InitializeComponent();
-                //myMediaElement = new MediaElement();
-                //Width = 290;
-                //Height = 200;
-                //hotspotCanvas.Width = 100;
-
-                //resetting size
                 Width = 300;
                 Height = 200;
 
@@ -381,24 +324,15 @@ namespace LADSArtworkMode
                 AudioScroll.Height = hotspotCanvas.Height - 47;
                 myMediaElement.Width = VideoStackPanel.Width;
                 myMediaElement.Height = VideoStackPanel.Height - 30;
-                //SurfaceTimelineSlider.Width = hotspotCanvas.Width - 180;
                 Name.Width = Width - (422 - 335);
 
-                //Width = 120;
-
-                //AudioScroll.Height = Height - 60.0;
-                //AudioScroll.Width = Width - 44;
-
-                //imageScroll.Visibility = Visibility.Collapsed;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 videoCanvas.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
 
-                //this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
-
+              
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
                 myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
-               // myMediaElement.ScrubbingEnabled = true;
                 myMediaElement.LoadedBehavior = MediaState.Manual;
                 String audioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
                 myMediaElement.Source = new Uri(audioUri);
@@ -413,16 +347,9 @@ namespace LADSArtworkMode
                 PlayButton.Click += new RoutedEventHandler(PlayButton_Click);
                 PauseButton.Click += new RoutedEventHandler(PauseButton_Click);
                 StopButton.Click += new RoutedEventHandler(StopButton_Click);
-                //myMediaElement.ScrubbingEnabled = true;
-                //audioName.Content = m_hotspotData.Description;
-                //String description = 
-                // MediaName.Content = m_hotspotData.Description.Substring(0,m_hotspotData.Description.Length-4); //will display the name of the media according to where the file saves
-
+            
                 this.showAudioIcon();
-                //myMediaElement.ScrubbingEnabled = true;
-                //mediaTimeLine.Source = new Uri(audioUri);
-
-
+              
                 _dragging = false;
                 _sliderTimer = new System.Windows.Threading.DispatcherTimer();
 
@@ -461,8 +388,6 @@ namespace LADSArtworkMode
                 AudioScroll.Visibility = Visibility.Collapsed;
                 hasVideo = true;
 
-                //changing content to icons instead of text:
-                //adding triangle for pause/play button
                 Grid g = new Grid();
                 g.Height = 30;
                 g.Width = 100;
@@ -499,8 +424,6 @@ namespace LADSArtworkMode
                 pause.StrokeThickness = 1;
                 pause.HorizontalAlignment = HorizontalAlignment.Left;
                 pause.VerticalAlignment = VerticalAlignment.Center;
-                //pause.Height = 36;
-                //pause.Width = 30;
 
                 Polygon pause2 = new Polygon();
                 PointCollection pausepoints2 = new PointCollection();
@@ -534,8 +457,6 @@ namespace LADSArtworkMode
             screenPosY = (m_msi.GetZoomableCanvas.Scale * m_hotspotData.PositionY *size[1]) - m_msi.GetZoomableCanvas.Offset.Y;
            
             this.Center = new Point(screenPosX + this.Width/2.0, screenPosY + this.Height/2.0);
-           // Console.Out.WriteLine("center1" + this.Center);
-           // m_parentScatterView.Items.Add(this);
         }
 
 
@@ -644,46 +565,16 @@ namespace LADSArtworkMode
             myMediaElement.Pause();
             //timelineSlider.Value = 0;
             _sliderTimer.Stop();
-            //myMediaElement.Play();
-            //myMediaElement.Pause();
-
-            //timelineSlider.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonDown);
-            //timelineSlider.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonUp);
-            //timelineSlider.PreviewTouchDown += new System.EventHandler<TouchEventArgs>(timelineSlider_PreviewTouchDown);
-            //timelineSlider.PreviewTouchUp += new System.EventHandler<TouchEventArgs>(timelineSlider_PreviewTouchUp);
-
-            //timelineSlider.IsMoveToPointEnabled = false;
-            //timelineSlider.SmallChange = 0;
-            //timelineSlider.LargeChange = 0;
-
-            //_sliderTimer.Interval = new TimeSpan(0, 0, 0, 0, SLIDER_TIMER_RESOLUTION);
-            //_sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
-
-
-            ////_dragging = false;
-            ////_hasBeenOpened = false;
-            ////myMediaElement.MediaOpened -= new RoutedEventHandler(myMediaElement_MediaOpened);
-            ////myMediaElement.MediaEnded -= new RoutedEventHandler(myMediaElement_MediaEnded);
-            ////myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
-            ////myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded);
-            //Console.WriteLine("media element is: " + myMediaElement.IsLoaded);
-            ////timelineSlider.Value = 0;
-
-            ////myMediaElement.Play();
-            ////myMediaElement.Pause();
+          
         }
-        //private void MediaTimeChanged(object sender, EventArgs e)
-        //{
-        //    timelineSlider.Value = myMediaElement.Position.TotalMilliseconds;
-        //}
+    
 
         private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             try 
             { 
                 myMediaElement.Volume = (double)volumeSlider.Value;
-                //_volume = (double)volumeSlider.Value;
-            
+                   
             }
             catch { }
         }
@@ -716,20 +607,19 @@ namespace LADSArtworkMode
             {
                 double newValue = e.GetTouchPoint(timelineSlider).Position.X / timelineSlider.ActualWidth; //yields number between 0 and 1
                 newValue = newValue * timelineSlider.Maximum; //should give number between 0 and Maximum (about 300000)
-                //newValue = newValue < 0 ? 0 : newValue >= 1 ? .999 : newValue; //.999 as opposed to 1 because the MediaEnded event does not fire if the movie is scrolled to 100% manually. This stuff is WACKY.
-                //newValue = newValue < 0 ? 0 : newValue >= timelineSlider.Maximum ? (timelineSlider.Maximum - 1) : newValue; //.999 as opposed to 1 because the MediaEnded event does not fire if the movie is scrolled to 100% manually. This stuff is WACKY.
+               
                 if (newValue < 0)
                 {
-                    Console.WriteLine("less than zero");
+                   
                     newValue = 0;
                 }
                 if (newValue >= (timelineSlider.Maximum - 470))
                 {
                     newValue = (timelineSlider.Maximum - 480);
-                    Console.WriteLine("greater than max");
+                    
                 }
                 timelineSlider.Value = newValue; //this should be in milliseconds
-                Console.WriteLine("newValue is " + newValue);
+              
             }
             
         }
@@ -744,15 +634,13 @@ namespace LADSArtworkMode
         private void timelineSlider_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             Console.WriteLine("Mouse Move");
-            //myMediaElement.Pause();
-            //_sliderTimer.Stop();
+           
             if (!IsDragging())
             {
                 Console.WriteLine("Not Dragging");
                 double newValue = e.GetPosition(timelineSlider).X / timelineSlider.ActualWidth; //yields number between 0 and 1
                 newValue = newValue * timelineSlider.Maximum; //should give number between 0 and Maximum (about 300000)
-                //newValue = newValue < 0 ? 0 : newValue >= 1 ? .999 : newValue; //.999 as opposed to 1 because the MediaEnded event does not fire if the movie is scrolled to 100% manually. This stuff is WACKY.
-                //newValue = newValue < 0 ? 0 : newValue >= (timelineSlider.Maximum - 480) ? (timelineSlider.Maximum -500) : newValue; //.999 as opposed to 1 because the MediaEnded event does not fire if the movie is scrolled to 100% manually. This stuff is WACKY.
+             
                 if (newValue < 0)
                 {
                     Console.WriteLine("less than zero");
@@ -765,29 +653,10 @@ namespace LADSArtworkMode
                 }
                 Console.WriteLine("Is this being read?");
                 timelineSlider.Value = newValue; //this should be in milliseconds
-                //if (newValue >= (timelineSlider.Maximum - 101))
-                //{
-                //    this.Testing();
-                //    timelineSlider.Value = 0;
-                //}
+             
                 Console.WriteLine("newValue is " + newValue);
             }
-            //double newValue2 = e.GetPosition(timelineSlider).X / timelineSlider.ActualWidth; //yields number between 0 and 1
-            //newValue2 = newValue2 * timelineSlider.Maximum; //should give number between 0 and Maximum (about 300000)
-            ////newValue = newValue < 0 ? 0 : newValue >= 1 ? .999 : newValue; //.999 as opposed to 1 because the MediaEnded event does not fire if the movie is scrolled to 100% manually. This stuff is WACKY.
-            ////newValue = newValue < 0 ? 0 : newValue >= (timelineSlider.Maximum - 480) ? (timelineSlider.Maximum -500) : newValue; //.999 as opposed to 1 because the MediaEnded event does not fire if the movie is scrolled to 100% manually. This stuff is WACKY.
-            //if (newValue2 < 0)
-            //{
-            //    Console.WriteLine("less than zero");
-            //    newValue2 = 0;
-            //}
-            //if (newValue2 >= (timelineSlider.Maximum - 470))
-            //{
-            //    newValue2 = (timelineSlider.Maximum - 480);
-            //    Console.WriteLine("greater than max");
-            //}
-            ////myMediaElement.Play();
-            ////_sliderTimer.Start();
+           
         }
 
         private void timelineSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -813,10 +682,7 @@ namespace LADSArtworkMode
             {
                 myMediaElement.Pause();
                 this.Testing();
-                //myMediaElement.Stop();
-                //_sliderTimer.Stop();
-                //myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 21);
-                //timelineSlider.Value = 21;
+            
                 timelineSlider.Value = 0;
                 return;
             }
@@ -932,33 +798,6 @@ namespace LADSArtworkMode
             videoElement.Position = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(SurfaceTimelineSlider.Value));
         }
 
-        /**
-        private void mediaPlay(Object sender, RoutedEventArgs e)
-        {
-            mediaElement.Play();
-            
-        }
-        private void mediaPause(Object sender, RoutedEventArgs e)
-        {
-            mediaElement.Pause();
-        }
-        private void mediaStop(Object sender, RoutedEventArgs e)
-        {
-            mediaElement.Stop();
-        }
-       private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
-       {
-         mediaElement.Volume = (double)volumeChange.Value;
-       }
-       private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
-       {
-           int SliderValue = (int)mediaPositionChange.Value;
-           
-           // Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds.
-           // Create a TimeSpan with miliseconds equal to the slider value.
-           TimeSpan ts = new TimeSpan(0, 0, 0, SliderValue);
-           mediaElement.Position = ts;
-       }
-         * */
+      
     }
 }

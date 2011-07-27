@@ -20,7 +20,7 @@ using System.Windows.Forms;
 namespace SurfaceApplication3
 {
     /// <summary>
-    /// Interaction logic for AddImageWindow.xaml
+    /// Interaction logic for AddImageWindow.xaml. This is the main window for adding new artworks
     /// </summary>
     public partial class AddImageWindow : SurfaceWindow
     {
@@ -37,18 +37,14 @@ namespace SurfaceApplication3
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
             this.setWindowSize();
-           // big_window1.setUserControl(HotspotControl);
             mapWindow newMapWindow = new mapWindow();
             hotspotWindow newHotWindow = new hotspotWindow();
             big_window1.setHotspotWindow(newHotWindow);
             big_window1.setMapWindow(newMapWindow);
-           // this.setWindowSize();
-           // big_window1.setMapControl(mapControl);
-           // mapControl.setBigWindow(big_window1);
-           // mapControl.Visibility = Visibility.Collapsed;
-            // big_window1.MetaDataList.Items.Add(new MetaDataEntry(big_window1));
+          
         }
-        
+
+        //Changes the window size to make the content authoring tool fit in any size of screen
         public void setWindowSize()
         {
 
@@ -64,10 +60,9 @@ namespace SurfaceApplication3
                     
                     this.Height = height - 60;
                     this.Width = this.Height / 800 * 1024;
-                    // this.Width = this.Height/ratio;
                     tran.ScaleY = this.Height / 800;
                     tran.ScaleX = this.Width / 1024;
-                  //  Console.Out.WriteLine("width" + this.Width);
+                 
                 }
                 else
                 {
@@ -76,13 +71,9 @@ namespace SurfaceApplication3
                     this.Height = this.Width / 1024 * 800;
                     tran.ScaleX = this.Width / 1024;
                     tran.ScaleY = this.Height / 800;
-                    //  this.Height = this.Width * ratio;
+                    
                 }
-                //Console.Out.WriteLine("width" + this.Width);
-                //Console.Out.WriteLine("height" + this.Height);
-                //scale according to 1600* 900 resolution
-
-                mainCanvas.RenderTransform = tran;
+              mainCanvas.RenderTransform = tran;
             }
 
         }
@@ -160,37 +151,7 @@ namespace SurfaceApplication3
             
         }
 
-        private void SurfaceRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Browse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void big_window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
-        private void UserControl1_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-
-
-        private void HotspotControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void mapControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
        
     }

@@ -91,8 +91,7 @@ namespace LADSArtworkMode
         /// </summary>
         public HotspotIconControl(Canvas parent, ScatterView parentScatterView,Hotspot hotspotData, MultiScaleImage msi )
         {
-            //hotspotCircle = new Image();
-            //hotspotCanvas.Children.Add(hotspotCircle);
+
             InitializeComponent();
             m_hotspotData = hotspotData;
             m_parent = parent;
@@ -117,15 +116,7 @@ namespace LADSArtworkMode
                 highlighted.EndInit();
 
                 WriteableBitmap wbmap = new WriteableBitmap(normal);
-               /* wbmap.Lock();
-                IntPtr bbuff = wbmap.BackBuffer;
-                unsafe
-                {
-                    byte* pbuff = (byte*)bbuff.ToPointer();
-                }*/
-               // MessageBox.Show(normal.Format.ToString());
-
-
+            
             }
             catch (Exception e)
             {
@@ -145,16 +136,13 @@ namespace LADSArtworkMode
             try
             {
                 hotspotCircle.Source = normal;
-                //hotspotCircle.SetCurrentValue(DockPanel.DockProperty, Dock.Left);
-
-                //hotspotCircle.SetCurrentValue(HeightProperty, 50.0);
-                //hotspotCircle.SetCurrentValue(WidthProperty, 50.0);
+             
             }
             catch (Exception e)
             {
-                //MessageBox.Show(e.ToString());
+                
             }
-            //Console.Out.WriteLine("display LOCATIONS");
+          
             Double[] size = m_detailControl.findImageSize();
 
             screenPosX = (msi.GetZoomableCanvas.Scale * m_hotspotData.PositionX * size[0]) - msi.GetZoomableCanvas.Offset.X;
@@ -162,7 +150,6 @@ namespace LADSArtworkMode
             Canvas.SetLeft(this, screenPosX);
             Canvas.SetTop(this, screenPosY);
           
-
         }
 
 
@@ -193,63 +180,15 @@ namespace LADSArtworkMode
         /// </summary>
         private void showHotspotDetails()
         {
-            //if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
-            //{
-            //    m_detailControl.Visibility = Visibility.Visible;
-            //    m_detailControl.IsOnScreen = true;
-            //}
+
             if (m_parentScatterView.Items.Contains(m_detailControl) == false)
             {
                 if (m_detailControl.m_hotspotData.Type.ToLower().Contains("audio"))
                 {
-                    //m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView, m_hotspotData, _msi);
-
-                    //m_detailControl.IsOnScreen = true;
-                    //m_parent.Children.Add(this);
-                    //m_detailControl = new HotspotDetailsControl(m_parent, m_parentScatterView,  
-                    Console.WriteLine("! called");
-                    
-                    //I don't think this does anything:
-                    //try
-                    //{
-                    //    String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\normal.png";
-                    //    normal = new BitmapImage();
-                    //    normal.BeginInit();
-                    //    normal.UriSource = new Uri(imgUri, UriKind.Relative);
-                    //    normal.CacheOption = BitmapCacheOption.OnLoad;
-                    //    normal.EndInit();
-
-                    //    highlighted = new BitmapImage();
-                    //    imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Icons\\highlighted.png";
-                    //    highlighted.BeginInit();
-                    //    highlighted.UriSource = new Uri(imgUri, UriKind.Relative);
-                    //    highlighted.CacheOption = BitmapCacheOption.OnLoad;
-                    //    highlighted.EndInit();
-
-                    //    WriteableBitmap wbmap = new WriteableBitmap(normal);
-                    //    /* wbmap.Lock();
-                    //     IntPtr bbuff = wbmap.BackBuffer;
-                    //     unsafe
-                    //     {
-                    //         byte* pbuff = (byte*)bbuff.ToPointer();
-                    //     }*/
-                    //    // MessageBox.Show(normal.Format.ToString());
-
-                    //    m_detailControl.IsOnScreen = true;
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //    MessageBox.Show(e.ToString());
-
-                    //}
-                }
-                //m_detailControl = new HotspotDetailsControl(
+                   
+                }              
                 m_parentScatterView.Items.Add(m_detailControl);
-               // Canvas.SetLeft(m_detailControl, Convert.ToDouble(screenPosX));
-               // Canvas.SetTop(m_detailControl, Convert.ToDouble(screenPosY));
-                //m_detailControl.ScreenPosX = screenPosX;
-                //m_detailControl.ScreenPosY = ScreenPosY;
-
+               
                 m_detailControl.IsOnScreen = true;
             }
         }

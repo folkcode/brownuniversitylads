@@ -24,7 +24,7 @@
     <Canvas Height="800" Width="1024" Name="mainCanvas">
             <m:AddNewImageControl x:Name="big_window1" />
 
-            <m:hotspotAdd x:Name="HotspotControl" Loaded="HotspotControl_Loaded" Canvas.Top="80" Canvas.Left="40"  Visibility="Hidden" />
+            <m:hotspotAdd x:Name="HotspotControl" Canvas.Top="80" Canvas.Left="40"  Visibility="Hidden" />
            <!-- <m:map x:Name="mapControl" Loaded="mapControl_Loaded" Canvas.Top="50" Canvas.Left="60" Height="520" Width="924"/> -->
     </Canvas>
 <!--</UserControl> -->

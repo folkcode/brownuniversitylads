@@ -26,6 +26,7 @@ namespace SurfaceApplication3
             InitializeComponent();
             this.Closed +=new EventHandler(addHotspotsContent_Closed);
         }
+
         public void addHotspotsContent_Closed(object sender, EventArgs e)
         {
             hotspotsControl.newWindowIsOpened = false;
@@ -35,6 +36,8 @@ namespace SurfaceApplication3
         {
             hotspotsControl = add;
         }
+        
+        //Open file dialog to allow user to select the file
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
@@ -75,67 +78,10 @@ namespace SurfaceApplication3
                 }
             }
 
-            /**
-             ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files(*.*)|*.*";
-
-             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-             {
-
-                 string[] filePath = ofd.FileNames;
-                 string[] safeFilePath = ofd.SafeFileNames;
-
-                 for (int i = 0; i < safeFilePath.Length; i++)
-                 {
-                     // FileInfo info = new FileInfo(safeFilePath[i]);
-                     //Check what type of the metedata
-                     //   String fileName = info.Name;
-                    
-                     BitmapImage myBitmapImage = new BitmapImage();
-
-                     try
-                     {
-
-                         myBitmapImage.BeginInit();
-                         myBitmapImage.UriSource = new Uri(@filePath[i]);
-                         myBitmapImage.EndInit();
-                     }
-                     catch (Exception exception)
-                     {
-                         MessageBox.Show("The image file is broken or not valid");
-                         return;
-                     }
-
-
-                     Utils.setAspectRatio(imageCanvas, imageRec, image1, myBitmapImage, 7);
-
-                     //set image source
-                     image1.Source = myBitmapImage;
-                     //control.showImage(myBitmapImage)
-                     //Console.Out.WriteLine(safeFilePath[i]);
-                     this.setImageName(safeFilePath[i]);
-                     this.setImagePath(filePath[i]);
-
-                     this.createThumbnailImage();
-                     // this.setName(fileName);
-                     // FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(filePath[i]);
-                     // Console.Out.WriteLine(Environment.SystemDirectory);
-                     // Console.Out.WriteLine(myFileVersionInfo.FileDescription);
-
-                     //  summary.Text = "File description: " + myFileVersionInfo.Comments;
-                     // Console.Out.WriteLine("Version" + myFileVersionInfo);
-                     title_tag.Text = "";
-                     year_tag.Text = "";
-                     medium_tag.Text = "";
-                     artist_tag.Text = "";
-                     tags.Text = "";
-                     summary.Text = "";
-                     MetaDataList.Items.Clear();
-                     MetaDataEntry newSmall = new MetaDataEntry();
-                     newSmall.setBigWindow(this);
-                     MetaDataList.Items.Add(newSmall);
-             */
+           
         }
 
+        //When Ok is clicked, close the window and save the information to the hospotAdd window
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             if (title.Text != "" && url_tag.Text != "")
@@ -150,8 +96,7 @@ namespace SurfaceApplication3
                     hotspotsControl.AddImage.IsEnabled = true;
                     hotspotsControl.AddVideo.IsEnabled = true;
                     hotspotsControl.Edit.IsEnabled = true;
-                    //  hotspotsControl.ModifyAudio.IsEnabled = true;
-
+                  
                 }
                 else if (hotspotContent == 2)
                 {
@@ -162,7 +107,7 @@ namespace SurfaceApplication3
                     hotspotsControl.AddAudio.IsEnabled = true;
                     hotspotsControl.AddVideo.IsEnabled = true;
                     hotspotsControl.Edit.IsEnabled = true;
-                    //   hotspotsControl.ModifyImage.IsEnabled = true;
+                   
                 }
                 else
                 {
@@ -173,7 +118,7 @@ namespace SurfaceApplication3
                     hotspotsControl.AddAudio.IsEnabled = true;
                     hotspotsControl.AddImage.IsEnabled = true;
                     hotspotsControl.Edit.IsEnabled = true;
-                    //     hotspotsControl.ModifyVideo.IsEnabled = true;
+                  
                 }
                 hotspotsControl.newWindowIsOpened = false;
                 this.Close();
@@ -185,6 +130,7 @@ namespace SurfaceApplication3
             }
         }
 
+        //Cancel all the changes 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             title.Text = "";
