@@ -280,7 +280,7 @@ namespace GCNav
                     }
                 }
             }
-            //if the collection is empty
+            //if the collection is empty, arbitrarily set the start and end values
             if (_starty > +_endy)
             {
                 _starty = 1250;
@@ -503,7 +503,7 @@ namespace GCNav
                     clusterdict.Add(c.minYear, c);
                 }
                 List<int> keys = new List<int>();
-                keys.InsertRange(0,clusterdict.Keys);
+                keys.InsertRange(0, clusterdict.Keys);
                 keys.Sort();
                 double totalWidth = 0;
                 /*
@@ -526,8 +526,8 @@ namespace GCNav
             exitButton.Visibility = Visibility.Visible;
             InstructionBox.Visibility = Visibility.Visible;
             InstructionBox.Width = (_windowSize.Width / 4);
-            InstructionBorder.Width = (_windowSize.Width / 4) -5;
-            infoBox.Width = (_windowSize.Width / 4) -5;
+            InstructionBorder.Width = (_windowSize.Width / 4) - 5;
+            infoBox.Width = (_windowSize.Width / 4) - 5;
             //InstructionBox.Width = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
             //MessageBox.Show("Screenwidth is: " + System.Windows.SystemParameters.PrimaryScreenWidth / 2);
 
@@ -733,11 +733,11 @@ namespace GCNav
             //curInfoCol.Height = _windowSize.Height / 3;
             //infoScroll.Width = curInfoCol.Width + 20;
             //infoScroll.Height = curInfoCol.Height + 20;
-            infoScroll.MaxHeight = _windowSize.Height/3;
+            infoScroll.MaxHeight = _windowSize.Height / 3;
             //infoScroll.Width = curInfoContainer.Width;
             //infoScroll.Height = curInfoContainer.Height;
             //Console.Out.WriteLine("curinfo" + curInfoContainer.Width);
-           // Console.Out.WriteLine("curImage" + curImageContainer.Width);
+            // Console.Out.WriteLine("curImage" + curImageContainer.Width);
 
             //filterBoxContainer.Width =576;
 
@@ -773,8 +773,6 @@ namespace GCNav
             {*/
             if (!_artOpen)
             {
-                /*artmode.MultiImage.SetImageSource(@"C:\garibaldi\garibaldi\Panels DeepZoom\Panel 10\Exported Data\panel 10\dzc_output.xml");
-                artmode.MultiImageThumb.SetImageSource(@"C:\garibaldi\garibaldi\Panels DeepZoom\Panel 10\Exported Data\panel 10\dzc_output.xml");*/
                 artmode = new LADSArtworkMode.ArtworkModeWindow(currentImage.filename);
                 artmode.Closed += new EventHandler(onArtmodeClose);
                 _timer.Tick += new EventHandler(TimerTick_Handler);
@@ -782,26 +780,17 @@ namespace GCNav
                 artmode.MultiImageThumb.SetImageSource(@currentImage.xmlpath);
                 artmode.Show();
 
-               
-                
                 _artOpen = true;
                 artmode.LayoutArtworkMode(currentImage.filename);
 
                 if (SavedDockedItems != null)
                 {
-                    Console.WriteLine("Saved Docked Items not null!");
                     artmode.LoadDockedItems(SavedDockedItems);
                 }
                 else
                 {
-                    Console.WriteLine("Saved Docked Items is null!");
                 }
-                //artmode.currentArtworkFileName = currentImage.filename;
                 artmode.currentArtworkTitle = currentImage.title;
-                
-                //artmode.addDockedItems(dockedItems);
-                
-                Console.WriteLine(currentImage.filename);// add an input param in order to handle different artworks hotspots.
             }
             else
             {
@@ -813,8 +802,7 @@ namespace GCNav
                         artmode.Close();
                         artmode = newWindow;
                         artmode.Closed += new EventHandler(onArtmodeClose);
-                        
-                        
+
                         _timer.Tick += new EventHandler(TimerTick_Handler);
                         artmode.MultiImage.SetImageSource(@currentImage.xmlpath);
                         artmode.MultiImageThumb.SetImageSource(@currentImage.xmlpath);
@@ -825,12 +813,10 @@ namespace GCNav
 
                         if (SavedDockedItems != null)
                         {
-                            Console.WriteLine("Saved Docked Items not null!");
                             artmode.LoadDockedItems(SavedDockedItems);
                         }
                         else
                         {
-                            Console.WriteLine("Saved Docked Items is null!");
                         }
                     }
                     else
@@ -846,13 +832,11 @@ namespace GCNav
                     artmode.ShowActivated = true;
                 }
             }
-            //}
         }
         List<DockableItem> dockedItems;
         public void onArtmodeClose(object sender, EventArgs e)
         {
             _timer.Tick -= TimerTick_Handler;
-            //dockedItems = artmode.DockedDockableItems;
             SavedDockedItems = artmode.SavedDockedItems;
             _artOpen = false;
             artmode.Close();
@@ -873,7 +857,6 @@ namespace GCNav
             foreach (Event e in events)
             {
                 e.setParent(this);
-                //e.PreviewTouchDown+=new EventHandler<TouchEventArgs>(EventTouchedHandler);
                 e.PreviewMouseDown += EventTouchedHandler;
             }
         }
@@ -920,14 +903,6 @@ namespace GCNav
                 }
                 _eventDisplayed = ev;
             }
-            //KeywordsTitle.Visibility = Visibility.Hidden;
-            //curKeywords.Visibility = Visibility.Hidden;
-
-
-            /*if (((((curInfoContainer.Children[0]) as Border).Child as Grid).Children[0] as TextBlock) == curInfo && curInfo!=null)
-                Console.WriteLine("YES");
-            else
-                Console.WriteLine("NO");*/
         }
 
         /*
@@ -961,13 +936,13 @@ namespace GCNav
             curImageContainer.Width = _windowSize.Width / 4;
             //curImageCanvas.Height = _curImage.Height + 50;
             //curImageCanvas.Width = _curImage.Width + 50;
-            curImageCanvas.Width = _windowSize.Width / 4-10;
+            curImageCanvas.Width = _windowSize.Width / 4 - 10;
             curImageCanvas.Height = _windowSize.Height / 3 - 10;
             curImageCanvas1.Width = _windowSize.Width / 4 - 10;
             curImageCanvas1.Height = _windowSize.Height / 3 - 10;
-            
+
             //Console.Out.WriteLine("IMAGE WIDTH" + _curImage.Source.Width);
-           // Console.Out.WriteLine("iamge height" + _curImage.Source.Height);
+            // Console.Out.WriteLine("iamge height" + _curImage.Source.Height);
             Double actualWidth = _curImage.Source.Width;
             Double actualHeight = _curImage.Source.Height;
             Double ratio = actualWidth / actualHeight;
@@ -975,52 +950,33 @@ namespace GCNav
             ScaleTransform tran = new ScaleTransform();
             //if (actualHeight > curImageCanvas.Height || actualWidth > curImageCanvas.Width)
             //{
-                if (ratio > canvasRatio)
-                {
-                  //  Console.Out.WriteLine("called1");
-                    Double scale = (curImageCanvas.ActualWidth-30) / actualWidth;
-                    //  curImageCanvas.Height = curImageCanvas.Width / ratio;
-                    tran.ScaleX = scale;
-                    tran.ScaleY = scale;
-                    // _curImage.Height = _curImage.Width / ratio;
-                    //tran.ScaleX = 0.1;
-                    //tran.ScaleY = 0.1;
-                }
-                else
-                {
-                    //Console.Out.WriteLine("called2");
-                    Double scale = (curImageCanvas.ActualHeight-30) / actualHeight;
-                    // _curImage.Height = curImageCanvas.ActualHeight;
-                    // curImageCanvas.Width = curImageCanvas.Height * ratio;
-                    tran.ScaleX = scale;
-                    tran.ScaleY = scale;
-                }
-                _curImage.RenderTransform = tran;
-                curImageCanvas.UpdateLayout();
-               // Console.Out.WriteLine("imageWidth" + _curImage.ActualWidth);
-               // Console.Out.WriteLine("top" + (curImageCanvas.Height - _curImage.ActualHeight*tran.ScaleY) / 2);
-                Canvas.SetTop(_curImage, (curImageCanvas.Height - _curImage.ActualHeight * tran.ScaleY) / 2);
-                Canvas.SetLeft(_curImage, (curImageCanvas.Width - _curImage.ActualWidth * tran.ScaleX) / 2);
-            //}
-          //  Console.Out.WriteLine("canvas width" + curImageCanvas.ActualWidth);
-          //  Console.Out.WriteLine("canvas height" + curImageCanvas.ActualHeight);
-          //  Console.Out.WriteLine("image width" + _curImage.ActualWidth);
-          //  Console.Out.WriteLine("image height" + _curImage.ActualHeight);
+            if (ratio > canvasRatio)
+            {
+                Double scale = (curImageCanvas.ActualWidth - 30) / actualWidth;
+                tran.ScaleX = scale;
+                tran.ScaleY = scale;
+            }
+            else
+            {
+                Double scale = (curImageCanvas.ActualHeight - 30) / actualHeight;
+                tran.ScaleX = scale;
+                tran.ScaleY = scale;
+            }
+            _curImage.RenderTransform = tran;
+            curImageCanvas.UpdateLayout();
+            Canvas.SetTop(_curImage, (curImageCanvas.Height - _curImage.ActualHeight * tran.ScaleY) / 2);
+            Canvas.SetLeft(_curImage, (curImageCanvas.Width - _curImage.ActualWidth * tran.ScaleX) / 2);
             currentImage = img;
             _curImage.TouchDown += HandleImageTouched;
             _curImage.MouseDown += HandleImageTouched;
-            //Canvas.SetTop(_curImage, 25);
-            //Canvas.SetLeft(_curImage, 25);
 
-           
+
             curInfoCol.Width = _windowSize.Width / 4;
-            //curInfoCol.Height = this.ActualHeight / 3;
             curInfoCol.Height = _windowSize.Height / 3;
-            //infoScroll.Height = curInfoContainer.Height;
 
             infoScroll.Height = curInfoCol.Height;
             ColumnDefinition width = new ColumnDefinition();
-            GridLength length = new GridLength(_windowSize.Width / 4-40);
+            GridLength length = new GridLength(_windowSize.Width / 4 - 40);
             width.Width = length;
             curInfoCol.ColumnDefinitions.Add(width);
 
@@ -1028,49 +984,30 @@ namespace GCNav
             artist.Text = "";
             medium.Text = "";
             date.Text = "";
-            //title.UpdateLayout();
-            //artist.UpdateLayout();
-            //curInfo.Text = "";
-           // title.MaxWidth = _windowSize.Width / 4 - 10;
-           // curKeywords.MaxWidth = _windowSize.Width / 4 - 55;
-            title.Text += "Title: " + img.title ;
+            title.Text += "Title: " + img.title;
             curInfoCol.UpdateLayout();
-            titleBack.Width = _windowSize.Width / 4 -20;
-            titleBack.Height = title.ActualHeight+5;
-         //   Double artistTop = title.ActualHeight +10;
+            titleBack.Width = _windowSize.Width / 4 - 20;
+            titleBack.Height = title.ActualHeight + 5;
             Console.Out.WriteLine("title height" + title.ActualHeight);
-          //  Canvas.SetTop(artist, artistTop);
-          //  Canvas.SetTop(medium, artistTop + 25);
-          //  Canvas.SetTop(date, artistTop + 50);
             artist.Text += "Artist: " + img.artist;
             medium.Text += "Medium: " + img.medium;
             date.Text += "Year: " + img.year;
-            
+
             title.FontSize = 25 * _windowSize.Height / 1080.0;
             artist.FontSize = 20 * _windowSize.Height / 1080.0;
             medium.FontSize = artist.FontSize;
             date.FontSize = artist.FontSize;
             KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
-            curKeywords.FontSize = 18 *_windowSize.Height / 1080.0;
+            curKeywords.FontSize = 18 * _windowSize.Height / 1080.0;
             curInfoCol.UpdateLayout();
             titleBack.Height = titleBack.ActualHeight + 10;
-            
-            //Canvas.SetTop(KeywordsTitle, artistTop + 75);
-            //Canvas.SetTop(curKeywords, artistTop + 105);
-           
-            //infoCanvas.Height = this.ActualHeight / 4;
-           // Canvas.SetTop(curInfo, 35);
-            //infoCanvas.Width = _windowSize.Width / 4;
-            
-            // newColWidth.Width = _windowSize.Width / 4;
-            //column.Width = _windowSize.Width / 4;
+
             if (currentImage.keywords.Count() > 0)
             {
                 KeywordsTitle.Visibility = Visibility.Visible;
                 curKeywords.Visibility = Visibility.Visible;
-                //Canvas.SetTop(KeywordBack, artistTop + 75);
                 KeywordBack.Visibility = Visibility.Visible;
-                
+
             }
             else
             {
@@ -1079,8 +1016,7 @@ namespace GCNav
                 KeywordBack.Visibility = Visibility.Hidden;
             }
 
-            KeywordBack.Width = _windowSize.Width / 4 -20;
-            //curKeywords.Height = 0;
+            KeywordBack.Width = _windowSize.Width / 4 - 20;
             curKeywords.Text = "";
 
             bool b = false;
@@ -1094,27 +1030,6 @@ namespace GCNav
             }
             curKeywords.UpdateLayout();
             curInfoCol.UpdateLayout();
-           // curInfoCol.Height = artistTop + 105 + curKeywords.Height;
-            //curKeywordsBack.Width = _windowSize.Width / 4 - 46;
-            
-           // curKeywordsBack.Height = curKeywords.ActualHeight + 5;
-            //Canvas.SetTop(curKeywordsBack, artistTop + 105);
-            //if (artistTop + 105 + curKeywords.ActualHeight > curInfoCol.Height)
-            //{
-            //    curInfoCol.Height = artistTop + 105 + curKeywords.ActualHeight;
-            //    //if (infoScroll.Visibility == Visibility.Visible)
-            //    //{
-            //    //    Console.Out.WriteLine("max width" + title.MaxWidth);
-            //    //    title.MaxWidth -= 60;
-            //    //    title.FontSize -= 2;
-            //    //    Console.Out.WriteLine("max width" + title.MaxWidth);
-            //    //    curKeywords.MaxWidth -= 25;
-            //    //    curKeywords.FontSize -= 2;
-            //    //    curInfoCol.UpdateLayout();
-            //    //}
-              
-            //}
-          //  KeywordBack.Height = KeywordsTitle.ActualHeight + curKeywords.ActualHeight + 15;
             RowDefinition height = new RowDefinition();
             GridLength height1 = new GridLength(curKeywords.ActualHeight);
             height.Height = height1;
@@ -1126,25 +1041,20 @@ namespace GCNav
             Console.Out.WriteLine("height" + curKeywords.ActualHeight);
             infoScroll.UpdateLayout();
             Console.Out.WriteLine("height" + curKeywords.ActualHeight);
-            
+
             curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight;
-            
+
             if (curInfoCol.Height > _windowSize.Height / 3 - 50)
             {
-                curInfoContainer.Height = _windowSize.Height / 3 ;
+                curInfoContainer.Height = _windowSize.Height / 3;
                 infoScroll.Height = _windowSize.Height / 3 - 50;
-                //ColumnDefinition width1 = new ColumnDefinition();
-                //length = new GridLength(_windowSize.Width / 4 - 80);
-                //width.Width = length;
-                //curInfoCol.ColumnDefinitions.Add(width1);
-                //curInfoCol.Width = _windowSize.Width / 4 - 80;
                 title.MaxWidth = _windowSize.Width / 4 - 80;
                 title.UpdateLayout();
                 titleBack.Height = title.ActualHeight + 5;
                 curKeywords.MaxWidth = _windowSize.Width / 4 - 80;
                 curKeywords.UpdateLayout();
                 KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
-                curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight + 
+                curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight +
                     date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
             }
             else
@@ -1155,7 +1065,6 @@ namespace GCNav
                 title.MaxWidth = _windowSize.Width / 4 - 40;
                 curKeywords.MaxWidth = _windowSize.Width / 4 - 40;
             }
-            //curInfoCol.Height = title.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + curKeywords.ActualHeight +100;
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace GCNav
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Creates timeline events
     /// </summary>
     public partial class Event : UserControl, IComparable<Event>
     {
@@ -74,8 +74,6 @@ namespace GCNav
             _eventRec.Fill = brush;
             canvas.Children.Insert(0, _eventRec);
             canvas.Children.Add(_eventText);
-            //this.PreviewTouchUp += new EventHandler<TouchEventArgs>(TouchUpHandler);
-            //_eventRec.PreviewMouseUp += new MouseButtonEventHandler(TouchUpHandler);
         }
 
         /// <summary>
