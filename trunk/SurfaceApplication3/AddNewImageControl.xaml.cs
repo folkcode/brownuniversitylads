@@ -65,7 +65,6 @@ namespace SurfaceApplication3
             progressBarWorker.DoWork += new DoWorkEventHandler(progressBarWorker_DoWork);
             progressBarWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(progressBarWorker_RunWorkerCompleted);
 
-            //year_tag.MaxLength = 4; //set the limits on the year input
             _helpers = new Helpers();
             imagesToDelete = new List<string>();
             mapWinOpened = false;
@@ -150,7 +149,6 @@ namespace SurfaceApplication3
                 {
                     // FileInfo info = new FileInfo(safeFilePath[i]);
                     //Check what type of the metedata
-                    //   String fileName = info.Name;
                     image1.Width = 186;
                     image1.Height = 136;
                     imageRec.Width = 200;
@@ -183,21 +181,7 @@ namespace SurfaceApplication3
                         return;
                     }
 
-                    /*
-                    try
-                    {
-                        FileStream fstream = new FileStream(@filePath[i], FileMode.Open);
-                        System.Drawing.Image dImage = System.Drawing.Image.FromStream(fstream);
-                        wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
-                        fstream.Close();
-                    }
-                    catch (Exception exception)
-                    {
-                        MessageBox.Show("The image file is broken or not valid");
-                        return;
-                    }*/
-
-
+                  
                     Utils.setAspectRatio(imageCanvas, imageRec, image1, wpfImage, 7);
 
                     //set image source
@@ -265,7 +249,7 @@ namespace SurfaceApplication3
                 img = img.GetThumbnailImage(128, 128, null, new IntPtr());
                 img.Save(newPath + "Thumbnail/" + filename);
                 img.Dispose();
-                Console.WriteLine(newPath + "Thumbnail/" + filename + " IMAGE!!");
+               
             }
         }
 
@@ -315,6 +299,7 @@ namespace SurfaceApplication3
             }
         }
 
+        //Open the hotspot window
         private void hotspot_Click(object sender, RoutedEventArgs e)
         {
             if (!hotspotWinOpened)
@@ -530,7 +515,7 @@ namespace SurfaceApplication3
                                                                     {
                                                                         File.Delete(path2);
                                                                         createMetaThumbnail(smallWindow);
-                                                                        Console.WriteLine("oldPath: " + oldPath + " path2: " + path2);
+                                                                       // Console.WriteLine("oldPath: " + oldPath + " path2: " + path2);
                                                                         // Copy the file.
                                                                         File.Copy(oldPath, path2);
                                                                     }
@@ -540,7 +525,7 @@ namespace SurfaceApplication3
                                                             {
                                                                 String newPath = "data/Videos/Metadata/" + smallWindow.title_tag.Text;
                                                                 String path2 = newPath;
-                                                                Console.WriteLine("Video File save: " + newPath);
+                                                               // Console.WriteLine("Video File save: " + newPath);
                                                                 // Ensure that the target does not exist.
                                                                 try
                                                                 {
@@ -551,7 +536,7 @@ namespace SurfaceApplication3
                                                                 }
                                                                 catch (Exception exc)
                                                                 {
-                                                                    Console.WriteLine("CATCH!!");
+                                                                  //  Console.WriteLine("CATCH!!");
                                                                 }
                                                             }
                                                         }
@@ -919,7 +904,7 @@ namespace SurfaceApplication3
             Thread.Sleep(0);
         }
 
-
+        //This sets the catalogNumber in the whole catalog and remove them
         public void setCatalogNumber(int number)
         {
             catalogNumber = number;
@@ -930,6 +915,7 @@ namespace SurfaceApplication3
             mainWindow = main;
         }
 
+        //After modifying or adding one artwork, load this specific artwork again without loading the whole collection of artworks
         public void loadOneArtwork()
         {
             catalogEntry entryToModify = (catalogEntry)mainWindow.EntryListBox.Items.GetItemAt(catalogNumber);
@@ -955,6 +941,7 @@ namespace SurfaceApplication3
                 entryToModify.setImageName(imageName);
         }
 
+        //Double click in the keywords textbox selects the words automatically
         private void tagsMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             int cursorPosition = tags.SelectionStart;
@@ -970,7 +957,6 @@ namespace SurfaceApplication3
                 trimmedString = tags.Text;
             }
 
-
             if (trimmedString.LastIndexOf(' ') != -1)
             {
                 selectionStart = 1 + trimmedString.LastIndexOf(' ');
@@ -979,9 +965,10 @@ namespace SurfaceApplication3
 
             tags.SelectionStart = selectionStart;
             tags.SelectionLength = trimmedString.Length;
-
-
+            
         }
+
+        //Double click in the summary textbox selects the words automatically
         private void summaryMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             int cursorPosition = summary.SelectionStart;

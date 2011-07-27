@@ -63,12 +63,7 @@ namespace SurfaceApplication3
             newBigWindow.big_window1.browse.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.createDZ.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.setMainWindow(_newWindow); //pass the main window to the addImage Control
-            //BitmapImage myBitmapImage = new BitmapImage();
-            //myBitmapImage.BeginInit();
-            //myBitmapImage.UriSource = new Uri(imagePath);
-            //myBitmapImage.EndInit();
-
-            
+         
 
             Image wpfImage = new Image();
             FileStream stream = new FileStream(imagePath, FileMode.Open);
@@ -142,11 +137,11 @@ namespace SurfaceApplication3
                                         //Load metadatas if there is any
                                         if (imgnode.Name == "Metadata")
                                         {
-                                            //newBigWindow.big_window1.MetaDataList.Items.RemoveAt(0);
+                                            
                                             foreach (XmlNode meta in imgnode.ChildNodes)
                                             {
                                                 if (meta.Name == "Group")
-                                                { //This needs to specify group A,B,C or D
+                                                { //This needs to specify group A,B,C or D. Groups are not specified in this release
                                                     foreach (XmlNode file in meta)
                                                     {
                                                         String fileName = file.Attributes.GetNamedItem("Filename").InnerText; //this is to save the imageName
@@ -191,21 +186,17 @@ namespace SurfaceApplication3
                                                             BitmapImage metaBitmapImage = new BitmapImage();
                                                             metaBitmapImage.BeginInit();
                                                             String thumbPath = fullPath;
-                                                            Console.WriteLine("thumbpath" + thumbPath);
-                                                            Console.WriteLine("fileName" + fileName);
 
                                                             int decrement = System.IO.Path.GetExtension(thumbPath).Length;
                                                             thumbPath = thumbPath.Remove(thumbPath.Length - decrement, decrement);
 
-                                                            //thumbPath = thumbPath.Remove(thumbPath.Length - 4, 4);
                                                             thumbPath += ".bmp";
                                                             metaBitmapImage.UriSource = new Uri(thumbPath);
                                                             metaBitmapImage.EndInit();
 
                                                             //set image source
                                                             MetaDataEntry newSmallwindow = new MetaDataEntry();
-                                                            //Utils.setAspectRatio(newSmallwindow.imageCanvas, newSmallwindow.imageRec, newSmallwindow.image1, metaBitmapImage, 4);
-
+                                                          
                                                             newSmallwindow.image1.Source = metaBitmapImage;
                                                             newSmallwindow.title_tag.Text = fileName;
 
@@ -242,11 +233,13 @@ namespace SurfaceApplication3
             }
             newBigWindow.Show();
         }
+
         public void setImage(BitmapImage image)
         {
             imageToDispose = image;
            
         }
+        //This removes the entire deepzoom folder
         public void removeFolders(String folder)
         {
             if (System.IO.Directory.Exists(folder))
@@ -259,7 +252,6 @@ namespace SurfaceApplication3
                     File.Delete(s);
                 }
                 String[] folders = Directory.GetDirectories(folder);
-                Console.Out.WriteLine("folder1"+folders[0]);
                 foreach (String smallFolder in folders)
                 {
                     Directory.Delete(smallFolder,true);
@@ -277,7 +269,6 @@ namespace SurfaceApplication3
             DialogResult  result = System.Windows.Forms.MessageBox.Show("Are you sure you want to remove this artwork (" + " " + imageName +") " +"from the collection?","Remove the entry",MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                //imageToDispose.UriSource = null;
                 _newWindow.EntryListBox.Items.Remove(this);
                 //Would need to remove from the xml file as well
                 XmlDocument doc = new XmlDocument();
@@ -308,37 +299,20 @@ namespace SurfaceApplication3
 
                 String imageToRemove = "Data/Images/" + imageName;
                 String thumbnaiToRemove = "Data/Images/Thumbnail/" + imageName;
-                Console.Out.WriteLine("imageTitle" + imageName);
+              
                 if (File.Exists(imageToRemove))
                 {
-                    Console.Out.WriteLine("imageToRemove exists");
-                    //image1 = new Image();
-
                     File.Delete(imageToRemove);
                     File.Delete(thumbnaiToRemove);
                 }
-                /*
-                if (File.Exists(thumbnaiToRemove))
-                {
-                    Console.Out.WriteLine("thumbnail exists!");
-                    try
-                    {
-                        File.Delete(thumbnaiToRemove);
-                    }
-                    catch (Exception imageBeingUsed) {
-                        
-                    }
-                }
-                */
-                //Remove the deepzoom folder.
+              
                 String folderToRemove = "Data/Images/DeepZoom/" + imageName;
                 
                 this.removeFolders(folderToRemove);
                 //Need to remove its hotspots
                 if (File.Exists("Data/XMLFiles/" + imageName + "." + "xml"))
                 {
-                    Console.Out.WriteLine("hotspots exists");
-                    File.Delete("Data/XMLFiles/" + imageName + "." + "xml");
+                   File.Delete("Data/XMLFiles/" + imageName + "." + "xml");
                 }
                 //In case other files are using the same metadata, keep the metadata here.
 
@@ -349,30 +323,6 @@ namespace SurfaceApplication3
             }
 
         }
-        ///// <summary>
-        ///// The next two code blocks together check to see if file is an image
-        ///// </summary>
-        //static string[] imageExtensions = {
-        //    ".BMP", ".JPG", ".GIF"
-        //};
-
-        //public bool IsImageFile(string filename)
-        //{
-        //    return -1 != Array.IndexOf(imageExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
-        //}
-
-        ///// <summary>
-        ///// The next two code blocks together check to see if file is a video
-        ///// </summary>
-        //static string[] videoExtensions = {
-        //                                      ".MOV", ".AVI"
-        //    //".WMV", ".ASF", ".ASX", ".AVI", ".FLV",
-        //    //".MOV", ".MP4", ".MPG", ".RM", ".SWF", ".VOB"
-        //};
-
-        //public bool IsVideoFile(string filename)
-        //{
-        //    return -1 != Array.IndexOf(videoExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
-        //}
+    
     }
 }
