@@ -103,7 +103,6 @@ namespace GCNav
 
         private void filtCategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Console.WriteLine(filtCategoryList.SelectedIndex);
             switch (filtCategoryList.SelectedIndex)
             {  
                 case 0:

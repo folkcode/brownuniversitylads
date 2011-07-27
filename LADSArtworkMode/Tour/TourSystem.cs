@@ -20,7 +20,7 @@ using Microsoft.Win32;
 namespace LADSArtworkMode
 {
     /// <summary>
-    /// TourSystem - tour authoring & playback system (see http://cs.brown.edu/research/pubs/theses/masters/2011/chin.pdf for what I was envisioning for this)
+    /// 
     /// </summary>
     class TourSystem
     {
@@ -336,7 +336,6 @@ namespace LADSArtworkMode
         {
             if (currentHighlightCanvas != null)
             {
-                //currentHighlightCanvas.Opacity = opacity;
                 foreach (Timeline tl in tourBiDictionary.firstKeys)
                 {
                     TourTL tourtl = (TourTL)tl;
@@ -407,7 +406,6 @@ namespace LADSArtworkMode
             tourAudio_TL.type = TourTLType.audio;
             tourAudio_TL.displayName = audio_file;
             tourAudio_TL.file = audio_file;
-            //tourAudio_TL.be
 
             BiDictionary<double, TourEvent> tourAudio_TL_dict = new BiDictionary<double, TourEvent>(); // dummy TL_dict -- tourAudio_timeline obviously doesn't store any TourEvents
             tourBiDictionary.Add(tourAudio_TL, tourAudio_TL_dict);
@@ -653,11 +651,9 @@ namespace LADSArtworkMode
                 if (MessageBox.Show("Are you sure you want to delete this tour?",
                   "Delete the Tour", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Console.WriteLine("Data/Tour/XML/" + artModeWin.currentArtworkFileName + "." + "xml");
                     if (File.Exists("Data/Tour/XML/" + artModeWin.currentArtworkFileName + "." + "xml"))
                     {
                         File.Delete("Data/Tour/XML/" + artModeWin.currentArtworkFileName + "." + "xml");
-                        Console.WriteLine("Deleted");
                     }
 
                     this.TourAuthoringDoneButton_Click(sender, e); //bad idea?
@@ -1024,7 +1020,6 @@ namespace LADSArtworkMode
                         if (tevent.type == TourEvent.Type.zoomMedia)
                         {
                             ZoomMediaEvent ze = (ZoomMediaEvent)tevent;
-                            Console.WriteLine(ze.zoomMediaToScreenPointX + "," + ze.zoomMediaToScreenPointY + " -> " + dockItem.ActualCenter.X + "," + dockItem.ActualCenter.Y);
                         }
 
                         if ((authorTimerCountSpan.TotalSeconds >= startEventTime && authorTimerCountSpan.TotalSeconds <= (startEventTime + tevent.duration)))
@@ -1080,8 +1075,6 @@ namespace LADSArtworkMode
             if (!tourAuthoringOn)
                 return;
 
-
-
             undoableActionPerformed();
             double scrubtime = authorTimerCountSpan.TotalSeconds;
             Timeline tl;
@@ -1100,7 +1093,6 @@ namespace LADSArtworkMode
                         if (tevent.type == TourEvent.Type.zoomMedia)
                         {
                             ZoomMediaEvent ze = (ZoomMediaEvent)tevent;
-                            Console.WriteLine(ze.zoomMediaToScreenPointX + "," + ze.zoomMediaToScreenPointY + " -> " + dockItem.ActualCenter.X + "," + dockItem.ActualCenter.Y);
                         }
 
                         if ((authorTimerCountSpan.TotalSeconds >= startEventTime && authorTimerCountSpan.TotalSeconds <= (startEventTime + tevent.duration)))

@@ -120,7 +120,6 @@ namespace LADSArtworkMode
         {
             InitializeComponent();
             String[] c = Environment.GetCommandLineArgs();
-            Console.Out.WriteLine("command" + c[0]);
 
             if (c.Length != 1)
             {
@@ -259,7 +258,6 @@ namespace LADSArtworkMode
             foreach (DockedItemInfo info in SavedDockedItemsFromNav)
             {
                 //if it's an image, do this:
-                Console.WriteLine("scatter uri: " + info.scatteruri);
                 if (_helpers.IsImageFile(info.scatteruri))
                 {
                     DockableItem item = new DockableItem(MainScatterView, this, Bar, info.scatteruri, null);
@@ -483,7 +481,6 @@ namespace LADSArtworkMode
                                             foreach (XmlNode file in group.ChildNodes)
                                             {
                                                 string metadatafilename = file.Attributes.GetNamedItem("Filename").InnerText;
-                                                Console.WriteLine("metadataFilename: " + metadatafilename);
                                                 count++;
                                                 string name;
                                                 try
@@ -525,7 +522,6 @@ namespace LADSArtworkMode
         public void reloadMetadata(string filename)
         {
             treeDocs.Items.Clear();
-            Console.WriteLine("Reload Meta: Filename = "+filename);
             this.loadMetadata(filename);
         }
 
@@ -700,7 +696,6 @@ namespace LADSArtworkMode
                 sTextBoxDocsSearch.Visibility = Visibility.Visible;
                 treeDocs.Visibility = Visibility.Visible;
             }
-
         }
 
         public void HSopacityAnim_Completed(object sender, EventArgs e)
@@ -830,15 +825,6 @@ namespace LADSArtworkMode
             }
         }
 
-
-        /// <summary>
-        /// Not used.
-        /// </summary>
-        private void loadHotspots()
-        {
-        }
-
-
         /// <summary>
         /// Call when a user chooses 'Search' to filter associated documents.
         /// Not implemented yet
@@ -882,78 +868,6 @@ namespace LADSArtworkMode
                 treeViewSearch(keyword, currentItem.Items);
             }
 
-        }
-
-        /// <summary>
-        /// Called when a value in the Brightness slider is changed
-        /// Not used
-        /// </summary>
-        private void sliderBrightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
-
-
-        /// <summary>
-        /// Called when complete dragging the Brightness slider
-        /// </summary>
-        private void sliderBrightness_DragCompleted(object sender, EventArgs e)
-        {
-        }
-
-
-        /// <summary>
-        /// Called when start dragging Brightness slider
-        /// Not used
-        /// </summary>
-        private void sliderBrightness_DragStarted(object sender, EventArgs e)
-        {
-        }
-
-
-        /// <summary>
-        /// Called when a value in the Contrast slider is changed
-        /// Not used
-        /// </summary>
-        private void sliderContrast_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
-
-        /// <summary>
-        /// Called when complete dragging Contrast slider
-        /// </summary>
-        private void sliderContrast_DragCompleted(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Called when start dragging Contrast slider
-        /// Not used
-        /// </summary>
-        private void sliderContrast_DragStarted(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Called when a value in the Saturation slider is changed
-        /// Not used
-        /// </summary>
-        private void sliderSaturation_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-        }
-
-        /// <summary>
-        /// Called when complete dragging Saturation slider
-        /// </summary>
-        private void sliderSaturation_DragCompleted(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Called when start dragging Saturation slider
-        /// Not used
-        /// </summary>
-        private void sliderSaturation_DragStarted(object sender, EventArgs e)
-        {
         }
 
         /// <summary>
@@ -1026,7 +940,6 @@ namespace LADSArtworkMode
                         Double height1 = Convert.ToDouble(height);
                         sizes[0] = width1;
                         sizes[1] = height1;
-
                     }
                 }
 
@@ -1189,7 +1102,6 @@ namespace LADSArtworkMode
             double delta = s.HorizontalChange;
             foreach (WorkspaceElement w in DockedItems)
             {
-                Console.WriteLine("whats gong on here? w.item.ActualCenter.X is: " + w.item.ActualCenter.X);
                 w.item.SetCurrentValue(ScatterViewItem.CenterProperty, new Point(w.item.ActualCenter.X - delta, w.item.ActualCenter.Y));
             }
 
@@ -1249,7 +1161,6 @@ namespace LADSArtworkMode
                 sliderContrast.Width = toolsOriginalSliderWidth;
                 sliderSaturation.Width = toolsOriginalSliderWidth;
             }
-
         }
 
         public void toggleLeftSide()
@@ -1338,7 +1249,6 @@ namespace LADSArtworkMode
                 da.AutoReverse = true;
                 Text.BeginAnimation(OpacityProperty, da);
                 textMessage.BeginAnimation(OpacityProperty, da);
-                               
             }
         }
 
@@ -1355,19 +1265,6 @@ namespace LADSArtworkMode
                 if (wke.isDocked) wke.item.IsEnabled = true;
             }
             bottomPanelVisible = !bottomPanelVisible;
-        }
-
-        private void Tours_MouseEnter(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void Tours_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void Tours_MouseLeave(object sender, MouseEventArgs e)
-        {
         }
 
         public Canvas getMain()
@@ -1395,23 +1292,10 @@ namespace LADSArtworkMode
             resetAll();
         }
 
-        private void labelTools_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private void mainImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             resetAll();
 
-        }
-
-        private void mainImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void mainImage_TouchUp(object sender, TouchEventArgs e)
-        {
         }
 
         #endregion
@@ -1440,8 +1324,6 @@ namespace LADSArtworkMode
             tourSystem.LoadTourAuthoringUIFromDict();
             tourSystem.loadAuthoringGUI();
             TourLayout();
-
-
         }
 
 
@@ -1476,7 +1358,6 @@ namespace LADSArtworkMode
             Canvas.SetTop(newMeta, 100);
         }
 
-
         public void TourAuthoringSaveButton_Click(object sender, RoutedEventArgs e)
         {
             String filePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
@@ -1489,7 +1370,6 @@ namespace LADSArtworkMode
             saveAnim.Duration = new Duration(TimeSpan.FromSeconds(2.0));
             saveAnim.FillBehavior = FillBehavior.Stop;
             tourSystem.getSaveSuccessfulLabel().BeginAnimation(OpacityProperty, saveAnim);
-
         }
 
         private void addAudioButton_Click(object sender, RoutedEventArgs e)
@@ -1501,7 +1381,6 @@ namespace LADSArtworkMode
             tourSystem.undoableActionPerformed();
             tourSystem.AddNewMetaDataTimeline(filePath, fileName);
         }
-
 
         public void LeftButtonAuthClick(object sender, RoutedEventArgs e)
         {
@@ -1543,12 +1422,8 @@ namespace LADSArtworkMode
             {
             }
 
-
             TourLengthBox.Visibility = Visibility.Collapsed;
             TimeBorder.Visibility = Visibility.Collapsed;
-
-
-
         }
 
         private void cancelTimeTourButton_Click(object sender, RoutedEventArgs e)
@@ -1600,7 +1475,6 @@ namespace LADSArtworkMode
                                                         }
                                                         catch (Exception e)
                                                         {
-                                                            Console.WriteLine("This URL does not exist or you are not connected to the internet");
                                                             urlExists = false;
                                                         }
                                                         if (urlExists)
@@ -1714,8 +1588,6 @@ namespace LADSArtworkMode
             }
         }
 
-
-
         public void addDockedItems(List<DockableItem> docked)
         {
             if (docked == null) return;
@@ -1729,7 +1601,6 @@ namespace LADSArtworkMode
                 Point pt = new Point(rnd.Next((int)(dockitem.win.ActualWidth * .4), (int)(dockitem.win.ActualWidth*.6)),
                                                               rnd.Next((int)(dockitem.win.ActualHeight * .4), (int)(dockitem.win.ActualWidth * .6)));
                 dockitem.Center = pt;
-                Console.WriteLine(pt.X + " " + pt.Y);
                 dockitem.Orientation = rnd.Next(-20, 20);
                 if (dockitem.image != null)
                 {
@@ -1740,9 +1611,6 @@ namespace LADSArtworkMode
             }
         }
     }
-
-
-
 
     public class WorkspaceElement : SurfaceListBoxItem
     {
@@ -1756,16 +1624,11 @@ namespace LADSArtworkMode
         public Point trackedCenter;
         DependencyPropertyDescriptor dpd;
 
-
-
         public WorkspaceElement()
         {
             this.PreviewMouseDown += new MouseButtonEventHandler(WorkspaceElement_PreviewMouseDown);
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(WorkspaceElement_PreviewTouchDown);
-
         }
-
-
 
         public void releaseItem() {
                 
@@ -1775,8 +1638,6 @@ namespace LADSArtworkMode
                 item.CanMove = true;
 
                 Helpers helper = new Helpers();
-                
-
                 DoubleAnimation heightAnim = new DoubleAnimation();
                 
                 heightAnim.From = item.barImageHeight;
@@ -1800,8 +1661,6 @@ namespace LADSArtworkMode
                 dockwidthAnim.FillBehavior = FillBehavior.Stop;
                 this.BeginAnimation(WidthProperty, dockwidthAnim);
 
-
-                
                 item.isDocked = false;
                 artmodewin.DockedDockableItems.Remove(item);
                 artmodewin.SavedDockedItems.Remove(info);
@@ -1834,9 +1693,6 @@ namespace LADSArtworkMode
 
                 this.releaseItem();
             }
-            
-
-
         }
 
 
@@ -1860,8 +1716,6 @@ namespace LADSArtworkMode
 
         public void anim2Completed(object sender, EventArgs e)
         {
-            Console.WriteLine("ANIM 2");
-
             this.Visibility = Visibility.Collapsed;
             artmodewin.DockedItems.Remove(this);
             item.isDocked = false;

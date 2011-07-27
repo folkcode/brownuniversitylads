@@ -43,10 +43,6 @@ namespace GCNav
         List<ImageData> _imageCollection;
         List<ImageData> _displayedCollection;
 
-        /*List<String> _artists;
-        List<String> _mediums;
-        List<String> _years;*/
-
         private ImageData currentImage;
         private System.Windows.Forms.Timer _timer;
         private bool _artOpen, _collectionEmpty;
@@ -64,7 +60,6 @@ namespace GCNav
             mainScatterViewItem.Width = 1920;
             MainCanvas.Width = 0;
             mainScatterViewItem.Background = Brushes.Transparent;
-            //mainScatterViewItem.BorderThickness = new Thickness(0);
             _curZoomFactor = 1.0;
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
             dpd.AddValueChanged(mainScatterViewItem, mainScatterViewItem_CenterChanged);
@@ -76,9 +71,6 @@ namespace GCNav
             _artOpen = false;
             _collectionEmpty = true;
             timeline.nav = this;
-            /*_artists = new List<String>();
-            _mediums = new List<String>();
-            _years = new List<String>();*/
         }
         public void setMapWidth(Double width)
         {
@@ -135,13 +127,6 @@ namespace GCNav
                                 String title = node.Attributes.GetNamedItem("title").InnerText;
                                 int year = Convert.ToInt32(node.Attributes.GetNamedItem("year").InnerText);
 
-                                /*if (!_artists.Contains(artist))
-                                    _artists.Add(artist);
-                                if (!_mediums.Contains(medium))
-                                    _mediums.Add(medium);
-                                if (!_years.Contains(node.Attributes.GetNamedItem("year").InnerText))
-                                    _years.Add(node.Attributes.GetNamedItem("year").InnerText);*/
-
                                 String fullPath = dataDir + "Images/" + "Thumbnail/" + path;
                                 String xmlPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + dataDir + "Images/" + "DeepZoom/" + path + "/dz.xml";
 
@@ -178,7 +163,6 @@ namespace GCNav
                                             {
                                                 Point p = this.parceLongLat(locInfo);
                                                 currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 2, currentImage));
-                                                // currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 2, currentImage));
                                                 if (locInfo.Attributes.GetNamedItem("longitude") != null)
                                                 {
                                                     String lon = locInfo.Attributes.GetNamedItem("longitude").InnerText;
@@ -202,7 +186,6 @@ namespace GCNav
                                             {
                                                 Point p = this.parceLongLat(locInfo);
                                                 currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 0, currentImage));
-                                                //  currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 0, currentImage));
                                                 if (locInfo.Attributes.GetNamedItem("longitude") != null)
                                                 {
                                                     String lon = locInfo.Attributes.GetNamedItem("longitude").InnerText;
@@ -324,7 +307,6 @@ namespace GCNav
             filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Width = System.Windows.SystemParameters.PrimaryScreenWidth; //?
-            //timelineFilt.init(this);
             filter.init(this);
             timeline.setRef(mainScatterViewItem);
             this.loadEvents();
@@ -505,15 +487,6 @@ namespace GCNav
                 List<int> keys = new List<int>();
                 keys.InsertRange(0, clusterdict.Keys);
                 keys.Sort();
-                double totalWidth = 0;
-                /*
-                for (int i = 0; i < keys.Count; i++)
-                {
-
-                    int currentYear = keys[i];
-                    int nextYear = keys[i + 1];
-                }
-*/
                 MainCanvas.Width = rightPos;
                 mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
             }
@@ -528,9 +501,6 @@ namespace GCNav
             InstructionBox.Width = (_windowSize.Width / 4);
             InstructionBorder.Width = (_windowSize.Width / 4) - 5;
             infoBox.Width = (_windowSize.Width / 4) - 5;
-            //InstructionBox.Width = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
-            //MessageBox.Show("Screenwidth is: " + System.Windows.SystemParameters.PrimaryScreenWidth / 2);
-
         }
 
         /// <summary>
@@ -559,8 +529,6 @@ namespace GCNav
 
         public void changeSize(Size PreviousSize, Size NewSize)
         {
-            //_background.Height = NewSize.Height;
-            //_background.Width = NewSize.Width;
             if (PreviousSize.Height != 0)
             {
                 double zoomPercent = NewSize.Height / (PreviousSize.Height);
@@ -586,14 +554,10 @@ namespace GCNav
         /// <param name="e"></param>
         private void mainScatterViewItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
-            //Console.WriteLine("New Width = " + e.NewSize.Width);
             if (e.NewSize.Height < 11000 && e.NewSize.Height > _windowSize.Height / 2)
             {
                 if (!zoomStopped)
                 {
-                    //_background.Height = e.NewSize.Height;
-                    //_background.Width = e.NewSize.Width;
                     if (e.PreviousSize.Height != 0)
                     {
                         double zoomPercent = e.NewSize.Height / (e.PreviousSize.Height);
@@ -713,7 +677,6 @@ namespace GCNav
             MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
 
             mainScatterViewItem.MaxHeight = 11000;
-            //mainScatterViewItem.MaxWidth = 16000;
             mainScatterViewItem.MinWidth = _windowSize.Width;
             mainScatterViewItem.MinHeight = _windowSize.Height / 2;
             mainScatterViewItem.Center = new Point(_windowSize.Width / 2 + _windowSize.Width * 999 / 2, _windowSize.Height / 4);
@@ -730,16 +693,7 @@ namespace GCNav
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 4;
             curInfoCol.Width = _windowSize.Width / 4;
-            //curInfoCol.Height = _windowSize.Height / 3;
-            //infoScroll.Width = curInfoCol.Width + 20;
-            //infoScroll.Height = curInfoCol.Height + 20;
             infoScroll.MaxHeight = _windowSize.Height / 3;
-            //infoScroll.Width = curInfoContainer.Width;
-            //infoScroll.Height = curInfoContainer.Height;
-            //Console.Out.WriteLine("curinfo" + curInfoContainer.Width);
-            // Console.Out.WriteLine("curImage" + curImageContainer.Width);
-
-            //filterBoxContainer.Width =576;
 
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
             Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
@@ -759,18 +713,8 @@ namespace GCNav
 
         }
 
-        public delegate void MainImageSelectedHandler(object sender, EventArgs e);
-        public event MainImageSelectedHandler mainImageSelected;
-
         private void HandleImageTouched(object sender, EventArgs e)
         {
-            /*if (artmode != null)
-            {
-                mainImageSelected(currentImage.filename, e);
-                mainImageSelected += artmode.NewImageSelected_Handler;
-            }
-            else
-            {*/
             if (!_artOpen)
             {
                 artmode = new LADSArtworkMode.ArtworkModeWindow(currentImage.filename);
@@ -833,7 +777,6 @@ namespace GCNav
                 }
             }
         }
-        List<DockableItem> dockedItems;
         public void onArtmodeClose(object sender, EventArgs e)
         {
             _timer.Tick -= TimerTick_Handler;
@@ -841,12 +784,6 @@ namespace GCNav
             _artOpen = false;
             artmode.Close();
         }
-
-        public void onArtSwitched(object sender, EventArgs e)
-        {
-
-        }
-
 
         /// <summary>
         /// loads the events and sets each one's parent to this navigator
@@ -866,14 +803,12 @@ namespace GCNav
             eventSelected((Event)sender);
         }
 
-
         /// <summary>
         /// when an event has been selected, display its information if it is currently unselected and hide its information if its currently selected
         /// </summary>
         /// <param name="ev"></param>
         public void eventSelected(Event ev)
         {
-
             if (ev.infoIsDisplayed())
             {
                 eventInfo.Text = "";
@@ -915,8 +850,6 @@ namespace GCNav
             curImageContainer.Visibility = Visibility.Visible;
             curInfoContainer.Visibility = Visibility.Visible;
 
-            //Console.WriteLine(curInfo.Text);
-
             if (currentImage != null && currentImage.Parent != null)
             {
                 ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
@@ -930,26 +863,17 @@ namespace GCNav
             Image _curImage = new Image();
             _curImage.Source = img.Source;
             curImageCanvas.Children.Add(_curImage);
-            //_curImage.Height = this.ActualHeight / 4 - 50;
-            //curImageContainer.Height = 50;
             curImageContainer.Height = _windowSize.Height / 3;
             curImageContainer.Width = _windowSize.Width / 4;
-            //curImageCanvas.Height = _curImage.Height + 50;
-            //curImageCanvas.Width = _curImage.Width + 50;
             curImageCanvas.Width = _windowSize.Width / 4 - 10;
             curImageCanvas.Height = _windowSize.Height / 3 - 10;
             curImageCanvas1.Width = _windowSize.Width / 4 - 10;
             curImageCanvas1.Height = _windowSize.Height / 3 - 10;
-
-            //Console.Out.WriteLine("IMAGE WIDTH" + _curImage.Source.Width);
-            // Console.Out.WriteLine("iamge height" + _curImage.Source.Height);
             Double actualWidth = _curImage.Source.Width;
             Double actualHeight = _curImage.Source.Height;
             Double ratio = actualWidth / actualHeight;
             Double canvasRatio = curImageCanvas.Width / curImageCanvas.Height;
             ScaleTransform tran = new ScaleTransform();
-            //if (actualHeight > curImageCanvas.Height || actualWidth > curImageCanvas.Width)
-            //{
             if (ratio > canvasRatio)
             {
                 Double scale = (curImageCanvas.ActualWidth - 30) / actualWidth;
@@ -988,7 +912,6 @@ namespace GCNav
             curInfoCol.UpdateLayout();
             titleBack.Width = _windowSize.Width / 4 - 20;
             titleBack.Height = title.ActualHeight + 5;
-            Console.Out.WriteLine("title height" + title.ActualHeight);
             artist.Text += "Artist: " + img.artist;
             medium.Text += "Medium: " + img.medium;
             date.Text += "Year: " + img.year;
@@ -1034,13 +957,9 @@ namespace GCNav
             GridLength height1 = new GridLength(curKeywords.ActualHeight);
             height.Height = height1;
             curInfoCol.RowDefinitions.Add(height);
-
-            //curKeywords.Height = curKeywords.ActualHeight;
             KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
             curInfoCol.UpdateLayout();
-            Console.Out.WriteLine("height" + curKeywords.ActualHeight);
             infoScroll.UpdateLayout();
-            Console.Out.WriteLine("height" + curKeywords.ActualHeight);
 
             curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight;
 
@@ -1059,7 +978,6 @@ namespace GCNav
             }
             else
             {
-                Console.WriteLine("HEIGHT: " + _windowSize.Height);
                 curInfoContainer.Height = curInfoCol.Height + 50;
                 infoScroll.Height = curInfoCol.Height + 50;
                 title.MaxWidth = _windowSize.Width / 4 - 40;

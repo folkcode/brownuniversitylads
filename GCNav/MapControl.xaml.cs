@@ -210,18 +210,14 @@ namespace GCNav
             //Currently the following isn't used... it *would* move the control well, if the map were poorly formed
             foreach (MapRegion mr in regions)
             {
-                //mr.RegionImage.Width = width;
-                //mr.RegionImage.Height = height;
                 w = mr.RegionImage.Width;
                 
                 hRatio = mr.RegionImage.Height / ((BitmapImage)mr.RegionImage.Source).PixelHeight;
                 if (mr.Top * hRatio < minHeight)
                 {
                     minHeight = mr.Top * hRatio;
-                    //Console.WriteLine("MinHeight: " + minHeight);
                 }
             }
-            //onsole.WriteLine("MH:" + minHeight);
             CanvasTop = (int)(s.Height / 30);
             CanvasLeft = (int)((s.Width / 2 - (s.Width / 2) / 2));
             
@@ -254,7 +250,6 @@ namespace GCNav
             public bool _zoomed = false;
             private byte[] _MainPixels;
             private byte[] _SubDivPixels;
-            private Transform _originalTransform;
             private List<InternalRegion> _regions;
             private Dictionary<ImageData, Canvas> _buttons;
             private List<UIElement> _addedViaButton;
@@ -299,13 +294,10 @@ namespace GCNav
                     b.canvas.Width = width;
                     b.canvas.Height = height;
                 }
-                //if (Top * RegionImage.Height / ((BitmapImage)RegionImage.Source).PixelHeight < minHeight)
-                  //  minHeight = Top * RegionImage.Height / ((BitmapImage)RegionImage.Source).PixelHeight;
             }
 
             public void HideButtons()
             {
-                //Console.WriteLine("hiding");
                 foreach (MapButton b in _mapbuttons)
                 {
                     b.canvas.Visibility = Visibility.Collapsed;
@@ -389,88 +381,13 @@ namespace GCNav
                     }
                 }
             }
-            //random shit
-            //Random r = new Random();
             public bool AddButton(MapButton button)
             {
-                //never used
-                /*double longitude = art.getLongLat()[0];
-                double latitude = art.getLongLat()[1];
-                longitude = 1.0 - longitude / (2 * Math.PI);
-                latitude = Math.Abs(0.5 - latitude / Math.PI);
-
-                double u = longitude - Math.Floor(longitude);
-                double v = latitude;*/
-
-                //old stuff
-                /*MapButton button = new MapButton();
-                button.x = 0;
-                button.y = 0;
-                switch(r.Next(3))
-                {
-                    case 0:
-                        button.type = " was worked on here";
-                        break;
-                    case 1:
-                        button.type = " was displayed here";
-                        break;
-                    case 2:
-                        button.type = " was purchased here";
-                        break;
-                }
-                Canvas c = new Canvas();
-                button.canvas = c;
-                Canvas.SetZIndex(c, -1);*/
-                //c.Width = RegionImage.Width;
-                //c.Height = RegionImage.Height;
-                //c.RenderTransform = RegionImage.RenderTransform;
-
-                //random shit!
-                /*bool found = false;
-                while (!found)
-                {
-                    int testX = r.Next((int)Left, (int)Right);
-                    int testY = r.Next((int)Top, (int)Bottom);
-                    found = TryHit(testX, testY);
-                    button.x = testX;
-                    button.y = testY;
-                }
-                addToSubdiv((int)button.x, (int)button.y, art);
-                c.RenderTransform = new TranslateTransform(button.x, button.y);
-                */
                 this.addTexToSubdiv(button.X, button.Y, button.ImageData);
                 button.canvas.RenderTransform = new TranslateTransform(button.X * RegionImage.Width, button.Y * RegionImage.Height);
-
-                //old stuff
-                /*Ellipse buttonellipse = new Ellipse();
-                button.ellipse = buttonellipse;
-                buttonellipse.Fill = Brushes.Blue;
-                buttonellipse.PreviewTouchDown += ButtonSelected;
-                buttonellipse.StrokeThickness = 0;
-                buttonellipse.Width = 20;
-                buttonellipse.Height = 20;
-                c.Children.Add(buttonellipse);
-                ((Canvas)RegionImage.Parent).Children.Add(c);
-                c.Visibility = Visibility.Collapsed;
-                button.imageData = art;*/
                 button.Ellipse.PreviewTouchDown += ButtonSelected;
                 ((Canvas)RegionImage.Parent).Children.Add(button.canvas);
                 _mapbuttons.Add(button);
-                /*
-                int[] colorHit = getColorHit((int)(u * Width), (int)(v * Height));
-
-                if (colorHit == null)
-                {
-                    return false;
-                }
-
-                foreach (InternalRegion region in _regions)
-                {
-                    if (!region.TestColor(colorHit))
-                        break;
-                    region.AddArt(art);
-                }
-                */
                 return true;
             }
 
@@ -484,8 +401,6 @@ namespace GCNav
                     color[1] = _MainPixels[x * 4 + (y * bitmapImage.PixelWidth * 4) + 1];
                     color[2] = _MainPixels[x * 4 + (y * bitmapImage.PixelWidth * 4) + 2];
                     return color;
-                    //return (pixelByteArray[x * 4 + (y  * bitmapImage.PixelWidth * 4)] != 0);
-                    //return (pixelByteArray[x * (int)(RegionImage.Source.Width / Width) * 4 + (y *(int)(RegionImage.Source.Height / Height) * bitmapImage.PixelWidth * 4)] != 0);
                 }
                 catch (Exception e)
                 {
@@ -506,9 +421,6 @@ namespace GCNav
 
             public bool TryHit(int x, int y)
             {
-                //int xPrime = (int)(x * RegionImage.Width / Width);
-                //int yPrime = (int)(y * RegionImage.Height /Height);
-
                 int xPrime = (int)(x * ((BitmapImage)RegionImage.Source).Width / RegionImage.Width);
                 int yPrime = (int)(y * ((BitmapImage)RegionImage.Source).Height / RegionImage.Height);
 
@@ -540,12 +452,10 @@ namespace GCNav
                 if (c.a < 0) return false;
                 else
                 {
-                    Console.Out.WriteLine("internal region count: " + _regions.Count);
                     foreach (InternalRegion r in _regions)
                     {
                         if (r.TestColor(c))
                         {
-                            Console.Out.WriteLine("added to subregion");
                             r.AddArt(img);
                             break;
                         }
@@ -556,8 +466,6 @@ namespace GCNav
 
             public bool addToSubdiv(int x, int y, ImageData img)
             {
-
-                //Console.WriteLine("Orig: " + ((BitmapImage)RegionImage.Source).Width + " next: " + RegionImage.Width);
                 int xPrime = (int)(x / ((BitmapImage)RegionImage.Source).Width / RegionImage.Width);
                 int yPrime = (int)(y / ((BitmapImage)RegionImage.Source).Height / RegionImage.Height);
                 mapColor c = TryZoomHitHelper(xPrime, yPrime);
@@ -604,7 +512,6 @@ namespace GCNav
                             subdivadded.Add(text);
                             Canvas can = (Canvas)((Canvas)RegionImage.Parent).Parent;
                             can.Children.Add(text);
-                            Console.WriteLine(can.ActualWidth + " " + text.ActualWidth);
                             Canvas.SetLeft(text, (can.ActualWidth - text.ActualWidth)/2+200);
                             Canvas.SetTop(text, -15);
                             break;
@@ -612,21 +519,6 @@ namespace GCNav
                     }
                     return true;
                 }
-                /*
-                 * mapColor c = new mapColor(_SubDivPixels[x * 4 + (y * bitmapImage.PixelWidth * 4)],
-                        _SubDivPixels[x * 4 + (y * bitmapImage.PixelWidth * 4) + 1],
-                            _SubDivPixels[x * 4 + (y * bitmapImage.PixelWidth * 4) + 2],
-                                _SubDivPixels[x * 4 + (y * bitmapImage.PixelWidth * 4) + 3]);
-                                bool found = false;
-                                foreach (mapColor col in colorOuts.Keys)
-                                {
-                                    if (c.a == col.a && c.b == col.b && c.g == col.g && c.r == col.r)
-                                    {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                 */
             }
 
             public struct mapColor
@@ -731,7 +623,6 @@ namespace GCNav
                                 {
                                     InternalRegion internalRegion = new InternalRegion(c);
                                     _regions.Add(internalRegion);
-                                    //int numArtworks = r.Next(5) + 2;//this is also random shit?
                                     int numArtworks = -1;
                                     colorOuts[c] = "There have been " + numArtworks + " pieces created here";
                                 }
@@ -790,8 +681,6 @@ namespace GCNav
                         TranslateTransform t = new TranslateTransform();
                         group.Children.Add(t);
                         button.RenderTransform = group;
-                        //DoubleAnimation buttonXAnimation = Helpers.makeDoubleAnimation((CenterX * 0.9 + b.x), (CenterX * 0.9 + b.x) * wDelta, 1);
-                        //DoubleAnimation buttonYAnimation = Helpers.makeDoubleAnimation((CenterY * 0.9 + b.y), (CenterY * 0.9 + b.y) * hDelta, 1);
                         DoubleAnimation buttonXAnimation = Helpers.makeDoubleAnimation((b.X * RegionImage.Width), (b.X * RegionImage.Width) * wDelta, 1);
                         DoubleAnimation buttonYAnimation = Helpers.makeDoubleAnimation((b.Y * RegionImage.Height), (b.Y * RegionImage.Height) * hDelta, 1);
                         t.BeginAnimation(TranslateTransform.XProperty, buttonXAnimation);
@@ -881,8 +770,6 @@ namespace GCNav
                         DoubleAnimation buttonYAnimation = Helpers.makeDoubleAnimation(b.Y * RegionImage.Height, (b.Y * RegionImage.Height * hDelta), .4);
                         t.BeginAnimation(TranslateTransform.XProperty, buttonXAnimation);
                         t.BeginAnimation(TranslateTransform.YProperty, buttonYAnimation);
-
-                        //Console.Out.WriteLine("unzoom button loc from: " + ((b.X * RegionImage.Width / wDelta) / wDelta) + "," + ((b.Y * RegionImage.Height / hDelta) / hDelta));
                     }
                 }
 
@@ -992,14 +879,6 @@ namespace GCNav
 
         public class MapButton
         {
-            /*public double x { get; set; }
-            public double y { get; set; }
-            public string type { get; set; }
-            public ImageData imageData { get; set; }
-            public Canvas canvas { get; set; }
-            public Ellipse ellipse { get; set; }*/
-            //old stuff
-
             private double _x;
             public double X { get { return _x; } }
             private double _y;
@@ -1055,12 +934,10 @@ namespace GCNav
                         _ellipse.Fill = Brushes.White;
                         break;
                 }
-                //_ellipse.PreviewTouchDown += ButtonSelected;
                 _ellipse.StrokeThickness = 0;
                 _ellipse.Width = 20;
                 _ellipse.Height = 20;
                 _canvas.Children.Add(_ellipse);
-                //((Canvas)RegionImage.Parent).Children.Add(_canvas);
                 _canvas.Visibility = Visibility.Collapsed;
                 _imageData = img;
             }
