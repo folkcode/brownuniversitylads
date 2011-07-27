@@ -611,7 +611,7 @@ namespace SurfaceApplication3
                         }
                         catch (Exception excep)
                         {
-                            System.Windows.Forms.MessageBox.Show("Please put in the valid From year!");
+                            System.Windows.Forms.MessageBox.Show("Please input a valid 'From' year!");
                             isValid = false;
                             break;
                         }
@@ -622,19 +622,19 @@ namespace SurfaceApplication3
                         }
                         catch (Exception excep)
                         {
-                            System.Windows.Forms.MessageBox.Show("Please put in the valid To year!");
+                            System.Windows.Forms.MessageBox.Show("Please input a valid 'To' year!");
                             isValid = false;
                             break;
                         }
                         if (fromYear < -9999 || fromYear > 9999 || toYear < -9999 || toYear > 9999)
                         {
-                            System.Windows.Forms.MessageBox.Show("Please put in valid numbers");
+                            System.Windows.Forms.MessageBox.Show("Please input valid numbers");
                             isValid = false;
                             break;
                         }
                         if (fromYear > toYear)
                         {
-                            System.Windows.Forms.MessageBox.Show("To year must be after From year");
+                            System.Windows.Forms.MessageBox.Show("'To' year must be after 'From' year");
                             isValid = false;
                         }
 
@@ -647,7 +647,7 @@ namespace SurfaceApplication3
                         }
                         catch (Exception excep)
                         {
-                            System.Windows.Forms.MessageBox.Show("Please put in the valid To year!");
+                            System.Windows.Forms.MessageBox.Show("Please input the valid 'To' year!");
                             isValid = false;
                             break;
                         }
@@ -660,7 +660,7 @@ namespace SurfaceApplication3
                         }
                         catch (Exception excep)
                         {
-                            System.Windows.Forms.MessageBox.Show("Please put in the valid From year!");
+                            System.Windows.Forms.MessageBox.Show("Please input the valid 'From' year!");
                             isValid = false;
                             break;
                         }
@@ -679,7 +679,7 @@ namespace SurfaceApplication3
             //There can be only one point of origin and current location
             if (currentX.Count > 1 || originX.Count > 1)
             {
-                System.Windows.Forms.MessageBox.Show("There can be only one point of origin and current location");
+                System.Windows.Forms.MessageBox.Show("There can be only one point of origin and one current location");
                 
                 return;
             }

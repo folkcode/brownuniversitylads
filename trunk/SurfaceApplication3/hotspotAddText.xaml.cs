@@ -55,7 +55,7 @@ namespace SurfaceApplication3
             }
             else
             {
-                MessageBox.Show("Caption and descriptions can not be empty!");
+                MessageBox.Show("Caption and description cannot be empty!");
                 hotspotControl.newWindowIsOpened = false;
                 return;
             }

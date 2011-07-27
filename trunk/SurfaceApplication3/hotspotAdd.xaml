@@ -129,7 +129,7 @@
 
     <Canvas Height="510" Width="924">
 
-        <Label Content="Click on the artwork to place a hotspot and select the hotspot to enter information: " Height="49" Width="747" FontSize="17" Canvas.Top="6" Canvas.Left="19" Foreground="Black"/>
+        <Label Content="To add a hotspot, click 'Add Hotspot' and click the location on the artwork. Then select a type of hotspot." Height="43" Width="881" FontSize="17" Canvas.Top="6" Canvas.Left="19" Foreground="Black"/>
         
         
         <Canvas x:Name="imageCover" Canvas.Top="40" Canvas.Left="20" Height="400" Width="500" IsHitTestVisible="False" Canvas.ZIndex="20" Background="Transparent">
@@ -143,13 +143,13 @@
         <Canvas Name="detailHotspot" Canvas.Top="40" Canvas.Left="540" Height="400" Width="360">
             <Rectangle Height="400" Stroke="#FF076F72"  Width="360" Fill="#FFEDF5E2" StrokeThickness="3" />
 
-            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="60" Canvas.Left="30" Content="Set hotspot to text" Click="AddText_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="60" Canvas.Left="30" Content="Set Hotspot to Text" Click="AddText_Click" IsEnabled="False"/>
             <!--     <my:SurfaceButton Name="ModifyText" Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="40" Canvas.Left="220" Content="Modify" Click="ModifyText_Click" IsEnabled="False"/> -->
-            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="130" Canvas.Left="30" Content="Set hotspot to image" Click="AddImage_Click" IsEnabled="False" />
+            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="130" Canvas.Left="30" Content="Set Hotspot to Image" Click="AddImage_Click" IsEnabled="False" />
             <!--     <my:SurfaceButton Name="ModifyImage"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="110" Canvas.Left="220" Content="Modify" Click="ModifyImage_Click" IsEnabled="False"/>-->
-            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="200" Canvas.Left="30" Content="Set hotspot to audio" Click="AddAudio_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="200" Canvas.Left="30" Content="Set Hotspot to Audio" Click="AddAudio_Click" IsEnabled="False"/>
             <!--    <my:SurfaceButton Name="ModifyAudio"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="180" Canvas.Left="220" Content="Modify" Click="ModifyAudio_Click" IsEnabled="False"/>-->
-            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="270" Canvas.Left="30" Content="Set hotspot to video" Click="AddVideo_Click" IsEnabled="False" />
+            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="270" Canvas.Left="30" Content="Set Hotspot to Video" Click="AddVideo_Click" IsEnabled="False" />
 
             <my:SurfaceButton Name="Edit" Style="{StaticResource browse}" Width="90" Height="26" MinHeight="0" Canvas.Top="170" Canvas.Left="230" Content="Edit" Click="Edit_Click" IsEnabled="False" />
             <!--   <my:SurfaceButton Name="ModifyVideo"  Style="{StaticResource browse}" Width="80" Height="40" Canvas.Top="250" Canvas.Left="220" Content="Modify" Click="ModifyVideo_Click" IsEnabled="False"/>-->
@@ -169,7 +169,7 @@
         <my:SurfaceButton Style="{StaticResource gen}" Content="Save and Close" Height="30" Foreground="White" Canvas.Top="458" Canvas.Right="23" Click="save_close_click" VerticalContentAlignment="Bottom" HorizontalAlignment="Center" MinHeight="0" MinWidth="0" FontSize="14" Width="122" />
         <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="162" Canvas.Top="458" Foreground="White" Content="Cancel" Height="30" Name="Cancel" Width="94" Click="Cancel_Click" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14"/>
         <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="275" Canvas.Top="458" Foreground="White" Content="Remove One" Height="30" Name="RemoveOne" Width="105" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14" Click="RemoveOne_Click" />
-        <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="395" Canvas.Top="458"  Foreground="White" Content="Clear all hotspots" Height="30" Name="Clear"  Width="135" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14" Click="Clear_Click" />
+        <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="395" Canvas.Top="458"  Foreground="White" Content="Clear All Hotspots" Height="30" Name="Clear"  Width="135" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14" Click="Clear_Click" />
         <my:SurfaceButton Style="{StaticResource gen}" Canvas.Right="545" Canvas.Top="458"  Foreground="White" Content="Add Hotspot" Height="30" Name="Enable" Width="150" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" Margin="1" FontSize="14" Click="Enable_Click" />
     </Canvas>
 </UserControl>

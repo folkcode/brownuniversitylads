@@ -180,7 +180,7 @@ namespace SurfaceApplication3
             }
             else
             {
-                MessageBox.Show("Caption and URL can not be empty!");
+                MessageBox.Show("Caption and URL cannot be empty!");
                 return;
             }
         }

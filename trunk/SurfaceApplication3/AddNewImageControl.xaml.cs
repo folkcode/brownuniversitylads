@@ -744,7 +744,7 @@ namespace SurfaceApplication3
 
 
                                     statusLabel.Foreground = Brushes.Black;
-                                    statusLabel.Content = "Saved to catalog, converting to Deep Zoom format...";
+                                    statusLabel.Content = "Saved to catalog. Converting to Deep Zoom format...";
 
                                     // Create Deep Zoom Image:
 

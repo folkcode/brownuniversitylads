@@ -274,7 +274,7 @@ namespace SurfaceApplication3
         private void delete_Click(object sender, RoutedEventArgs e)
         {
             
-            DialogResult  result = System.Windows.Forms.MessageBox.Show("Are you sure you want to remove this artwork" + " " + imageName +" " +"from the collection?","Remove the entry",MessageBoxButtons.YesNo);
+            DialogResult  result = System.Windows.Forms.MessageBox.Show("Are you sure you want to remove this artwork (" + " " + imageName +") " +"from the collection?","Remove the entry",MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 //imageToDispose.UriSource = null;

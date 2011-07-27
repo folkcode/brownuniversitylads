@@ -137,7 +137,7 @@ namespace LADSArtworkMode
             catch (Exception ex)
             {
                 return false;
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
             return true;
 

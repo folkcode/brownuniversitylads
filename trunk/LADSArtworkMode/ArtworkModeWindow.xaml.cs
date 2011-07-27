@@ -807,7 +807,7 @@ namespace LADSArtworkMode
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
 
@@ -1537,7 +1537,7 @@ namespace LADSArtworkMode
                     return;
                 }
                 if (!tourSystem.resetTourLength(newDuration))
-                    MessageBox.Show("A tour cannot be shorter than the end of it's last event.");
+                    MessageBox.Show("A tour cannot be shorter than the end of its last event.");
             }
             catch (Exception exc)
             {
