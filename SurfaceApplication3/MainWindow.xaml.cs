@@ -29,6 +29,8 @@ namespace SurfaceApplication3
         
             this.setWindowSize();
         }
+
+        //This sets the window size for different resolutions
         public void setWindowSize()
         {
             
@@ -45,7 +47,6 @@ namespace SurfaceApplication3
                     {
                         this.Height = height - 100;
                         this.Width = this.Height / 800 * 1024;
-                       // this.Width = this.Height/ratio;
                         tran.ScaleY = this.Height / 800;
                         tran.ScaleX = this.Width/ 1024;
                     }
@@ -55,7 +56,6 @@ namespace SurfaceApplication3
                         this.Height = this.Width / 1024 * 800;
                         tran.ScaleX = this.Width / 1024;
                         tran.ScaleY = this.Height / 800;
-                      //  this.Height = this.Width * ratio;
                     }
                     
                     mainCanvas.RenderTransform = tran;
@@ -77,11 +77,8 @@ namespace SurfaceApplication3
         /// </summary>
         public void load()
         {
-            //String dataDir = "Data\\";
+            
             String dataDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
-            //String dataDir = "F://lads_data/";
-            //String dataDir = "C://LADS-yc60/data/";
-            Console.WriteLine("DataDir: " + dataDir);
             XmlDocument doc = new XmlDocument();
             doc.Load(dataDir + "NewCollection.xml");
             if (doc.HasChildNodes)
@@ -113,16 +110,7 @@ namespace SurfaceApplication3
                                 wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
                                 stream.Close();
 
-                                /*BitmapImage myBitmapImage = new BitmapImage();
-                                myBitmapImage.BeginInit();
-                                myBitmapImage.UriSource = new Uri(@fullPath);
-                                myBitmapImage.EndInit();
-                                newEntry.setImage(myBitmapImage);*/
-
-
-
-                                
-
+                              
                                 //set image source
                                 newEntry.image1.Source = wpfImage.Source;
                                 newEntry.year_tag.Text = year;
@@ -176,7 +164,7 @@ namespace SurfaceApplication3
             Canvas.SetLeft(newWindow.big_window1.hotspot, 713);
             newWindow.WindowState = System.Windows.WindowState.Normal;
             newWindow.ShowDialog();
-            //newWindow.big_window1.setMainWindow(this);
+
         }
 
         private void addEvent_Click(object sender, RoutedEventArgs e)

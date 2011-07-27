@@ -30,10 +30,10 @@ namespace SurfaceApplication3
         }
         public void hotspotAddText_Closed(object sender, EventArgs e)
         {
-           // Console.Out.WriteLine("called");
             hotspotControl.newWindowIsOpened = false;
         }
 
+        //Save and close the window when the user complete the infomation
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             if (title.Text != null && Text.Text != null)
@@ -43,10 +43,7 @@ namespace SurfaceApplication3
                 hotspotControl.setHotspotInfo(caption + "/" + "text" + "/" + description);
                 this.Close();
                 hotspotControl.saveHotspotInfo();
-            //    hotspotControl.AddText.IsEnabled = false;
-            //    hotspotControl.AddImage.IsEnabled = true;
-            //    hotspotControl.AddAudio.IsEnabled = true;
-            //    hotspotControl.AddVideo.IsEnabled = true;
+       
                 hotspotControl.Edit.IsEnabled = true;
                 hotspotControl.AddText.IsEnabled = false;
                 hotspotControl.AddAudio.IsEnabled = true;
@@ -59,10 +56,9 @@ namespace SurfaceApplication3
                 hotspotControl.newWindowIsOpened = false;
                 return;
             }
-           // hotspotControl.ModifyText.IsEnabled = true;
         }
 
-
+        //Cancel all the changes
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             title.Text = "";
