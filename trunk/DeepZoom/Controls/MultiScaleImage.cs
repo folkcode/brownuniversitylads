@@ -465,13 +465,6 @@ namespace DeepZoom.Controls
 
             _zoomableCanvas.Offset -= e.DeltaManipulation.Translation;
 
-            // debug info for tour prep
-            /*Point centeredOn = new Point();
-            centeredOn.X = (_zoomableCanvas.Offset.X + (_zoomableCanvas.ActualWidth * 0.5)) / _zoomableCanvas.Scale;
-            centeredOn.Y = (_zoomableCanvas.Offset.Y + (_zoomableCanvas.ActualHeight * 0.5)) / _zoomableCanvas.Scale;
-            Console.WriteLine("msi.centeredOn.X = " + centeredOn.X + ", msi.centeredOn.Y = " + centeredOn.Y);
-            Console.WriteLine("msi.Scale = " + _zoomableCanvas.Scale);*/
-
             e.Handled = true;
         }
 

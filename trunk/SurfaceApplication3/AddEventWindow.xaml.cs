@@ -163,7 +163,6 @@ namespace SurfaceApplication3
                                 if (node.Name == "event")
                                 {
                                     String name = node.Attributes.GetNamedItem("name").InnerText;
-                                    Console.WriteLine("eventName =" + eventName);
                                     if (name == eventName)
                                     {
                                         //this is the information that is currently saved (old info)
@@ -175,27 +174,22 @@ namespace SurfaceApplication3
                                         if (name_tag.Text != name)
                                         {
                                             node.Attributes.GetNamedItem("name").InnerText = name_tag.Text;
-                                            Console.WriteLine("Changing name");
                                         }
                                         if (start_tag.Text != start)
                                         {
                                             node.Attributes.GetNamedItem("start").InnerText = start_tag.Text;
-                                            Console.WriteLine("Changing start");
                                         }
                                         if (end_tag.Text != end)
                                         {
                                             node.Attributes.GetNamedItem("end").InnerText = end_tag.Text;
-                                            Console.WriteLine("Changing end");
                                         }
                                         if (location_tag.Text != location)
                                         {
                                             node.Attributes.GetNamedItem("location").InnerText = location_tag.Text;
-                                            Console.WriteLine("Changing loc");
                                         }
                                         if (description_tag.Text != description)
                                         {
                                             node.Attributes.GetNamedItem("description").InnerText = description_tag.Text;
-                                            Console.WriteLine("Changing desc");
                                         }
 
                                     }
@@ -212,7 +206,6 @@ namespace SurfaceApplication3
             //If it's a new event (not editing existing one)
             else
             {
-                Console.WriteLine("Adding new event");
                 //figure out if it's duplicating an existing event (based on name)
                 bool eventNameExists = false;
                 if (doc.HasChildNodes)

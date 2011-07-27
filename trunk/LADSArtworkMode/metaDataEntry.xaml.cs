@@ -40,24 +40,18 @@ namespace LADSArtworkMode
             //_fileName = fileName.Substring(0, fileName.Length - 3) + "jpg";
             //_fileName = fileName;
             //_filePath = dataDir + _fileName;
-            Console.WriteLine("fileName is : " + fileName + " and filepath is: " + filepath);
             if (_helpers.IsImageFile(filepath))
             {
-                Console.WriteLine("IMAGE");
                 dataDir = dataDir1 + "Images\\Metadata\\";
             }
             else if (_helpers.IsVideoFile(filepath))
             {
-                Console.WriteLine("VIDEO");
                 dataDir = dataDir1 + "Videos\\Metadata\\";
-
                 int decrement = System.IO.Path.GetExtension(filepath).Length;
                 filepath = filepath.Remove(filepath.Length - decrement, decrement);
-
                 filepath += ".bmp";
             }
             _filePath = dataDir + filepath;
-            Console.WriteLine("_filePath is : " + _filePath);
             InitializeComponent();
             this.Focusable = true;
             

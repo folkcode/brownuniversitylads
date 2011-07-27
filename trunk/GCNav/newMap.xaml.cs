@@ -426,7 +426,6 @@ namespace GCNav
             }
            
             infoLabel.Text = labelText;
-            Console.Out.WriteLine(infoLabel.Text);
             Canvas.SetZIndex(infoLabel, 20);
 
         }
@@ -443,7 +442,6 @@ namespace GCNav
 
             foreach (String info in locInfo)
             {
-                Console.Out.WriteLine(info);
                 this.createButtons(info);
 
             }

@@ -36,8 +36,6 @@ namespace SurfaceApplication3
             
             Double width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
             Double height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-            Console.Out.WriteLine("height" + height);
-            Console.Out.WriteLine("width" + width);
             Double ratio = height / width;
             ScaleTransform tran = new ScaleTransform();
                
