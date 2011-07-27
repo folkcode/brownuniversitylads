@@ -47,7 +47,6 @@ namespace SurfaceApplication3
                 itemChecked.IsChecked = false;
             itemChecked = e.Source as SurfaceToggleButton;
             itemChecked.IsChecked = true;
-
         }
 
         /// <summary>
@@ -70,18 +69,13 @@ namespace SurfaceApplication3
                     if (_helper.IsImageFile(filePath[i]))
                     {
                         type = "Image";
-                        //BitmapImage myBitmapImage = new BitmapImage();
                         System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
                         try
                         {
-                            //myBitmapImage.BeginInit();
-                            //myBitmapImage.UriSource = new Uri(@filePath[i]);
-                            //myBitmapImage.EndInit();
                             Console.WriteLine("Filepath: " + filePath[i]);
                             FileStream stream = new FileStream(@filePath[i], FileMode.Open);
 
                             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
-                            //wpfImage = ConvertDrawingImageToWPFImage(dImage);
                             wpfImage = _helper.ConvertDrawingImageToWPFImage(dImage);
 
                             stream.Close();
@@ -98,10 +92,9 @@ namespace SurfaceApplication3
                     {
                         type = "Video";
                         BitmapImage videoThumb = new BitmapImage();
-                        //try
-                        //{
                         if (_helper.IsDirShowFile(filePath[i]))
                         {
+                            //creating and saving thumbnail image
                             DexterLib.MediaDet md = new MediaDet();
                             md.Filename = @filePath[i];
                             md.CurrentStream = 0;
@@ -110,54 +103,18 @@ namespace SurfaceApplication3
                             fBitmapName += ".bmp";
                             md.WriteBitmapBits(md.StreamLength / 2, 400, 240, fBitmapName);
 
-                            //videoThumb.BeginInit();
-                            //videoThumb.UriSource = new Uri(fBitmapName);
-                            //videoThumb.EndInit();
                             Image wpfImage = new Image();
                             FileStream stream = new FileStream(fBitmapName, FileMode.Open);
                             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
                             wpfImage = _helper.ConvertDrawingImageToWPFImage(dImage);
                             stream.Close();
 
-
-
                             Utils.setAspectRatio(imageCanvas, imageRec, image1, wpfImage, 4);
                             //set image source
                             image1.Source = videoThumb;
-
-                            Console.WriteLine("filePath[i] : " + metaImagePath);
                         }
                         else
                         {
-                            //Console.WriteLine("where it shoud be");
-                            ////FileStream fstream = new FileStream("Data/Videos/VideoSymbol.jpg", FileMode.Open);
-                            ////System.Drawing.Image dImage = System.Drawing.Image.FromStream(fstream);
-                            ////videoThumb = _helper.ConvertDrawingImageToWPFImage(dImage);
-                            ////fstream.Close();
-                            //FileStream stream = new FileStream("Data/Videos/MovieSymbol2.jpg", FileMode.Open);
-                            //System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
-                            //System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
-                            ////wpfImage = ConvertDrawingImageToWPFImage(dImage);
-                            //wpfImage = _helper.ConvertDrawingImageToWPFImage(dImage);
-
-                            //stream.Close();
-                            //Console.WriteLine("ImageCource " + wpfImage.Source);
-                            //image1.Source = wpfImage.Source;
-
-                            //Image imgThumb = new Bitmap(176, 134, PixelFormat.Format24bppRgb);
-                            //MemoryStream ms = new MemoryStream();
-                            //System.Drawing.Bitmap b = new System.Drawing.Bitmap(imgThumb);
-                            //Graphics objGraphics = Graphics.FromImage(b);
-                            //Font objFont = new Font(“Arial”, 40, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-                            //objGraphics = Graphics.FromImage(b);
-
-                            //// Set Background color
-                            //objGraphics.Clear(Color.White);
-                            //objGraphics.SmoothingMode = SmoothingMode.AntiAlias;
-                            //objGraphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-                            //objGraphics.DrawString(“Insert In Image”, objFont, new SolidBrush(Color.FromArgb(000, 122, 102)), 0, 0);
-
-                            //b.Save(ms, ImageFormat.Jpeg);
                             String sImageText = Path.GetFileNameWithoutExtension(filePath[i]);
                             System.Drawing.Bitmap objBmpImage = new System.Drawing.Bitmap(1,1);
 
@@ -176,7 +133,6 @@ namespace SurfaceApplication3
                             System.Drawing.Size newsize = new System.Drawing.Size(intWidth, intHeight);
 
                             // Create the bmpImage again with the correct size for the text and font.
-                            //objBmpImage = new System.Drawing.Bitmap(objBmpImage, newsize);
                             objBmpImage = new System.Drawing.Bitmap(objBmpImage, newsize);
 
                             // Add the colors to the new bitmap.
@@ -198,26 +154,15 @@ namespace SurfaceApplication3
                             FileStream stream = new FileStream(fBitmapName, FileMode.Open);
                             System.Windows.Controls.Image wpfImage = new System.Windows.Controls.Image();
                             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
-                            //wpfImage = ConvertDrawingImageToWPFImage(dImage);
                             wpfImage = _helper.ConvertDrawingImageToWPFImage(dImage);
 
                             stream.Close();
                             image1.Source = wpfImage.Source;
                         } 
-                        //}
-                        //catch (Exception exception)
-                        //{
-                        //    MessageBox.Show("The video is broken or invalid!");
-                        //    return;
-                        //}
                         title_tag.Text = safeFilePath[i];
                         metaImagePath = filePath[i];
                     }
 
-                    
-                    //Utils.setAspectRatio(imageCanvas, imageRec, image1, myBitmapImage, 4);
-                    
-                    //title_tag.Text = safeFilePath[i];
                     string filename = safeFilePath[i];
                     string extension = Path.GetExtension(safeFilePath[i]);
                     string tempFileName = Path.GetFileNameWithoutExtension(safeFilePath[i]);
@@ -230,12 +175,9 @@ namespace SurfaceApplication3
                         filename = tempFileName + randomNumber + extension;
                     }
                     title_tag.Text = filename;
-                    //title_tag.Text = safeFilePath[i];
-
                     metaImagePath = filePath[i];
                 }
             }
-            Console.WriteLine("Asset Type: "+type);
         }
 
         /// <summary>
@@ -335,14 +277,12 @@ namespace SurfaceApplication3
                 title_tag.Text = filename;
                 type = "Web";
 
-                //Utils.setAspectRatio(imageCanvas, imageRec, image1, myBitmapImage, 4);
             }
 
             catch (Exception e)
             {
                 MessageBox.Show("The image is broken or invalid.");
             }
-            //title_tag.Text = safeFilePath[i];
         }
 
         public string getType()
@@ -359,31 +299,5 @@ namespace SurfaceApplication3
         {
 
         }
-        /// <summary>
-        ///// The next two code blocks together check to see if file is an image
-        ///// </summary>
-        //static string[] imageExtensions = {
-        //    ".BMP", ".JPG", ".GIF"
-        //};
-
-        //public bool IsImageFile(string filename)
-        //{
-        //    return -1 != Array.IndexOf(imageExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
-        //}
-
-        ///// <summary>
-        ///// The next two code blocks together check to see if file is a video
-        ///// </summary>
-        //static string[] videoExtensions = {
-        //                                      ".MOV", ".AVI"
-        //    //".WMV", ".ASF", ".ASX", ".AVI", ".FLV",
-        //    //".MOV", ".MP4", ".MPG", ".RM", ".SWF", ".VOB"
-        //};
-
-        //public bool IsVideoFile(string filename)
-        //{
-        //    return -1 != Array.IndexOf(videoExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
-        //}
-
     }
 }
