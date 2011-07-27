@@ -20,9 +20,6 @@ using System.Windows.Media.Animation;
 using DeepZoom;
 using System.IO;
 using DexterLib;
-//using JockerSoft.Media;
-//using Microsoft.Expression.Encoder.EncoderObject;
-//using Microsoft.Expression.Encoder;
 
 namespace LADSArtworkMode
 {
@@ -185,11 +182,8 @@ namespace LADSArtworkMode
             mainScatterView = _mainScatterView;
             bar = _bar;
             win = _win;
-            //this.MinHeight = 80;
-            //this.MinWidth = 80;
             isDocked = false;
             touchDown = false;
-            //this.CanScale = true;
             aldbi = _aldbi;
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
@@ -201,9 +195,6 @@ namespace LADSArtworkMode
             mainScatterView.Items.Add(this);
             this.SetCurrentValue(HeightProperty, image.Height);
             this.SetCurrentValue(WidthProperty, image.Width);
-
-            //this.MinHeight = 100;
-            //this.MinWidth = 100 * image.ActualWidth / image.ActualHeight;
 
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
@@ -218,25 +209,17 @@ namespace LADSArtworkMode
             Console.WriteLine(pt.X + " " + pt.Y);
             this.Orientation = rnd.Next(-20, 20);
 
-            //Canvas.SetZIndex(this, 95);
-
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
             imageURIPath = imageURIPathParam;
-
-            //this.MouseEnter += maintainAspectRatio;
-            //this.TouchMove += maintainAspectRatio;
-
-           // bar.Items.Add(wke);
             
         }
 
-        //constructor for videos
+        //constructor for VIDEOS
         public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, string _targetVid, AssociatedDocListBoxItem _aldbi, LADSVideoBubble _video, VideoItem _vidctrl)
         {
             isVideo = true;
             scatteruri = _targetVid;
-            //_video
             vidBub = _video;
             _helpers = new Helpers();
 
@@ -244,21 +227,19 @@ namespace LADSArtworkMode
             aldbi = null;
             String thumbFileName = _targetVid;
 
+            //the video thumbnail filename is the same name with a different extension. This gets that extension
             int decrement = System.IO.Path.GetExtension(thumbFileName).Length;
             thumbFileName = thumbFileName.Remove(thumbFileName.Length - decrement, decrement);
-
-            //thumbFileName = thumbFileName.Remove(thumbFileName.Length - 4, 4);
             thumbFileName += ".bmp";
             thumbFileName = System.IO.Path.GetFileName(thumbFileName);
             thumbFileName = "Data\\Videos\\Metadata\\" + thumbFileName;
 
+            //opens in filestream to prevent errors from the file already being open
             FileStream stream = new FileStream(thumbFileName, FileMode.Open);
             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
             System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
             image.Source = wpfImage.Source;
             stream.Close();
-            Console.WriteLine(image.Height);
-            Console.WriteLine(image.Width);
 
             this.isAnimating = false;
             this.Background = Brushes.LightGray;
@@ -267,11 +248,8 @@ namespace LADSArtworkMode
             mainScatterView = _mainScatterView;
             bar = _bar;
             win = _win;
-
-            this.SizeChanged += new SizeChangedEventHandler(ScaleVideo);
             isDocked = false;
             touchDown = false;
-            //this.CanScale = true;
             aldbi = _aldbi;
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
@@ -283,8 +261,6 @@ namespace LADSArtworkMode
             this.CaptureMouse();
 
             mainScatterView.Items.Add(this);
-            //this.SetCurrentValue(HeightProperty, vidBub.Height);
-            //this.SetCurrentValue(WidthProperty, vidBub.Width);
 
             this.PreviewTouchDown += new EventHandler<TouchEventArgs>(barversTouchDown);
             this.PreviewMouseDown += new MouseButtonEventHandler(barversTouchDown);
@@ -296,21 +272,11 @@ namespace LADSArtworkMode
             Console.WriteLine(pt.X + " " + pt.Y);
             this.Orientation = rnd.Next(-20, 20);
 
-            //this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
-
-            //Canvas.SetZIndex(this, 95);
             imageURIPath = _targetVid;
             MediaElement vid = vidBub.getVideo();
             vid.MediaOpened += new RoutedEventHandler(video_MediaOpened);
             vid.Loaded += new RoutedEventHandler(video_MediaOpened);
             this.MinHeight = 100;
-            //this.MinHeigh = 100;
-            //this.MinWidth = 100 * vidBub.ActualWidth / vidBub.ActualHeight;
-            Console.WriteLine("ActualWidth " + vidBub.ActualWidth);
-            //bar.Items.Add(wke);
-            //imageURIPath = imageURIPathParam;
-            //this.MouseEnter += maintainAspectRatio;
-            //this.TouchMove += maintainAspectRatio;
         }
 
         void DockableItem_Loaded(object sender, RoutedEventArgs e)
@@ -324,7 +290,6 @@ namespace LADSArtworkMode
                 return;
             this.UpdateLayout();
             aspectRatio = (double)this.ActualWidth / (double)this.ActualHeight;
-            Console.WriteLine(aspectRatio + " = aspect ratio");
             if (!isVideo)
             {
                 this.MinHeight = 80;
@@ -348,28 +313,16 @@ namespace LADSArtworkMode
         void DockableItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Helpers helper = new Helpers();
-
-            
-            Console.WriteLine("NEW SIZE: W-" + e.NewSize.Width + " H-" + e.NewSize.Height);
-            Console.WriteLine("PREVIOUS SIZE: W-" + e.PreviousSize.Width + " H-" + e.PreviousSize.Height);
             if (e.NewSize.Width < 150 || e.NewSize.Height < 150)
             {
                 this.Width = e.PreviousSize.Width;
                 this.Height = e.PreviousSize.Height;
             }
-            else if (isVideo)
+            else if (isVideo) //calls specialized video resize method that also resizes the controls
             {
-                
-                
-                //if (e.NewSize.Height != e.NewSize.Width / aspectRatio + 25.0)
-                //{
-                    vidBub.Resize(e.NewSize.Width, e.NewSize.Width / aspectRatio, false);
-                    //this.Width = e.NewSize.Width;
-                    //this.Height = e.NewSize.Width / aspectRatio;
-                    this.Height = vidBub.getVideo().Height + 50;
-                    this.Width = vidBub.getVideo().Width;
-                //}
-                
+                vidBub.Resize(e.NewSize.Width, e.NewSize.Width / aspectRatio, false);
+                this.Height = vidBub.getVideo().Height + 50;
+                this.Width = vidBub.getVideo().Width;
             }
         }
 
@@ -379,33 +332,19 @@ namespace LADSArtworkMode
             this.MinWidth = 80 * aspectRatio;
         }
 
-
         public void removeDockability()
         {
-
             this.PreviewTouchUp -= new EventHandler<TouchEventArgs>(AddtoDock);
             this.PreviewMouseUp -= new MouseButtonEventHandler(AddtoDock);
-
             this.PreviewMouseWheel -= new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
         }
 
         private void video_MediaOpened(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("DOCKABLE EVENT HANDLER");
-           
-            //Console.Out.WriteLine("newheight" + newHeight);
-            //vidBub.setPreferredSize(vidBub.getWidth(), newHeight);
             this.Height = vidBub.getHeight();
             this.Width = vidBub.getWidth();
             aspectRatio = vidBub.getVideo().Width / vidBub.getVideo().Height;
             this.SizeChanged += DockableItem_SizeChanged;
-            //Console.Out.WriteLine("height"+vidBub.getHeight());
-        }
-
-        //scales video with pinch zoom
-        public void ScaleVideo(object sender, EventArgs e)
-        {
-            //vidBub.Resize(this.ActualWidth, this.ActualWidth / aspectRatio + 25, false);
         }
 
         public void stopVideo()
@@ -515,10 +454,8 @@ namespace LADSArtworkMode
             
             touchDown = false;
             DockableItem item = sender as DockableItem;
-         //   Console.WriteLine("AddToDock Called");
             Helpers helpers = new Helpers();
-            
-            //if (isDocked) isDocked = false;
+
             if (this.Center.Y > (win.ActualHeight * .8) && !isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating)
             {
 
@@ -555,18 +492,13 @@ namespace LADSArtworkMode
                 Point relPoint = wke.TransformToAncestor(bar).Transform(new Point(0, 0));
                 rootPoint = new Point(startPoint.X + relPoint.X, startPoint.Y + relPoint.Y);
 
-                Console.WriteLine("x:" + rootPoint.X + " y:" + rootPoint.Y);
-
                 PointAnimation anim1 = new PointAnimation();
                 anim1.Completed += anim1Completed;
                 anim1.From = new Point(this.Center.X, this.Center.Y);
-                Console.WriteLine("this.Center.X : " + this.Center.X + " AND this.Center.Y : " + this.Center.Y);
                 anim1.To = new Point(rootPoint.X + win.BarOffset + barImageWidth / 2.0, rootPoint.Y + barImageHeight / 2.0);
                 anim1.Duration = new Duration(TimeSpan.FromSeconds(.4));
                 anim1.FillBehavior = FillBehavior.Stop;
 
-
-                //win.BarOffset += wke.ActualWidth;
                 isDocked = true;
                 oldHeight = this.Height;
                 oldWidth = this.Width;
@@ -594,15 +526,10 @@ namespace LADSArtworkMode
 
         public void anim1Completed(object sender, EventArgs e)
         {
-            Console.WriteLine("ANIM 1");
-            
-            
             this.Opacity = .5;
             wke.Opacity = 1.0;
             this.SetCurrentValue(CenterProperty, new Point(rootPoint.X + win.BarOffset + barImageWidth / 2.0, rootPoint.Y + barImageHeight / 2.0));
             this.CanMove = false;
-            //this.SetCurrentValue(CenterProperty, pt);
-            //dockImage.Opacity = 1.0;
             double imgRatio = oldHeight / oldWidth;
             this.SetCurrentValue(HeightProperty, barImageHeight * .9);
             this.SetCurrentValue(WidthProperty, barImageWidth * .9);
@@ -610,8 +537,6 @@ namespace LADSArtworkMode
             this.Orientation = 0;
             actualWKEWidth = wke.ActualWidth;
             win.BarOffset += wke.ActualWidth;
-            //Console.WriteLine("ACTUAL WIDTH " + wke.ActualWidth);
-            //Console.WriteLine(win.BarOffset);
             this.Visibility = Visibility.Hidden;
 
             isDocked = true;
@@ -770,7 +695,6 @@ namespace LADSArtworkMode
             Console.WriteLine("_scatteruri: " + _scatteruri);
             _helpers = new Helpers();
 
-
             scatteruri = _scatteruri;
             _lb = lb;
             opened = false;
@@ -809,7 +733,7 @@ namespace LADSArtworkMode
             //equivalent for videos
             else if (_helpers.IsVideoFile(_scatteruri))
             {
-                if (_helpers.IsDirShowFile(_scatteruri))
+                if (_helpers.IsDirShowFile(_scatteruri)) //can easily create nice thumbnails of the video using DirectShow
                 {
                     image = new Image();
 
@@ -824,7 +748,6 @@ namespace LADSArtworkMode
                     stream.Close();
 
                     wpfImage.SetCurrentValue(DockPanel.DockProperty, Dock.Left);
-
                     wpfImage.SetCurrentValue(HeightProperty, 50.0);
                     wpfImage.SetCurrentValue(WidthProperty, 50 * wpfImage.Source.Width / wpfImage.Source.Height);
 
@@ -835,17 +758,15 @@ namespace LADSArtworkMode
                     label.FontSize = 18;
                     label.SetCurrentValue(DockPanel.DockProperty, Dock.Right);
                     dp.Children.Add(label);
-                    //.GotFocus += new RoutedEventHandler(onTouch);
                     this.PreviewTouchDown += new EventHandler<TouchEventArgs>(onTouch);
                     this.PreviewMouseDown += new MouseButtonEventHandler(onTouch);
                     lb.getAssociatedDocToolBar().Items.Add(this);
                 }
-                //sketchy code for not really creating thumbnails
+                //Code for not actually creating thumbnails of videos, but instead creating paused, unplayable media elements to act as thumbnails
                 else
                 {
                     MediaElement thumVid = new MediaElement();
                     thumVid.Source = new Uri(scatteruri, UriKind.RelativeOrAbsolute);
-                    Console.WriteLine("scatteruri is: " + scatteruri);
 
                     thumVid.LoadedBehavior = MediaState.Manual;
                     thumVid.ScrubbingEnabled = true;
@@ -864,7 +785,6 @@ namespace LADSArtworkMode
                     label.FontSize = 18;
                     label.SetCurrentValue(DockPanel.DockProperty, Dock.Right);
                     dp.Children.Add(label);
-                    //.GotFocus += new RoutedEventHandler(onTouch);
                     this.PreviewTouchDown += new EventHandler<TouchEventArgs>(onTouch);
                     this.PreviewMouseDown += new MouseButtonEventHandler(onTouch);
                     lb.getAssociatedDocToolBar().Items.Add(this);
@@ -894,46 +814,15 @@ namespace LADSArtworkMode
                 }
                 else if (_helpers.IsVideoFile(scatteruri))
                 {
-                    //perhaps the initializatoin of this bubble should have the height and width of the thumbnail... if I could extract one...
                     new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this, new LADSVideoBubble(scatteruri, 500, 500), new VideoItem()); //video-specific constructor
                 }
                 else
                 { //not image or video...
                 }
 
-                //for all, do this:
+                //all kinds of elements must be set to open
                 this.opened = true;
-                Console.WriteLine(this.opened + " inside");
-
             }
         }
-
-
-        //revisions on Noah's WorkTop code for getting thumbnails from video
-
-        //public override Label GetThumbnail()
-        //{
-        //    Label l = new Label();
-        //    Grid g = new Grid();
-
-        //    Image iconOverlay = Properties.Resources.movie.LoadImage();
-        //    iconOverlay.Opacity = .5;
-        //    iconOverlay.Width = 25;
-        //    iconOverlay.Height = 25 * iconOverlay.Source.Height / iconOverlay.Source.Width;
-
-        //    RenderTargetBitmap frame = new RenderTargetBitmap((int)_video.ActualWidth + 1, (int)_video.ActualHeight + 1, 96, 96, PixelFormats.Default);
-        //    frame.Render(_video);
-        //    Image frameImage = new Image();
-        //    frameImage.Source = frame;
-        //    frameImage.Width = LockedAspect > 1 ? 100 : 100 * LockedAspect;
-        //    frameImage.Height = LockedAspect > 1 ? 100 / LockedAspect : 100;
-
-        //    g.Children.Add(frameImage);
-        //    g.Children.Add(iconOverlay);
-
-        //    l.Content = g;
-        //    return l;
-        //}
-
     }
 }
