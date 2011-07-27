@@ -95,7 +95,7 @@ namespace LADSArtworkMode
             get { return m_msi; }
             set { m_msi = value; }
         }
-        //ScatterViewItem scatterItem;
+
         public double _volume;
 
         /// <summary>
@@ -133,6 +133,7 @@ namespace LADSArtworkMode
                 }
             }
         }
+        //when not muted
         public void showAudioIcon()
         {
             BitmapImage volume = new BitmapImage();
@@ -141,10 +142,9 @@ namespace LADSArtworkMode
             volume.UriSource = new Uri(@volumePath);
             volume.EndInit();
             Volume.Source = volume;
-            // newImage.UriSource = new Uri(@filePath);
-            // newImage.EndInit();
         }
 
+        //when audio is muted
         public void showMuteIcon()
         {
             BitmapImage mute = new BitmapImage();
@@ -173,7 +173,6 @@ namespace LADSArtworkMode
                 videoElement = null;
                               
             }
-            //hopefully this works
             if (m_hotspotData.Type.ToLower().Contains("audio")) {
                 (myMediaElement.Parent as Panel).Children.Remove(myMediaElement);
                 myMediaElement.Pause();
@@ -241,14 +240,11 @@ namespace LADSArtworkMode
         public void updateScreenLocation(MultiScaleImage msi)
         {
             Double[] size = this.findImageSize();
-            Console.WriteLine("volume is: " +_volume);
 
             screenPosX = (msi.GetZoomableCanvas.Scale * m_hotspotData.PositionX * size[0]) - msi.GetZoomableCanvas.Offset.X;
             screenPosY = (msi.GetZoomableCanvas.Scale * m_hotspotData.PositionY * size[1]) - msi.GetZoomableCanvas.Offset.Y;
             this.Center = new Point(screenPosX + this.Width / 2.0, screenPosY + this.Height / 2.0); // uncomment this to make the detail control move as the user pans
-           
-            //Canvas.SetLeft(this, screenPosX);
-            //Canvas.SetTop(this, screenPosY);
+
         }
 
         private DispatcherTimer videoTimer;
@@ -289,7 +285,6 @@ namespace LADSArtworkMode
                 
                 this.Width = hotspotCanvas.Width;
                 this.Height = hotspotCanvas.Height;
-                //Canvas.SetLeft(closeButton, hotspotCanvas.Width - 52.0);
                 HotspotTextBox.Visibility = Visibility.Hidden;
                 textBoxScroll.Visibility = Visibility.Hidden;
                 VideoStackPanel.Visibility = Visibility.Collapsed;

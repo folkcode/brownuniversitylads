@@ -86,7 +86,6 @@ namespace SurfaceApplication3
 
         //The next 2 blocks of code are for finding whether files are videos or not
         static string[] videoExtensions = {
-                                              //".MOV", ".AVI"
             ".WMV", ".ASF", ".ASX", ".AVI", ".FLV",
             ".MOV", ".MP4", ".MPG", ".RM", ".SWF", ".VOB"
         };
@@ -98,8 +97,6 @@ namespace SurfaceApplication3
         //The next 2 blocks of code are for finding whether files are DirectShow videos or not
         static string[] DirShowExtensions = {
                                               ".MOV", ".AVI"
-            //".WMV", ".ASF", ".ASX", ".AVI", ".FLV",
-            //".MOV", ".MP4", ".MPG", ".RM", ".SWF", ".VOB"
         };
 
         public bool IsDirShowFile(string filename)

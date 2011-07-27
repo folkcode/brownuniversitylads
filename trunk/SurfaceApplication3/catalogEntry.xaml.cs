@@ -59,7 +59,6 @@ namespace SurfaceApplication3
             newBigWindow.mainWindow = _newWindow;
             newBigWindow.WindowState = System.Windows.WindowState.Normal;
             newBigWindow.big_window1.setCatalogNumber(catalogNumber);
-            //newBigWindow.setWindowSize();
             newBigWindow.big_window1.browse.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.createDZ.Visibility = Visibility.Hidden;
             newBigWindow.big_window1.setMainWindow(_newWindow); //pass the main window to the addImage Control
@@ -186,10 +185,8 @@ namespace SurfaceApplication3
                                                             BitmapImage metaBitmapImage = new BitmapImage();
                                                             metaBitmapImage.BeginInit();
                                                             String thumbPath = fullPath;
-
                                                             int decrement = System.IO.Path.GetExtension(thumbPath).Length;
                                                             thumbPath = thumbPath.Remove(thumbPath.Length - decrement, decrement);
-
                                                             thumbPath += ".bmp";
                                                             metaBitmapImage.UriSource = new Uri(thumbPath);
                                                             metaBitmapImage.EndInit();
