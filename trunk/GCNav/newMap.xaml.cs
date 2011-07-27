@@ -21,7 +21,7 @@ using System.ComponentModel;
 namespace GCNav
 {
     /// <summary>
-    /// Interaction logic for newMap.xaml
+    /// Interaction logic for newMap.xaml.This class models the deepzoom map in the navigator
     /// </summary>
     public partial class newMap : UserControl
     {
@@ -38,23 +38,20 @@ namespace GCNav
         {
             InitializeComponent();
             this.Width = 1080;
-            //this.loadMap();
             locButtons = new Dictionary<SurfaceRadioButton, String>();
             ellipses = new Dictionary<SurfaceRadioButton, Ellipse>();
             backEllipses = new Dictionary<SurfaceRadioButton, Ellipse>();
             this.loadImageBlur();
             Canvas.SetZIndex(Location, 20);
-          //  Location.TouchUp +=new EventHandler<System.Windows.Input.TouchEventArgs>(Location_TouchUp);
-          //  Location.TouchDown +=new EventHandler<System.Windows.Input.TouchEventArgs>(Location_TouchDown);
-           // map.Source = "D://newMap.dzi";
+         
         }
 
+        //This checks if the mapButtons are clicked.
         void  Location_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-          //  Console.Out.WriteLine("called!");
+         
             foreach (UIElement ele in Location.Children)
             {
-                //SurfaceRadioButton t = ele as SurfaceRadioButton;
                 Ellipse ell = ele as Ellipse;
                 if (ell != null)
                 {
@@ -67,10 +64,6 @@ namespace GCNav
                     if (ell.Width != 26)
                     {
                         Point p = (sender as UIElement).TranslatePoint(e.GetPosition(sender as UIElement), Location);
-                        Console.Out.WriteLine("p.x" + p.X);
-                        Console.Out.WriteLine("p.y" + p.Y);
-                        Console.Out.WriteLine("canvasleft" + canvasLeft);
-                        Console.Out.WriteLine("top" + canvasTop+height);
                         if (p.X > canvasLeft && p.X < canvasLeft + width && p.Y > canvasTop && p.Y < canvasTop + height)
                         {
                             foreach (SurfaceRadioButton rb in ellipses.Keys)
@@ -78,25 +71,21 @@ namespace GCNav
                                 if (ellipses[rb] == ell)
                                 {
                                     newButton_Click(rb);
-                              //      Console.Out.WriteLine("rb width" + ell.ActualWidth);
-                               //     Console.Out.WriteLine("rb height" + ell.ActualHeight);
+                             
                                 }
                             }
-                           // Console.Out.WriteLine("buttonSelected");
+                          
                         }
                     }
                 }
-                //if (p.X > 0 && p.X < t._eventRec.Width && p.Y > 0 && p.Y < t._eventRec.Height)
-                //{
-                //    nav.eventSelected(t);
-                //}
+           
             }
         }
-      
-       
+
+        //This is to add the faded edge effect
         public void loadImageBlur()
         {
-            //This is to add the faded edge effect
+            
             BitmapImage blurImage = new BitmapImage();
             blurImage.BeginInit();
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
@@ -107,13 +96,13 @@ namespace GCNav
             ScaleTransform newT = new ScaleTransform();
             newT.ScaleX = 1.78;
 
-            
             blur.RenderTransform = newT;
             Canvas.SetZIndex(blur, 20);
             blur.Visibility = Visibility.Hidden;
             
         }
-
+        
+        //This load the deepzoom map
         public void loadMap()
         {
             
@@ -124,21 +113,12 @@ namespace GCNav
             mapImage.SetImageSource(mapUri);
             mapImage.UpdateLayout();
             Canvas.SetZIndex(mapImage, -10);
-            
-            //MapCanvas.Children.Add(newImage);
-           // newImage.Source = new MultiScaleTileSource();
-            //mapImage.Loaded +=new RoutedEventHandler(mapImage_Loaded);
-            
+                       
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
-            //dpd.RemoveValueChanged(mapImage.GetZoomableCanvas, LocationChanged);
-
+           
             ZoomableCanvas msi = mapImage.GetZoomableCanvas;
             dpd.AddValueChanged(msi, LocationChanged);
 
-           
-            
-           // MessageBox.Show("scale" + mapImage.GetZoomableCanvas.Scale);
-           
         }
 
         //fade map and blur when filter box is down
@@ -146,7 +126,7 @@ namespace GCNav
         {
             //change opacity of blur and map
             mapImage.Opacity = .5;
-            //blur.Opacity = .5;
+            
         }
 
         public void unfadeMap()
@@ -155,6 +135,7 @@ namespace GCNav
             blur.Opacity = 1;
         }
 
+        //This sets the mapButton onto the right place when the map is being zoomed in and out
         public void LocationChanged(Object sender, EventArgs e)
         {
             foreach (SurfaceRadioButton rb in locButtons.Keys)
@@ -184,13 +165,8 @@ namespace GCNav
                 Canvas.SetLeft(rb, screenPosX - 1 / mapImage.GetZoomableCanvas.Scale);
                 Canvas.SetTop(rb, screenPosY - 0.5 / mapImage.GetZoomableCanvas.Scale);
 
-                //Console.Out.WriteLine("canvas width" + blur.Width);
-
-                //Console.Out.WriteLine(screenPosX);
-                //Make sure all the map buttons are displayed within the map image
-
-               // Console.Out.Write("screen" +screenPosX);
-
+              
+                //Make sure all the map buttons are displayed within the map image.
                 if (screenPosX < 20 || screenPosX > Location.Width - 20)
                 {
                     rb.Visibility = Visibility.Collapsed;
@@ -206,6 +182,7 @@ namespace GCNav
             }
         }
 
+        //This makes sure the display is resolution independent on screens of any resolution.
         public void WindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
           
@@ -214,7 +191,6 @@ namespace GCNav
 
            CanvasLeft = (int)(newSize.Width *0.316);
 
-           Console.Out.WriteLine("map" + CanvasLeft);
            Canvas.SetLeft(this, CanvasLeft);
            Canvas.SetTop(this, 30);
 
@@ -231,10 +207,9 @@ namespace GCNav
           this.RenderTransform = tran;
           tranScaleX = tran.ScaleX;
           tranScaleY = tran.ScaleY;
-         // Console.Out.WriteLine("scale" + tran.ScaleX);
-         // Console.Out.WriteLine("map width" + this.ActualWidth);
-        }
+       }
 
+        //When the new image is selected on the navigator, mapButtons of the previous image should be clear
         public void hideButtons()
         {
             if (Location.Children.Count != 0)
@@ -254,17 +229,16 @@ namespace GCNav
             }
         }
 
+        //Creates the button and shows them up on the right place
         public void createButtons(String str)
         {
-            //MessageBox.Show("scale" + mapImage.GetZoomableCanvas.Scale);
             String[] buttonsInfo = System.Text.RegularExpressions.Regex.Split(str, "///");
             String lon = buttonsInfo[1];
             String lat = buttonsInfo[2];
             
             double db1 = Convert.ToDouble(lon);
             double db2 = Convert.ToDouble(lat);
-            //Console.Out.WriteLine(db1);
-
+            
             Ellipse newEllipse = new Ellipse();
             Ellipse backEllipse = new Ellipse();
             SurfaceRadioButton newButton = new SurfaceRadioButton();
@@ -300,8 +274,6 @@ namespace GCNav
             newEllipse.Fill = mySolidColorBrush;
             backEllipse.Fill = newBrush;
 
-           //newButton.Click +=new RoutedEventHandler(newButton_Click);
-
             Location.Children.Add(newEllipse);
             Location.Children.Add(newButton);
             Location.Children.Add(backEllipse);
@@ -324,6 +296,7 @@ namespace GCNav
             Canvas.SetTop(backEllipse, lat1-3- 0.5 / mapImage.GetZoomableCanvas.Scale);
             Canvas.SetZIndex(backEllipse, 8);
 
+            //Make sure the buttons are within the map image.
             if (long1 < 0 || long1 > Location.Width)
             {
                 newButton.Visibility = Visibility.Collapsed;
@@ -338,6 +311,8 @@ namespace GCNav
             }
 
         }
+
+        //Displays the infomation of the mapButtons
         public void newButton_Click(SurfaceRadioButton sender) 
         {
             String str = locButtons[(SurfaceRadioButton)sender];
@@ -348,20 +323,13 @@ namespace GCNav
                 name = name.Substring(0, 20);
                 name = name + "...";
             }
-            //Console.Out.WriteLine(str);
-
-          //  Ellipse backEllipse = backEllipses[(SurfaceRadioButton)sender];
-         //   SolidColorBrush newBrush = new SolidColorBrush();
-          //  newBrush.Color = Color.FromRgb(219,219,112);
-          //  backEllipse.Fill = newBrush;
-
+        
             String labelText = name + " ";
             String[] displayInfo = Regex.Split(str, "///");
             String locCategory = displayInfo[0];
             String date = displayInfo[3];
             String city = displayInfo[4];
 
-            //Console.Out.WriteLine(displayInfo[0]);
             if (locCategory == "yellow")
             {
                 if (city == "")
@@ -391,8 +359,7 @@ namespace GCNav
                         }
                     }
                 }
-              //  newColor.Color = Color.FromRgb(244, 234, 150);
-                
+           
             }
             else if (locCategory == "blue")
             {
@@ -423,7 +390,7 @@ namespace GCNav
                         }
                     }
                 }
-              //  newColor.Color = Color.FromRgb(0,169,184);
+             
             }
             else
             {
@@ -455,14 +422,13 @@ namespace GCNav
                         }
                     }
                 }
-                //newColor.Color = Color.FromRgb(244, 234, 150);
+               
             }
-            //Console.Out.WriteLine(labelText);
+           
             infoLabel.Text = labelText;
             Console.Out.WriteLine(infoLabel.Text);
             Canvas.SetZIndex(infoLabel, 20);
-            //infoLabel1.Text = labelText;
-          
+
         }
 
         //This method is called when the user select a new image
@@ -475,7 +441,6 @@ namespace GCNav
            // infoLabel1.Text = "";
             List<String> locInfo = e.getImage().getLocButtonInfo();
 
-            //Console.Out.WriteLine(locInfo.Count);
             foreach (String info in locInfo)
             {
                 Console.Out.WriteLine(info);
@@ -484,7 +449,7 @@ namespace GCNav
             }
            
         }
-        
+        //Class for the mapButtons on the map
         public class newMapButton
         {
             private double _x;
@@ -554,11 +519,7 @@ namespace GCNav
             }
         }
 
-        private void mapImage_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
-
+        //This is to check if any mapButtons on the mapImage has been checked
         private void mapImage_TouchDown(object sender, System.Windows.Input.TouchEventArgs e)
         {
             foreach (UIElement ele in Location.Children)
@@ -571,15 +532,12 @@ namespace GCNav
                     Double canvasTop = Canvas.GetTop(ell);
                     Double width = ell.Width;
                     Double height = ell.Height;
-                    //  Console.Out.WriteLine("canvasLeft"+canvasLeft);
-                    //  Console.Out.WriteLine("top" + canvasTop);
+                
                     if (ell.Width != 26)
                     {
                         
                         TouchPoint p = e.GetTouchPoint(Location);
-                        
-                        //    Console.Out.WriteLine("p.x" + p.X);
-                        //     Console.Out.WriteLine("p.y" + p.Y);
+                    
                         if (p.Position.X > canvasLeft && p.Position.X < canvasLeft + width && p.Position.Y > canvasTop && p.Position.Y < canvasTop + height)
                         {
                             foreach (SurfaceRadioButton rb in ellipses.Keys)
@@ -589,14 +547,11 @@ namespace GCNav
                                     newButton_Click(rb);
                                 }
                             }
-                            // Console.Out.WriteLine("buttonSelected");
+                           
                         }
                     }
                 }
-                //if (p.X > 0 && p.X < t._eventRec.Width && p.Y > 0 && p.Y < t._eventRec.Height)
-                //{
-                //    nav.eventSelected(t);
-                //}
+               
             }
         }
 

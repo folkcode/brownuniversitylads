@@ -38,8 +38,8 @@ namespace GCNav
             myImage.UriSource = new Uri(path,UriKind.Relative);
             myImage.EndInit();
 
-            _locButtons = new List<MapControl.MapButton>();
-            _newlocButtons = new List<newMap.newMapButton>();
+            _locButtons = new List<MapControl.MapButton>(); //mapButtons for the old mapControl
+            _newlocButtons = new List<newMap.newMapButton>(); //mapButtons for new mapControl
             _locButtonInfo = new List<String>();
      
         

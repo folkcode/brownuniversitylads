@@ -230,8 +230,7 @@ namespace GCNav
                                                     if (displayLoc.Name == "Location")
                                                     {
                                                         Point p = this.parceLongLat(displayLoc);
-                                                        //currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 1, currentImage));
-
+                                                        
                                                         if (displayLoc.Attributes.GetNamedItem("longitude") != null)
                                                         {
                                                             String lon = displayLoc.Attributes.GetNamedItem("longitude").InnerText;
@@ -249,8 +248,7 @@ namespace GCNav
                                                             }
                                                             currentImage.setLocButtonInfo("blue" + "///" + lon + "///" + lat + "///" + date + "///" + city);
                                                         }
-                                                        // currentImage.addButton(new newMap.newMapButton(p.X, p.Y, 1, currentImage));
-
+                                                       
                                                     }
                                                 }
                                             }
