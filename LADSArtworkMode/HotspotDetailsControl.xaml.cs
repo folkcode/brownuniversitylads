@@ -289,7 +289,6 @@ namespace LADSArtworkMode
                 textBoxScroll.Visibility = Visibility.Hidden;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Hidden;
-              
             }
             else if (m_hotspotData.Type.ToLower().Contains("text"))
             {
@@ -299,7 +298,6 @@ namespace LADSArtworkMode
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Hidden;
                 this.CanScale = false;
-               // video.Visibility = Visibility.Hidden;
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
             {
@@ -311,6 +309,7 @@ namespace LADSArtworkMode
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
 
+                //creates new audio
                 myMediaElement = new MediaElement();
                 String newaudioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
                 myMediaElement.Source = new Uri(newaudioUri);
@@ -335,7 +334,7 @@ namespace LADSArtworkMode
                 timelineSlider.Visibility = Visibility.Visible;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
 
-                //fire Media Opened
+                //fire Media Opened in order to set the actual length
                 myMediaElement.Play();
                 myMediaElement.Pause();
                 this.CanScale = false;
@@ -347,7 +346,6 @@ namespace LADSArtworkMode
               
                 _dragging = false;
                 _sliderTimer = new System.Windows.Threading.DispatcherTimer();
-
 
                 timelineSlider.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonDown);
                 timelineSlider.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(timelineSlider_PreviewMouseLeftButtonUp);
@@ -379,7 +377,6 @@ namespace LADSArtworkMode
                 VideoStackPanel.Children.Add(videoElement);
                 HotspotTextBox.Visibility = Visibility.Collapsed;
                 textBoxScroll.Visibility = Visibility.Collapsed;
-                //VideoScroll.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Collapsed;
                 hasVideo = true;
 
@@ -480,7 +477,6 @@ namespace LADSArtworkMode
                 videoElement.Width = 476;
                 videoElement.Height = 476.0 * aspectratio;
             }
-            //video.Background = Brushes.Black;
             VideoStackPanel.Width = videoElement.Width;
             VideoStackPanel.Height = videoElement.Height+30.0;
             hotspotCanvas.Width = VideoStackPanel.Width + 24;
@@ -502,7 +498,6 @@ namespace LADSArtworkMode
         void newVideo_Loaded(object sender, RoutedEventArgs e)
         {
             (video as LADSVideoBubble).Resize(366,272);
-            //video.Background = Brushes.Black;
             hotspotCanvas.Width = video.ActualWidth + 24;
             hotspotCanvas.Height = video.ActualHeight + 47;
             minX = hotspotCanvas.Width + 8;
@@ -556,7 +551,6 @@ namespace LADSArtworkMode
             myMediaElement.Position = new TimeSpan(0, 0, 0, 0, 0);
             _sliderTimer.Stop();
             myMediaElement.Pause();
-            //timelineSlider.Value = 0;
             _sliderTimer.Stop();
           
         }
@@ -599,7 +593,7 @@ namespace LADSArtworkMode
             if (!IsDragging())
             {
                 double newValue = e.GetTouchPoint(timelineSlider).Position.X / timelineSlider.ActualWidth; //yields number between 0 and 1
-                newValue = newValue * timelineSlider.Maximum; //should give number between 0 and Maximum (about 300000)
+                newValue = newValue * timelineSlider.Maximum; //should give number between 0 and Maximum
                
                 if (newValue < 0)
                 {
@@ -630,7 +624,7 @@ namespace LADSArtworkMode
             if (!IsDragging())
             {
                 double newValue = e.GetPosition(timelineSlider).X / timelineSlider.ActualWidth; //yields number between 0 and 1
-                newValue = newValue * timelineSlider.Maximum; //should give number between 0 and Maximum (about 300000)
+                newValue = newValue * timelineSlider.Maximum; //gives number between 0 and Maximum 
              
                 if (newValue < 0)
                 {
