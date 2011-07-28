@@ -924,7 +924,7 @@ namespace SurfaceApplication3
                 Utils.setAspectRatio(entryToModify.imageCanvas, entryToModify.imageRec, entryToModify.image1, wpfImage, 4);
                 entryToModify.image1.Source = wpfImage.Source;
                 entryToModify.setImagePath(fullPath);
-                entryToModify.setImageTitle(title_tag.Text);
+                entryToModify.setImageTitle(imageName);
                 entryToModify.setImageName(imageName);
         }
 

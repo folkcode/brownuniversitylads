@@ -26,7 +26,7 @@ namespace SurfaceApplication3
         //Save and close the window when the user complete the infomation
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            if (title.Text != null && Text.Text != null)
+            if (title.Text != "" && Text.Text != "")
             {
                 String caption = title.Text;
                 String description = Text.Text;
