@@ -32,6 +32,7 @@ namespace SurfaceApplication3
         {
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
             ofd.Multiselect = false;
+            Console.WriteLine("Hotspot Content = " + hotspotContent);
             if (hotspotContent == 1)
             {
                 ofd.Filter = "Audio Files(*.MP3;*.WMA;*.MID)|*.MP3;*.WMA;*.MID";

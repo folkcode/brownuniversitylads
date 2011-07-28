@@ -62,7 +62,6 @@ namespace SurfaceApplication3
             addHotspotsEnabled = false;
             addHotspotValid = true;
             newWindowIsOpened = false;
-           
         }
 
         //This is to check if hotspots on the map is selected
@@ -92,7 +91,7 @@ namespace SurfaceApplication3
                     if (newPoint.X > canvasLeft && newPoint.X < canvasLeft + width && newPoint.Y > canvasTop && newPoint.Y < canvasTop + height)
                     {
                         newButton_Checked(t);
-                       
+
                     }
 
                 }
@@ -111,7 +110,7 @@ namespace SurfaceApplication3
                 addHotspotsEnabled = false;
                 Enable.IsEnabled = true;
                 this.CreateNewPoints(newPoint, null);
-                
+
             }
             foreach (UIElement ele in imageCover.Children)
             {
@@ -122,13 +121,13 @@ namespace SurfaceApplication3
                     Double canvasLeft = Canvas.GetLeft(t);
                     Double canvasTop = Canvas.GetTop(t);
                     image1.UpdateLayout();
-                    Double width = t.ActualWidth-30;
-                    Double height = t.ActualHeight-30;
+                    Double width = t.ActualWidth - 30;
+                    Double height = t.ActualHeight - 30;
 
                     if (newPoint.X > canvasLeft && newPoint.X < canvasLeft + width && newPoint.Y > canvasTop && newPoint.Y < canvasTop + height)
                     {
                         newButton_Checked(t);
-                    
+
                     }
 
                 }
@@ -142,15 +141,15 @@ namespace SurfaceApplication3
             Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale; //the size of the zoomed image
             Double imagecurHeight = size[1] * image1.GetZoomableCanvas.Scale;
 
-            Double left = - image1.GetZoomableCanvas.Offset.X;
+            Double left = -image1.GetZoomableCanvas.Offset.X;
             Double right = left + imagecurWidth;
-            Double top =  - image1.GetZoomableCanvas.Offset.Y;
+            Double top = -image1.GetZoomableCanvas.Offset.Y;
             Double bottom = top + imagecurHeight;
 
             Double x = newPoint.X;
             Double y = newPoint.Y;
-       
-            if (x > right|| x < left)
+
+            if (x > right || x < left)
             {
                 addHotspotValid = false;
             }
@@ -165,21 +164,22 @@ namespace SurfaceApplication3
 
         }
 
-        public void setImagePath(String path) {
+        public void setImagePath(String path)
+        {
             imageName = path;
         }
 
         //This shows the deepzoom artwork on which the hotspots are added to
         public void showImage()
         {
-          
+
             String dataUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\data\\";
-            String imageUri = dataUri + "Images\\DeepZoom\\" + imageName+ "\\dz.xml";
+            String imageUri = dataUri + "Images\\DeepZoom\\" + imageName + "\\dz.xml";
             image1.SetImageSource(imageUri);
             image1.UpdateLayout();
-          
+
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
-          
+
             ZoomableCanvas msi = image1.GetZoomableCanvas;
             dpd.AddValueChanged(msi, LocationChanged);
         }
@@ -194,12 +194,12 @@ namespace SurfaceApplication3
                 String[] locInfo = Regex.Split(str, "/");
                 double lon = Convert.ToDouble(locInfo[0]);
                 double lat = Convert.ToDouble(locInfo[1]);
-             
+
                 Double[] size = this.findImageSize();
                 Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale; //the size of the zoomed image
                 Double imagecurHeight = size[1] * image1.GetZoomableCanvas.Scale;
                 Double screenPosX = (lon * imagecurWidth) - image1.GetZoomableCanvas.Offset.X;
-               
+
                 Double screenPosY = (lat * imagecurHeight) - image1.GetZoomableCanvas.Offset.Y;
 
                 Canvas.SetLeft(rb, screenPosX);
@@ -230,7 +230,7 @@ namespace SurfaceApplication3
             String path = dataDir + imageName + "." + "xml";
             if (File.Exists(dataDir + imageName + "." + "xml"))
             {
-              
+
                 exists = true;
                 doc.Load(path);
                 if (doc.HasChildNodes)
@@ -238,9 +238,9 @@ namespace SurfaceApplication3
                     foreach (XmlNode docNode in doc.ChildNodes)
                     {
                         if (docNode.Name == "hotspots")
-                        {                           
+                        {
                             if (docNode.HasChildNodes)
-                            {                               
+                            {
                                 foreach (XmlNode hotspot in docNode.ChildNodes)
                                 {
                                     if (hotspot.Name == "hotspot")
@@ -250,7 +250,7 @@ namespace SurfaceApplication3
                                         String name = "";
                                         String type = "";
                                         String description = "";
-                                       
+
                                         foreach (XmlNode posNode in hotspot.ChildNodes)
                                         {
                                             if (posNode.Name == "name")
@@ -261,7 +261,7 @@ namespace SurfaceApplication3
                                             {
                                                 String poX = posNode.InnerText;
                                                 positionX = poX;
-                                              
+
                                             }
                                             if (posNode.Name == "positionY")
                                             {
@@ -281,11 +281,11 @@ namespace SurfaceApplication3
 
                                         }
                                         String longString = name + "/" + type + "/" + description;
-                                    
+
                                         BitmapImage newImage = new BitmapImage();
                                         String dataDir1 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
                                         String filePath = dataDir1 + "Images\\" + imageName;
-                                      
+
                                         try
                                         {
                                             newImage.BeginInit();
@@ -303,7 +303,7 @@ namespace SurfaceApplication3
                                         Double PositionX = Convert.ToDouble(positionX);
                                         Double PositionY = Convert.ToDouble(positionY);
                                         this.createLoadingPoints(PositionX, PositionY, longString);
-                                      
+
                                     }
 
                                 }
@@ -313,7 +313,7 @@ namespace SurfaceApplication3
                 }
 
             }
-          
+
         }
 
         //This creates the hotspots when the artwork is loaded
@@ -336,16 +336,17 @@ namespace SurfaceApplication3
         /// <summary>
         /// Find the original image size in dz.xml in Deep Zoom folder of the image
         /// </summary>
-        public Double[] findImageSize() 
+        public Double[] findImageSize()
         {
             Double[] sizes = new Double[2];
             XmlDocument newDoc = new XmlDocument();
             String imageFolder = "Data/Images/DeepZoom/" + imageName + "/" + "dz.xml";
             newDoc.Load(imageFolder);
-            if (newDoc.HasChildNodes) {
-                foreach (XmlNode image in newDoc.ChildNodes) 
+            if (newDoc.HasChildNodes)
+            {
+                foreach (XmlNode image in newDoc.ChildNodes)
                 {
-                    if (image.Name == "Image") 
+                    if (image.Name == "Image")
                     {
                         XmlNode size = image.FirstChild;
                         String width = size.Attributes.GetNamedItem("Width").InnerText;
@@ -354,10 +355,10 @@ namespace SurfaceApplication3
                         Double height1 = Convert.ToDouble(height);
                         sizes[0] = width1;
                         sizes[1] = height1;
-                       
+
                     }
                 }
-            
+
             }
             return sizes;
         }
@@ -365,47 +366,46 @@ namespace SurfaceApplication3
         //This creates the points when the users click on the artwork to create new hotspots
         public void CreateNewPoints(Point newPoint, String str)
         {
-                Double x = newPoint.X;// -20;
-                Double y = newPoint.Y;// -40;
-                Double[] size = this.findImageSize();
-                Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale;
-                Double imagecurHeight = size[1] * image1.GetZoomableCanvas.Scale;
+            Double x = newPoint.X;// -20;
+            Double y = newPoint.Y;// -40;
+            Double[] size = this.findImageSize();
+            Double imagecurWidth = size[0] * image1.GetZoomableCanvas.Scale;
+            Double imagecurHeight = size[1] * image1.GetZoomableCanvas.Scale;
 
-                Point newP = image1.GetZoomableCanvas.Offset;
-               
-                Double canvasLeft = (x + newP.X) / imagecurWidth;
-                Double canvasTop = (y + newP.Y) / imagecurHeight;
+            Point newP = image1.GetZoomableCanvas.Offset;
 
-                String lon = canvasLeft.ToString();
-                String lat = canvasTop.ToString();
+            Double canvasLeft = (x + newP.X) / imagecurWidth;
+            Double canvasTop = (y + newP.Y) / imagecurHeight;
 
-                SurfaceRadioButton newButton = new SurfaceRadioButton();
-                //Default the new button on the map as checked;
-                if (str != null)
-                {
-                    dic.Add(newButton, str);
-                }
-            
-                newButton.IsChecked = true;
-                buttonChecked = newButton;
+            String lon = canvasLeft.ToString();
+            String lat = canvasTop.ToString();
 
-                newButton.Width = 1;
-                newButton.Height = 1;
+            SurfaceRadioButton newButton = new SurfaceRadioButton();
+            //Default the new button on the map as checked;
+            if (str != null)
+            {
+                dic.Add(newButton, str);
+            }
 
-                foreach (SurfaceRadioButton rb in radioButtons)
-                {
-                    rb.IsChecked = false;
-                }
+            newButton.IsChecked = true;
+            buttonChecked = newButton;
 
-                radioButtons.Add(newButton);
-                dicPos.Add(newButton, lon + "/" + lat);
+            newButton.Width = 1;
+            newButton.Height = 1;
 
-                imageCover.Children.Add(newButton);
+            foreach (SurfaceRadioButton rb in radioButtons)
+            {
+                rb.IsChecked = false;
+            }
+            radioButtons.Add(newButton);
+            dicPos.Add(newButton, lon + "/" + lat);
 
-                Canvas.SetLeft(newButton, x -3.5);
-                Canvas.SetTop(newButton, y -3);
-                Canvas.SetZIndex(newButton, 20);
-           
+            imageCover.Children.Add(newButton);
+
+            Canvas.SetLeft(newButton, x - 3.5);
+            Canvas.SetTop(newButton, y - 3);
+            Canvas.SetZIndex(newButton, 20);
+
         }
 
         //When a hotspot is checked, display the information and allow user to change the contents
@@ -417,7 +417,7 @@ namespace SurfaceApplication3
             AddAudio.IsEnabled = false;
             AddVideo.IsEnabled = false;
             Edit.IsEnabled = false;
-       
+
             buttonChecked = (SurfaceRadioButton)sender;
             if (dic.ContainsKey((SurfaceRadioButton)sender))
             {
@@ -457,9 +457,9 @@ namespace SurfaceApplication3
                 AddImage.IsEnabled = true;
                 AddAudio.IsEnabled = true;
                 AddVideo.IsEnabled = true;
-             
+
             }
-          
+
         }
 
         public void Enable_Click(Object sender, RoutedEventArgs e)
@@ -475,14 +475,13 @@ namespace SurfaceApplication3
                 Enable.IsEnabled = true;
             }
         }
-       
+
         public void Show()
         {
             Visibility = Visibility.Visible;
-                       
+
         }
         public void Hide()
-
         {
 
             Visibility = Visibility.Hidden;
@@ -491,8 +490,8 @@ namespace SurfaceApplication3
 
         public void save_close_click(object sender, RoutedEventArgs e)
         {
-                this.save();
-            
+            this.save();
+
         }
 
         /// <summary>
@@ -500,7 +499,7 @@ namespace SurfaceApplication3
         /// </summary>
         public void save()
         {  //save the inforamtion of the hotspot
-            
+
             if (exists == false)
             {
                 if (radioButtons.Count != 0)
@@ -607,13 +606,13 @@ namespace SurfaceApplication3
                                             XmlElement description = doc.CreateElement("description");
                                             type.InnerText = strs[1];
                                             description.InnerText = strs[2];
-                                          
+
                                             String newStr = dicPos.ElementAt(i).Value;
-                                           
+
                                             String[] strings = Regex.Split(newStr, "/");
                                             positionX.InnerText = strings[0];
                                             positionY.InnerText = strings[1];
-                                
+
                                             spots.AppendChild(name);
                                             spots.AppendChild(positionX);
                                             spots.AppendChild(positionY);
@@ -635,7 +634,7 @@ namespace SurfaceApplication3
                                     }
                                 }
                             }
-                 
+
                         }
 
 
@@ -644,7 +643,7 @@ namespace SurfaceApplication3
                     parentWindow.Close();
                 }
 
-                
+
 
             }
             for (int k = 0; k < hotImagePaths.Count; k++)
@@ -684,9 +683,9 @@ namespace SurfaceApplication3
 
                 String newName = hotAudioNames.ElementAt(l);
 
-                
+
                 String newPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\" + "Hotspots\\Audios\\" + newName;
-               
+
                 //Copy the image intothe Thumbnail and copy the folder into the deepzoom folder
                 // Create the file and clean up handles.
 
@@ -705,7 +704,7 @@ namespace SurfaceApplication3
                     }
                 }
                 // Copy the file.
-                
+
 
             }
             for (int m = 0; m < hotVideoPaths.Count; m++)
@@ -739,27 +738,28 @@ namespace SurfaceApplication3
             this.cancel();
         }
 
-       //Create thumbnails for hotspots images and save them
+        //Create thumbnails for hotspots images and save them
         public void createHotspotThumbnail(String imagePath, String filename)
         {
-            
-                string newPath = "data/Hotspots/Images/";
 
-                System.Drawing.Image img = System.Drawing.Image.FromFile(imagePath);
-                img = img.GetThumbnailImage(128, 128, null, new IntPtr());
-                img.Save(newPath + "Thumbnail/" + filename);
-            
-            
+            string newPath = "data/Hotspots/Images/";
+
+            System.Drawing.Image img = System.Drawing.Image.FromFile(imagePath);
+            img = img.GetThumbnailImage(128, 128, null, new IntPtr());
+            img.Save(newPath + "Thumbnail/" + filename);
+
+
         }
         /// <summary>
         /// Set the image
         /// </summary>
         /// <param name="image"></param>
-        public void setImage(BitmapImage image) {
+        public void setImage(BitmapImage image)
+        {
             curImage = image;
         }
-      
-       
+
+
         /// <summary>
         /// remove all hotspots created in the current session
         /// </summary>
@@ -775,13 +775,13 @@ namespace SurfaceApplication3
         /// <summary>
         /// Called by the cancel_click function
         /// </summary>
-        private void cancel() 
+        private void cancel()
         {
             foreach (SurfaceRadioButton rb in radioButtons)
             {
                 imageCover.Children.Remove(rb);
             }
-        
+
             dic = new Dictionary<SurfaceRadioButton, String>();
 
             radioButtons = new List<SurfaceRadioButton>();
@@ -808,7 +808,7 @@ namespace SurfaceApplication3
             hotspotInfo = info;
         }
 
-          
+
         /// <summary>
         /// See this.cancel()
         /// </summary>
@@ -820,54 +820,66 @@ namespace SurfaceApplication3
 
         }
 
-        private void AddAudio_Click(object sender, RoutedEventArgs e)
+        public void changeHotspotInfo(int type, bool isText)
         {
             if (!newWindowIsOpened)
             {
-                addHotspotsContent newContents = new addHotspotsContent();
-                newContents.Show();
-                newContents.hotspotContent = 1;
-           
-                newContents.setParentControl(this);
-                newWindowIsOpened = true;
+                if (!isText)
+                {
+                    addHotspotsContent newContents = new addHotspotsContent();
+                    newContents.Show();
+                    newContents.hotspotContent = type;
+                    newContents.setParentControl(this);
+                    newWindowIsOpened = true;
+                }
+                else
+                {
+                    hotspotAddText newText = new hotspotAddText();
+                    newText.Show();
+                    newText.setParentControl(this);
+                    newWindowIsOpened = true;
+                }
             }
+        }
+
+        public void selectHotspotType(int type, bool isText)
+        {
+            if (Edit.IsEnabled == true)
+            {
+                if (MessageBox.Show("Are you sure you want to change the type of hotspot? You will lose the hotspot's existing information.", "Change Hotspot Type", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    changeHotspotInfo(type, isText);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                changeHotspotInfo(type, isText);
+            }
+        }
+
+        private void AddAudio_Click(object sender, RoutedEventArgs e)
+        {
+            this.selectHotspotType(1, false);
+
         }
         //This opens the window for adding text to the hotspot
         private void AddText_Click(object sender, RoutedEventArgs e)
         {
-            if (!newWindowIsOpened)
-            {
-                hotspotAddText newText = new hotspotAddText();
-                newText.Show();
-        
-                newText.setParentControl(this);
-                newWindowIsOpened = true;
-            }
-  
+            this.selectHotspotType(0, true);
         }
         //This opens the window for adding image to the hotspot
         private void AddImage_Click(object sender, RoutedEventArgs e)
         {
-            if (!newWindowIsOpened)
-            {
-                addHotspotsContent newContents = new addHotspotsContent();
-                newContents.Show();
-             
-                newContents.setParentControl(this);
-                newWindowIsOpened = true;
-            }
+            this.selectHotspotType(2, false);
         }
         //This opens the window for adding video to the hotspot
         private void AddVideo_Click(object sender, RoutedEventArgs e)
         {
-            if (!newWindowIsOpened)
-            {
-                addHotspotsContent newContents = new addHotspotsContent();
-                newContents.Show();
-           
-                newContents.setParentControl(this);
-                newWindowIsOpened = true;
-            }
+            this.selectHotspotType(3, false);
         }
         //This opens the window for modifying text to the hotspot
         private void ModifyText(String caption, String description)
@@ -897,10 +909,10 @@ namespace SurfaceApplication3
         {
             String curSpotsInfo = dic[buttonChecked];
             String[] str = Regex.Split(curSpotsInfo, "/");
-         
+
             if (str[1] == "text")
             {
-                this.ModifyText(str[0],str[2]);
+                this.ModifyText(str[0], str[2]);
             }
             else if (str[1] == "audio")
             {
@@ -919,7 +931,7 @@ namespace SurfaceApplication3
         //This saves the hotspotInfo when the user enters the information
         public void saveHotspotInfo()
         {
-        
+
             if (dic.ContainsKey(buttonChecked))
             {
                 dic[buttonChecked] = hotspotInfo;
@@ -937,7 +949,7 @@ namespace SurfaceApplication3
 
         private void RemoveOne_Click(object sender, RoutedEventArgs e)
         {
-         
+
             if (buttonChecked != null)
             {
 
@@ -948,7 +960,7 @@ namespace SurfaceApplication3
                     String info = dic[buttonChecked];
 
                     String[] infos = Regex.Split(info, "/");
-                    
+
                     if (infos[1] == "image")
                     {
                         hotImagePaths.Remove(infos[2]);
@@ -963,16 +975,16 @@ namespace SurfaceApplication3
                     }
 
                     dic.Remove(buttonChecked);
-                   
+
                 }
                 dicPos.Remove(buttonChecked);
-                 
-                    AddText.IsEnabled = false;
-                    AddImage.IsEnabled = false;
-                    AddAudio.IsEnabled = false;
-                    AddVideo.IsEnabled = false;
-                    buttonChecked = null;
-                    Edit.IsEnabled = false;
+
+                AddText.IsEnabled = false;
+                AddImage.IsEnabled = false;
+                AddAudio.IsEnabled = false;
+                AddVideo.IsEnabled = false;
+                buttonChecked = null;
+                Edit.IsEnabled = false;
             }
             else
             {
@@ -987,8 +999,8 @@ namespace SurfaceApplication3
 
         private void image1_MouseDown(object sender, MouseButtonEventArgs e)
         {
-        
-           
+
+
         }
     }
 }
