@@ -115,6 +115,7 @@ namespace SurfaceApplication3
                                 }
                                 newEntry.setImagePath(fullPath);
                                 newEntry.setImageTitle(title);
+                                Console.Out.WriteLine("TITLE" + title);
                                 newEntry.setImageName(path);
                                 EntryListBox.Items.Add(newEntry);
                             }

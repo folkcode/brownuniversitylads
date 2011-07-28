@@ -924,8 +924,9 @@ namespace SurfaceApplication3
                 Utils.setAspectRatio(entryToModify.imageCanvas, entryToModify.imageRec, entryToModify.image1, wpfImage, 4);
                 entryToModify.image1.Source = wpfImage.Source;
                 entryToModify.setImagePath(fullPath);
-                entryToModify.setImageTitle(imageName);
+                entryToModify.setImageTitle(title_tag.Text);
                 entryToModify.setImageName(imageName);
+                Console.Out.WriteLine("imageName" + imageName);
         }
 
         //Double click in the keywords textbox selects the words automatically

@@ -83,11 +83,12 @@ namespace SurfaceApplication3
                             if (node.Name == "Image")
                             {
                                 String title = node.Attributes.GetNamedItem("title").InnerText;
-                                if (imageTitle == title)
+                                String path = node.Attributes.GetNamedItem("path").InnerText;
+                                if (imageName == path)
                                 {
                                     String artist = node.Attributes.GetNamedItem("artist").InnerText;
                                     String year = node.Attributes.GetNamedItem("year").InnerText;
-                                    String path = node.Attributes.GetNamedItem("path").InnerText;
+                                    
                                     String medium = node.Attributes.GetNamedItem("medium").InnerText;
                                     
                                     //Loads the information about the imgae
