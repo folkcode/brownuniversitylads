@@ -926,7 +926,7 @@ namespace SurfaceApplication3
                 entryToModify.setImagePath(fullPath);
                 entryToModify.setImageTitle(title_tag.Text);
                 entryToModify.setImageName(imageName);
-                Console.Out.WriteLine("imageName" + imageName);
+               
         }
 
         //Double click in the keywords textbox selects the words automatically
