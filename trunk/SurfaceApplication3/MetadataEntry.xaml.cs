@@ -228,7 +228,15 @@ namespace SurfaceApplication3
         public void setURL(string url)
         {
             webURL = url;
-            string filePath = "Data/Images/Metadata/" + Path.GetFileName(webURL);
+            try
+            {
+                string filePath = "Data/Images/Metadata/" + Path.GetFileName(webURL);
+            }
+            catch (Exception notvalid)
+            {
+                MessageBox.Show("This is not a valid URL");
+                return;
+            }
             string filename = Path.GetFileName(url);
             string extension = Path.GetExtension(url);
             string tempFileName = Path.GetFileNameWithoutExtension(url);
