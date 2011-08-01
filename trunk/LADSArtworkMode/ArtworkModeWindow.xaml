@@ -103,7 +103,7 @@
                 </Canvas>
                 <Canvas x:Name="textBar" DockPanel.Dock="Top" Background="#4e765c" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" MouseDown="BottomButtonClick">
                     <TextBlock Name="textMessage" Foreground="White" Text="Bar cannot be docked during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
-                    
+                    <TextBlock Name="verticalMessage" Foreground="White" Text="Toolbar cannot be opened during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
                 </Canvas>
                 <s:SurfaceListBoxItem Name="Text" Background="Transparent" Width="300" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Bar cannot be docked during a tour" Opacity="0" Foreground="Black" Visibility="Collapsed"/>
                 <s:SurfaceListBox Name="Bar" DockPanel.Dock="Bottom" ScrollViewer.ScrollChanged="BottomBarScroll" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Visible">

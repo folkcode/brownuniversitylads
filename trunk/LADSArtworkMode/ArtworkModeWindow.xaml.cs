@@ -1173,25 +1173,38 @@ namespace LADSArtworkMode
 
         public void LeftButtonClick(object sender, RoutedEventArgs e)
         {
-            if (leftPanelVisible)
+            if (!tourSystem.TourPlaybackOn)
             {
+                if (leftPanelVisible)
+                {
 
-                DoubleAnimation da = new DoubleAnimation();
-                da.From = 0;
-                da.To = -leftPaneContent.ActualWidth;
-                da.Duration = new Duration(TimeSpan.FromSeconds(.4));
-                LeftPanel.BeginAnimation(Canvas.LeftProperty, da);
+                    DoubleAnimation da = new DoubleAnimation();
+                    da.From = 0;
+                    da.To = -leftPaneContent.ActualWidth;
+                    da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                    LeftPanel.BeginAnimation(Canvas.LeftProperty, da);
+                }
+                else
+                {
+                    DoubleAnimation da = new DoubleAnimation();
+                    da.From = -leftPaneContent.ActualWidth;
+                    da.To = 0;
+                    da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                    LeftPanel.BeginAnimation(Canvas.LeftProperty, da);
+
+                }
+                leftPanelVisible = !leftPanelVisible;
             }
             else
             {
-                DoubleAnimation da = new DoubleAnimation();
-                da.From = -leftPaneContent.ActualWidth;
-                da.To = 0;
-                da.Duration = new Duration(TimeSpan.FromSeconds(.4));
-                LeftPanel.BeginAnimation(Canvas.LeftProperty, da);
-
+                DoubleAnimation da2 = new DoubleAnimation();
+                da2.From = 0;
+                da2.To = 1;
+                da2.Duration = new Duration(TimeSpan.FromSeconds(1.4));
+                da2.AutoReverse = true;
+                Text.BeginAnimation(OpacityProperty, da2);
+                verticalMessage.BeginAnimation(OpacityProperty, da2);
             }
-            leftPanelVisible = !leftPanelVisible;
         }
 
         public void BottomButtonClick(object sender, RoutedEventArgs e)
