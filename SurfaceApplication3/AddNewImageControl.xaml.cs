@@ -316,6 +316,57 @@ namespace SurfaceApplication3
         /// </summary>
         private void save_Click(object sender, RoutedEventArgs e)
         {
+
+            int yearInput = 0;
+            try
+            {
+                yearInput = Convert.ToInt32(year_tag.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("The year must be a valid number.");
+                return;
+            }
+            if (yearInput < -9999 || yearInput > 9999)
+            {
+                MessageBox.Show("Year must be between -9999 and 9999.");
+                return;
+            }
+
+
+            if (!(imageName != "" && year_tag.Text != "" && title_tag.Text != ""))
+            {
+                statusLabel.Foreground = Brushes.DarkRed;
+                statusLabel.Content = "Some items are still missing:";
+                if (imageName == "")
+                {
+                    imageRec.Stroke = Brushes.DarkRed;
+                    statusLabel.Content += " Image;";
+                }
+                if (title_tag.Text == "")
+                {
+                    title_tag.BorderBrush = Brushes.DarkRed;
+                    statusLabel.Content += " Title;";
+                }
+                else
+                {
+                    title_tag.BorderBrush = Brushes.DarkGreen;
+                }
+
+                if (year_tag.Text == "")
+                {
+                    year_tag.BorderBrush = Brushes.DarkRed;
+                    statusLabel.Content += " Year;";
+                }
+                else
+                {
+                    year_tag.BorderBrush = Brushes.DarkGreen;
+                }
+                return;
+
+            }
+
+
             imageSaved = true;
             foreach (string name in imagesToDelete)
             {
@@ -352,7 +403,7 @@ namespace SurfaceApplication3
 
                                     if (this.imageName == path)
                                     {
-                                        int yearInput = 0;
+                                        yearInput = 0;
                                         try
                                         {
                                             yearInput = Convert.ToInt32(year_tag.Text);
@@ -570,7 +621,7 @@ namespace SurfaceApplication3
                                 }
                                 if (!imageNameExist)
                                 {
-                                    int yearInput = 0;
+                                    yearInput = 0;
                                     try
                                     {
                                         yearInput = Convert.ToInt32(year_tag.Text);

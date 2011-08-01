@@ -516,6 +516,7 @@ namespace LADSArtworkMode
 
         public void TourStopButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (tourPlaybackOn)
             {
 
@@ -560,6 +561,8 @@ namespace LADSArtworkMode
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourStopButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
+                artModeWin.m_hotspotCollection.reAddHotspotIcons();
+                artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
 
                 artModeWin.ImageArea.IsHitTestVisible = true;
                 artModeWin.MainScatterView.IsHitTestVisible = true;
@@ -1556,6 +1559,7 @@ namespace LADSArtworkMode
 
         private void TourButton_Click(object sender, EventArgs e)
         {
+
             string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
             this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
             this.LoadTourPlaybackFromDict();
@@ -1585,6 +1589,8 @@ namespace LADSArtworkMode
                 artModeWin.tourControlButton.Visibility = Visibility.Visible;
                 artModeWin.tourStopButton.Visibility = Visibility.Visible;
                 artModeWin.tourSeekBar.Visibility = Visibility.Visible;
+                artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
+                artModeWin.m_hotspotCollection.removeHotspotIcons();
 
                 tourStoryboard.CurrentTimeInvalidated += new EventHandler(TourStoryboardPlayback_CurrentTimeInvalidated);
                 tourStoryboard.Completed += new EventHandler(TourStoryboardPlayback_Completed);
