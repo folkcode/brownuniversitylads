@@ -71,6 +71,17 @@ namespace GCNav
             _artOpen = false;
             _collectionEmpty = true;
             timeline.nav = this;
+            
+            String[] c = Environment.GetCommandLineArgs();
+
+            if (c.Length != 1)
+            {
+                if (c[1].Contains("noauthoring"))
+                {
+                    
+                    ButtonPanel.Children.Remove(exitButton);
+                }
+            }
         }
         public void setMapWidth(Double width)
         {
