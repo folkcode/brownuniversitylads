@@ -113,6 +113,8 @@ namespace LADSArtworkMode
                 if (c[1].Contains("noauthoring"))
                 {
                     Main.Children.Remove(tourAuthoringButton);
+                    Main.Children.Remove(exitButton);
+                    
                 }
             }
             // Add handlers for window availability events
