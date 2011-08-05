@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 using Microsoft.Surface.Presentation.Controls;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using System.Xml;
 
 namespace GCNav
 {
@@ -23,6 +24,7 @@ namespace GCNav
         private Dictionary<SurfaceRadioButton, Ellipse> ellipses, backEllipses;
         private ImageData data;
         public Double tranScaleX, tranScaleY;
+        private Double mapWidth, mapHeight;
 
         public newMap()
         {
@@ -33,6 +35,7 @@ namespace GCNav
             backEllipses = new Dictionary<SurfaceRadioButton, Ellipse>();
             this.loadImageBlur();
             Canvas.SetZIndex(Location, 20);
+            this.findImageSize();
         }
 
         //This checks if the mapButtons are clicked.
@@ -121,6 +124,33 @@ namespace GCNav
             blur.Opacity = 1;
         }
 
+        public void findImageSize()
+        {
+
+            XmlDocument newDoc = new XmlDocument();
+            String imageFolder = "Data/Map/Map.png" + "/" + "dz.xml";
+            newDoc.Load(imageFolder);
+            if (newDoc.HasChildNodes)
+            {
+                foreach (XmlNode image in newDoc.ChildNodes)
+                {
+                    if (image.Name == "Image")
+                    {
+                        XmlNode size = image.FirstChild;
+                        String width = size.Attributes.GetNamedItem("Width").InnerText;
+                        String height = size.Attributes.GetNamedItem("Height").InnerText;
+                        Double width1 = Convert.ToDouble(width);
+                        Double height1 = Convert.ToDouble(height);
+                        mapWidth = width1;
+                        mapHeight = height1;
+                    }
+                }
+
+            }
+
+        }
+
+
         //This sets the mapButton onto the right place when the map is being zoomed in and out
         public void LocationChanged(Object sender, EventArgs e)
         {
@@ -136,8 +166,8 @@ namespace GCNav
                 double lon = Convert.ToDouble(locInfo[1]);
                 double lat = Convert.ToDouble(locInfo[2]);
 
-                double long1 = (lon - 0.0028) * 11527;
-                double lat1 = (lat - 0.002) * 6505;
+                double long1 = (lon - 0.0028) * mapWidth;
+                double lat1 = (lat - 0.002) * mapHeight;
 
                 Double screenPosX = (mapImage.GetZoomableCanvas.Scale * long1) - mapImage.GetZoomableCanvas.Offset.X; //need to reset the location thing
                 Double screenPosY = (mapImage.GetZoomableCanvas.Scale * lat1) - mapImage.GetZoomableCanvas.Offset.Y;
@@ -262,8 +292,8 @@ namespace GCNav
             Location.Children.Add(newButton);
             Location.Children.Add(backEllipse);
 
-            double mapActualWidth = 11527 * mapImage.GetZoomableCanvas.Scale;
-            double mapActualHeight = 6505 * mapImage.GetZoomableCanvas.Scale;
+            double mapActualWidth = mapWidth * mapImage.GetZoomableCanvas.Scale;
+            double mapActualHeight = mapHeight * mapImage.GetZoomableCanvas.Scale;
             double long1 = db1 * mapActualWidth - mapImage.GetZoomableCanvas.Offset.X;
             double lat1 = db2 * mapActualHeight - mapImage.GetZoomableCanvas.Offset.Y;
 
