@@ -26,7 +26,7 @@ namespace SurfaceApplication3
             InitializeComponent();
             metaImagePath = "";
             webURL = "";
-            type = "Image";
+            type = "";
             _helper = new Helpers();
         }
 
