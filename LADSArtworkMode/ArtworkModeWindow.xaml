@@ -101,7 +101,7 @@
                 <Canvas Width="1536" MinHeight="5" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
 
                 </Canvas>
-                <Canvas x:Name="textBar" DockPanel.Dock="Top" Background="#4e765c" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" MouseDown="BottomButtonClick">
+                <Canvas x:Name="textBar" DockPanel.Dock="Top" Background="#4e765c" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" MouseUp="BottomButtonClick" TouchUp="BottomButtonClick">
                     <TextBlock Name="textMessage" Foreground="White" Text="Bar cannot be docked during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
                     <TextBlock Name="verticalMessage" Foreground="White" Text="Toolbar cannot be opened during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
                 </Canvas>
