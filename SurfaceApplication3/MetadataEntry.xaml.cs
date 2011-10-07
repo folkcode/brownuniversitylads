@@ -51,7 +51,7 @@ namespace SurfaceApplication3
             System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
             ofd.Multiselect = false;
 
-            ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.MOV;*.AVI;*.MP4; *.WMV)|*.BMP;*.JPG;*.GIF;*MOV;*AVI;*.MP4;*.WMV|All files (*.*)|*.*"; //Only allow image and video type metadata
+            ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.JPEG)|*.BMP;*.JPG;*.GIF;*.JPEG|Audio and Video Files(*.MOV;*.AVI;*.MP4;*.WMV)|*MOV;*AVI;*.MP4;*.WMV|All files (*.*)|*.*"; //Only allow image and video type metadata
 
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
