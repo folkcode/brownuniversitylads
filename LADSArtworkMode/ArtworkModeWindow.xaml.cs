@@ -143,7 +143,7 @@ namespace LADSArtworkMode
             // event handlers for tour testing buttons
 
             // event handlers for tour playback/authoring
-
+            tourExploreButton.Click += tourSystem.TourExploreButton_Click;
             tourControlButton.Click += tourSystem.TourControlButton_Click;
             tourStopButton.Click += tourSystem.TourStopButton_Click;
             tourAuthoringDoneButton.Click += tourSystem.TourAuthoringDoneButton_Click;
