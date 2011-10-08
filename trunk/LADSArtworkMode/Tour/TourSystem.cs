@@ -514,6 +514,26 @@ namespace LADSArtworkMode
             }
         }
 
+        public void TourExploreButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!tourStoryboard.GetIsPaused(artModeWin))
+            {
+                tourStoryboard.Pause(artModeWin);
+                paused = true;
+            }
+            else
+            {
+                try
+                {
+                    tourAuthoringUI.refreshUI();
+                }
+                catch (Exception exc)
+                { }
+                tourStoryboard.Resume(artModeWin);
+                paused = false;
+            }
+        }
+
         public void TourStopButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -559,6 +579,8 @@ namespace LADSArtworkMode
                 artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
+                artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
+
                 artModeWin.tourStopButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
                 artModeWin.m_hotspotCollection.reAddHotspotIcons();
@@ -619,6 +641,7 @@ namespace LADSArtworkMode
                 artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
+                artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
                 artModeWin.metaData.Visibility = Visibility.Collapsed;
                 artModeWin.m_hotspotCollection.reAddHotspotIcons();
@@ -1214,6 +1237,7 @@ namespace LADSArtworkMode
                 artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
+                artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourStopButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
                 tourPlaybackOn = false;
@@ -1587,6 +1611,7 @@ namespace LADSArtworkMode
                 artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
                 artModeWin.tourControlButton.Visibility = Visibility.Visible;
+                artModeWin.tourExploreButton.Visibility = Visibility.Visible;
                 artModeWin.tourStopButton.Visibility = Visibility.Visible;
                 artModeWin.tourSeekBar.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;

@@ -85,6 +85,7 @@
                 
                 <Canvas Name="tourSeekBar" Width="1536" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Hidden">
                     <!-- tour seek bar -->
+                    <s:SurfaceButton Name="tourExploreButton" Content="Explore" Height="30" Width="90" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-300" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
                     <s:SurfaceButton Name="tourControlButton" Content="Play/Pause" Height="30" Width="110" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-200" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
                     <s:SurfaceButton Name="tourStopButton" Content="Stop" Height="30" Width="80" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-90" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
                     <Rectangle Name="tourSeekBarSlider" Width ="1404" Height="30" Canvas.Top="-30" Fill="Gray" Opacity="0.5"></Rectangle>
