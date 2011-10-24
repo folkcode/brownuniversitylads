@@ -14,12 +14,8 @@
     <Border BorderBrush="#214236" BorderThickness="4" CornerRadius="4">
         <Canvas Name="hotspotCanvas" Background="#618276" Opacity="0.95">
            
-       
-            <s:SurfaceScrollViewer Name="textBoxScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="272" Width="366" Canvas.Top="35" Canvas.Left="12" Background="#ccd6c1" BorderThickness="2">
-                <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="366" TextWrapping="Wrap" IsReadOnly="True" />
-                   
-            </s:SurfaceScrollViewer>
-                <Image Name="HotspotImage" Height="272" Width="380"/>
+            <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="387" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Canvas.Top="35" Canvas.Left="12" BorderThickness="2"/>
+            <Image Name="HotspotImage" Height="272" Width="380"/>
             <Canvas Name="videoCanvas" Background="Transparent">
                 <UserControl Name="video"></UserControl>
             </Canvas>

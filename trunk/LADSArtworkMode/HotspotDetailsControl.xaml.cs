@@ -286,13 +286,14 @@ namespace LADSArtworkMode
                 this.Width = hotspotCanvas.Width;
                 this.Height = hotspotCanvas.Height;
                 HotspotTextBox.Visibility = Visibility.Hidden;
-                textBoxScroll.Visibility = Visibility.Hidden;
+                //textBoxScroll.Visibility = Visibility.Hidden;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Hidden;
             }
             else if (m_hotspotData.Type.ToLower().Contains("text"))
             {
                 HotspotTextBox.Text = m_hotspotData.Description;
+                //textBoxScroll.Visibility = Visibility.Visible;
                 HotspotImage.Visibility = Visibility.Hidden;
                 HotspotImage.IsEnabled = false;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
@@ -307,7 +308,7 @@ namespace LADSArtworkMode
                 hotspotCanvas.Width = Width - 8;
                 hotspotCanvas.Height = Height - 8;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
-                textBoxScroll.Visibility = Visibility.Collapsed;
+                //textBoxScroll.Visibility = Visibility.Collapsed;
 
                 //creates new audio
                 myMediaElement = new MediaElement();
@@ -322,7 +323,7 @@ namespace LADSArtworkMode
 
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 videoCanvas.Visibility = Visibility.Collapsed;
-                textBoxScroll.Visibility = Visibility.Collapsed;
+                //textBoxScroll.Visibility = Visibility.Collapsed;
 
               
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
@@ -376,7 +377,7 @@ namespace LADSArtworkMode
                 videoElement.Pause();
                 VideoStackPanel.Children.Add(videoElement);
                 HotspotTextBox.Visibility = Visibility.Collapsed;
-                textBoxScroll.Visibility = Visibility.Collapsed;
+                //textBoxScroll.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Collapsed;
                 hasVideo = true;
 
