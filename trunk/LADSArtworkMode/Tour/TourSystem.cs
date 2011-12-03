@@ -1590,9 +1590,11 @@ namespace LADSArtworkMode
 
             if (!tourPlaybackOn)
             {
+
                 string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
                 this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
                 this.LoadTourPlaybackFromDict();
+
                 artModeWin.msi.Visibility = Visibility.Hidden;
                 artModeWin.msi_thumb.Visibility = Visibility.Hidden;
 
