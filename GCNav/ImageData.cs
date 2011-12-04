@@ -81,6 +81,12 @@ namespace GCNav
             this.Width = height / this.Source.Height * this.Source.Width;
         }
 
+        public void setSizebyWidth(int width)
+        {
+            this.Width = width;
+            this.Height = width / this.Source.Width * this.Source.Height;
+        }
+
         public void setSizeByPercent(double zoomPercent)
         {
             this.Height = this.Height * zoomPercent;

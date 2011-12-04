@@ -13,6 +13,7 @@ namespace GCNav
         private int bordThickness = 4;
         public int size_padding_constant { get { return 2 * (bordMargin + bordPadding + bordThickness); } }
         public int minYear = int.MaxValue;
+        public int maxYear = int.MinValue;
         private int _numRows;
         private int curRow = 0;
         private List<ImageData> images;
@@ -34,12 +35,12 @@ namespace GCNav
 
             }
             images = new List<ImageData>();
-
+            // this.Background = new SolidColorBrush(Colors.Red);  // For debugging.
         }
 
-        //used to determine width for collisions while populating timeline
-        //returns the longest row width.  nevermind the name.
-        public double topRowWidth()
+        // Used to determine width for collisions while populating timeline.
+        // Returns the longest row width.
+        public double longestRowWidth()
         {
             double maxW = 0;
             for (int i = 0; i < _numRows; i++)
@@ -67,6 +68,7 @@ namespace GCNav
         public void addImage(ImageData img)
         {
             minYear = Math.Min(img.year, minYear);
+            maxYear = Math.Max(img.year, maxYear);
             images.Add(img);
             //create border thing, add image
             Border bord = new Border();
