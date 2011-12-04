@@ -400,9 +400,9 @@ namespace GCNav
             }
             _displayedCollection = images;
 
-            arrangeImages(_starty, _endy, MainCanvas.Height);
+            double timeline_width = arrangeImages(_starty, _endy, MainCanvas.Height);
             mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
-            timeline.update(_starty, _endy, MainCanvas.Width);
+            timeline.update(_starty, _endy, timeline_width);
             filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             this.loadEvents();
@@ -423,96 +423,140 @@ namespace GCNav
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="containerHeight"></param>
-        private void arrangeImages(int start, int end, double containerHeight)
+        private double arrangeImages(int start, int end, double containerHeight)
         {
+            double timeline_length = 0;
+
             MainCanvas.Children.RemoveRange(0, MainCanvas.Children.Count);
 
             int rowHeight = (int)containerHeight / ROWS;
-            int pad = 25;
+            int pad = 25;  // The padding between rows.
             int imgHeight = (int)(containerHeight - (pad * (ROWS + 1))) / ROWS;
 
-            //sort by year
+            // Sort all the images by year.
             _displayedCollection.Sort((i1, i2) => i1.year.CompareTo(i2.year));
 
             if (_displayedCollection.Count >= 1)
             {
+                // Give each image the same height to fit in a row.
                 foreach (ImageData img in _displayedCollection)
                     img.setSize(imgHeight);
 
-                double aveWidth = _displayedCollection.Average(x => x.Width);//average width of the images
-                //pixels we should assign to one year tick mark
-                double unitLength = (double)_displayedCollection.Count / (double)ROWS * (double)aveWidth / (double)(end - start);
+                double aveWidth = _displayedCollection.Average(x => x.Width);  // The average width of the images.
+
+                // The number of pixels taken up by one year in the timeline:  Images per row * average width / time interval.
+                double unitLength = (double)_displayedCollection.Count / (double)ROWS * aveWidth / (double)(end - start);
                 if (end - start == 0)
                 {
-                    //treat the year interval as 1 instead of 0
+                    //  If time range is 0,  treat it as 1 instead.
                     unitLength = _displayedCollection.Count / (double)ROWS * aveWidth / 1;
                 }
-                //the space one image should take in terms of year count
-                double interval = Math.Ceiling(aveWidth / unitLength);
 
-                //divide the overall space into small parts based on the year and keep track of the availability of the spaces
-                Dictionary<int, ImageCluster> space = new Dictionary<int, ImageCluster>();
-                ImageCluster prevCluster = null;
-                double rightPos = 1;
+                double new_unit_length = this.arrangeHelper(start, end, aveWidth, unitLength);
+
+                MainCanvas.Children.Clear();
                 foreach (ImageData img in _displayedCollection)
                 {
-                    int index = (int)((img.year - start) / interval);
-                    ImageCluster cluster = null;
-                    if (!space.ContainsKey(index))
-                    {
-                        Boolean collide = false;
-                        //check if new cluster would collide with prevcluster
-                        if (prevCluster != null)
-                        {
-                            if (index * aveWidth * 2 <= Canvas.GetLeft(prevCluster) + prevCluster.topRowWidth())
-                            {
-                                collide = true;
-                                cluster = prevCluster;
-                            }
-                        }
-
-                        //add new cluster
-                        if (!collide)
-                        {
-                            cluster = new ImageCluster(ROWS);
-                            space.Add(index, cluster);
-                            MainCanvas.Children.Add(cluster);
-                            Canvas.SetLeft(cluster, index * aveWidth * 2);//evil "*2"...
-                        }
-                    }
-                    else
-                    {
-                        cluster = space[index];
-                    }
-                    cluster.addImage(img);
-                    prevCluster = cluster;
-                    //keep track of rightmost point to appropriately scale maincanvas
-                    rightPos = Canvas.GetLeft(cluster) + cluster.topRowWidth();
+                    (img.Parent as Canvas).Children.Clear();
                 }
 
-                Dictionary<int, ImageCluster> clusterdict = new Dictionary<int, ImageCluster>();
-                foreach (ImageCluster c in space.Values)
+                this.arrangeHelper(start, end, aveWidth, new_unit_length);
+
+                ImageCluster lastCluster = null;
+                foreach (ImageCluster ic in MainCanvas.Children)
                 {
-                    clusterdict.Add(c.minYear, c);
+                    if (lastCluster == null ||
+                        lastCluster.maxYear < ic.maxYear)
+                    {
+                        lastCluster = ic;
+                    }
                 }
-                List<int> keys = new List<int>();
-                keys.InsertRange(0, clusterdict.Keys);
-                keys.Sort();
-                MainCanvas.Width = rightPos;
-                mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
-            }
 
+                timeline_length = MainCanvas.Width - lastCluster.longestRowWidth() + 18;
+            }
             //empty collection
             else
             {
                 MainCanvas.Width = _windowSize.Width;
+                timeline_length = MainCanvas.Width;
             }
             exitButton.Visibility = Visibility.Visible;
             InstructionBox.Visibility = Visibility.Visible;
             InstructionBox.Width = (_windowSize.Width / 4);
             InstructionBorder.Width = (_windowSize.Width / 4) - 5;
             infoBox.Width = (_windowSize.Width / 4) - 5;
+
+            return timeline_length;
         }
+
+        // Does one pass of arranging the images into clusters.  Returns the longest cluster.
+        private double arrangeHelper(int start, int end, double aveWidth, double unitLength)
+        {
+            // The space one image should take in terms of year count.
+            double interval_width = Math.Ceiling(aveWidth / unitLength);
+
+            // Dividee the overall space into small parts based on the year and keep track of the availability of the spaces.
+            Dictionary<int, ImageCluster> space = new Dictionary<int, ImageCluster>();
+            ImageCluster prevCluster = null;
+            double rightPos = 1;
+            foreach (ImageData img in _displayedCollection)
+            {
+                // The index of the chunk of timeline space that contains the year of this image.
+                int index = (int)((img.year - start) / interval_width);
+                ImageCluster cluster = null;
+                if (!space.ContainsKey(index))
+                {
+                    Boolean collide = false;
+                    // Check if the new cluster would collide with the previous cluster. If so, add to the previous cluster instead.
+                    if (prevCluster != null)
+                    {
+                        if (index * aveWidth <= Canvas.GetLeft(prevCluster) + prevCluster.longestRowWidth())
+                        {
+                            collide = true;
+                            cluster = prevCluster;
+                        }
+                    }
+
+                    // Add a new cluster.
+                    if (!collide)
+                    {
+                        cluster = new ImageCluster(ROWS);
+                        space.Add(index, cluster);
+                        MainCanvas.Children.Add(cluster);
+                        Canvas.SetLeft(cluster, index * aveWidth);
+                    }
+                }
+                else
+                {
+                    cluster = space[index];
+                }
+                cluster.addImage(img);
+                prevCluster = cluster;
+
+                // Center the cluster by shifting it left by half the width.
+                //Canvas.SetLeft(cluster, Canvas.GetLeft(cluster) - cluster.longestRowWidth() / 2.0);
+
+                //keep track of rightmost point to appropriately scale maincanvas
+                rightPos = Canvas.GetLeft(cluster) + cluster.longestRowWidth();
+            }
+
+            MainCanvas.Width = rightPos;
+            mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
+
+            ImageCluster longest_cluster = null;
+            // Shift each cluster to the left by half its width.//MICHAEL WILL REWRITE THIS
+            foreach (ImageCluster ic in space.Values)
+            {
+                //Canvas.SetLeft(ic, Canvas.GetLeft(ic) - ic.longestRowWidth() / 2.0);
+                if (longest_cluster == null ||
+                    longest_cluster.longestRowWidth() < ic.longestRowWidth())
+                {
+                    longest_cluster = ic;
+                }
+            }
+            return (double)longest_cluster.getSize() / (double)ROWS * aveWidth / (double)(longest_cluster.maxYear - longest_cluster.minYear); ;
+        }
+
 
         /// <summary>
         /// no longer in use
