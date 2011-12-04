@@ -35,7 +35,7 @@ namespace GCNav
 
             }
             images = new List<ImageData>();
-            this.Background = new SolidColorBrush(Colors.Red);  // For debugging.
+            //this.Background = new SolidColorBrush(Colors.Red);  // For debugging.
         }
 
         // Used to determine width for collisions while populating timeline.
