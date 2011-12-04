@@ -217,6 +217,7 @@ namespace GCNav
                 endY = endY + 1;
             }
             _pixelsPY = actualTimelineLength / (endY - startY);
+            Console.WriteLine("_pixelsPY: " + _pixelsPY);
             _startY = startY;
             _endY = endY;
             this.updateTickMarks();

@@ -51,6 +51,9 @@ namespace GCNav
 
         public List<DockedItemInfo> SavedDockedItems;
 
+        // The arrows that indicate that there is more timeline content offscreen.
+        Polygon _left_arrow, _right_arrow;
+
         public Navigator()
         {
             InitializeComponent();
@@ -451,8 +454,10 @@ namespace GCNav
                     //  If time range is 0,  treat it as 1 instead.
                     unitLength = _displayedCollection.Count / (double)ROWS * aveWidth / 1;
                 }
+                Console.WriteLine("unit_length: " + unitLength);
 
                 double new_unit_length = this.arrangeHelper(start, end, aveWidth, unitLength);
+                Console.WriteLine("new_unit_length: " + new_unit_length);
 
                 MainCanvas.Children.Clear();
                 foreach (ImageData img in _displayedCollection)
@@ -472,9 +477,8 @@ namespace GCNav
                     }
                 }
 
-                timeline_length = MainCanvas.Width - lastCluster.longestRowWidth() + 18;
+                timeline_length = MainCanvas.Width - lastCluster.longestRowWidth();
             }
-            //empty collection
             else
             {
                 MainCanvas.Width = _windowSize.Width;
@@ -543,11 +547,14 @@ namespace GCNav
             MainCanvas.Width = rightPos;
             mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
 
+            double marginX = (mainScatterViewItem.Width - MainCanvas.Width) / 2;
+            double marginY = (mainScatterViewItem.Height - MainCanvas.Height) / 2;
+            MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
+
             ImageCluster longest_cluster = null;
-            // Shift each cluster to the left by half its width.//MICHAEL WILL REWRITE THIS
+            // Find the longest cluster.
             foreach (ImageCluster ic in space.Values)
             {
-                //Canvas.SetLeft(ic, Canvas.GetLeft(ic) - ic.longestRowWidth() / 2.0);
                 if (longest_cluster == null ||
                     longest_cluster.longestRowWidth() < ic.longestRowWidth())
                 {
@@ -616,7 +623,7 @@ namespace GCNav
                     if (e.PreviousSize.Height != 0)
                     {
                         double zoomPercent = e.NewSize.Height / (e.PreviousSize.Height);
-                        double panPercent = (mainScatterViewItem.Center.X - _windowSize.Width / 2) / MainCanvas.ActualWidth;
+                        //double panPercent = (mainScatterViewItem.Center.X - _windowSize.Width / 2) / MainCanvas.ActualWidth;
 
                         MainCanvas.Width = MainCanvas.Width * zoomPercent;
                         MainCanvas.Height = MainCanvas.Height * zoomPercent;
@@ -637,6 +644,7 @@ namespace GCNav
                 mainScatterViewItem.SizeChanged -= mainScatterViewItem_SizeChanged;
                 mainScatterViewItem.Height = e.PreviousSize.Height;
                 mainScatterViewItem.Width = e.PreviousSize.Width;
+
                 mainScatterViewItem.SizeChanged += mainScatterViewItem_SizeChanged;
             }
         }
@@ -683,12 +691,26 @@ namespace GCNav
 
         private void mainScatterViewItem_CenterChanged(Object sender, EventArgs e)
         {
+            if (!this.collectionEmpty() && _left_arrow != null)
+            {
+                _left_arrow.Visibility = Visibility.Visible;
+                _right_arrow.Visibility = Visibility.Visible;
+            }
+
             //left
             if (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2 + MainCanvas.Width / 2 < _windowSize.Width * 1 / 2)
+            {
                 mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 - MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
+                if (_right_arrow != null)
+                    _right_arrow.Visibility = Visibility.Collapsed;
+            }
             //right
             if (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2 - MainCanvas.Width / 2 > _windowSize.Width * 1 / 2)
+            {
                 mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 + MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
+                if (_left_arrow != null)
+                    _left_arrow.Visibility = Visibility.Collapsed;
+            }
             //up
             if (mainScatterViewItem.Center.Y + MainCanvas.Height / 2 < (_windowSize.Height / 2) * 1 / 2)
                 mainScatterViewItem.Center = new Point(mainScatterViewItem.Center.X, (_windowSize.Height / 2) * 1 / 2 - MainCanvas.Height / 2);
@@ -707,6 +729,8 @@ namespace GCNav
         /// <param name="previous"></param>
         private void setDimension(Size previous)
         {
+            //MainGrid.Height = _windowSize.Height;
+            //MainGrid.Width = _windowSize.Width;
 
             mainScatterView.Width = _windowSize.Width * 1000;
             mainScatterView.Height = _windowSize.Height * 1000;
@@ -732,7 +756,7 @@ namespace GCNav
             MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
 
             mainScatterViewItem.MaxHeight = 11000;
-            mainScatterViewItem.MinWidth = _windowSize.Width;
+            //mainScatterViewItem.MinWidth = _windowSize.Width;
             mainScatterViewItem.MinHeight = _windowSize.Height / 2;
             mainScatterViewItem.Center = new Point(_windowSize.Width / 2 + _windowSize.Width * 999 / 2, _windowSize.Height / 4);
             //the scatterview item needs to be shifted to the right by _windowSize.Width * 999 / 2, so that we can see it on screen
@@ -752,6 +776,48 @@ namespace GCNav
 
             timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
             Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
+
+            // Make the triangles to indicate that there is more content on the timeline offscreen.
+            if (_left_arrow == null)
+            {
+                _left_arrow = new Polygon();
+                PointCollection l_arrow_points = new PointCollection();
+                l_arrow_points.Add(new Point(0.5, 0));
+                l_arrow_points.Add(new Point(0.5, 1));
+                l_arrow_points.Add(new Point(0.0, 0.5));
+                _left_arrow.Points = l_arrow_points;
+                _left_arrow.Fill = new SolidColorBrush(Color.FromArgb(200, 0, 0, 0)); ;
+                _left_arrow.Stretch = Stretch.Fill;
+                _left_arrow.Stroke = Brushes.Transparent;
+                _left_arrow.StrokeThickness = 5;
+                _left_arrow.Height = _windowSize.Height / 4.0;
+                _left_arrow.Width = _windowSize.Height / 16.0;
+
+                MainGrid.Children.Add(_left_arrow);
+                _left_arrow.Margin = new Thickness(0, _windowSize.Height * 5 / 8, 0, _windowSize.Height / 8);
+                _left_arrow.HorizontalAlignment = HorizontalAlignment.Left;
+
+                _right_arrow = new Polygon();
+                PointCollection r_arrow_points = new PointCollection();
+                r_arrow_points.Add(new Point(0, 0));
+                r_arrow_points.Add(new Point(0, 1));
+                r_arrow_points.Add(new Point(0.5, 0.5));
+                _right_arrow.Points = r_arrow_points;
+                _right_arrow.Fill = new SolidColorBrush(Color.FromArgb(200,0,0,0));
+                _right_arrow.Stretch = Stretch.Fill;
+                _right_arrow.Stroke = Brushes.Transparent;
+                _right_arrow.StrokeThickness = 5;
+                _right_arrow.Height = _windowSize.Height / 4.0;
+                _right_arrow.Width = _windowSize.Height / 16.0;
+
+                MainGrid.Children.Add(_right_arrow);
+                _right_arrow.Margin = new Thickness(0, _windowSize.Height * 5 / 8, 0, _windowSize.Height / 8);
+                _right_arrow.HorizontalAlignment = HorizontalAlignment.Right;
+
+                _left_arrow.Visibility = Visibility.Collapsed;
+                _right_arrow.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         /// <summary>
