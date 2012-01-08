@@ -1533,11 +1533,20 @@ namespace LADSArtworkMode
         public void loadTourButtons()
         {
             artModeWin.TourScroll.Items.Clear();
-            IEnumerable<string> tours = Directory.EnumerateFiles(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML");
-            foreach (string filepath in tours)
-            {
+            //IEnumerable<string> tours = Directory.EnumerateFiles(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML");
+            //foreach (string filepath in tours)
+            //{
+            string filepath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + artModeWin.currentArtworkFileName+".xml";
                 String name = "";
                 XmlDocument doc = new XmlDocument();
+            SurfaceButton button = new SurfaceButton();
+            artModeWin.TourScroll.Items.Add(button);
+            string filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
+
+            //button.Content = name;
+            button.Tag = filename;
+            if(File.Exists(filepath))
+            {
                 doc.Load(filepath);
                 if (doc.HasChildNodes)
                 {
@@ -1548,20 +1557,27 @@ namespace LADSArtworkMode
                             name = tourNode.Attributes.GetNamedItem("displayName").InnerText;
                         }
                     }
-                }
+                }//
 
-                string filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
-                SurfaceButton button = new SurfaceButton();
-                button.Content = name;
-                button.Tag = filename;
+              
+                
+           
+                button.Content = "Play Guided Tours";
                 button.PreviewMouseDown += TourButton_Click;
                 button.PreviewTouchDown += new EventHandler<TouchEventArgs>(TourButton_Click);
-                artModeWin.TourScroll.Items.Add(button);
+                
                 object o = button.Parent;
                 artModeWin.TourScroll.SelectionChanged += new SelectionChangedEventHandler(TourScroll_SelectionChanged);
+                
             }
-
+            else
+            {
+                button.Content = "No availabel tours";
+            }
         }
+            
+           
+
 
         void TourScroll_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
