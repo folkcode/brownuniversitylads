@@ -67,7 +67,8 @@ namespace LADSArtworkMode
 
 
         TourSystem tourSystem; // tour authoring & playback system
-
+        public bool IsTourOn { get { return tourSystem.IsExploreMode || tourSystem.tourPlaybackOn; } }
+        public bool IsExploreOn { get { return tourSystem.IsExploreMode; } }
 
         public bool isTourPlayingOrAuthoring()
         {
@@ -1317,6 +1318,50 @@ namespace LADSArtworkMode
 
         #endregion
 
+
+        private void sBResumeTour_Click(object sender, RoutedEventArgs e)
+        {
+            tourSystem.resumeExploringTour();
+        }
+
+        // Tour explore mode asset management for when an item is docked.
+        public void tourExploreManageDock(DockableItem item)
+        {
+            if (tourSystem.IsExploreMode)
+            {
+                tourSystem.exploreAssetsInDock.Add(item.scatteruri, item);
+                if (tourSystem.exploreAssetsOnCanvas.ContainsKey(item.scatteruri))
+                    tourSystem.exploreAssetsOnCanvas.Remove(item.scatteruri);
+                if (tourSystem.exploreDisposableAssets.ContainsKey(item.scatteruri))
+                    tourSystem.exploreDisposableAssets.Remove(item.scatteruri);
+            }
+        }
+
+        // Tour explore mode asset management for when an item is undocked.
+        public void tourExploreManageUndock(DockableItem item)
+        {
+            if (tourSystem.IsExploreMode)
+            {
+                tourSystem.exploreAssetsOnCanvas.Add(item.scatteruri, item);
+                if (tourSystem.exploreAssetsInDock.ContainsKey(item.scatteruri)) // it should...
+                    tourSystem.exploreAssetsInDock.Remove(item.scatteruri);
+            }
+        }
+
+        // Tour explore mode asset management for when an item is deleted.
+        public void tourExploreManageDelete(DockableItem item)
+        {
+            if (tourSystem.IsExploreMode)
+            {
+                if (tourSystem.exploreAssetsInDock.ContainsKey(item.scatteruri))
+                    tourSystem.exploreAssetsInDock.Remove(item.scatteruri);
+                if (tourSystem.exploreAssetsOnCanvas.ContainsKey(item.scatteruri))
+                    tourSystem.exploreAssetsOnCanvas.Remove(item.scatteruri);
+                if (tourSystem.exploreDisposableAssets.ContainsKey(item.scatteruri))
+                    tourSystem.exploreDisposableAssets.Remove(item.scatteruri);
+            }
+        }
+
         // Tour explore mode asset management for when an item should be added.
         // Takes the uri string for the potential item.
         // If it should be added, does asset management and returns a new DockableItem. It it shouldn't, just returns null.
@@ -1342,11 +1387,6 @@ namespace LADSArtworkMode
                 }
             }
             return null;
-        }
-
-        private void sBResumeTour_Click(object sender, RoutedEventArgs e)
-        {
-            tourSystem.resumeExploringTour();
         }
 
         private void tourAuthoring_Click(object sender, RoutedEventArgs e)
@@ -1786,6 +1826,18 @@ namespace LADSArtworkMode
         }
         public void WorkspaceElement_PreviewMouseDown(object sender, MouseEventArgs e)
         {
+
+            if (artmodewin.IsTourOn)
+            {
+                if (artmodewin.IsExploreOn)
+                {
+                    artmodewin.tourExploreManageUndock(item);
+                }
+                else
+                {
+                    return;
+                }
+            }
             item.touchDown = true;
             if (item.isDocked && item.Center.X > artmodewin.ActualWidth * .2 && !item.isAnimating && artmodewin.bottomPanelVisible)
             {
@@ -1806,6 +1858,17 @@ namespace LADSArtworkMode
 
         public void WorkspaceElement_PreviewTouchDown(object sender, TouchEventArgs e)
         {
+            if (artmodewin.IsTourOn)
+            {
+                if (artmodewin.IsExploreOn)
+                {
+                    artmodewin.tourExploreManageUndock(item);
+                }
+                else
+                {
+                    return;
+                }
+            }
             item.touchDown = true;
             if (item.isDocked && item.Center.X > artmodewin.ActualWidth * .2 && !item.isAnimating && artmodewin.bottomPanelVisible)
             {
@@ -1815,7 +1878,7 @@ namespace LADSArtworkMode
                 item.Center = new Point(e.TouchDevice.GetPosition(artmodewin).X, e.TouchDevice.GetPosition(artmodewin).Y);
 
                 trackedCenter = item.Center;
-                item.TouchMove +=new EventHandler<TouchEventArgs>(WorkspaceElement_TouchMove);
+                item.TouchMove += new EventHandler<TouchEventArgs>(WorkspaceElement_TouchMove);
 
                 this.releaseItem();
             }
@@ -1827,7 +1890,7 @@ namespace LADSArtworkMode
             this.Visibility = Visibility.Collapsed;
             artmodewin.DockedItems.Remove(this);
             item.isDocked = false;
-           
+
             this.IsHitTestVisible = true;
             item.MouseMove -= WorkspaceElement_MouseMove;
             item.Center = trackedCenter;
@@ -1856,6 +1919,7 @@ namespace LADSArtworkMode
         {
             item.Center = trackedCenter;
         }
+
     }
 
 

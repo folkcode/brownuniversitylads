@@ -857,10 +857,11 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Visible;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Visible;
+                //artModeWin.languageButton.Visibility = Visibility.Visible;
                 artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
-                artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
+                artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
                 artModeWin.metaData.Visibility = Visibility.Collapsed;
                 artModeWin.m_hotspotCollection.reAddHotspotIcons();
@@ -1819,19 +1820,15 @@ namespace LADSArtworkMode
         private void TourButton_Click(object sender, EventArgs e)
         {
 
-            //string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
-            //this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
-            //this.LoadTourPlaybackFromDict();
-
+            string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
+            //currentlyPlayingTour = filename;
+            this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
+            this.LoadTourPlaybackFromDict();
             if (!tourPlaybackOn)
             {
-
-                string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
-                this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
-                this.LoadTourPlaybackFromDict();
-
                 artModeWin.msi.Visibility = Visibility.Hidden;
                 artModeWin.msi_thumb.Visibility = Visibility.Hidden;
+                //artModeWin.sceneAudio.Stop();
 
                 artModeWin.msi_tour.DisableEventHandlers();
                 artModeWin.msi_tour.ResetArtwork();
@@ -1848,10 +1845,11 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
-                artModeWin.exitButton.Visibility = Visibility.Collapsed;
+                //artModeWin.languageButton.Visibility = Visibility.Visible;
+                artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
-                artModeWin.tourControlButton.Visibility = Visibility.Visible;
                 artModeWin.tourExploreButton.Visibility = Visibility.Visible;
+                artModeWin.tourControlButton.Visibility = Visibility.Visible;
                 artModeWin.tourStopButton.Visibility = Visibility.Visible;
                 artModeWin.tourSeekBar.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
@@ -1864,6 +1862,10 @@ namespace LADSArtworkMode
 
                 artModeWin.ImageArea.IsHitTestVisible = false;
                 artModeWin.MainScatterView.IsHitTestVisible = false;
+                //if (tourSwapDict[filename] == "English" || tourSwapDict[filename] == "Italian")
+                //{
+                //    artModeWin.tourInOneLang(tourSwapDict[filename]);
+                //}
             }
 
             if (!artModeWin.bottomPanelVisible)

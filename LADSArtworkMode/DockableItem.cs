@@ -389,13 +389,16 @@ namespace LADSArtworkMode
 
         public void AddtoDock(object sender, EventArgs e)
         {
-            
+
             touchDown = false;
             DockableItem item = sender as DockableItem;
             Helpers helpers = new Helpers();
 
             if (this.Center.Y > (win.ActualHeight * .8) && !isDocked && this.Center.X > win.ActualWidth * .2 && !this.isAnimating)
             {
+                // Explore mode asset management.
+                win.tourExploreManageDock(item);
+
 
                 this.isAnimating = true;
                 this.IsHitTestVisible = false;
