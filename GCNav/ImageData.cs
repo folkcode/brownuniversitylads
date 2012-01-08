@@ -24,7 +24,7 @@ namespace GCNav
         public String xmlpath { get; set; }
 
         /*seperate file for thumbnail, don't want to load the real high resolution image for thumbnail, just in case it eats up all the memory*/
-        public String thumbpath { get; set; }
+        public String fullpath { get; set; }
         /*use to pass the filename of the image to artwork mode. Ex: "gari0001.bmp", "gari0043.bmp"*/
         public String filename { get; set; }
 
