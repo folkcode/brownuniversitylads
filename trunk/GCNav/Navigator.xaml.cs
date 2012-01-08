@@ -141,12 +141,13 @@ namespace GCNav
                                 String title = node.Attributes.GetNamedItem("title").InnerText;
                                 int year = Convert.ToInt32(node.Attributes.GetNamedItem("year").InnerText);
 
-                                String fullPath = dataDir + "Images/" + "Thumbnail/" + path;
+                                String fullPath = dataDir + "Images/" + path;
+                                String thumbPath = dataDir + "Images/" + "Thumbnail/" + path;
                                 String xmlPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + dataDir + "Images/" + "DeepZoom/" + path + "/dz.xml";
 
-                                ImageData currentImage = new ImageData(fullPath);
+                                ImageData currentImage = new ImageData(thumbPath);
                                 currentImage.xmlpath = xmlPath;
-                                currentImage.thumbpath = fullPath;
+                                currentImage.fullpath = fullPath;
                                 currentImage.year = year;
                                 currentImage.artist = artist;
                                 currentImage.medium = medium;
@@ -982,17 +983,23 @@ namespace GCNav
 
             OnImageSelected(new Helpers.ImageSelectedEventArgs(img));
             curImageCanvas.Children.Clear();
-            Image _curImage = new Image();
-            _curImage.Source = img.Source;
-            curImageCanvas.Children.Add(_curImage);
+
+            Image curImage = new Image();
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(img.fullpath, UriKind.Relative);
+            bitmap.EndInit();
+            curImage.Source = bitmap;
+
+            curImageCanvas.Children.Add(curImage);
             curImageContainer.Height = _windowSize.Height / 3;
             curImageContainer.Width = _windowSize.Width / 4;
             curImageCanvas.Width = _windowSize.Width / 4 - 10;
             curImageCanvas.Height = _windowSize.Height / 3 - 10;
             curImageCanvas1.Width = _windowSize.Width / 4 - 10;
             curImageCanvas1.Height = _windowSize.Height / 3 - 10;
-            Double actualWidth = _curImage.Source.Width;
-            Double actualHeight = _curImage.Source.Height;
+            Double actualWidth = curImage.Source.Width;
+            Double actualHeight = curImage.Source.Height;
             Double ratio = actualWidth / actualHeight;
             Double canvasRatio = curImageCanvas.Width / curImageCanvas.Height;
             ScaleTransform tran = new ScaleTransform();
@@ -1008,13 +1015,13 @@ namespace GCNav
                 tran.ScaleX = scale;
                 tran.ScaleY = scale;
             }
-            _curImage.RenderTransform = tran;
+            curImage.RenderTransform = tran;
             curImageCanvas.UpdateLayout();
-            Canvas.SetTop(_curImage, (curImageCanvas.Height - _curImage.ActualHeight * tran.ScaleY) / 2);
-            Canvas.SetLeft(_curImage, (curImageCanvas.Width - _curImage.ActualWidth * tran.ScaleX) / 2);
+            Canvas.SetTop(curImage, (curImageCanvas.Height - curImage.ActualHeight * tran.ScaleY) / 2);
+            Canvas.SetLeft(curImage, (curImageCanvas.Width - curImage.ActualWidth * tran.ScaleX) / 2);
             currentImage = img;
-            _curImage.TouchDown += HandleImageTouched;
-            _curImage.MouseDown += HandleImageTouched;
+            curImage.TouchDown += HandleImageTouched;
+            curImage.MouseDown += HandleImageTouched;
 
             curInfoCol.Width = _windowSize.Width / 4;
             curInfoCol.Height = _windowSize.Height / 3;
