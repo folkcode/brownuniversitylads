@@ -315,6 +315,14 @@
                         Width="{Binding Width, ElementName=SectionBoxMaster}"
                         Background="#ee618276">
                     <Label Grid.Row="3" Content="Tours" FontFamily="Segoe360" FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" HorizontalAlignment="Left" Margin="2,1,0,0" Name="labelTours" VerticalAlignment="Top" Width="380" />
+                    <Label Grid.Row="3" Content="Currently Playing Tour" FontFamily="Segoe360" FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" HorizontalAlignment="Left" Margin="2,1,0,0" Name="labelResumeTour" Canvas.Top="90" Width="380" Visibility="Collapsed"/>
+                    <s:SurfaceButton Name="sBResumeTour1" Content="Resume"
+                                     FontSize="{Binding FontSize, ElementName=LeftPanelButtonMaster}"
+                                     Height="{Binding Height, ElementName=LeftPanelButtonMaster}"
+                                     MinHeight="{Binding Height, ElementName=LeftPanelButtonMaster}"
+                                     MaxHeight="{Binding Height, ElementName=LeftPanelButtonMaster}"
+                                     Padding="7 2 7 0" Canvas.Right="{Binding Width, ElementName=LeftPanelButtonMaster}"
+                                     Canvas.Top="140" Click="sBResumeTour_Click" MinWidth="0" Visibility="Collapsed"/>
 
                     <s:SurfaceListBox Name="TourScroll" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" 
                               Width="{Binding Width, ElementName=SectionListBoxMaster}" 
@@ -329,7 +337,7 @@
                         </ListBox.ItemsPanel>
                     </s:SurfaceListBox>
 
-
+                    
 
                     <!-- <s:SurfaceButton Content="PanMSI" Height="30" HorizontalAlignment="Left" Margin="10,40,0,0" Name="PanMSIButton" VerticalAlignment="Top" Width="115" Grid.Row="2" Click="PanMSIButton_Click" MinWidth="0" MinHeight="0" Padding="11,2,0,0" />
                     <s:SurfaceButton Content="ZoomMSIArt" Height="30" HorizontalAlignment="Left" Margin="130,40,0,0" Name="ZoomMSIArtButton" VerticalAlignment="Top" Width="115" Grid.Row="2" Click="ZoomMSIButton_Click" MinWidth="0" MinHeight="0" Padding="11,2,0,0" />

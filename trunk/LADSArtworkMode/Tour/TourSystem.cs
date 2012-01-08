@@ -64,6 +64,17 @@ namespace LADSArtworkMode
         private TourAuthoringUI tourAuthoringUI;
         private bool mouseIsDown;
 
+        public bool IsExploreMode { get { return _isExploreMode; } }
+        private bool _isExploreMode = false;
+
+        // Three Dictionaries used for managing assets in explore mode.
+        // exploreAssetsOnCanvas: All assets that should remain on the artwork mode canvas when exploring is finished.
+        // exploreAssetsInDock: All assets that should remain in the dock when exploring is finished.
+        // exploreDisposableAssets: Assets that were created only for explore mode and should be removed.
+        public Dictionary<String, DockableItem> exploreAssetsOnCanvas;
+        public Dictionary<String, DockableItem> exploreAssetsInDock;
+        public Dictionary<String, DockableItem> exploreDisposableAssets;
+
         public TourSystem(ArtworkModeWindow artworkModeWindowParam)
         {
             artModeWin = artworkModeWindowParam;
@@ -514,24 +525,231 @@ namespace LADSArtworkMode
             }
         }
 
+           // Enters 'Explore' mode which is essentially artwork mode with a 'resume tour' function
+        // and assets from the tour pre-set on the view.
         public void TourExploreButton_Click(object sender, RoutedEventArgs e)
         {
+
+            // First, pause the tour.
             if (!tourStoryboard.GetIsPaused(artModeWin))
             {
                 tourStoryboard.Pause(artModeWin);
+                //tourStoryboard.Stop(artModeWin);
                 paused = true;
             }
-            else
+
+            // Create the Dictionaries that we use for managing assets in explore mode.
+            this.initializeExploreAssets();
+
+
+            if (tourPlaybackOn)
             {
-                try
+                // Get the render transform of the main tour image.
+                Transform t = null;
+                foreach (MultiScaleImage msiItem in msiItemsLoaded)
                 {
-                    tourAuthoringUI.refreshUI();
+                    msiItem.Visibility = Visibility.Hidden; // hide artwork MSI used in tour (in retrospect, not sure if this is necessary anymore since I added a new MSI instance called msi_tour)                               
+                    t = msiItem.GetZoomableCanvas.RenderTransform;
                 }
-                catch (Exception exc)
-                { }
-                tourStoryboard.Resume(artModeWin);
-                paused = false;
+                // Kind of hacky: extract an offset from the image's render transform, and apply that offset to the main image.
+                // Also extract scale from the render transform as well (from matrix).
+                artModeWin.ArtModeLayout();
+                artModeWin.msi.GetZoomableCanvas.Scale = t.Value.M11;
+                Point p = new Point(-t.Value.OffsetX, -t.Value.OffsetY);
+                artModeWin.msi.GetZoomableCanvas.Offset = p;
+
+                // swap artwork navigator event handlers
+                DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
+                dpd.RemoveValueChanged(artModeWin.msi_tour.GetZoomableCanvas, msi_tour_ViewboxChanged);
+                dpd.AddValueChanged(artModeWin.msi.GetZoomableCanvas, artModeWin.msi_ViewboxChanged);
+                artModeWin.msi_tour_thumb.Visibility = Visibility.Hidden;
+
+                // Populate the dictionary of DockableItem positions so that they can be restored.
+                /*TourDockablePositions = new Dictionary<DockableItem, TourDockablePosition>();
+                foreach (DockableItem item in dockableItemsLoaded)
+                {
+                    TourDockablePosition pos = new TourDockablePosition();
+                    pos.height = item.Height;
+                    pos.width = item.Width;
+                    pos.center_point = item.Center;
+                    pos.orientation = item.Orientation;
+                    pos.opacity = item.Opacity;
+                    TourDockablePositions.Add(item, pos);
+                    // Also, change the item to be opaque:
+                    // TODO: This doesn't work, possibly because the Opacity animation hasn't finished,
+                    // so changing the FillBehavior on it isn't sufficient.  Fix!
+                    // item.Opacity = 1.0;
+                }*/
+
+                artModeWin.MSIScatterView.Visibility = Visibility.Hidden;
+
+                // swap tour control buttons with artwork inter-mode navigation ones
+                artModeWin.toggleLeftSide();
+                //artModeWin.languageButton.Visibility = Visibility.Visible;
+                artModeWin.exitButton.Visibility = Visibility.Visible;
+                artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
+                artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
+                artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
+                artModeWin.HotspotOverlay.Visibility = Visibility.Visible;              
+                artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
+                artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
+                artModeWin.tourStopButton.Visibility = Visibility.Collapsed;
+                artModeWin.hideMetaList();
+                artModeWin.m_hotspotCollection.reAddHotspotIcons();
+                artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
+
+                artModeWin.ImageArea.IsHitTestVisible = true;
+                artModeWin.MainScatterView.IsHitTestVisible = true;
+                tourPlaybackOn = false;
+                artModeWin.msi_tour.EnableEventHandlers();
+                // Don't kill the currently playing tour.
+                //currentlyPlayingTour = null;
+
+                // Turn off hit tests for the ink canvas so that you can't continue to draw on tour annotations when exploring.
+                foreach (SurfaceInkCanvas ic in inkCanvases)
+                {
+                    ic.IsHitTestVisible = false;
+                    ic.Visibility = Visibility.Hidden;
+                }
+
+                // Switch the tours panel with the tour resume panel.
+                artModeWin.labelTours.Visibility = Visibility.Collapsed;
+                artModeWin.labelResumeTour.Visibility = Visibility.Visible;
+                artModeWin.TourScroll.Visibility = Visibility.Collapsed;
+                artModeWin.sBResumeTour1.Visibility = Visibility.Visible;
+
+                _isExploreMode = true;
             }
+        }
+
+        // Create the Dictionaries that we use for managing assets in explore mode.
+        private void initializeExploreAssets()
+        {
+            this.exploreAssetsOnCanvas = new Dictionary<String, DockableItem>();
+            this.exploreAssetsInDock = new Dictionary<String, DockableItem>();
+            this.exploreDisposableAssets = new Dictionary<String, DockableItem>();
+            // Fill exploreAssetsInDock with the assets in the dock.
+            foreach (WorkspaceElement item in artModeWin.Bar.Items)
+            {
+                exploreAssetsInDock.Add(item.item.scatteruri, item.item);
+            }
+            // Fill exploreAssetsOnCanvas with the assets on the canvas.
+            foreach (DockableItem item in artModeWin.MainScatterView.Items)
+            {
+                if (!exploreAssetsInDock.ContainsKey(item.scatteruri))
+                    exploreAssetsOnCanvas.Add(item.scatteruri, item);
+            }
+            // For each asset to be explored:
+            foreach (DockableItem item in dockableItemsLoaded)
+            {
+                // If it isn't actually visible, skip.
+                if (item.Visibility != Visibility.Visible || item.Opacity == 0) continue;
+                // if in exploreAssetsOnCanvas, position to tour asset's position.
+                if (exploreAssetsOnCanvas.ContainsKey(item.scatteruri))
+                {
+                    alignAssets(exploreAssetsOnCanvas[item.scatteruri], item);
+                }
+                else if (exploreAssetsInDock.ContainsKey(item.scatteruri))
+                {
+                    // if in exploreAssetsInDock, undock and move to position.
+                    DockableItem asset = exploreAssetsInDock[item.scatteruri];
+                    alignAssets(asset.wke.quickReleaseItem(), item);
+                    // Also, remove from exploreAssetsInDock and put in exploreAssetsOnCanvas
+                    exploreAssetsOnCanvas.Add(asset.scatteruri, asset);
+                    exploreAssetsInDock.Remove(asset.scatteruri);
+                }
+                else
+                {// Otherwise, make a new one, add to disposable, and position it.
+                    Helpers _helpers = new Helpers();  // Are you freaking kidding me, why isn't everything in this class just static?
+                    // Make the DockableItem the normal way:
+                    if (_helpers.IsImageFile(item.scatteruri))
+                    {
+                        DockableItem asset = new DockableItem(artModeWin.getMainScatterView(), artModeWin, artModeWin.getBar(), item.scatteruri);
+                        artModeWin._openedAssets.Add(item.scatteruri, asset);
+                        alignAssets(asset, item);
+                        exploreDisposableAssets.Add(asset.scatteruri, asset);
+                    }
+                    else if (_helpers.IsVideoFile(item.scatteruri))
+                    {
+                        // TODO: Video assets?
+                        /*artModeWin._openedAssets.Add(item.scatteruri, new DockableItem(artModeWin.getMainScatterView(), artModeWin, artModeWin.getBar(), item.scatteruri, this, new LADSVideoBubble(item.scatteruri, 500, 500), new VideoItem()));*/
+                        //video-specific constructor
+                    }
+                }
+
+            }
+        }
+
+        // Remove the assets that were only needed for exploring.
+        private void teardownExploreAssets()
+        {
+            foreach (DockableItem item in exploreDisposableAssets.Values)
+            {
+                artModeWin._openedAssets.Remove(item.scatteruri);
+                artModeWin.getMainScatterView().Items.Remove(item);
+            }
+            exploreDisposableAssets.Clear();
+            exploreAssetsInDock = null;
+            exploreAssetsOnCanvas = null;
+            exploreDisposableAssets = null;
+        }
+
+        // Resume the currently playing tour.
+        // Called when the 'Resume' button  is clicked from inside explore mode.
+        public void resumeExploringTour()
+        {
+            foreach (MultiScaleImage msiItem in msiItemsLoaded)
+            {
+                msiItem.Visibility = Visibility.Visible;
+            }
+            // Swap event handlers (reverse of what is done when the tour was paused).
+            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
+            dpd.RemoveValueChanged(artModeWin.msi.GetZoomableCanvas, artModeWin.msi_ViewboxChanged);
+            dpd.AddValueChanged(artModeWin.msi_tour.GetZoomableCanvas, msi_tour_ViewboxChanged);
+            artModeWin.msi_tour_thumb.Visibility = Visibility.Visible;
+
+            // Switch in the normal tours panel again.
+            //artModeWin.ResumeTour.Visibility = Visibility.Collapsed;
+            //artModeWin.Tours.Visibility = Visibility.Visible;
+            artModeWin.labelTours.Visibility = Visibility.Visible;
+            artModeWin.labelResumeTour.Visibility = Visibility.Collapsed;
+            artModeWin.TourScroll.Visibility = Visibility.Visible;
+            artModeWin.sBResumeTour1.Visibility = Visibility.Collapsed;
+
+            artModeWin.TourLayout();
+            artModeWin.toggleLeftSide();
+
+            // Resume playback and normal tour controls.
+            tourStoryboard.Resume(artModeWin);
+            tourPlaybackOn = true;
+            paused = false;
+            artModeWin.tourExploreButton.Visibility = Visibility.Visible;
+            artModeWin.tourControlButton.Visibility = Visibility.Visible;
+            artModeWin.tourStopButton.Visibility = Visibility.Visible;
+
+            //artModeWin.languageButton.Visibility = Visibility.Visible;
+            artModeWin.exitButton.Visibility = Visibility.Visible;
+            artModeWin.HotspotOverlay.Visibility = Visibility.Hidden;
+            //???artModeWin.showMetaList();
+            artModeWin.m_hotspotCollection.removeHotspotIcons();
+            artModeWin.HotspotOverlay.Visibility = Visibility.Hidden;
+
+            // Disable hit tests so that you can no longer interact with tour media.
+            artModeWin.ImageArea.IsHitTestVisible = false;
+            artModeWin.MainScatterView.IsHitTestVisible = false;
+            //???artModeWin.msi_tour.EnableEventHandlers();
+
+            // Reenable hit tests on the ink canvas so that events can propogate properly.
+            foreach (SurfaceInkCanvas ic in inkCanvases)
+            {
+                ic.IsHitTestVisible = true;
+                ic.Visibility = Visibility.Visible;
+            }
+
+            teardownExploreAssets();
+            artModeWin.MSIScatterView.Visibility = Visibility.Visible;
+
+            _isExploreMode = false;
         }
 
         public void TourStopButton_Click(object sender, RoutedEventArgs e)
@@ -2345,6 +2563,16 @@ namespace LADSArtworkMode
                     }
                 }
             }
+        }
+
+        // Given two (presumably identical) assets, scale, rotate, and translate one (first) so that it is
+        // in the same position as the other (second).
+        private void alignAssets(DockableItem to_position, DockableItem in_position)
+        {
+            to_position.Height = in_position.Height;
+            to_position.Width = in_position.Width;
+            to_position.Center = in_position.Center;
+            to_position.Orientation = in_position.Orientation;
         }
 
         public void SaveDictToXML(String xmlFileName)

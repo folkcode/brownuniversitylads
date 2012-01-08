@@ -62,6 +62,10 @@ namespace LADSArtworkMode
         
         public List<DockedItemInfo> SavedDockedItems = new List<DockedItemInfo>();
 
+        // A hash map of filename -> opened assets (replaces the deprecated AssociatedDocListBoxItem.opened field)
+        public Dictionary<String, DockableItem> _openedAssets = new Dictionary<string, DockableItem>();
+
+
         TourSystem tourSystem; // tour authoring & playback system
 
 
@@ -153,6 +157,8 @@ namespace LADSArtworkMode
             tourAuthoringSaveButton.Click += TourAuthoringSaveButton_Click;
             addAudioButton.Click += tourSystem.grabSound;
             addAudioButton.Visibility = Visibility.Collapsed;
+
+           
         }
 
 
@@ -1300,6 +1306,38 @@ namespace LADSArtworkMode
 
         #endregion
 
+        // Tour explore mode asset management for when an item should be added.
+        // Takes the uri string for the potential item.
+        // If it should be added, does asset management and returns a new DockableItem. It it shouldn't, just returns null.
+        // Note that this method actually creates a new DockableItem, which is otherwise only done in AssociatedDocListBoxItem.onTouch.
+        public DockableItem tourExploreManageAdd(String scatteruri, AssociatedDocListBoxItem adlbi)
+        {
+            Helpers _helpers = new Helpers();  // Stupid.
+            if (tourSystem.IsExploreMode)
+            {
+                if (!tourSystem.exploreAssetsOnCanvas.ContainsKey(scatteruri) &&
+                    !tourSystem.exploreAssetsInDock.ContainsKey(scatteruri) &&
+                    !tourSystem.exploreDisposableAssets.ContainsKey(scatteruri))
+                {
+                    // Make the Dockable item (currently only images supported)
+                    if (_helpers.IsImageFile(scatteruri))
+                    {
+                        DockableItem asset = new DockableItem(getMainScatterView(), this, getBar(), scatteruri, adlbi);
+                        _openedAssets.Add(scatteruri, asset);
+                        tourSystem.exploreAssetsOnCanvas.Add(scatteruri, asset);
+                        return asset;
+                    }
+
+                }
+            }
+            return null;
+        }
+
+        private void sBResumeTour_Click(object sender, RoutedEventArgs e)
+        {
+            tourSystem.resumeExploringTour();
+        }
+
         private void tourAuthoring_Click(object sender, RoutedEventArgs e)
         {
             String filePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
@@ -1675,7 +1713,50 @@ namespace LADSArtworkMode
 
         }
 
+        // Same as releaseItem(), but without the animation, and returns the released item.
+        // It makes sense to use this if you are undocking items to be further manipulated programmatically.
+        public DockableItem quickReleaseItem()
+        {
+            item.Opacity = 1.0;
+            item.CanRotate = true;
+            item.isDocked = false;
+            item.CanMove = true;
+            item.Visibility = Visibility.Visible;
+            item.Height = item.oldHeight;
+            item.Width = item.oldWidth;
+            Helpers helper = new Helpers();
+            this.Opacity = 0;
 
+            // Should we keep the dock width animation?
+            // Will this break when multiple things are undocked simultaneously?
+            DoubleAnimation dockwidthAnim = new DoubleAnimation();
+            //dockwidthAnim.Completed += anim2Completed;
+            dockwidthAnim.From = item.barImageWidth;
+            dockwidthAnim.To = 0;
+            dockwidthAnim.Duration = new Duration(TimeSpan.FromSeconds(.3));
+            dockwidthAnim.FillBehavior = FillBehavior.Stop;
+            this.BeginAnimation(WidthProperty, dockwidthAnim);
+
+            item.isDocked = false;
+            artmodewin.DockedDockableItems.Remove(item);
+            artmodewin.SavedDockedItems.Remove(info);
+            artmodewin.BarOffset -= this.ActualWidth;
+            int dex = artmodewin.DockedItems.IndexOf(this);
+            for (int i = dex + 1; i < artmodewin.DockedItems.Count; i++)
+            {
+                WorkspaceElement w = artmodewin.DockedItems[i] as WorkspaceElement;
+                w.item.Center = new Point(w.item.Center.X - this.ActualWidth, w.item.Center.Y);
+            }
+            artmodewin.Bar.Items.Remove(this);
+            artmodewin.DockedItems.Remove(this);
+
+            // From anim2Completed.
+            this.Visibility = Visibility.Collapsed;
+            this.IsHitTestVisible = true;
+            item.MouseMove -= WorkspaceElement_MouseMove;
+
+            return item;
+        }
         public void WorkspaceElement_PreviewMouseDown(object sender, MouseEventArgs e)
         {
             item.touchDown = true;
