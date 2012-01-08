@@ -34,7 +34,7 @@ namespace LADSArtworkMode
         public double oldHeight;
         public double oldWidth;
         public Image image;
-        WorkspaceElement wke;
+        public WorkspaceElement wke;
         int wke_index;
         Image dockImage;
         private Point rootPoint;
