@@ -100,7 +100,18 @@ namespace GCNav
 
         public void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            string message = "Are you sure you want to quit LADS?";
+            string caption = "Quit LADS";
+            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.YesNo;
+            System.Windows.Forms.DialogResult result;
+
+            result = System.Windows.Forms.MessageBox.Show(message, caption, buttons);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+
+                Application.Current.Shutdown();
+            }
         }
 
         public void setTimelineMouseUpFalse()

@@ -617,7 +617,8 @@ namespace LADSArtworkMode
                 artModeWin.labelResumeTour.Visibility = Visibility.Visible;
                 artModeWin.TourScroll.Visibility = Visibility.Collapsed;
                 artModeWin.sBResumeTour1.Visibility = Visibility.Visible;
-
+                Canvas.SetTop(artModeWin.labelResumeTour, Canvas.GetTop(artModeWin.Tours));
+                Canvas.SetTop(artModeWin.sBResumeTour1, Canvas.GetTop(artModeWin.TourScroll));
                 _isExploreMode = true;
             }
         }
@@ -883,10 +884,9 @@ namespace LADSArtworkMode
             }
         }
 
-        public void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
+    
+
+        
 
         public void TourAuthoringDeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1750,7 +1750,7 @@ namespace LADSArtworkMode
 
         public void loadTourButtons()
         {
-            artModeWin.TourScroll.Items.Clear();
+            artModeWin.TourScroll.Children.Clear();
             //IEnumerable<string> tours = Directory.EnumerateFiles(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML");
             //foreach (string filepath in tours)
             //{
@@ -1758,7 +1758,8 @@ namespace LADSArtworkMode
                 String name = "";
                 XmlDocument doc = new XmlDocument();
             SurfaceButton button = new SurfaceButton();
-            artModeWin.TourScroll.Items.Add(button);
+            button.Width = artModeWin.Tours.Width;
+            artModeWin.TourScroll.Children.Add(button);
             string filename = System.IO.Path.GetFileNameWithoutExtension(filepath);
 
             //button.Content = name;
@@ -1780,12 +1781,12 @@ namespace LADSArtworkMode
               
                 
            
-                button.Content = "Play Guided Tours";
+                button.Content = "Play Guided Tour";
                 button.PreviewMouseDown += TourButton_Click;
                 button.PreviewTouchDown += new EventHandler<TouchEventArgs>(TourButton_Click);
                 
                 object o = button.Parent;
-                artModeWin.TourScroll.SelectionChanged += new SelectionChangedEventHandler(TourScroll_SelectionChanged);
+                //artModeWin.TourScroll.SelectionChanged += new SelectionChangedEventHandler(TourScroll_SelectionChanged);
                 
             }
             else
@@ -1799,7 +1800,7 @@ namespace LADSArtworkMode
 
         void TourScroll_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            artModeWin.TourScroll.UnselectAll();
+           // artModeWin.TourScroll.UnselectAll();
         }
         private void artareasizechanged(object sender, EventArgs e)
         {
