@@ -405,7 +405,8 @@ namespace GCNav
 
             double timeline_width = arrangeImages(_starty, _endy, MainCanvas.Height);
             mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
-            timeline.update(_starty, _endy, timeline_width);
+            //timeline.update(_starty, _endy, timeline_width); //MICHAEL PRICE!!! WE NEED TO TALK! -- yudi
+            timeline.update(_starty, _endy, MainCanvas.Width); 
             filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             this.loadEvents();
@@ -490,7 +491,7 @@ namespace GCNav
             InstructionBorder.Width = (_windowSize.Width / 4) - 5;
             infoBox.Width = (_windowSize.Width / 4) - 5;
 
-            return timeline_length;
+            return (timeline_length == 0) ? 1 : timeline_length ;
         }
 
         // Does one pass of arranging the images into clusters.  Returns the longest cluster.
@@ -561,7 +562,10 @@ namespace GCNav
                     longest_cluster = ic;
                 }
             }
-            return (double)longest_cluster.getSize() / (double)ROWS * aveWidth / (double)(longest_cluster.maxYear - longest_cluster.minYear); ;
+
+            int diff = longest_cluster.maxYear - longest_cluster.minYear;
+            diff = (diff == 0) ? 1 : diff;
+            return (double)longest_cluster.getSize() / ((double)ROWS) * aveWidth / ((double) diff);
         }
 
 
