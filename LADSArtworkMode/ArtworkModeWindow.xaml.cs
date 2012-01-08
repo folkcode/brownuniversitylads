@@ -1069,7 +1069,18 @@ namespace LADSArtworkMode
 
         public void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            string message = "Are you sure you want to quit LADS?";
+            string caption = "Quit LADS";
+            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.YesNo;
+            System.Windows.Forms.DialogResult result;
+
+            result = System.Windows.Forms.MessageBox.Show(message, caption, buttons);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+
+                Application.Current.Shutdown();
+            }
         }
 
         public void goBack()
@@ -1711,6 +1722,22 @@ namespace LADSArtworkMode
                     w.item.Center = new Point(w.item.Center.X - this.ActualWidth, w.item.Center.Y);
                 }
 
+        }
+        public void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            string message = "Are you sure you want to quit LADS?";
+            string caption = "Quit LADS";
+            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.YesNo;
+            System.Windows.Forms.DialogResult result;
+
+            result = System.Windows.Forms.MessageBox.Show(message, caption, buttons);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+
+                Application.Current.Shutdown();
+            }
         }
 
         // Same as releaseItem(), but without the animation, and returns the released item.

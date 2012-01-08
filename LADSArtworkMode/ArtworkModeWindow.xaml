@@ -324,7 +324,7 @@
                                      Padding="7 2 7 0" Canvas.Right="{Binding Width, ElementName=LeftPanelButtonMaster}"
                                      Canvas.Top="140" Click="sBResumeTour_Click" MinWidth="0" Visibility="Collapsed"/>
 
-                    <s:SurfaceListBox Name="TourScroll" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" 
+                    <!--<s:SurfaceListBox Name="TourScroll" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Visibility="Hidden" 
                               Width="{Binding Width, ElementName=SectionListBoxMaster}" 
                                
                               ScrollViewer.ScrollChanged="BottomBarScroll"
@@ -335,8 +335,14 @@
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
-                    </s:SurfaceListBox>
+                    </s:SurfaceListBox>-->
+                    <Canvas Name="TourScroll" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"
+                        Width="{Binding Width, ElementName=SectionBoxMaster}" >
 
+                        <s:SurfaceButton Name="button" Width="{Binding Width, ElementName=SectionBoxMaster}"/>
+                    </Canvas>
+                      
+                        
                     
 
                     <!-- <s:SurfaceButton Content="PanMSI" Height="30" HorizontalAlignment="Left" Margin="10,40,0,0" Name="PanMSIButton" VerticalAlignment="Top" Width="115" Grid.Row="2" Click="PanMSIButton_Click" MinWidth="0" MinHeight="0" Padding="11,2,0,0" />

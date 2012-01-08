@@ -515,7 +515,7 @@ namespace LADSArtworkMode
                 saveButton.Visibility = Visibility.Collapsed;
                 saveButton.PreviewMouseUp -= artModeWin.TourAuthoringSaveButton_Click;
                 tourQuitButton.Visibility = Visibility.Collapsed;
-                tourQuitButton.PreviewMouseUp -= tourSystem.ExitButton_Click;
+                tourQuitButton.PreviewMouseUp -= artModeWin.ExitButton_Click;
                 deleteButton.Visibility = Visibility.Collapsed;
                 deleteButton.PreviewMouseUp -= tourSystem.TourAuthoringDeleteButton_Click;
                 (undoButton.Parent as Panel).Children.Remove(undoButton);
