@@ -85,9 +85,19 @@
                 
                 <Canvas Name="tourSeekBar" Width="1536" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Hidden">
                     <!-- tour seek bar -->
-                    <s:SurfaceButton Name="tourExploreButton" Content="Explore" Height="30" Width="90" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-300" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
-                    <s:SurfaceButton Name="tourControlButton" Content="Play/Pause" Height="30" Width="110" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-200" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
-                    <s:SurfaceButton Name="tourStopButton" Content="Stop" Height="30" Width="80" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-90" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
+                    <s:SurfaceButton Name="tourExploreButton" Content="Explore" Height="30" Width="90" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-200" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" />
+                    <s:SurfaceButton Name="tourControlButton" Height="30" Width="60" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-105" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" >
+                        <StackPanel Orientation="Horizontal">
+                            <Polygon HorizontalAlignment="Center" Points="0,0 0,22 18,11" Fill="Black" Margin="0,3,0,0"/>
+                            <Polygon HorizontalAlignment="Center" Points="5,0, 5,22, 15,22, 15,0" Fill="Black" Margin="0,3,0,0"/>
+                            <Polygon HorizontalAlignment="Center" Points="2,0, 2,22, 12,22, 12,0" Fill="Black" Margin="0,3,0,0"/>
+                        </StackPanel>
+                    </s:SurfaceButton>
+                    <s:SurfaceButton Name="tourStopButton" Height="30" Width="30" MinHeight="0" Padding="7 1 7 0" Canvas.Left="-40" Visibility="Collapsed" Canvas.Top="-30" HorizontalContentAlignment="Center" >
+                        <StackPanel Orientation="Horizontal">
+                            <Polygon HorizontalAlignment="Center" Points="0,0 0,22 22,22, 22,0" Fill="Black" Margin="0,3,0,0"/>
+                        </StackPanel>
+                    </s:SurfaceButton>
                     <Rectangle Name="tourSeekBarSlider" Width ="1404" Height="30" Canvas.Top="-30" Fill="Gray" Opacity="0.5"></Rectangle>
                     <Canvas Name ="tourSeekBarTimeDisplayBackground" Width="132" Height="30" Canvas.Top="-30" Canvas.Right="0" Background="Black">
                         <Label Name="tourSeekBarTimerCount" Canvas.Left="3" Foreground="Yellow" Content="00:00"></Label>
