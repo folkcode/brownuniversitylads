@@ -620,6 +620,7 @@ namespace LADSArtworkMode
                 artModeWin.labelResumeTour.Visibility = Visibility.Visible;
                 artModeWin.TourScroll.Visibility = Visibility.Collapsed;
                 artModeWin.sBResumeTour1.Visibility = Visibility.Visible;
+                artModeWin.MSIScatterView.Visibility = Visibility.Visible;
                 Canvas.SetTop(artModeWin.labelResumeTour, Canvas.GetTop(artModeWin.Tours));
                 Canvas.SetTop(artModeWin.sBResumeTour1, Canvas.GetTop(artModeWin.TourScroll));
                 _isExploreMode = true;
@@ -1862,7 +1863,6 @@ namespace LADSArtworkMode
                 artModeWin.tourControlButton.Visibility = Visibility.Visible;
                 artModeWin.tourStopButton.Visibility = Visibility.Visible;
                 artModeWin.tourSeekBar.Visibility = Visibility.Visible;
-                artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
                 artModeWin.m_hotspotCollection.removeHotspotIcons();
 
                 tourStoryboard.CurrentTimeInvalidated += new EventHandler(TourStoryboardPlayback_CurrentTimeInvalidated);
