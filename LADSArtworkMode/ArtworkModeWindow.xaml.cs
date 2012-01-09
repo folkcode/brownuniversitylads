@@ -1229,7 +1229,7 @@ namespace LADSArtworkMode
 
         public void BottomButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!tourSystem.TourPlaybackOn)
+            if (!tourSystem.TourPlaybackOn && !tourSystem.IsExploreMode)
             {
                 if (bottomPanelVisible)
                 {
@@ -1824,6 +1824,7 @@ namespace LADSArtworkMode
 
             return item;
         }
+
         public void WorkspaceElement_PreviewMouseDown(object sender, MouseEventArgs e)
         {
 
