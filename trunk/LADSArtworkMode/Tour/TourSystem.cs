@@ -610,6 +610,9 @@ namespace LADSArtworkMode
                 {
                     ic.IsHitTestVisible = false;
                     ic.Visibility = Visibility.Hidden;
+                    
+                    Console.Out.WriteLine("canvas" + ic.Visibility);
+                    
                 }
 
                 // Switch the tours panel with the tour resume panel.
@@ -620,6 +623,7 @@ namespace LADSArtworkMode
                 Canvas.SetTop(artModeWin.labelResumeTour, Canvas.GetTop(artModeWin.Tours));
                 Canvas.SetTop(artModeWin.sBResumeTour1, Canvas.GetTop(artModeWin.TourScroll));
                 _isExploreMode = true;
+          
             }
         }
 
@@ -809,6 +813,12 @@ namespace LADSArtworkMode
                 artModeWin.MainScatterView.IsHitTestVisible = true;
                 tourPlaybackOn = false;
                 artModeWin.msi_tour.EnableEventHandlers();
+
+                foreach (SurfaceInkCanvas ic in inkCanvases)
+                {
+                    ic.IsHitTestVisible = false;
+                    ic.Visibility = Visibility.Visible;
+                }
             }
         }
 
