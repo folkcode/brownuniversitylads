@@ -654,23 +654,26 @@ namespace LADSArtworkMode
 
         public void onTouch(object sender, EventArgs e)
         {
-            if (!this.opened)
+            // If we are in explore mode, try to have the artwork mode window add the asset.
+            if (_lb.IsExploreOn)
+            {
+                _lb.tourExploreManageAdd(scatteruri, this);  // Will add it if possible.
+            }
+            if (!_lb._openedAssets.ContainsKey(scatteruri))
             {
                 //if it's an image, do this:
                 if (_helpers.IsImageFile(scatteruri))
                 {
-                    new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this);
+                    _lb._openedAssets.Add(scatteruri, new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this));
                 }
                 else if (_helpers.IsVideoFile(scatteruri))
                 {
-                    new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this, new LADSVideoBubble(scatteruri, 500, 500), new VideoItem()); //video-specific constructor
+                    _lb._openedAssets.Add(scatteruri, new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this, new LADSVideoBubble(scatteruri, 500, 500), new VideoItem())); //video-specific constructor
                 }
                 else
                 { //not image or video...
                 }
 
-                //all kinds of elements must be set to open
-                this.opened = true;
             }
         }
     }
