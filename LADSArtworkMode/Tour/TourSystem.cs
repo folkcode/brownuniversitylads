@@ -55,7 +55,7 @@ namespace LADSArtworkMode
         private String tourTimerCountSpanString;
         private Point startDragPoint;
         private Point startMSIdrag;
-
+        
         private SurfaceInkCanvas currentPathCanvas;
         private string currentPathCanvasFile;
         private SurfaceInkCanvas currentHighlightCanvas;
@@ -75,12 +75,12 @@ namespace LADSArtworkMode
         public Dictionary<String, DockableItem> exploreAssetsInDock;
         public Dictionary<String, DockableItem> exploreDisposableAssets;
 
+        public Rectangle yellowScrub;
         public TourSystem(ArtworkModeWindow artworkModeWindowParam)
         {
             artModeWin = artworkModeWindowParam;
             ///// Delete?
             tourAuthoringUI = new TourAuthoringUI(artModeWin, this);
-
             // event handlers for dragging of seek bar during tour playback
             artModeWin.tourSeekBarMarker.PreviewTouchDown += new EventHandler<TouchEventArgs>(TourSeekBarMarker_PreviewTouchDown);
             artModeWin.tourSeekBarMarker.PreviewMouseDown += new MouseButtonEventHandler(TourSeekBarMarker_PreviewMouseDown);
@@ -530,6 +530,7 @@ namespace LADSArtworkMode
         public void TourExploreButton_Click(object sender, RoutedEventArgs e)
         {
 
+            
             // First, pause the tour.
             if (!tourStoryboard.GetIsPaused(artModeWin))
             {
@@ -615,6 +616,7 @@ namespace LADSArtworkMode
                     
                 }
 
+                artModeWin.tourSeekBarMarker.Visibility = Visibility.Hidden;
                 // Switch the tours panel with the tour resume panel.
                 artModeWin.labelTours.Visibility = Visibility.Collapsed;
                 artModeWin.labelResumeTour.Visibility = Visibility.Visible;
@@ -751,7 +753,7 @@ namespace LADSArtworkMode
                 ic.IsHitTestVisible = true;
                 ic.Visibility = Visibility.Visible;
             }
-
+            artModeWin.tourSeekBarMarker.Visibility = Visibility.Visible;
             teardownExploreAssets();
             artModeWin.MSIScatterView.Visibility = Visibility.Visible;
 
@@ -817,6 +819,7 @@ namespace LADSArtworkMode
 
                 foreach (SurfaceInkCanvas ic in inkCanvases)
                 {
+                    
                     ic.IsHitTestVisible = false;
                     ic.Visibility = Visibility.Visible;
                 }
