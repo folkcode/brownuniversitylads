@@ -56,7 +56,7 @@ namespace LADSArtworkMode
         Rectangle movableScrubHandle; // part of canvasWrapper
         Rectangle movableScrubHandleExt; // part of canvasWrapper
         bool movableScrubHandle_userDragged;
-        Rectangle movableScrub; // part of leftRightCanvas
+        public Rectangle movableScrub; // part of leftRightCanvas
         Rectangle timelineAreaTopLeft; // part of canvasWrapper
         ScatterView timelineRulerSV;  // layer #2
         ScatterViewItem timelineRulerSVI; // layer #2.1
@@ -149,6 +149,7 @@ namespace LADSArtworkMode
         }
 
         #region init methods
+
 
         public void reinitalize()
         {
