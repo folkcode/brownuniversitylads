@@ -615,8 +615,10 @@ namespace LADSArtworkMode
                     Console.Out.WriteLine("canvas" + ic.Visibility);
                     
                 }
-
+                
+                //Hide the tour progress bar
                 artModeWin.tourSeekBarMarker.Visibility = Visibility.Hidden;
+                artModeWin.tourSeekBar.Visibility = Visibility.Hidden;
                 // Switch the tours panel with the tour resume panel.
                 artModeWin.labelTours.Visibility = Visibility.Collapsed;
                 artModeWin.labelResumeTour.Visibility = Visibility.Visible;
@@ -754,6 +756,7 @@ namespace LADSArtworkMode
                 ic.Visibility = Visibility.Visible;
             }
             artModeWin.tourSeekBarMarker.Visibility = Visibility.Visible;
+            artModeWin.tourSeekBar.Visibility = Visibility.Visible;
             teardownExploreAssets();
             artModeWin.MSIScatterView.Visibility = Visibility.Visible;
 
