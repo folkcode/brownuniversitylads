@@ -39,7 +39,7 @@ namespace LADSArtworkMode
         public String currentArtworkFileName;
         public String currentArtworkTitle;
 
-        bool leftPanelVisible;
+        public bool leftPanelVisible;
         public bool bottomPanelVisible;
         bool scatteremoved;
         public int dockedItems;
@@ -1203,6 +1203,8 @@ namespace LADSArtworkMode
                     da.To = -leftPaneContent.ActualWidth;
                     da.Duration = new Duration(TimeSpan.FromSeconds(.4));
                     LeftPanel.BeginAnimation(Canvas.LeftProperty, da);
+                    collapseButtonRight.Visibility = Visibility.Visible;
+                    collapseButtonLeft.Visibility = Visibility.Hidden;
                 }
                 else
                 {
@@ -1211,6 +1213,8 @@ namespace LADSArtworkMode
                     da.To = 0;
                     da.Duration = new Duration(TimeSpan.FromSeconds(.4));
                     LeftPanel.BeginAnimation(Canvas.LeftProperty, da);
+                    collapseButtonRight.Visibility = Visibility.Hidden;
+                    collapseButtonLeft.Visibility = Visibility.Visible;
 
                 }
                 leftPanelVisible = !leftPanelVisible;
@@ -1242,6 +1246,8 @@ namespace LADSArtworkMode
                     {
                         if (wke.isDocked) wke.item.IsEnabled = false;
                     }
+                    collapseButtonDown.Visibility = Visibility.Hidden; //change the direction of the triangle
+                    collapseButtonUp.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -1254,7 +1260,11 @@ namespace LADSArtworkMode
                     {
                         if (wke.isDocked) wke.item.IsEnabled = true;
                     }
+                    collapseButtonDown.Visibility = Visibility.Visible; //change the direction of the triangle
+                    collapseButtonUp.Visibility = Visibility.Hidden;
                 }
+               
+                
                 bottomPanelVisible = !bottomPanelVisible;
             }
             else
@@ -1391,6 +1401,12 @@ namespace LADSArtworkMode
 
         private void tourAuthoring_Click(object sender, RoutedEventArgs e)
         {
+            //hide the buttons
+            collapseButtonRight.Visibility = Visibility.Hidden;
+            collapseButtonLeft.Visibility = Visibility.Hidden;
+            collapseButtonUp.Visibility = Visibility.Hidden;
+            collapseButtonDown.Visibility = Visibility.Hidden;
+
             String filePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
                 "\\Data\\Tour\\XML\\" + currentArtworkFileName + ".xml";
 
@@ -1698,6 +1714,11 @@ namespace LADSArtworkMode
                 }
                 dockitem.AddtoDock(dockitem, null);
             }
+        }
+
+        private void BottomButtonClick(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 
