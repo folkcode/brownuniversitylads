@@ -768,8 +768,14 @@ namespace LADSArtworkMode
 
             if (tourPlaybackOn)
             {
-
-
+                if (artModeWin.bottomPanelVisible)
+                {
+                    artModeWin.collapseButtonDown.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    artModeWin.collapseButtonUp.Visibility = Visibility.Visible;
+                }
                 // remove associated media used in tour (in retrospect, perhaps a separate "MSITourScatterView" layer should have been created
                 foreach (DockableItem item in dockableItemsLoaded)
                 {
@@ -843,6 +849,23 @@ namespace LADSArtworkMode
 
         public void TourAuthoringDoneButton_Click(object sender, RoutedEventArgs e)
         {
+            if (artModeWin.leftPanelVisible)
+            {
+                artModeWin.collapseButtonLeft.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                artModeWin.collapseButtonRight.Visibility = Visibility.Visible;
+            }
+            if (artModeWin.bottomPanelVisible)
+            {
+                artModeWin.collapseButtonDown.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                artModeWin.collapseButtonUp.Visibility = Visibility.Visible;
+            }
+
             e.Handled = true;
             if (tourAuthoringOn)
             {
@@ -1836,7 +1859,8 @@ namespace LADSArtworkMode
 
         private void TourButton_Click(object sender, EventArgs e)
         {
-
+            artModeWin.collapseButtonDown.Visibility = Visibility.Hidden;
+            artModeWin.collapseButtonUp.Visibility = Visibility.Hidden;
             string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
             //currentlyPlayingTour = filename;
             this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
