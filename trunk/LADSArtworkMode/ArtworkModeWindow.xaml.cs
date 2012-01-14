@@ -158,8 +158,11 @@ namespace LADSArtworkMode
             tourAuthoringSaveButton.Click += TourAuthoringSaveButton_Click;
             addAudioButton.Click += tourSystem.grabSound;
             addAudioButton.Visibility = Visibility.Collapsed;
+            Canvas.SetLeft(collapseButtonDown, collapseBar.ActualWidth / 2);
+            Canvas.SetLeft(collapseButtonUp, collapseBar.ActualWidth / 2);
 
-           
+            Canvas.SetTop(collapseButtonLeft, 400);
+            Canvas.SetTop(collapseButtonRight, 400);
         }
 
 
@@ -1718,7 +1721,51 @@ namespace LADSArtworkMode
 
         private void BottomButtonClick(object sender, MouseButtonEventArgs e)
         {
+            if (!tourSystem.TourPlaybackOn && !tourSystem.IsExploreMode)
+            {
+                if (bottomPanelVisible)
+                {
+                    DoubleAnimation da = new DoubleAnimation();
+                    da.From = (this.Height) * .8;
+                    da.To = (this.Height) * .8 + Bar.ActualHeight;
+                    da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                    BottomPanel.BeginAnimation(Canvas.TopProperty, da);
+                    foreach (WorkspaceElement wke in DockedItems)
+                    {
+                        if (wke.isDocked) wke.item.IsEnabled = false;
+                    }
+                    collapseButtonDown.Visibility = Visibility.Hidden; //change the direction of the triangle
+                    collapseButtonUp.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    DoubleAnimation da = new DoubleAnimation();
+                    da.From = (this.Height) * .8 + Bar.ActualHeight;
+                    da.To = (this.Height) * .8;
+                    da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                    BottomPanel.BeginAnimation(Canvas.TopProperty, da);
+                    foreach (WorkspaceElement wke in DockedItems)
+                    {
+                        if (wke.isDocked) wke.item.IsEnabled = true;
+                    }
+                    collapseButtonDown.Visibility = Visibility.Visible; //change the direction of the triangle
+                    collapseButtonUp.Visibility = Visibility.Hidden;
+                }
 
+
+                bottomPanelVisible = !bottomPanelVisible;
+            }
+            else
+            {//display text
+                // textMessage.Opacity = 1;
+                DoubleAnimation da = new DoubleAnimation();
+                da.From = 0;
+                da.To = 1;
+                da.Duration = new Duration(TimeSpan.FromSeconds(1.4));
+                da.AutoReverse = true;
+                Text.BeginAnimation(OpacityProperty, da);
+                textMessage.BeginAnimation(OpacityProperty, da);
+            }
         }
     }
 
