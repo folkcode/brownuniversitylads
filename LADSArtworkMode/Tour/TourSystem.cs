@@ -624,7 +624,7 @@ namespace LADSArtworkMode
                 artModeWin.labelResumeTour.Visibility = Visibility.Visible;
                 artModeWin.TourScroll.Visibility = Visibility.Collapsed;
                 artModeWin.sBResumeTour1.Visibility = Visibility.Visible;
-                artModeWin.MSIScatterView.Visibility = Visibility.Visible;
+                // artModeWin.MSIScatterView.Visibility = Visibility.Visible;
                 Canvas.SetTop(artModeWin.labelResumeTour, Canvas.GetTop(artModeWin.Tours));
                 Canvas.SetTop(artModeWin.sBResumeTour1, Canvas.GetTop(artModeWin.TourScroll));
                 _isExploreMode = true;
@@ -1702,12 +1702,14 @@ namespace LADSArtworkMode
                     Storyboard.SetTargetProperty(fadeInPathAnim_vis, new PropertyPath(DockableItem.VisibilityProperty));
                     fadeInPathAnim_vis.BeginTime = TimeSpan.FromSeconds(timerCount);
                     tourParallelTL.Children.Add(fadeInPathAnim_vis);
+                    fadeInPathAnim_vis.FillBehavior = FillBehavior.Stop;
 
                     DoubleAnimation fadeInPathAnim = new DoubleAnimation(0.0, 1.0, new Duration(TimeSpan.FromSeconds(fadeInPathEvent.duration)));
                     Storyboard.SetTarget(fadeInPathAnim, fadeInPathItem);
                     Storyboard.SetTargetProperty(fadeInPathAnim, new PropertyPath(DockableItem.OpacityProperty));
                     fadeInPathAnim.BeginTime = TimeSpan.FromSeconds(timerCount);
                     tourParallelTL.Children.Add(fadeInPathAnim);
+                    //fadeInPathAnim.FillBehavior = FillBehavior.Stop;
 
                     break;
                 case TourEvent.Type.fadeOutPath:
@@ -1748,6 +1750,7 @@ namespace LADSArtworkMode
                     Storyboard.SetTargetProperty(fadeInHighlightAnim_vis, new PropertyPath(DockableItem.VisibilityProperty));
                     fadeInHighlightAnim_vis.BeginTime = TimeSpan.FromSeconds(timerCount);
                     tourParallelTL.Children.Add(fadeInHighlightAnim_vis);
+                    fadeInHighlightAnim_vis.FillBehavior = FillBehavior.Stop;
 
                     DoubleAnimation fadeInHighlightAnim = new DoubleAnimation(0.0, fadeInHighlightEvent.opacity, new Duration(TimeSpan.FromSeconds(fadeInHighlightEvent.duration)));
                     Storyboard.SetTarget(fadeInHighlightAnim, fadeInHighlightItem);
@@ -1841,7 +1844,7 @@ namespace LADSArtworkMode
             }
             else
             {
-                button.Content = "No availabel tours";
+                button.Content = "No available tours";
             }
         }
             
@@ -2196,7 +2199,7 @@ namespace LADSArtworkMode
                                     sic.UsesTouchShape = false;
                                     sic.Background = Brushes.Transparent;
                                     sic.Opacity = 0.7;
-                                    sic.Visibility = Visibility.Collapsed;
+                                    sic.Visibility = Visibility.Visible;
                                     Canvas.SetZIndex(sic, 50);
                                     loadInkCanvas(sic, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + media_file);
                                     artModeWin.ImageArea.Children.Add(sic);
@@ -2249,7 +2252,7 @@ namespace LADSArtworkMode
                                     sic.DefaultDrawingAttributes.FitToCurve = true;
                                     sic.Background = Brushes.Transparent;
                                     sic.Opacity = 0;
-                                    sic.Visibility = Visibility.Collapsed;
+                                    sic.Visibility = Visibility.Visible;
                                     Canvas.SetZIndex(sic, 50);
                                     loadInkCanvas(sic, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + media_file);
                                     artModeWin.ImageArea.Children.Add(sic);
@@ -2487,7 +2490,7 @@ namespace LADSArtworkMode
                                     sic.UsesTouchShape = false;
                                     sic.Background = Brushes.Transparent;
                                     sic.Opacity = 0.7;
-                                    sic.Visibility = Visibility.Collapsed;
+                                    sic.Visibility = Visibility.Visible;
                                     Canvas.SetZIndex(sic, 50);
                                     loadInkCanvas(sic, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + media_file);
                                     artModeWin.ImageArea.Children.Add(sic);
@@ -2540,7 +2543,7 @@ namespace LADSArtworkMode
                                     sic.DefaultDrawingAttributes.FitToCurve = true;
                                     sic.Background = Brushes.Transparent;
                                     sic.Opacity = 0;
-                                    sic.Visibility = Visibility.Collapsed;
+                                    sic.Visibility = Visibility.Visible;
                                     Canvas.SetZIndex(sic, 50);
                                     loadInkCanvas(sic, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/" + media_file);
                                     artModeWin.ImageArea.Children.Add(sic);
