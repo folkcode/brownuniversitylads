@@ -1770,7 +1770,7 @@ namespace LADSArtworkMode
             foreach (SurfaceInkCanvas sic in tourSystem.inkCanvases)
             {
                 sic.IsHitTestVisible = false;
-                sic.Visibility = Visibility.Collapsed;
+                // sic.Visibility = Visibility.Collapsed;
             }
             if (tourSystem.tourAuthoringOn)
             {
