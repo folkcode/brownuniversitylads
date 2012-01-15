@@ -158,9 +158,9 @@ namespace LADSArtworkMode
             tourAuthoringSaveButton.Click += TourAuthoringSaveButton_Click;
             addAudioButton.Click += tourSystem.grabSound;
             addAudioButton.Visibility = Visibility.Collapsed;
-            Canvas.SetLeft(collapseButtonDown, collapseBar.ActualWidth / 2);
-            Canvas.SetLeft(collapseButtonUp, collapseBar.ActualWidth / 2);
+            //Canvas.SetTop(downButton, 648);
 
+            //Canvas.SetLeft(collapseButtonDown, (collapseBar.Width - msi_thumb.ActualWidth) / 2 + msi_thumb.ActualWidth);
             Canvas.SetTop(collapseButtonLeft, 400);
             Canvas.SetTop(collapseButtonRight, 400);
         }
