@@ -1196,7 +1196,7 @@ namespace LADSArtworkMode
 
         public void LeftButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!tourSystem.TourPlaybackOn)
+            if (!tourSystem.TourPlaybackOn && !tourSystem.IsExploreMode)
             {
                 if (leftPanelVisible)
                 {
