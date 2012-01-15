@@ -65,9 +65,33 @@
             </Grid>
         </Canvas>
 
+        <!--<s:SurfaceButton Name="downButton" Background="#5a675f" Click="BottomButtonClick" Canvas.Top="864" HorizontalAlignment="Stretch" Height="30" Canvas.ZIndex="200">
+            <Canvas>
+                <Canvas Name="collapseButtonDown" Visibility="Hidden"  >
+                    <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="0">
+                        <StackPanel>
+                            <Polygon HorizontalAlignment="Center" Points="0,0 0,20 20,10" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
+
+                        </StackPanel>
+
+                    </s:SurfaceButton>
+                </Canvas>
+                <Canvas Name="collapseButtonUp" Visibility="Visible"  >
+                    <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="0">
+                        <StackPanel>
+                            <Polygon HorizontalAlignment="Center" Points="20,0 20,20 0,10" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
+
+                        </StackPanel>
+
+                    </s:SurfaceButton>
+                </Canvas>
+            </Canvas>
+
+        </s:SurfaceButton>-->
 
 
         <DockPanel Name="BottomPanel" Opacity=".9" Canvas.Top="864" Background="#eceff0" Height="216" Width="1920" Canvas.ZIndex ="100">
+ 
             <Grid Name="NavPanel" Background="#bdd0bd" DockPanel.Dock="Left" Width="384" Height="216">
 
                 <!-- zoom navigator -->
@@ -83,9 +107,11 @@
                 </Grid>
             </Grid>
             <DockPanel DockPanel.Dock="Right">
-                <Canvas Name="collapseBar" Width="1536" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Visible" ZIndex="20" IsHitTestVisible="True" MouseDown="BottomButtonClick">
-                    <Canvas Name="collapseButtonDown" Visibility="Visible" DockPanel.Dock="Top" Height="30" >
-                        <s:SurfaceButton  Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="450" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
+                
+                  <Canvas Name="collapseBar" Width="1536" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Visible" IsHitTestVisible="True" Canvas.ZIndex="20">
+                    <s:SurfaceButton Name="collapseButtonBg" Width="1536" Background="Transparent" DockPanel.Dock="Top" Height="30" HorizontalAlignment="Stretch"   Click="BottomButtonClick" />
+                      <Canvas Name="collapseButtonDown" Visibility="Visible" DockPanel.Dock="Top" Height="30" >
+                        <s:SurfaceButton  Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="600" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
                             <StackPanel>
                                 <Polygon Name="down" HorizontalAlignment="Center" Points="0,0 22,0 11,16" Margin="0,3,0,0" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
                             </StackPanel>
@@ -93,7 +119,7 @@
                         </s:SurfaceButton>
                     </Canvas>
                     <Canvas  DockPanel.Dock="Top"  Height="30" Name="collapseButtonUp"  Visibility="Hidden"  >
-                            <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="450" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
+                            <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="600" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
                                 <StackPanel>
                                 <Polygon Name="up" HorizontalAlignment="Center" Points="0,22 22,22 11,0" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
 
@@ -103,7 +129,7 @@
                     </Canvas>
                    
                     
-                </Canvas>
+                </Canvas> 
 
                 <Canvas Name="tourSeekBar" Width="1536" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Hidden">
                     <!-- tour seek bar -->
@@ -155,12 +181,12 @@
 
         <DockPanel Name="LeftPanel" Opacity=".9" Canvas.Top="0" Canvas.Left="0" Height="864" Width="384" Background="#618276" Canvas.ZIndex="99">
 
-            <s:SurfaceButton Name="leftButton" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="30" Background="#5a675f" Click="LeftButtonClick" DockPanel.Dock="Right">
+            <s:SurfaceButton Name="leftButton" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="#5a675f" Click="LeftButtonClick" DockPanel.Dock="Right">
                 <Canvas>
                     <Canvas Name="collapseButtonRight" Visibility="Hidden"  >
                         <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="0">
                             <StackPanel>
-                                <Polygon HorizontalAlignment="Center" Points="0,0 0,20 20,10" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
+                                <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Points="0,0 0,18 18,9" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
 
                             </StackPanel>
 
@@ -169,7 +195,7 @@
                     <Canvas Name="collapseButtonLeft" Visibility="Visible"  >
                         <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="0">
                             <StackPanel>
-                                <Polygon HorizontalAlignment="Center" Points="20,0 20,20 0,10" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
+                                <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Points="18,0 18,18 0,9" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
 
                             </StackPanel>
 
