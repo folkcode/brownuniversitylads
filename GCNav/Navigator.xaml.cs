@@ -323,13 +323,13 @@ namespace GCNav
         {
             _displayedCollection = _imageCollection;
             this.loadCollection();
-            this.arrangeImages(_starty, _endy, _windowSize.Height / 2);
+            double timeline_length = this.arrangeImages(_starty, _endy, _windowSize.Height / 2);
             mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
             _initScatterPos = mainScatterViewItem.Center;
             _initScatterWH = new Point();
             _initScatterWH.X = mainScatterViewItem.Width;
             _initScatterWH.Y = mainScatterViewItem.Height;
-            timeline.update(_starty, _endy, MainCanvas.Width);
+            timeline.update(_starty, _endy, timeline_length/*MainCanvas.Width*/);
             filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Width = System.Windows.SystemParameters.PrimaryScreenWidth; //?
@@ -417,8 +417,8 @@ namespace GCNav
 
             double timeline_width = arrangeImages(_starty, _endy, MainCanvas.Height);
             mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
-            //timeline.update(_starty, _endy, timeline_width); //MICHAEL PRICE!!! WE NEED TO TALK! -- yudi
-            timeline.update(_starty, _endy, MainCanvas.Width); 
+            timeline.update(_starty, _endy, timeline_width); // MICHAEL PRICE!!! WE NEED TO TALK! -- yudi
+            //timeline.update(_starty, _endy, MainCanvas.Width); 
             filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             this.loadEvents();
@@ -490,7 +490,7 @@ namespace GCNav
                     }
                 }
 
-                timeline_length = MainCanvas.Width - lastCluster.longestRowWidth();
+                timeline_length = MainCanvas.Width;// -lastCluster.longestRowWidth();
             }
             else
             {

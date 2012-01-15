@@ -28,6 +28,8 @@ namespace GCNav
         /*use to pass the filename of the image to artwork mode. Ex: "gari0001.bmp", "gari0043.bmp"*/
         public String filename { get; set; }
 
+        //public String thumbpath { get; set; }
+
         public ImageData(String path)
         {
             BitmapImage myImage = new BitmapImage();
