@@ -759,7 +759,7 @@ namespace LADSArtworkMode
             artModeWin.tourSeekBar.Visibility = Visibility.Visible;
             teardownExploreAssets();
             artModeWin.MSIScatterView.Visibility = Visibility.Visible;
-
+         
             _isExploreMode = false;
         }
 
@@ -768,14 +768,7 @@ namespace LADSArtworkMode
 
             if (tourPlaybackOn)
             {
-                if (artModeWin.bottomPanelVisible)
-                {
-                    artModeWin.collapseButtonDown.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    artModeWin.collapseButtonUp.Visibility = Visibility.Visible;
-                }
+               
                 // remove associated media used in tour (in retrospect, perhaps a separate "MSITourScatterView" layer should have been created
                 foreach (DockableItem item in dockableItemsLoaded)
                 {
@@ -831,6 +824,22 @@ namespace LADSArtworkMode
                     
                     ic.IsHitTestVisible = false;
                     ic.Visibility = Visibility.Visible;
+                }
+                if (artModeWin.bottomPanelVisible)
+                {
+                    artModeWin.collapseButtonDown.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    artModeWin.collapseButtonUp.Visibility = Visibility.Visible;
+                }
+                if (artModeWin.leftPanelVisible)
+                {
+                    artModeWin.collapseButtonLeft.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    artModeWin.collapseButtonRight.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -1861,6 +1870,8 @@ namespace LADSArtworkMode
         {
             artModeWin.collapseButtonDown.Visibility = Visibility.Hidden;
             artModeWin.collapseButtonUp.Visibility = Visibility.Hidden;
+            artModeWin.collapseButtonLeft.Visibility = Visibility.Hidden;
+            artModeWin.collapseButtonRight.Visibility = Visibility.Hidden;
             string filename = (string)(sender as SurfaceButton).Tag; //this makes it try to find the file with the name on the button
             //currentlyPlayingTour = filename;
             this.LoadDictFromXML(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + filename + ".xml");
