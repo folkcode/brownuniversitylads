@@ -464,14 +464,21 @@ namespace LADSArtworkMode
                 {
                     HotspotImageMix.SetCurrentValue(HeightProperty, (double)img.PixelHeight);
                     HotspotImageMix.SetCurrentValue(WidthProperty, (double)img.PixelWidth);
-                }  
-               
-                this.SetCurrentValue(HeightProperty, HotspotImageMix.Height+ 47.0);
+                }
+
+                HotspotTextBoxMix.Content = m_hotspotData.Description;
+                HotspotTextBoxMix.Width = HotspotImageMix.Width;
+                this.UpdateLayout();
+                this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 10.0 + HotspotTextBoxMix.ActualHeight);
                 this.SetCurrentValue(WidthProperty, HotspotImageMix.Width + 10.0);
 
+                
                 hotspotCanvas.Width = HotspotImageMix.Width;
-                hotspotCanvas.Height = HotspotImageMix.Height + HotspotTextBoxMix.Height;
-                HotspotTextBoxMix.Content = m_hotspotData.Description;
+                
+
+                hotspotCanvas.Height = HotspotImageMix.Height + HotspotTextBoxMix.ActualHeight;
+                
+                
                 //textBoxScroll.Visibility = Visibility.Visible;
                 Mix.Visibility = Visibility.Visible;
                 Canvas.SetZIndex(Mix, 100);
