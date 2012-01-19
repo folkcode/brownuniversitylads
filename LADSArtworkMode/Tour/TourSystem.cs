@@ -108,8 +108,8 @@ namespace LADSArtworkMode
             Rect viewbox = artModeWin.msi_tour.GetZoomableCanvas.ActualViewbox;
 
             /* SIZE OF OVERLAY */
-            artModeWin.msi_thumb_rect.Width = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualWidth * viewbox.Width) / artModeWin.msi_tour.GetImageActualWidth;
-            artModeWin.msi_thumb_rect.Height = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualHeight * viewbox.Height) / artModeWin.msi_tour.GetImageActualHeight;
+            artModeWin.ThumbSVI.Width = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualWidth * viewbox.Width) / artModeWin.msi_tour.GetImageActualWidth;
+            artModeWin.ThumbSVI.Height = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualHeight * viewbox.Height) / artModeWin.msi_tour.GetImageActualHeight;
 
             /* POSITION OF OVERLAY */
             double msi_thumb_rect_centerX = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualWidth * viewbox.GetCenter().X) / artModeWin.msi_tour.GetImageActualWidth;
@@ -123,7 +123,8 @@ namespace LADSArtworkMode
             double msi_thumb_rect_centerX_dist = msi_thumb_rect_centerX - msi_thumb_centerX + msi_thumb_zc.Offset.X;
             double msi_thumb_rect_centerY_dist = msi_thumb_rect_centerY - msi_thumb_centerY + msi_thumb_zc.Offset.Y;
 
-            artModeWin.msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
+            artModeWin.ThumbSVI.Center = new Point(msi_thumb_rect_centerX_dist + artModeWin.ThumbSV.Width / 2, msi_thumb_rect_centerY_dist + artModeWin.ThumbSV.Height / 2);
+            //artModeWin.ThumbSVI.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
         }
 
         /// <summary>
@@ -136,8 +137,8 @@ namespace LADSArtworkMode
 
 
             /* SIZE OF OVERLAY */
-            artModeWin.msi_thumb_rect.Width = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualWidth * viewbox.Width) / artModeWin.msi_tour.GetImageActualWidth;
-            artModeWin.msi_thumb_rect.Height = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualHeight * viewbox.Height) / artModeWin.msi_tour.GetImageActualHeight;
+            artModeWin.ThumbSVI.Width = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualWidth * viewbox.Width) / artModeWin.msi_tour.GetImageActualWidth;
+            artModeWin.ThumbSVI.Height = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualHeight * viewbox.Height) / artModeWin.msi_tour.GetImageActualHeight;
 
             /* POSITION OF OVERLAY */
             double msi_thumb_rect_centerX = (artModeWin.msi_tour_thumb.GetZoomableCanvas.Scale * artModeWin.msi_tour_thumb.GetImageActualWidth * viewbox.GetCenter().X) / artModeWin.msi_tour.GetImageActualWidth;
@@ -151,7 +152,8 @@ namespace LADSArtworkMode
             double msi_thumb_rect_centerX_dist = msi_thumb_rect_centerX - msi_thumb_centerX + msi_thumb_zc.Offset.X;
             double msi_thumb_rect_centerY_dist = msi_thumb_rect_centerY - msi_thumb_centerY + msi_thumb_zc.Offset.Y;
 
-            artModeWin.msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
+            artModeWin.ThumbSVI.Center = new Point(msi_thumb_rect_centerX_dist + artModeWin.ThumbSV.Width / 2, msi_thumb_rect_centerY_dist + artModeWin.ThumbSV.Height / 2);
+            //artModeWin.msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
         }
 
         #endregion

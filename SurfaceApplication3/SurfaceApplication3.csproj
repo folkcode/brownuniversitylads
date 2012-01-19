@@ -70,6 +70,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="addHotspotMix.xaml.cs">
+      <DependentUpon>addHotspotMix.xaml</DependentUpon>
+    </Compile>
     <Compile Include="addHotspotsNontext.xaml.cs">
       <DependentUpon>addHotspotsNontext.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
       <DependentUpon>mapWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
+    <Page Include="addHotspotMix.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="addHotspotsNontext.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -110,6 +110,7 @@ namespace LADSArtworkMode
                     return false;
                 }
                 m_hotspotList = doc.SelectNodes("//hotspot");
+                
                 //MessageBox.Show(m_hotspotList[0].ChildNodes[0].InnerText);
                 m_hotspotIcons = new HotspotIconControl[m_hotspotList.Count];
                 m_hotspotDetails = new HotspotDetailsControl[m_hotspotList.Count];
@@ -125,6 +126,9 @@ namespace LADSArtworkMode
                     m_hotspots[i].PositionY = (double)Convert.ToDouble(m_hotspotList[i].ChildNodes[2].InnerText);
                     m_hotspots[i].Type = m_hotspotList[i].ChildNodes[3].InnerText;
                     m_hotspots[i].Description = m_hotspotList[i].ChildNodes[4].InnerText;
+                   
+                    m_hotspots[i].imageDescription = m_hotspotList[i].ChildNodes[5].InnerText;
+                  
                     m_hotspots[i].XmlNode = m_hotspotList[i];
                     m_isSelected[i] = true;
                     m_isOnScreen[i] = false;

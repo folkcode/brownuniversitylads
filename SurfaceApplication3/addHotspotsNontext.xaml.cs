@@ -87,6 +87,7 @@ namespace SurfaceApplication3
                     hotspotsControl.AddImage.IsEnabled = true;
                     hotspotsControl.AddVideo.IsEnabled = true;
                     hotspotsControl.Edit.IsEnabled = true;
+                    hotspotsControl.AddTextAndImage.IsEnabled = true;
                   
                 }
                 else if (hotspotContent == 2)
@@ -98,6 +99,7 @@ namespace SurfaceApplication3
                     hotspotsControl.AddAudio.IsEnabled = true;
                     hotspotsControl.AddVideo.IsEnabled = true;
                     hotspotsControl.Edit.IsEnabled = true;
+                    hotspotsControl.AddTextAndImage.IsEnabled = true;
                    
                 }
                 else
@@ -109,6 +111,7 @@ namespace SurfaceApplication3
                     hotspotsControl.AddAudio.IsEnabled = true;
                     hotspotsControl.AddImage.IsEnabled = true;
                     hotspotsControl.Edit.IsEnabled = true;
+                    hotspotsControl.AddTextAndImage.IsEnabled = true;
                   
                 }
                 hotspotsControl.newWindowIsOpened = false;
