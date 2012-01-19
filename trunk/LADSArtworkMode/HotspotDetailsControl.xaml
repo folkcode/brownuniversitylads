@@ -11,11 +11,15 @@
              x:Class="LADSArtworkMode.HotspotDetailsControl" 
                        
         Name="scatterItem" CanScale="True" Height="320" Width="422" Loaded="scatterItem_Loaded" Orientation="0" SizeChanged="scatterItem_SizeChanged">
-    <Border BorderBrush="#214236" BorderThickness="4" CornerRadius="4">
+    <Border BorderBrush="#214236" BorderThickness="4" CornerRadius="4" Name="border">
         <Canvas Name="hotspotCanvas" Background="#618276" Opacity="0.95">
            
             <s:SurfaceTextBox Name="HotspotTextBox" Height="272" Width="387" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Canvas.Top="35" Canvas.Left="12" BorderThickness="2"/>
             <Image Name="HotspotImage" Height="272" Width="380"/>
+            <DockPanel Name="Mix" Background="Transparent" Visibility="Hidden">
+                <Image Name="HotspotImageMix" Height="272" Width="380" DockPanel.Dock="Top"/>
+                <Label Name="HotspotTextBoxMix" DockPanel.Dock="Bottom" Foreground="White" Background="#618276"/>
+            </DockPanel>
             <Canvas Name="videoCanvas" Background="Transparent">
                 <UserControl Name="video"></UserControl>
             </Canvas>

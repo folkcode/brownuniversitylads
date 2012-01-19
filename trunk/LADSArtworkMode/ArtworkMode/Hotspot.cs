@@ -61,6 +61,13 @@ namespace LADSArtworkMode
         }
 
 
+        String m_imageDescription;
+        public String imageDescription
+        {
+            get { return m_imageDescription; }
+            set { m_imageDescription = value; }
+        }
+           
 
     }
 }

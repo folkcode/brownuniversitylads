@@ -443,6 +443,48 @@ namespace LADSArtworkMode
 
                 Canvas.SetTop(VideoStackPanel, 35);
             }
+            else if((m_hotspotData.Type.ToLower().Contains("both")))
+            {
+                BitmapImage img = new BitmapImage();
+                String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.imageDescription;
+                img.BeginInit();
+                img.UriSource = new Uri(imgUri, UriKind.Absolute);
+                img.CacheOption = BitmapCacheOption.OnLoad;
+                img.EndInit();
+                HotspotImageMix.Source = img;
+                HotspotImageMix.Visibility = Visibility.Visible;
+                HotspotImageMix.IsEnabled = true;
+                double maxWidth = 600.0;
+                if (img.PixelWidth > maxWidth)
+                {
+                    HotspotImageMix.SetCurrentValue(HeightProperty, maxWidth * img.PixelHeight / img.PixelWidth);
+                    HotspotImageMix.SetCurrentValue(WidthProperty, maxWidth);
+                }
+                else
+                {
+                    HotspotImageMix.SetCurrentValue(HeightProperty, (double)img.PixelHeight);
+                    HotspotImageMix.SetCurrentValue(WidthProperty, (double)img.PixelWidth);
+                }  
+               
+                this.SetCurrentValue(HeightProperty, HotspotImageMix.Height+ 47.0);
+                this.SetCurrentValue(WidthProperty, HotspotImageMix.Width + 10.0);
+
+                hotspotCanvas.Width = HotspotImageMix.Width;
+                hotspotCanvas.Height = HotspotImageMix.Height + HotspotTextBoxMix.Height;
+                HotspotTextBoxMix.Content = m_hotspotData.Description;
+                //textBoxScroll.Visibility = Visibility.Visible;
+                Mix.Visibility = Visibility.Visible;
+                Canvas.SetZIndex(Mix, 100);
+                this.UpdateLayout();
+
+                this.CanScale = false;
+
+                Canvas.SetZIndex(closeButton, 100);
+                //HotspotTextBox.Visibility = Visibility.Hidden;
+                //textBoxScroll.Visibility = Visibility.Hidden;
+                VideoStackPanel.Visibility = Visibility.Collapsed;
+                AudioScroll.Visibility = Visibility.Hidden;
+            }
             Name.Content = m_hotspotData.Name;
             Double[] size = this.findImageSize();
 

@@ -384,6 +384,8 @@ namespace LADSArtworkMode
             NavPanel.SetCurrentValue(WidthProperty, MainWidth * .2);
             NavPanel.SetCurrentValue(HeightProperty, MainHeight * .2);
 
+            ThumbSVI.Center = new Point(ThumbSV.Width / 2, ThumbSV.Height / 2);
+
             msi.UpdateLayout(); // man...took me forever to figure out that I needed to call this method
             msi.ResetArtwork();
             msi_thumb.UpdateLayout(); // man...took me forever to figure out that I needed to call this method
@@ -955,49 +957,53 @@ namespace LADSArtworkMode
         /// <param name="e"></param>
         public void msi_ViewboxChanged(Object sender, EventArgs e)
         {
-            Rect viewbox = msi.GetZoomableCanvas.ActualViewbox;
+            if (!_isInteractionOnThumb)
+            {
+                Rect viewbox = msi.GetZoomableCanvas.ActualViewbox;
 
-            /* SIZE OF OVERLAY */
-            msi_thumb_rect.Width = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * viewbox.Width) / msi.GetImageActualWidth;
-            msi_thumb_rect.Height = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * viewbox.Height) / msi.GetImageActualHeight;
+                /* SIZE OF OVERLAY */
+                ThumbSVI.Width = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * viewbox.Width) / msi.GetImageActualWidth;
+                ThumbSVI.Height = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * viewbox.Height) / msi.GetImageActualHeight;
 
-            /* POSITION OF OVERLAY */
-            double msi_thumb_rect_centerX = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * viewbox.GetCenter().X) / msi.GetImageActualWidth;
-            double msi_thumb_rect_centerY = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * viewbox.GetCenter().Y) / msi.GetImageActualHeight;
+                /* POSITION OF OVERLAY */
+                double msi_thumb_rect_centerX = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * viewbox.GetCenter().X) / msi.GetImageActualWidth;
+                double msi_thumb_rect_centerY = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * viewbox.GetCenter().Y) / msi.GetImageActualHeight;
 
-            ZoomableCanvas msi_thumb_zc = msi_thumb.GetZoomableCanvas;
+                ZoomableCanvas msi_thumb_zc = msi_thumb.GetZoomableCanvas;
 
-            double msi_thumb_centerX = msi_thumb_zc.Offset.X + (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * 0.5);
-            double msi_thumb_centerY = msi_thumb_zc.Offset.Y + (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * 0.5);
+                double msi_thumb_centerX = msi_thumb_zc.Offset.X + (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * 0.5);
+                double msi_thumb_centerY = msi_thumb_zc.Offset.Y + (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * 0.5);
 
-            double msi_thumb_rect_centerX_dist = msi_thumb_rect_centerX - msi_thumb_centerX + msi_thumb_zc.Offset.X;
-            double msi_thumb_rect_centerY_dist = msi_thumb_rect_centerY - msi_thumb_centerY + msi_thumb_zc.Offset.Y;
+                double msi_thumb_rect_centerX_dist = msi_thumb_rect_centerX - msi_thumb_centerX + msi_thumb_zc.Offset.X;
+                double msi_thumb_rect_centerY_dist = msi_thumb_rect_centerY - msi_thumb_centerY + msi_thumb_zc.Offset.Y;
 
-            msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
+                ThumbSVI.Center = new Point(msi_thumb_rect_centerX_dist + ThumbSV.Width / 2, msi_thumb_rect_centerY_dist + ThumbSV.Height / 2);
+                //msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
 
-            /* HOTSPOTS */
-            double HotspotOverlay_centerX = (msi.GetZoomableCanvas.Scale * msi.GetImageActualWidth * 0.5) - msi.GetZoomableCanvas.Offset.X;
-            double HotspotOverlay_centerY = (msi.GetZoomableCanvas.Scale * msi.GetImageActualHeight * 0.5) - msi.GetZoomableCanvas.Offset.Y;
+                /* HOTSPOTS */
+                double HotspotOverlay_centerX = (msi.GetZoomableCanvas.Scale * msi.GetImageActualWidth * 0.5) - msi.GetZoomableCanvas.Offset.X;
+                double HotspotOverlay_centerY = (msi.GetZoomableCanvas.Scale * msi.GetImageActualHeight * 0.5) - msi.GetZoomableCanvas.Offset.Y;
 
-            double msi_clip_centerX = msi.GetZoomableCanvas.ActualWidth * 0.5;
-            double msi_clip_centerY = msi.GetZoomableCanvas.ActualHeight * 0.5;
+                double msi_clip_centerX = msi.GetZoomableCanvas.ActualWidth * 0.5;
+                double msi_clip_centerY = msi.GetZoomableCanvas.ActualHeight * 0.5;
 
-            double HotspotOverlay_centerX_dist = HotspotOverlay_centerX - msi_clip_centerX;
-            double HotspotOverlay_centerY_dist = HotspotOverlay_centerY - msi_clip_centerY;
+                double HotspotOverlay_centerX_dist = HotspotOverlay_centerX - msi_clip_centerX;
+                double HotspotOverlay_centerY_dist = HotspotOverlay_centerY - msi_clip_centerY;
 
-            m_hotspotCollection.updateHotspotLocations(HotspotOverlay, MSIScatterView, msi);
+                m_hotspotCollection.updateHotspotLocations(HotspotOverlay, MSIScatterView, msi);
+
+            }
         }
 
         /// <summary>
         /// (initial setup) - viewbox of msi --> msi_thumb_rect: synchronizes highlighted region of artwork thumbnail navigator with MSI viewbox (the part of the artwork that the user is looking at)
         /// </summary>
         public void msi_ViewboxUpdate()
-        {
-            /* set initial size and position of zoom navigator */
+        { /* set initial size and position of zoom navigator */
             Rect viewbox = msi.GetZoomableCanvas.ActualViewbox;
 
-            msi_thumb_rect.Width = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * viewbox.Width) / msi.GetImageActualWidth;
-            msi_thumb_rect.Height = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * viewbox.Height) / msi.GetImageActualHeight;
+            ThumbSVI.Width = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * viewbox.Width) / msi.GetImageActualWidth;
+            ThumbSVI.Height = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * viewbox.Height) / msi.GetImageActualHeight;
 
             double msi_thumb_rect_centerX = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth * viewbox.GetCenter().X) / msi.GetImageActualWidth;
             double msi_thumb_rect_centerY = (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight * viewbox.GetCenter().Y) / msi.GetImageActualHeight;
@@ -1010,7 +1016,8 @@ namespace LADSArtworkMode
             double msi_thumb_rect_centerX_dist = msi_thumb_rect_centerX - msi_thumb_centerX + msi_thumb_zc.Offset.X;
             double msi_thumb_rect_centerY_dist = msi_thumb_rect_centerY - msi_thumb_centerY + msi_thumb_zc.Offset.Y;
 
-            msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
+            ThumbSVI.Center = new Point(msi_thumb_rect_centerX_dist + ThumbSV.Width / 2, msi_thumb_rect_centerY_dist + ThumbSV.Height / 2);
+            //msi_thumb_rect.RenderTransform = new TranslateTransform(msi_thumb_rect_centerX_dist, msi_thumb_rect_centerY_dist);
 
             /* HOTSPOTS */
 
@@ -1028,7 +1035,7 @@ namespace LADSArtworkMode
             m_hotspotCollection.updateHotspotLocations(HotspotOverlay, MSIScatterView, msi);
 
             /* disable msi_thumb's event handlers */
-            msi_thumb.DisableEventHandlers();
+            //msi_thumb.DisableEventHandlers();
         }
 
         /// <summary>
@@ -1051,7 +1058,13 @@ namespace LADSArtworkMode
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ZoomableCanvas.ActualViewboxProperty, typeof(ZoomableCanvas));
             dpd.AddValueChanged(msi.GetZoomableCanvas, msi_ViewboxChanged);
 
+            DependencyPropertyDescriptor dpd2 = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
+            dpd2.AddValueChanged(ThumbSVI, ThumbSVI_CenterChanged);
+
             this.msi_ViewboxUpdate();
+
+            ThumbSVI.SizeChanged += new SizeChangedEventHandler(ThumbSVI_SizeChanged);
+            ThumbSVI.MouseWheel += new MouseWheelEventHandler(ThumbSVI_MouseWheel);
         }
 
         #endregion
@@ -1767,6 +1780,133 @@ namespace LADSArtworkMode
                 textMessage.BeginAnimation(OpacityProperty, da);
             }
         }
+
+        private void ThumbSVI_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            _isInteractionOnThumb = true;
+
+            double scale;
+
+            if (e.Delta > 0)
+            {
+                scale = 1.1;
+            }
+            else
+            {
+                scale = 0.9;
+            }
+            double newW = ThumbSVI.Width* scale;
+            double newH = ThumbSVI.Height * scale;
+
+            //if (newW <= ThumbSVI.MaxWidth && newW >= ThumbSVI.MinWidth && newH <= ThumbSVI.MaxHeight && newH >= ThumbSVI.MinHeight)
+            {
+                ThumbSVI.Width = newW;
+                ThumbSVI.Height = newH;
+            }
+        }
+
+        private bool _ignoreReverse = false;
+        private void ThumbSVI_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_isInteractionOnThumb)
+            {
+                if (msi.GetZoomableCanvas != null)
+                {
+                    ZoomableCanvas zc = msi.GetZoomableCanvas;
+
+                    double oldW = zc.ActualViewbox.Width;
+                    double oldH = zc.ActualViewbox.Height;
+
+                    double zoomscale = e.NewSize.Height / e.PreviousSize.Height;
+                    
+                    Point center = new Point(-zc.Offset.X + (zc.Scale * msi.GetImageActualWidth) / 2, -zc.Offset.Y + (zc.Scale * msi.GetImageActualHeight) / 2);
+
+                    msi.ScaleCanvas(1.0/zoomscale, center);
+
+                    double scale = msi.GetZoomableCanvas.Scale * msi.GetImageActualWidth / (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth);
+                    double x = (ThumbSVI.Center.X - ThumbSVI.Width / 2) - (ThumbSV.Width - (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth)) / 2;
+                    double y = (ThumbSVI.Center.Y - ThumbSVI.Height / 2) - (ThumbSV.Height - (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualHeight)) / 2;
+                    msi.GetZoomableCanvas.Offset = new Point(x*scale, y*scale);
+
+                    if (!_ignoreReverse)
+                    {
+                        if (zc.Viewbox.Height == oldH || zc.Viewbox.Width == oldW)
+                        {
+                            ThumbSVI.Width = e.PreviousSize.Width;
+                            ThumbSVI.Height = e.PreviousSize.Height;
+                            _ignoreReverse = true;
+                        }
+                        else
+                        {
+                            _ignoreReverse = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private Point preCenter;
+        private void ThumbSVI_CenterChanged(Object sender, EventArgs e)
+        {
+            if (_isInteractionOnThumb)
+            {
+                if (preCenter == null)
+                {
+                    preCenter = ThumbSVI.Center;
+                }
+                //if (ThumbSVI.Center.X > ThumbSV.Width / 2 - msi_thumb.ActualWidth / 2 && ThumbSVI.Center.X > ThumbSV.Width / 2 + msi_thumb.ActualWidth / 2 && ThumbSVI.Center.Y > ThumbSV.Height / 2 - msi_thumb.ActualHeight / 2 && ThumbSVI.Center.Y > ThumbSV.Height / 2 + msi_thumb.ActualHeight / 2)
+                //{
+                    if (msi.GetZoomableCanvas != null)
+                    {
+                        double scale = msi.GetZoomableCanvas.Scale * msi.GetImageActualWidth / (msi_thumb.GetZoomableCanvas.Scale * msi_thumb.GetImageActualWidth);
+                        Console.Out.WriteLine("scale: " + scale);
+                        Console.Out.WriteLine("precenter: " + preCenter);
+                        Console.Out.WriteLine("newcenter: " + ThumbSVI.Center);
+                        Console.Out.WriteLine("offset before: "+msi.GetZoomableCanvas.Offset);
+                        msi.GetZoomableCanvas.Offset = new Point(msi.GetZoomableCanvas.Offset.X + (ThumbSVI.Center.X - preCenter.X) * scale, msi.GetZoomableCanvas.Offset.Y + (ThumbSVI.Center.Y - preCenter.Y) * scale);
+                        Console.Out.WriteLine("offset after: "+msi.GetZoomableCanvas.Offset);
+                        //preCenter = ThumbSVI.Center;
+                    }
+                //}
+                //else
+                //{
+                //    ThumbSVI.Center = preCenter;
+                //}
+            }
+            preCenter = ThumbSVI.Center;
+        }
+
+        private bool _isInteractionOnThumb = false;
+        private void Rectangle_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            _isInteractionOnThumb = true;
+            e.Handled = false;
+        }
+
+        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _isInteractionOnThumb = true;
+            e.Handled = false;
+        }
+
+        private void msi_TouchDown(object sender, TouchEventArgs e)
+        {
+            _isInteractionOnThumb = false;
+            e.Handled = false;
+        }
+
+        private void msi_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _isInteractionOnThumb = false;
+            e.Handled = false;
+        }
+
+        private void msi_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            _isInteractionOnThumb = false;
+            e.Handled = false;
+        }
+    
     }
 
     public class WorkspaceElement : SurfaceListBoxItem
