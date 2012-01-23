@@ -1209,7 +1209,7 @@ namespace LADSArtworkMode
 
         public void LeftButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!tourSystem.TourPlaybackOn && !tourSystem.IsExploreMode)
+            if (!tourSystem.TourPlaybackOn)
             {
                 if (leftPanelVisible)
                 {
