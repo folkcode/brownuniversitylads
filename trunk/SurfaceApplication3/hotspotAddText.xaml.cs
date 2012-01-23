@@ -39,7 +39,7 @@ namespace SurfaceApplication3
                 hotspotControl.AddAudio.IsEnabled = true;
                 hotspotControl.AddImage.IsEnabled = true;
                 hotspotControl.AddVideo.IsEnabled = true;
-                hotspotControl.AddTextAndImage.IsEnabled = true;
+               // hotspotControl.AddTextAndImage.IsEnabled = true;
             }
             else
             {

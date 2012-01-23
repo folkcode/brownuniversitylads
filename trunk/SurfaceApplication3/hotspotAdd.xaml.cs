@@ -252,7 +252,7 @@ namespace SurfaceApplication3
                                         String name = "";
                                         String type = "";
                                         String description = "";
-                                        String imageDescription = "";
+                                        String fileDescription = "";
                                        
                                         foreach (XmlNode posNode in hotspot.ChildNodes)
                                         {
@@ -281,12 +281,12 @@ namespace SurfaceApplication3
                                             {
                                                 description = posNode.InnerText;
                                             }
-                                            if (posNode.Name == "imageDescription")
+                                            if (posNode.Name == "fileDescription")
                                             {
-                                                imageDescription = posNode.InnerText;
+                                                fileDescription = posNode.InnerText;
                                             }
                                         }
-                                        String longString = name + "/" + type + "/" + description +"/"+imageDescription;
+                                        String longString = name + "/" + type + "/" + description + "/" + fileDescription;
                                     
                                         BitmapImage newImage = new BitmapImage();
                                         String dataDir1 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
@@ -426,7 +426,7 @@ namespace SurfaceApplication3
             AddImage.IsEnabled = false;
             AddAudio.IsEnabled = false;
             AddVideo.IsEnabled = false;
-            AddTextAndImage.IsEnabled = false;
+            //AddTextAndImage.IsEnabled = false;
             Edit.IsEnabled = false;
        
             buttonChecked = (SurfaceRadioButton)sender;
@@ -441,28 +441,28 @@ namespace SurfaceApplication3
                     AddImage.IsEnabled = true;
                     AddAudio.IsEnabled = true;
                     AddVideo.IsEnabled = true;
-                    AddTextAndImage.IsEnabled = true;
+                    //AddTextAndImage.IsEnabled = true;
                 }
                 else if (type == "image")
                 {
                     AddText.IsEnabled = true;
                     AddAudio.IsEnabled = true;
                     AddVideo.IsEnabled = true;
-                    AddTextAndImage.IsEnabled = true;
+                   // AddTextAndImage.IsEnabled = true;
                 }
                 else if (type == "audio")
                 {
                     AddImage.IsEnabled = true;
                     AddText.IsEnabled = true;
                     AddVideo.IsEnabled = true;
-                    AddTextAndImage.IsEnabled = true;
+                   // AddTextAndImage.IsEnabled = true;
                 }
                 else if (type == "video")
                 {
                     AddImage.IsEnabled = true;
                     AddAudio.IsEnabled = true;
                     AddText.IsEnabled = true;
-                    AddTextAndImage.IsEnabled = true;
+                   // AddTextAndImage.IsEnabled = true;
                 }
                 else
                 {
@@ -479,7 +479,7 @@ namespace SurfaceApplication3
                 AddImage.IsEnabled = true;
                 AddAudio.IsEnabled = true;
                 AddVideo.IsEnabled = true;
-                AddTextAndImage.IsEnabled = true;
+                //AddTextAndImage.IsEnabled = true;
             }
           
         }
@@ -563,7 +563,7 @@ namespace SurfaceApplication3
                                 positionX.InnerText = strings[0];
                                 positionY.InnerText = strings[1];
 
-                                XmlElement imageDes = doc.CreateElement("imageDescription");
+                                XmlElement fileDes = doc.CreateElement("fileDescription");
                                 
 
                                 spots.AppendChild(name);
@@ -573,14 +573,14 @@ namespace SurfaceApplication3
                                 spots.AppendChild(description);
                                 if (strs.Length == 4)
                                 {
-                                    imageDes.InnerText = strs[3];
+                                    fileDes.InnerText = strs[3];
                                 }
                                 else
                                 {
-                                    imageDes.InnerText = "";
+                                    fileDes.InnerText = "";
                                 }
 
-                                spots.AppendChild(imageDes);
+                                spots.AppendChild(fileDes);
                                 hotspot.AppendChild(spots);
 
                             }
@@ -656,19 +656,19 @@ namespace SurfaceApplication3
                                             spots.AppendChild(positionY);
                                             spots.AppendChild(type);
                                             spots.AppendChild(description);
-                                            
-                                            XmlElement imageDes = doc.CreateElement("imageDescription");
+
+                                            XmlElement fileDes = doc.CreateElement("fileDescription");
 
                                             if (strs.Length == 4)
                                             {
-                                                imageDes.InnerText = strs[3];
+                                                fileDes.InnerText = strs[3];
 
                                             }
                                             else
                                             {
-                                                imageDes.InnerText = "";
+                                                fileDes.InnerText = "";
                                             }
-                                            spots.AppendChild(imageDes);
+                                            spots.AppendChild(fileDes);
                                             docNode.AppendChild(spots);
                                         }
                                         else
@@ -881,7 +881,7 @@ namespace SurfaceApplication3
         {
             if (!newWindowIsOpened)
             {
-                addHotspotsContent newContents = new addHotspotsContent();
+                addHotspotMix newContents = new addHotspotMix();
                 newContents.Show();
                 newContents.hotspotContent = 1;
            
@@ -907,7 +907,7 @@ namespace SurfaceApplication3
         {
             if (!newWindowIsOpened)
             {
-                addHotspotsContent newContents = new addHotspotsContent();
+                addHotspotMix newContents = new addHotspotMix();
                 newContents.Show();
              
                 newContents.setParentControl(this);
@@ -920,13 +920,25 @@ namespace SurfaceApplication3
         {
             if (!newWindowIsOpened)
             {
-                addHotspotsContent newContents = new addHotspotsContent();
+                addHotspotMix newContents = new addHotspotMix();
                 newContents.Show();
            
                 newContents.setParentControl(this);
                 newWindowIsOpened = true;
                 newContents.hotspotContent = 3;
             }
+        }
+
+        private void ModifyFileAndText(String caption, String url,String text, int contentCatogory)
+        {
+            addHotspotMix newMix = new addHotspotMix();
+            newMix.title.Text = caption;
+            newMix.Text.Text = text;
+            newMix.url_tag.Text = url;
+            newMix.Show();
+            newMix.setParentControl(this);
+            newMix.contentPath = url;
+            newMix.hotspotContent = contentCatogory;//need to set the contentPath as to display the correct URL info
         }
         //This opens the window for modifying text to the hotspot
         private void ModifyText(String caption, String description)
@@ -951,16 +963,7 @@ namespace SurfaceApplication3
             newContents.hotspotContent = contentCatogory;//need to set the contentPath as to display the correct URL info
         }
 
-        private void ModifyTextAndImage(String caption, String text, String url)
-        {
-            addHotspotMix newMix = new addHotspotMix();
-            newMix.title.Text = caption;
-            newMix.Text.Text = text;
-            newMix.url_tag.Text = url;
-            newMix.Show();
-            newMix.setParentControl(this);
-            newMix.contentPath = url;
-        }
+       
 
         private void Edit_Click(Object sender, RoutedEventArgs e)
         {
@@ -973,20 +976,17 @@ namespace SurfaceApplication3
             }
             else if (str[1] == "audio")
             {
-                this.ModifyNonText(1, str[0], str[2]);
+                this.ModifyFileAndText(str[0], str[2],str[3],1);
             }
             else if (str[1] == "image")
             {
-                this.ModifyNonText(2, str[0], str[2]);
+                this.ModifyFileAndText(str[0], str[2], str[3],2);
             }
             else if (str[1] == "video")
             {
-                this.ModifyNonText(3, str[0], str[2]);
+                this.ModifyFileAndText(str[0], str[2], str[3],3);
             }
-            else
-            {
-                this.ModifyTextAndImage(str[0], str[2], str[3]);
-            }
+            
         }
 
         //This saves the hotspotInfo when the user enters the information
