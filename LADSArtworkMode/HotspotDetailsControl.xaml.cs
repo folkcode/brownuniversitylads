@@ -183,6 +183,7 @@ namespace LADSArtworkMode
 
             }
             
+            
         }
 
         /// <summary>
@@ -254,45 +255,46 @@ namespace LADSArtworkMode
         /// </summary>
         private void scatterItem_Loaded(object sender, RoutedEventArgs e)
         {
-            if (m_hotspotData.Type.ToLower().Contains("image"))
-            {
-                MinX = 402;
-                MinY = 320;
-                BitmapImage img = new BitmapImage();
-                String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.Description;
-                img.BeginInit();
-                img.UriSource = new Uri(imgUri, UriKind.Absolute);
-                img.CacheOption = BitmapCacheOption.OnLoad;
-                img.EndInit();
-                HotspotImage.Source = img;
-                HotspotImage.Visibility = Visibility.Visible;
-                HotspotImage.IsEnabled = true;
-                double maxWidth = 800.0;
-                if (img.PixelWidth > maxWidth)
-                {
-                    HotspotImage.SetCurrentValue(HeightProperty, maxWidth * img.PixelHeight / img.PixelWidth);
-                    HotspotImage.SetCurrentValue(WidthProperty, maxWidth);
-                }
-                else
-                {
-                    HotspotImage.SetCurrentValue(HeightProperty, (double) img.PixelHeight);
-                    HotspotImage.SetCurrentValue(WidthProperty, (double) img.PixelWidth);
-                }
-                this.SetCurrentValue(HeightProperty, HotspotImage.Height + 47.0);
-                this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
-                hotspotCanvas.Width = HotspotImage.Width + 24.0;
-                hotspotCanvas.Height = HotspotImage.Height + 47.0;
+            //if (m_hotspotData.Type.ToLower().Contains("image"))
+            //{
+            //    MinX = 402;
+            //    MinY = 320;
+            //    BitmapImage img = new BitmapImage();
+            //    String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.Description;
+            //    img.BeginInit();
+            //    img.UriSource = new Uri(imgUri, UriKind.Absolute);
+            //    img.CacheOption = BitmapCacheOption.OnLoad;
+            //    img.EndInit();
+            //    HotspotImage.Source = img;
+            //    HotspotImage.Visibility = Visibility.Visible;
+            //    HotspotImage.IsEnabled = true;
+            //    double maxWidth = 800.0;
+            //    if (img.PixelWidth > maxWidth)
+            //    {
+            //        HotspotImage.SetCurrentValue(HeightProperty, maxWidth * img.PixelHeight / img.PixelWidth);
+            //        HotspotImage.SetCurrentValue(WidthProperty, maxWidth);
+            //    }
+            //    else
+            //    {
+            //        HotspotImage.SetCurrentValue(HeightProperty, (double) img.PixelHeight);
+            //        HotspotImage.SetCurrentValue(WidthProperty, (double) img.PixelWidth);
+            //    }
+            //    this.SetCurrentValue(HeightProperty, HotspotImage.Height + 47.0);
+            //    this.SetCurrentValue(WidthProperty, HotspotImage.Width + 24.0);
+            //    hotspotCanvas.Width = HotspotImage.Width + 24.0;
+            //    hotspotCanvas.Height = HotspotImage.Height + 47.0;
                 
-                this.Width = hotspotCanvas.Width;
-                this.Height = hotspotCanvas.Height;
-                HotspotTextBox.Visibility = Visibility.Hidden;
-                //textBoxScroll.Visibility = Visibility.Hidden;
-                VideoStackPanel.Visibility = Visibility.Collapsed;
-                AudioScroll.Visibility = Visibility.Hidden;
-            }
-            else if (m_hotspotData.Type.ToLower().Contains("text"))
+            //    this.Width = hotspotCanvas.Width;
+            //    this.Height = hotspotCanvas.Height;
+            //    HotspotTextBox.Visibility = Visibility.Hidden;
+            //    //textBoxScroll.Visibility = Visibility.Hidden;
+            //    VideoStackPanel.Visibility = Visibility.Collapsed;
+            //    AudioScroll.Visibility = Visibility.Hidden;
+            //}
+            if (m_hotspotData.Type.ToLower().Contains("text"))
             {
                 HotspotTextBox.Text = m_hotspotData.Description;
+                HotspotTextBox.Visibility = Visibility.Visible;
                 //textBoxScroll.Visibility = Visibility.Visible;
                 HotspotImage.Visibility = Visibility.Hidden;
                 HotspotImage.IsEnabled = false;
@@ -315,8 +317,7 @@ namespace LADSArtworkMode
                 String newaudioUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Audios\\" + m_hotspotData.Description;
                 myMediaElement.Source = new Uri(newaudioUri);
                 AudioScroll.Children.Add(myMediaElement);
-                AudioScroll.Width = hotspotCanvas.Width - 24;
-                AudioScroll.Height = hotspotCanvas.Height - 47;
+              
                 myMediaElement.Width = VideoStackPanel.Width;
                 myMediaElement.Height = VideoStackPanel.Height - 30;
                 Name.Width = Width - (422 - 335);
@@ -325,7 +326,7 @@ namespace LADSArtworkMode
                 videoCanvas.Visibility = Visibility.Collapsed;
                 //textBoxScroll.Visibility = Visibility.Collapsed;
 
-              
+                HotspotTextBox.Visibility = Visibility.Hidden;
                 myMediaElement.MediaOpened += new RoutedEventHandler(myMediaElement_MediaOpened);
                 myMediaElement.MediaEnded += new RoutedEventHandler(myMediaElement_MediaEnded); //need to fill in method
                 myMediaElement.LoadedBehavior = MediaState.Manual;
@@ -335,6 +336,26 @@ namespace LADSArtworkMode
                 timelineSlider.Visibility = Visibility.Visible;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
 
+                AudioScroll.Width = hotspotCanvas.Width - 24;
+                AudioScroll.Height = hotspotCanvas.Height + AudioTextbox.ActualHeight - 47;
+
+                
+                if (m_hotspotData.fileDescription == "")
+                {
+                    AudioTextbox.Visibility = Visibility.Hidden;
+                    
+                }
+                else
+                {
+                    AudioTextbox.Content = "Description:  " + m_hotspotData.fileDescription;
+                    AudioTextbox.Width = hotspotCanvas.Width;
+                }
+                this.UpdateLayout();
+
+                AudioTextbox.Width = this.ActualWidth-8;
+               
+                hotspotCanvas.SetCurrentValue(HeightProperty, hotspotCanvas.Height + AudioTextbox.ActualHeight+40);
+                this.SetCurrentValue(HeightProperty, hotspotCanvas.Height+8);
                 //fire Media Opened in order to set the actual length
                 myMediaElement.Play();
                 myMediaElement.Pause();
@@ -360,6 +381,8 @@ namespace LADSArtworkMode
                 _sliderTimer.Interval = new TimeSpan(0, 0, 0, 0, SLIDER_TIMER_RESOLUTION);
                 _sliderTimer.Tick += new EventHandler(sliderTimer_Tick);
                 _sliderTimer.Stop();
+
+               
 
             }
             else if (m_hotspotData.Type.ToLower().Contains("video"))
@@ -442,11 +465,19 @@ namespace LADSArtworkMode
 
 
                 Canvas.SetTop(VideoStackPanel, 35);
+                if (m_hotspotData.fileDescription == "")
+                {
+                    VideoText.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    VideoText.Content = "Description:  " + m_hotspotData.fileDescription;
+                }
             }
-            else if((m_hotspotData.Type.ToLower().Contains("both")))
+            else if((m_hotspotData.Type.ToLower().Contains("image")))
             {
                 BitmapImage img = new BitmapImage();
-                String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.imageDescription;
+                String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.Description;
                 img.BeginInit();
                 img.UriSource = new Uri(imgUri, UriKind.Absolute);
                 img.CacheOption = BitmapCacheOption.OnLoad;
@@ -465,9 +496,18 @@ namespace LADSArtworkMode
                     HotspotImageMix.SetCurrentValue(HeightProperty, (double)img.PixelHeight);
                     HotspotImageMix.SetCurrentValue(WidthProperty, (double)img.PixelWidth);
                 }
-
-                HotspotTextBoxMix.Content = m_hotspotData.Description;
-                HotspotTextBoxMix.Width = HotspotImageMix.Width;
+                
+                if (m_hotspotData.fileDescription == "")
+                {
+                    HotspotTextBoxMix.Visibility = Visibility.Hidden;
+                    
+                }
+                else
+                {
+                    HotspotTextBoxMix.Content = "Description:  "+m_hotspotData.fileDescription;
+                    HotspotTextBoxMix.Width = HotspotImageMix.Width;
+                }
+               
                 this.UpdateLayout();
                 this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 10.0 + HotspotTextBoxMix.ActualHeight);
                 this.SetCurrentValue(WidthProperty, HotspotImageMix.Width + 10.0);

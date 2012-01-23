@@ -137,11 +137,10 @@
         <Canvas Name="detailHotspot" Canvas.Top="40" Canvas.Left="540" Height="400" Width="360">
             <Rectangle Height="400" Stroke="#FF076F72"  Width="360" Fill="#FFEDF5E2" StrokeThickness="3" />
 
-            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="33" Canvas.Left="30" Content="Set Hotspot to Text" Click="AddText_Click" IsEnabled="False"/>
-            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="103" Canvas.Left="30" Content="Set Hotspot to Image" Click="AddImage_Click" IsEnabled="False" />
-            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="173" Canvas.Left="30" Content="Set Hotspot to Audio" Click="AddAudio_Click" IsEnabled="False"/>
-            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="243" Canvas.Left="30" Content="Set Hotspot to Video" Click="AddVideo_Click" IsEnabled="False" />
-            <my:SurfaceButton Name="AddTextAndImage" Style="{StaticResource browse}" Width="280" Height="40" Canvas.Top="313" Canvas.Left="30" Content="Set Hotspot to Text and Image" Click="AddTextAndImage_Click"  IsEnabled="False" />
+            <my:SurfaceButton Name="AddText" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="63" Canvas.Left="30" Content="Set Hotspot to Text" Click="AddText_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddImage" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="133" Canvas.Left="30" Content="Set Hotspot to Image" Click="AddImage_Click" IsEnabled="False" />
+            <my:SurfaceButton Name="AddAudio" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="203" Canvas.Left="30" Content="Set Hotspot to Audio" Click="AddAudio_Click" IsEnabled="False"/>
+            <my:SurfaceButton Name="AddVideo" Style="{StaticResource browse}" Width="180" Height="40" Canvas.Top="273" Canvas.Left="30" Content="Set Hotspot to Video" Click="AddVideo_Click" IsEnabled="False" />
             <my:SurfaceButton Name="Edit" Style="{StaticResource browse}" Width="90" Height="26" MinHeight="0" Canvas.Top="170" Canvas.Left="230" Content="Edit" Click="Edit_Click" IsEnabled="False" />
         </Canvas>
 

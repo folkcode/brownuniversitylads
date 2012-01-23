@@ -127,7 +127,7 @@ namespace LADSArtworkMode
                     m_hotspots[i].Type = m_hotspotList[i].ChildNodes[3].InnerText;
                     m_hotspots[i].Description = m_hotspotList[i].ChildNodes[4].InnerText;
                    
-                    m_hotspots[i].imageDescription = m_hotspotList[i].ChildNodes[5].InnerText;
+                    m_hotspots[i].fileDescription = m_hotspotList[i].ChildNodes[5].InnerText;
                   
                     m_hotspots[i].XmlNode = m_hotspotList[i];
                     m_isSelected[i] = true;
