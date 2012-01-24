@@ -121,15 +121,73 @@ namespace LADSArtworkMode
             if (m_hotspotData.Type.ToLower().Contains("video") || m_hotspotData.Type.ToLower().Contains("image"))
             {
 
-                if (e.Delta < 0)
+                if (this.Height > 350 && this.Width > 350)
                 {
-                    this.Width *= 0.95;
-                    this.Height *= 0.95;
-                }
-                if (e.Delta > 0)
-                {
-                    this.Width /= 0.95;
-                    this.Height /= 0.95;
+                    if (e.Delta < 0)
+                    {
+                        this.Width *= 0.95;
+                        this.Height *= 0.95;
+                        if (m_hotspotData.Type.ToLower().Contains("image"))
+                        {
+                            HotspotImageMix.Height *= 0.95;
+                            HotspotImageMix.Width *= 0.95;
+                            HotspotTextBoxMix.Height *= 0.95;
+                            HotspotTextBoxMix.Width *= 0.95;
+                            hotspotCanvas.Height *= 0.95;
+                            hotspotCanvas.Width *= 0.95;
+                            this.UpdateLayout();
+                            this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 10.0 + HotspotTextBoxMix.ActualHeight);
+                        }
+                        else
+                        {
+                                SurfacePlayButton.Height *=0.95;
+                                SurfacePlayButton.Width *=0.95;
+                                SurfaceTimelineSlider.Height *=0.95;
+                                SurfaceTimelineSlider.Width *=0.95;
+                                hotspotCanvas.Height *= 0.95;
+                                hotspotCanvas.Width *= 0.95;
+                                VideoStackPanel.Height *= 0.95;
+                                VideoStackPanel.Width *= 0.95;
+                                videoElement.Height *= 0.95;
+                                videoElement.Width *= 0.95;
+                                VideoText.Height *= 0.95;
+                                VideoText.Width *= 0.95;
+                                this.UpdateLayout();
+                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 10);
+                                this.Height = hotspotCanvas.Height + 10;
+                            }
+                        }
+                    }
+                
+                
+                    if (e.Delta > 0)
+                    {
+                        if (this.Height < 800 && this.Width < 800)
+                        {
+
+                            this.Width /= 0.95;
+                            this.Height /= 0.95;
+                            if (m_hotspotData.Type.ToLower().Contains("image"))
+                            {
+                                HotspotImageMix.Height /= 0.95;
+                                HotspotImageMix.Width /= 0.95;
+                                HotspotTextBoxMix.Height /= 0.95;
+                                HotspotTextBoxMix.Width /= 0.95;
+
+                            }
+                            else
+                            {
+                                hotspotCanvas.Height /= 0.95;
+                                hotspotCanvas.Width /= 0.95;
+                                VideoStackPanel.Height /= 0.95;
+                                VideoStackPanel.Width /= 0.95;
+                                videoElement.Height /= 0.95;
+                                videoElement.Width /= 0.95;
+                                VideoText.Height /= 0.95;
+                                VideoText.Width /= 0.95;
+                            }
+
+                        }
                 }
             }
         }
@@ -398,12 +456,11 @@ namespace LADSArtworkMode
                 videoElement.LoadedBehavior = MediaState.Manual;
                 videoElement.Play();
                 videoElement.Pause();
-                VideoStackPanel.Children.Add(videoElement);
-                HotspotTextBox.Visibility = Visibility.Collapsed;
+
+                VideoStackPanel.Children.Insert(1,videoElement);
                 //textBoxScroll.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Collapsed;
                 hasVideo = true;
-
                 Grid g = new Grid();
                 g.Height = 30;
                 g.Width = 100;
@@ -463,7 +520,7 @@ namespace LADSArtworkMode
                 g.Visibility = Visibility.Visible;
                 SurfacePlayButton.Content = g;
 
-
+                HotspotTextBox.Visibility = Visibility.Hidden;
                 Canvas.SetTop(VideoStackPanel, 35);
                 if (m_hotspotData.fileDescription == "")
                 {
@@ -473,6 +530,7 @@ namespace LADSArtworkMode
                 {
                     VideoText.Content = "Description:  " + m_hotspotData.fileDescription;
                 }
+               
             }
             else if((m_hotspotData.Type.ToLower().Contains("image")))
             {
@@ -511,7 +569,7 @@ namespace LADSArtworkMode
                 this.UpdateLayout();
                 this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 10.0 + HotspotTextBoxMix.ActualHeight);
                 this.SetCurrentValue(WidthProperty, HotspotImageMix.Width + 10.0);
-
+                HotspotTextBox.Visibility = Visibility.Hidden;
                 
                 hotspotCanvas.Width = HotspotImageMix.Width;
                 
@@ -772,39 +830,46 @@ namespace LADSArtworkMode
         {
             return _dragging;
         }
-
+        bool sizeChanged = false;
         private void scatterItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Height > 800 || e.NewSize.Width > 800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX)
-            {
-                Width = e.PreviousSize.Width;
-                Height = e.PreviousSize.Height;
-            }
+            //if (e.NewSize.Height > 800 || e.NewSize.Width > 800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX)
+            //{
+            //    Width = e.PreviousSize.Width;
+            //    Height = e.PreviousSize.Height;
+            //}
 
             if (m_hotspotData.Type.ToLower().Contains("video"))
             {
-                if (videoElement != null)
+                if (videoElement != null && !sizeChanged)
                 {
                     hotspotCanvas.Width = Width - 8;
                     hotspotCanvas.Height = Height - 8;
                     VideoStackPanel.Width = hotspotCanvas.Width - 24;
-                    VideoStackPanel.Height = hotspotCanvas.Height - 47;
+                    VideoStackPanel.Height = hotspotCanvas.Height + VideoText.Height - 47;
                     videoElement.Width = VideoStackPanel.Width;
-                    videoElement.Height = VideoStackPanel.Height - 30;
+                    videoElement.Height = VideoStackPanel.Height - 30 - VideoText.Height;
+                    
                     SurfaceTimelineSlider.Width = hotspotCanvas.Width - 180;
                     Name.Width = Width - (422 - 335);
+
+                    this.UpdateLayout();
+                    hotspotCanvas.Height = hotspotCanvas.Height + VideoText.ActualHeight;
+                    this.Height = hotspotCanvas.Height + 8;
+                    sizeChanged = true;
                 }
             }
 
             if (m_hotspotData.Type.ToLower().Contains("image"))
             {
-                hotspotCanvas.Width = e.NewSize.Width-8;
-                hotspotCanvas.Height = e.NewSize.Height-8;
-                HotspotImage.Height = hotspotCanvas.Height - 47.0;
-                HotspotImage.Width = hotspotCanvas.Width - 24.0;
-                Name.Width = Width - (422 - 335);
-                Canvas.SetLeft(HotspotImage,12);
-                Canvas.SetTop(HotspotImage, 35);
+                    hotspotCanvas.Width = e.NewSize.Width - 8;
+                    hotspotCanvas.Height = e.NewSize.Height - 8;
+                    HotspotImage.Height = hotspotCanvas.Height - 47.0;
+                    HotspotImage.Width = hotspotCanvas.Width - 24.0;
+                    Name.Width = Width - (422 - 335);
+                    Canvas.SetLeft(HotspotImage, 12);
+                    Canvas.SetTop(HotspotImage, 35);
+                
             }
         }
 
