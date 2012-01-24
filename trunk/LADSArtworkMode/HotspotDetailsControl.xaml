@@ -22,6 +22,7 @@
             </DockPanel>
             <Canvas Name="videoCanvas" Background="Transparent">
                 <UserControl Name="video"></UserControl>
+                
             </Canvas> 
             <StackPanel Name="VideoStackPanel">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

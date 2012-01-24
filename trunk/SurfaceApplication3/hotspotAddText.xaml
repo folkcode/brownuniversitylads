@@ -82,7 +82,7 @@
 
             <Rectangle x:Name="lower_background" Fill="White" Height="221" Width="550" Canvas.Top="75" Canvas.Left="13"/>
             <Label Content="Text:" Canvas.Left="20" Foreground="Black" Canvas.Top="80"/>
-            <s:SurfaceTextBox Name="Text" Canvas.Left="40" Width="500" Height="180" Background="Transparent" Foreground="Black" Canvas.Top="110" BorderBrush="#227174" />
+            <s:SurfaceTextBox Name="Text" Canvas.Left="40" Width="500" Height="180" Background="Transparent" Foreground="Black" Canvas.Top="110" BorderBrush="#227174" TextWrapping="Wrap"/>
             <s:SurfaceButton Style="{StaticResource browse}"  Content="OK" Canvas.Left="214" Canvas.Bottom="10" Width="76" Height="30" Margin="1" BorderBrush="#227174" BorderThickness="10"  MinHeight="0" MinWidth="0" Click="OK_Click" />
             <s:SurfaceButton Style="{StaticResource browse}"  Content="Cancel" Canvas.Left="296" Canvas.Bottom="10"  Width="96" Height="30" Margin="1" BorderBrush="#227174" BorderThickness="10"  MinHeight="0" MinWidth="0" Click="Cancel_Click" />
         </Canvas>
