@@ -131,18 +131,18 @@ namespace LADSArtworkMode
                         {
                             HotspotImageMix.Height *= 0.95;
                             HotspotImageMix.Width *= 0.95;
-                            HotspotTextBoxMix.Height *= 0.95;
+                            
                             HotspotTextBoxMix.Width *= 0.95;
                             hotspotCanvas.Height *= 0.95;
                             hotspotCanvas.Width *= 0.95;
                             this.UpdateLayout();
-                            this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 10.0 + HotspotTextBoxMix.ActualHeight);
+                            this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 8.0 + HotspotTextBoxMix.ActualHeight);
                         }
                         else
                         {
-                                SurfacePlayButton.Height *=0.95;
-                                SurfacePlayButton.Width *=0.95;
-                                SurfaceTimelineSlider.Height *=0.95;
+                               // SurfacePlayButton.Height *=0.95;
+                               // SurfacePlayButton.Width *=0.95;
+                                //SurfaceTimelineSlider.Height *=0.95;
                                 SurfaceTimelineSlider.Width *=0.95;
                                 hotspotCanvas.Height *= 0.95;
                                 hotspotCanvas.Width *= 0.95;
@@ -150,11 +150,12 @@ namespace LADSArtworkMode
                                 VideoStackPanel.Width *= 0.95;
                                 videoElement.Height *= 0.95;
                                 videoElement.Width *= 0.95;
-                                VideoText.Height *= 0.95;
+                                
                                 VideoText.Width *= 0.95;
                                 this.UpdateLayout();
-                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 10);
-                                this.Height = hotspotCanvas.Height + 10;
+                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 14);
+                                this.Height = hotspotCanvas.Height+8;
+                              
                             }
                         }
                     }
@@ -171,20 +172,26 @@ namespace LADSArtworkMode
                             {
                                 HotspotImageMix.Height /= 0.95;
                                 HotspotImageMix.Width /= 0.95;
-                                HotspotTextBoxMix.Height /= 0.95;
+                                
                                 HotspotTextBoxMix.Width /= 0.95;
+                                this.UpdateLayout();
+                                this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 8.0 + HotspotTextBoxMix.ActualHeight);
 
                             }
                             else
                             {
                                 hotspotCanvas.Height /= 0.95;
                                 hotspotCanvas.Width /= 0.95;
+                                SurfaceTimelineSlider.Width /= 0.95;
                                 VideoStackPanel.Height /= 0.95;
                                 VideoStackPanel.Width /= 0.95;
                                 videoElement.Height /= 0.95;
                                 videoElement.Width /= 0.95;
-                                VideoText.Height /= 0.95;
                                 VideoText.Width /= 0.95;
+                                this.UpdateLayout();
+                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 14);
+                                this.Height = hotspotCanvas.Height+8;
+                              
                             }
 
                         }
@@ -240,8 +247,8 @@ namespace LADSArtworkMode
                 myMediaElement = null;
 
             }
-            
-            
+
+            sizeChanged = false;
         }
 
         /// <summary>
