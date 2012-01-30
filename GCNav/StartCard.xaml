@@ -7,7 +7,7 @@
              d:DesignHeight="330" d:DesignWidth="600">
     <Grid>
         <Grid Name="box" HorizontalAlignment="Left" VerticalAlignment="Top" Height="330" Width="600" Background="#3A1E1A">
-            <TextBlock Name="title" Text="LADS!!" FontFamily="Segoe" FontWeight="SemiBold" FontSize="88" Foreground="White" TextAlignment="Left"  Margin="20,5,0,0"></TextBlock>
+            <TextBlock Name="title" Text="LADS" FontFamily="Segoe" FontWeight="SemiBold" FontSize="88" Foreground="White" TextAlignment="Left"  Margin="20,5,0,0"></TextBlock>
             <TextBlock Name="subtitle" Text="LARGE ARTWORK DISPLAY ON THE SURFACE" FontFamily="Segoe" FontWeight="SemiBold" FontSize="16" Foreground="#CD7F32" TextAlignment="Left"  Margin="25,100,0,0"></TextBlock>
             <TextBlock Name="version" Text="1.1 (7/13/11)" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="12" Margin="25,125,0,0"></TextBlock>
             <TextBlock Name="names" Text="Andy van Dam, Donnie Kendall, Jessica Herron, Alex Hills, James Chin, Ferdi Adeputra, Maxwell Ashby, Yuting Chen, Yudi Fu, Julie Mond, Michael Price, Diem Tran, Maggie Pace" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="16" Margin="25,157,60,0"></TextBlock>
