@@ -84,6 +84,11 @@ namespace SurfaceApplication3
             return -1 != Array.IndexOf(imageExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
         }
 
+        public static bool staticIsImageFile(string filename)
+        {
+            return -1 != Array.IndexOf(imageExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
+        }
+
         //The next 2 blocks of code are for finding whether files are videos or not
         static string[] videoExtensions = {
             ".WMV", ".ASF", ".ASX", ".AVI", ".FLV",
@@ -94,6 +99,12 @@ namespace SurfaceApplication3
         {
             return -1 != Array.IndexOf(videoExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
         }
+
+        public static bool staticIsVideoFile(string filename)
+        {
+            return -1 != Array.IndexOf(videoExtensions, System.IO.Path.GetExtension(filename).ToUpperInvariant());
+        }
+
         //The next 2 blocks of code are for finding whether files are DirectShow videos or not
         static string[] DirShowExtensions = {
                                               ".MOV", ".AVI"
