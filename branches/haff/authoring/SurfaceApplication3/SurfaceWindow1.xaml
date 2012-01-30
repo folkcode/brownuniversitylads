@@ -1,0 +1,27 @@
+﻿<s:SurfaceWindow x:Class="SurfaceApplication3.SurfaceWindow1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    Title="SurfaceApplication3" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="589" d:DesignWidth="903" SizeToContent="WidthAndHeight" Loaded="SurfaceWindow_Loaded">
+    <UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:m="clr-namespace:SurfaceApplication3"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"    
+	mc:Ignorable="d"
+	
+	x:Name="UserControl"
+	d:DesignWidth="900" d:DesignHeight="600" Background="#FFB5FBE3" Width="900">
+
+        <Grid>
+            <Canvas Height="600" Width="900">
+            <m:big_window Loaded="big_window_Loaded" x:Name="big_window1" />
+
+            <m:hotspotAdd x:Name="HotspotControl" Loaded="HotspotControl_Loaded" Canvas.Top="50" Canvas.Left="60"  Visibility="Hidden" OpacityMask="#FF8BC4C4" Opacity="0.85" Height="450" Width="780" />
+            <m:map x:Name="mapControl" Loaded="mapControl_Loaded" Canvas.Top="50" Canvas.Left="60" Visibility="Hidden" OpacityMask="#FF8BC4C4" Opacity="0.85" Height="450" Width="780" />
+            </Canvas>
+        </Grid>
+</UserControl>
+</s:SurfaceWindow>
