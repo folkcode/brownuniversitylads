@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="SurfaceApplication3.big_window"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             xmlns:m="clr-namespace:SurfaceApplication3"
+             mc:Ignorable="d" 
+             d:DesignHeight="574" d:DesignWidth="901" BorderBrush="#FF5342CD" Background="#FF8BBAA5">
+    <UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+	
+	mc:Ignorable="d"
+	x:Name="UserControl"
+	d:DesignWidth="900" d:DesignHeight="600" 
+        Width="900" Height="600">
+
+        <Grid>
+            <Canvas Width="900" Height="600">
+                <Canvas x:Name="upper_information" Height="179.163" Canvas.Top="30" Canvas.Left="15">
+                <Rectangle x:Name="background" Fill="#FFFDF3E2" Height="84" Stroke="#FFF3F3CE" Width="831" Canvas.Top="27.163"/>
+                <Rectangle x:Name="image" Fill="#FF5DC4BB" Height="141.663" Stroke="#FF076F72" Width="127" StrokeThickness="7" Canvas.Left="28.5"/>
+                <Image Height="138" x:Name="image1" Stretch="Fill" Width="121" Canvas.Top="2" Canvas.Left="30" />
+                
+                <s:SurfaceButton x:Name ="browse" Content="Browse" Canvas.Left="48.5" Canvas.Top="147" Width="78" Background="#FF2DB787" Height="23" Foreground="Black" BorderBrush="#FF3519D2" BorderThickness="13" MaxHeight="23" MinHeight="30" ClickMode="Release" Click="Browse_Click" OpacityMask="#FF4FD441" />
+                
+                <s:SurfaceTextBox x:Name="tags" Height="70" Width="193" BorderBrush="#FF23951F" BorderThickness="2" Canvas.Left="200" Canvas.Top="120" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" VerticalScrollBarVisibility="Auto" FontSize="16" ></s:SurfaceTextBox>
+                <Label Content="tags:" Canvas.Left="159.5" Canvas.Top="101" Width="98.957" Height="27.5" Foreground="Black" />
+                <Label Content="title:" Canvas.Left="159.5" Canvas.Top="5" Foreground="Black" Width="100" />
+                    <s:SurfaceTextBox x:Name="title_tag"  Width="165" BorderBrush="#FF23951F" BorderThickness="2" Canvas.Left="216.527" Canvas.Top="6" SelectionBrush="{x:Null}" Foreground="Black" Background="{x:Null}" TextWrapping="Wrap" MinHeight="32" Height ="32" FontSize="16" AutoWordSelection="True"/>
+                <Label Content="year:" Canvas.Left="159.5" Canvas.Top="40" Width="58" Foreground="Black" />
+                    <s:SurfaceTextBox x:Name="year_tag" Width="165" BorderBrush="#FF23951F" BorderThickness="2" Canvas.Left="216.527" Canvas.Top="41" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="32" FontSize="16" Height="32" AutoWordSelection="True" />
+                <Label Content="artist:" Canvas.Left="159.5" Canvas.Top="75" Width="65" Foreground="Black"/>
+                    <s:SurfaceTextBox x:Name="artist_tag"  Width="165" BorderBrush="#FF23951F" BorderThickness="2" Canvas.Left="216.527" Canvas.Top="75" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="32" FontSize="16" Height="32" AutoWordSelection="True" />
+                <!--<Rectangle x:Name="summary" Fill="#FFCEEFF3" Height="133.663" Canvas.Left="408" Stroke="#FF14638D" Canvas.Top="19" Width="381" StrokeThickness="2"/>-->
+                <s:SurfaceTextBox x:Name ="summary" Height="141" Width="411" Canvas.Left="408" Background="#FFD8EFF3" BorderBrush="#FF3952D4" BorderThickness="2" TextWrapping="Wrap" Foreground="Black" AutoWordSelection="True" Opacity="0.9" />
+                <Button x:Name="addMetadata" Content="Add Metadata" Foreground="WhiteSmoke" BorderBrush="#FF0D8174" Background="#FF2C9B8F" Height="33.5" FontFamily="Calibri" FontSize="16" BorderThickness="3,2"  Width="115" Canvas.Left="690" Canvas.Top="153" Click="addMetadata_Click" />
+                   
+                </Canvas>
+                
+              
+        
+
+            <!--<Rectangle Fill="#FF7DD2A5" Stroke="#FF36D231" Height="241" Width="812" Canvas.Left="-8"/>-->
+                
+                <!--<Rectangle x:Name="background3" Fill="#FF2C9B8F" Height="17.5" Margin="8,0,0,8" Stroke="#FF36D231" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="839" Grid.ColumnSpan="2" />-->
+                <s:SurfaceListBox x:Name="MetaDataList"  Width="840" Height="285" Canvas.Top="240" Canvas.Left="25">
+                    <!--s:SurfaceListBoxItem-->
+                    <!--<m:small_window Loaded="small_window_Loaded" Height="125"  Background="#FF7DD2A5"/>-->
+                    <!--/s:SurfaceListBoxItem-->
+                </s:SurfaceListBox>
+                
+               <!--<m:hotspotAdd  Height="480" Width="780" Canvas.Top="50" Canvas.Left="60" Visibility="Hidden"/> -->
+                <Button Background="#FF2C9B8F" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="420" Canvas.Bottom ="35" Content="Geographical Location" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="mapButton" Width="155" Click="mapButton_Click" />
+                <Button Background="#FF2C9B8F" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="590" Canvas.Bottom ="35" Content="Create Hotspots" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="hotspot" Width="120" Click="hotspot_Click" />
+                <Button Background="#FF2C9B8F" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="720" Canvas.Bottom ="35" Content="Save Edits" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" x:Name="save" Width="110" Click="save_Click" />
+                <Button Background="#FF2C9B8F" BorderBrush="#FF0D8174" BorderThickness="3,2" Canvas.Left="230" Canvas.Top="532" Content="Create DeepZoom image" FontFamily="Calibri" FontSize="16" Foreground="WhiteSmoke" Height="33.5" Name="createDZ" Width="185" Click="createDZ_Click" />
+            </Canvas>
+        </Grid>
+  
+</UserControl>
+</UserControl>
