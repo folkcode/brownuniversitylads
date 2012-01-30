@@ -1035,7 +1035,7 @@ namespace LADSArtworkMode
             m_hotspotCollection.updateHotspotLocations(HotspotOverlay, MSIScatterView, msi);
 
             /* disable msi_thumb's event handlers */
-            //msi_thumb.DisableEventHandlers();
+            msi_thumb.DisableEventHandlers();
         }
 
         /// <summary>
