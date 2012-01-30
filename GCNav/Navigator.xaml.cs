@@ -1043,6 +1043,7 @@ namespace GCNav
             width.Width = length;
             curInfoCol.ColumnDefinitions.Add(width);
 
+            artist.Visibility = Visibility.Collapsed; //HAFF EDIT: No artist field
             title.Text = "";
             artist.Text = "";
             medium.Text = "";

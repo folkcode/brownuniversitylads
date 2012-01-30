@@ -90,7 +90,7 @@ namespace GCNav
             tb.TextWrapping = TextWrapping.NoWrap;
             tb.TextTrimming = TextTrimming.WordEllipsis;
             tb.Foreground = new SolidColorBrush(Color.FromRgb(0xff,0xff,0xff));
-            tb.Text = img.artist;
+            tb.Text = img.title;
             tb.VerticalAlignment = VerticalAlignment.Bottom;
             Canvas.SetBottom(tb, 0);
 
