@@ -101,7 +101,7 @@
                     <!-- tour thumbnail MSI-->
 
                     <s:ScatterView Name="ThumbSV" Height="{Binding ElementName=ThumbGrid, Path=ActualHeight}" Width="{Binding ElementName=ThumbGrid, Path=ActualWidth}">
-                        <s:ScatterViewItem Name="ThumbSVI" CanRotate="False" ShowsActivationEffects="True" IsHitTestVisible="True" Opacity="1">
+                        <s:ScatterViewItem Name="ThumbSVI" CanRotate="False" ShowsActivationEffects="True" IsHitTestVisible="False" Opacity="1">
                             <Rectangle Fill="Red" Opacity="0.5" Width="{Binding ElementName=ThumbSVI, Path=Width}" Height="{Binding ElementName=ThumbSVI, Path=Height}" Loaded="msi_thumb_rect_Loaded" PreviewTouchDown="Rectangle_PreviewTouchDown" MouseDown="Rectangle_MouseDown" />
                         </s:ScatterViewItem>
                     </s:ScatterView>
