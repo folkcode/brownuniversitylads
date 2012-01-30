@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="LADSArtworkMode.VideoItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="500">
+
+        <Grid x:Name="container" x:FieldModifier="private" Width="500" Height="25" Opacity=".75">
+            <s:SurfaceButton x:Name="playButton" Margin="0,0,475,0">
+                <Grid>
+                    <Polygon x:Name="playIcon" Points="2,0 2,12 14,6" Fill="Green" Opacity=".5" Visibility="Visible"
+                Stroke="Black" StrokeThickness="0.5"
+                HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    <Polygon x:Name="pauseIconLeft" Points="1,0 1,11 6,11, 6,0" Fill="OldLace" Opacity=".5" Visibility="Hidden"
+                Stroke="Black" StrokeThickness="0.5"
+                HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+                    <Polygon x:Name ="pauseIconRight" Points="6,0 6,11 11,11, 11,0" Fill="OldLace" Opacity=".5" Visibility="Hidden"
+                Stroke="Black" StrokeThickness="0.5"
+                HorizontalAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+            </s:SurfaceButton>
+            <s:SurfaceButton x:Name="stopButton" Margin="30,0,445,0">
+                <Polygon x:Name ="stopIcon" Points="0,0 0,11 11,11, 11,0" Fill="Red" Opacity=".5"
+                Stroke="Black" StrokeThickness="0.5"
+                HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </s:SurfaceButton>
+        <s:SurfaceSlider x:Name="videoSlider" Margin="60,1,0,0" Thumb.DragStarted="videoSlider_DragStarted" Thumb.DragCompleted="videoSlider_DragCompleted"/>
+    </Grid>
+
+</UserControl>
