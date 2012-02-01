@@ -69,7 +69,18 @@ namespace CSVImport
             }
 
             // Parse the CSV.
-            List<artwork> artworks = parseCSV(path);
+            csvLog("Parsing CSV");
+            List<artwork> artworks = null;
+            try
+            {
+                artworks = parseCSV(path);
+            }
+            catch (Exception e)
+            {
+                csvLog("Error parsing CSV.  Aborting.");
+                csvLog("  Message: " + e.Message + Environment.NewLine);
+                return;
+            }
             List<artwork> validArtworks = new List<artwork>();
 
             csvLog("Processing " + artworks.Count + " artworks from " + path );
@@ -191,6 +202,7 @@ namespace CSVImport
                 int fieldCount = csv.FieldCount;
                 while (csv.ReadNextRecord())
                 {
+                    fieldCount = csv.FieldCount;
                     artwork aw = new artwork();
 
                     // Parse the artwork.
@@ -203,9 +215,7 @@ namespace CSVImport
                     }
                     catch (Exception e)
                     {
-                        // If the year isn't a valid number, assign a valid but out of range number.
-                        // This will cause an exception when the artwork is validated.
-                        aw.year = -200000;
+                        throw new InvalidCSVArtworkException("Year for artwork at " + aw.path + " is not a number.");
                     }                    
                     aw.artist = csv[ARTIST_INDEX];
                     aw.medium = csv[MEDIUM_INDEX];
@@ -213,10 +223,17 @@ namespace CSVImport
                     aw.assets = new List<asset>();
                     for (int i = FIRST_ASSET_INDEX; i < fieldCount; i++)
                     {
-                        if(!String.IsNullOrWhiteSpace(csv[i]))
-                            aw.assets.Add(parseAsset(csv[i]));
+                        try
+                        {
+                            if (!String.IsNullOrWhiteSpace(csv[i]))
+                                aw.assets.Add(parseAsset(csv[i]));
+                        }
+                        catch (Exception e)
+                        {
+                            throw new InvalidCSVArtworkException("Error parsing asset " + (i - FIRST_ASSET_INDEX + 1) + " for artwork at " + aw.path + "."
+                                                                 + Environment.NewLine + "  Message: " + e.Message);
+                        }
                     }
-
                     artworks.Add(aw);
                 }
             }
@@ -237,14 +254,14 @@ namespace CSVImport
             // [path and name] [description] [extraneous semicolon]
             string[] descSeparator = new string[] {"'''"};
             string[] tokens1 = field.Split(descSeparator, StringSplitOptions.None);
+            if (tokens1.Length < 3) throw new InvalidCSVArtworkException("Unable to parse description.  Did you include all required fields?");
             // Then split the other two fields.
             string[] tokens2 = tokens1[0].Split(';');
+            if (tokens2.Length != 2) throw new InvalidCSVArtworkException("Unable to parse path or title.  Did you include all required fields?");
             asset ass = new asset();
             ass.description = tokens1[1];
             ass.path = tokens2[0];
             ass.name = tokens2[1];
-            // TODO: Currently assumes that all paths are valid paths in the filesystem.
-            // Loading from a url still needs to be implemented.
             return ass;
         }
 
