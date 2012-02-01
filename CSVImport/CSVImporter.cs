@@ -12,7 +12,7 @@ using Microsoft.DeepZoomTools;
 
 namespace CSVImport
 {
-    public struct asset
+    public class asset
     {
         public string path;
         public string uniqueName; // This is not found in the CSV, but is generated after reading.
@@ -20,7 +20,7 @@ namespace CSVImport
         public string description;
     }
 
-    public struct artwork
+    public class artwork
     {
         public string path;
         public string thumbPath;
@@ -31,11 +31,13 @@ namespace CSVImport
         public string medium;
         public List<string> keywords;
         public List<asset> assets;
+        public List<asset> validatedAssets;
     }
 
     static class CSVImporter
     {
         public static StreamWriter logFileStreamWriter = null;
+        public static string inputCSVPath = null;
 
         // Constant indices that determine where in the row a given field is.
         public const int IMAGE_PATH_INDEX = 0;
@@ -55,9 +57,86 @@ namespace CSVImport
         // This is the only main API function! Call this!
         public static void DoBatchImport(string path)
         {
+            // Initialize the logfile.
+            initLogFile(path);
+
+            // Record the absolute path to the CSV file (since all relative paths are relative to the CSV file).
+            inputCSVPath = path;
+            if (!Path.IsPathRooted(path))
+            {
+                // If CSV path is relative, it's relative to the current directory.
+                inputCSVPath = Directory.GetCurrentDirectory() + "\\" + path;
+            }
+
             // Parse the CSV.
+            List<artwork> artworks = parseCSV(path);
+            List<artwork> validArtworks = new List<artwork>();
+
+            csvLog("Processing " + artworks.Count + " artworks from " + path );
+
             // For each artwork, process it (thumbs, etc).  If an exception bubbles up this far, log and kill the artwork.
-            // Finally, append to the XML to reflect our successful new artwork additions.
+            for (int i = 0; i < artworks.Count; i++)
+            {
+                Console.WriteLine("Processing artwork: " + i);
+                try
+                {
+                    artwork aw = artworks[i];
+                    validateArtwork(aw);
+                    saveThumbs(aw);
+                    createDeepZoomImages(aw);
+
+                    // Process the assets.
+                    List<asset> validAssets = new List<asset>();
+                    for (int asset_idx = 0; asset_idx < aw.assets.Count; asset_idx++)
+                    {
+                        try
+                        {
+                            asset ass = aw.assets[asset_idx];
+                            validateAsset(ass);
+                            copyAsset(ass);
+                            validAssets.Add(ass);
+                        }
+                        catch (Exception e)
+                        {
+                            csvLog("Error processing asset at: " + aw.assets[asset_idx].path + ". Skipping." 
+                                   +Environment.NewLine
+                                   + "  Message:" + e.Message + Environment.NewLine);
+                        }
+                    }
+                    // Initialize artwork's validated assets.
+                    aw.validatedAssets = validAssets;
+
+                    // If we made it, then we can add the artwork to the XML.
+                    validArtworks.Add(aw);
+                }
+                catch (Exception e)
+                {
+                    csvLog("Error processing artwork at: " + artworks[i].path + ". Skipping."
+                           + Environment.NewLine
+                           + "  Message: " + e.Message + Environment.NewLine);
+                }
+            }
+
+            Console.WriteLine("Generating XML");
+
+            XmlDocument doc = new XmlDocument();
+            String dataDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
+            doc.Load(dataDir + "NewCollection.xml");
+            foreach (XmlNode collection_node in doc.ChildNodes)
+            {
+                if (collection_node.Name.Equals("Collection"))
+                {
+                    // Finally, append to the XML to reflect our successful new artwork additions.
+                    for (int i = 0; i < validArtworks.Count; i++)
+                    {
+                        XmlElement image_element = XmlElementFromValidArtwork(doc, validArtworks[i]);
+                        collection_node.AppendChild(image_element);
+                    }
+                }
+            }
+            doc.Save(dataDir + "NewCollection.xml");
+
+            csvLog("All done!");
         }
 
         // Given the path of the input CSV file, create a unique logfile in the same directory.
@@ -69,22 +148,33 @@ namespace CSVImport
             string logpath = logdir + "/" + logname;
             if (File.Exists(logpath))
             {
-                // If the logfile already exists, make a new randomized name.
-                logname = generateUniqueName(logpath, logdir);
-                logpath = logdir + "/" + logname;
+                // If the logfile already exists, make a new name.
+                string filenameWithoutExtension = Path.GetFileNameWithoutExtension(logpath);
+                string extension = Path.GetExtension(logpath);
+                Random random = new Random();
+                int num = 1;
+                string uniqueName = filenameWithoutExtension + num + extension;
+                while (File.Exists(logdir + "/" + uniqueName))
+                {
+                    num++;
+                    uniqueName = filenameWithoutExtension + num + extension;
+                }
+                logpath = logdir + "/" + uniqueName;
             }
             // TODO: (TODECIDE?)
             // If this throws an exception, we just don't use the log.
             // Should we crash instead?
             try { logFileStreamWriter = File.CreateText(logpath); }
-            catch (Exception e) { }
+            catch (Exception e) { Console.WriteLine("Error making log file.  We're in for a bumpy ride!"); }
         }
 
         // Write a line to the logfile, if it isn't null.
         public static void csvLog(string line) {
+            Console.WriteLine(line);
             if (logFileStreamWriter != null)
             {
                 logFileStreamWriter.WriteLine(line);
+                logFileStreamWriter.Flush();
             }
         }
 
@@ -185,15 +275,15 @@ namespace CSVImport
             }
 
             // If there are metadata assets, add them.
-            if (aw.assets.Count > 0)
+            if (aw.validatedAssets.Count > 0)
             {
                 XmlElement metadata_element = doc.CreateElement("Metadata");
                 XmlElement group_element = doc.CreateElement("Group");
                 group_element.SetAttribute("name", "A");
-                foreach (asset ass in aw.assets)
+                foreach (asset ass in aw.validatedAssets)
                 {
                     XmlElement item_element = doc.CreateElement("Item");
-                    item_element.SetAttribute("Filename", ass.path);
+                    item_element.SetAttribute("Filename", ass.uniqueName);
                     item_element.SetAttribute("Name", ass.name);
                     item_element.SetAttribute("Description", ass.description);
                     // TODO: Implement Type = "Web"
@@ -209,9 +299,9 @@ namespace CSVImport
         // The exception that is thrown when an artwork read from a CSV file is broken in some way.
         public class InvalidCSVArtworkException : System.ApplicationException
         {
-            public InvalidCSVArtworkException() { }
-            public InvalidCSVArtworkException(string message) { }
-            public InvalidCSVArtworkException(string message, System.Exception inner) { }
+            public InvalidCSVArtworkException() : base() { }
+            public InvalidCSVArtworkException(string message) : base(message) { }
+            public InvalidCSVArtworkException(string message, System.Exception inner) : base(message, inner) { }
             // Constructor needed for serialization 
             // when exception propagates from a remoting server to the client.
             protected InvalidCSVArtworkException(System.Runtime.Serialization.SerializationInfo info,
@@ -227,6 +317,13 @@ namespace CSVImport
         // - Its year is not a valid number between -9999 and 9999
         public static void validateArtwork(artwork aw)
         {
+            // Convert the image path to an absolute path to eliminate ambiguities.
+            // If the path is relative, it should be relative to the CSV directory.
+            if (!Path.IsPathRooted(aw.path))
+            {
+                aw.path = Path.GetDirectoryName(inputCSVPath) + "\\" + aw.path;
+            }
+
             if (!Helpers.staticIsImageFile(aw.path) || !File.Exists(aw.path))
                 throw new InvalidCSVArtworkException("Artwork path is not an existing image file.");            
             if (String.IsNullOrWhiteSpace(aw.title))
@@ -241,7 +338,6 @@ namespace CSVImport
                 catch (Exception e)
                 {
                     csvLog("Error validating asset at: " + ass.path + ".\nMessage: " + e.Message);
-                    // TODO: Remove the asset so it doesn't get added to the XML or have thumbnails made.
                 }
             }
 
@@ -256,6 +352,12 @@ namespace CSVImport
         // - Its path is not an existing image file.
         public static void validateAsset(asset ass)
         {
+            // Convert the asset path to an absolute path.
+            // If it is relative, it's relative to the CSV directory.
+            if (!Path.IsPathRooted(ass.path))
+            {
+                ass.path = Path.GetDirectoryName(inputCSVPath) + "\\" + ass.path;
+            }
             if (String.IsNullOrWhiteSpace(ass.name))
                 throw new InvalidCSVArtworkException("Asset name missing.");
             if (String.IsNullOrWhiteSpace(ass.path) || !Helpers.staticIsImageFile(ass.path) || !File.Exists(ass.path))
@@ -266,7 +368,7 @@ namespace CSVImport
         // Given a file path and a new directory, returns a new file name with no conflicts in the new directory.
         // Parameter newpath should have a trailing slash.
         // Sample Input:  /myRandomImageFolder/myImage.jpg, Data/Images/Metadata/
-        //        oOtput: myImage403945345.jpg
+        //        Output: myImage403945345.jpg
         public static string generateUniqueName(string oldpath, string newpath)
         {
             string filenameWithoutExtension = Path.GetFileNameWithoutExtension(oldpath);
@@ -286,8 +388,8 @@ namespace CSVImport
         // Should throw an exception if the DeepZoom creation fails (for instance if the image is broken)
         public static void createDeepZoomImages(artwork aw)
         {
-            string imagePath = aw.uniqueName;
-            string imageName = Path.GetFileName(imagePath);
+            string imagePath = aw.path;
+            string imageName = aw.uniqueName;
             string destFolderPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\DeepZoom";
             
             ImageCreator ic = new ImageCreator();
@@ -306,34 +408,67 @@ namespace CSVImport
         // Saves both thumbnails for an artwork.
         public static void saveThumbs(artwork aw)
         {
-            string thumbPath = "data/Images/Thumbnail/" + aw.uniqueName;
-            string imgPath = "data/Images/" + aw.uniqueName;
+            String dataDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
+            string thumbPath = dataDir + "Images/Thumbnail/" + aw.uniqueName;
+            string imgPath = dataDir + "Images/" + aw.uniqueName;
             if (aw.path.Equals(thumbPath))
             {
                 throw new InvalidCSVArtworkException("Artwork thumbnails already exist.");
             }
-            else
-            {
+
+            // If a thumbnail path is provided, attempt to use it.
+            // If this fails, we cascade to the general case rather than throwing an exception.
+            if (!String.IsNullOrWhiteSpace(aw.thumbPath))
+            {  
+                string customThumbPath = aw.thumbPath;
+                // Convert to absolute path.  If relative, it's relative to the CSV directory.
+                if (!Path.IsPathRooted(customThumbPath))
+                {
+                    customThumbPath = Path.GetDirectoryName(inputCSVPath) + "\\" + customThumbPath;
+                }
                 try
                 {
                     File.Delete(thumbPath);
                     File.Delete(imgPath);
-                    // TODO: Get thumbnail from thumbnail image instead, if it exists!
-                    System.Drawing.Image img = Helpers.getThumbnail(aw.path, 800);
+                    System.Drawing.Image img = Helpers.getThumbnail(customThumbPath, 800);
                     img.Save(thumbPath);
                     img.Save(imgPath);
                     img.Dispose();
+                    return;
                 }
-                catch (Exception e) {}
+                catch (Exception e)
+                {
+                    csvLog("Error in loading custom thumbnail."
+                           + Environment.NewLine + "  Message: " + e.Message
+                           + Environment.NewLine + "Attempting to automatically generate a thumbnail from the image.");
+                }
             }
-        }
+
+            // The general case.
+            try
+            {
+                File.Delete(thumbPath);
+                File.Delete(imgPath);
+                // TODO: Get thumbnail from thumbnail image instead, if it exists!
+                System.Drawing.Image img = Helpers.getThumbnail(aw.path, 800);
+                img.Save(thumbPath);
+                img.Save(imgPath);
+                img.Dispose();
+            }
+            catch (Exception e)
+            {
+                throw new InvalidCSVArtworkException("Error creating thumbnail for artwork. Message: " + e.Message);
+            }
+
+          }
 
         // Assets written to XML must be copied to the Metadata folder, and a thumbnail is produced.
         public static void copyAsset(asset ass)
         {
             if (Helpers.staticIsImageFile(ass.path))
             {
-                String newPath = "Data/Images/Metadata/" + ass.uniqueName;
+                String dataDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
+                String newPath = dataDir + "Images/Metadata/" + ass.uniqueName;
                 try
                 {
                     // First, copy the asset.
@@ -343,11 +478,11 @@ namespace CSVImport
                     // Then create a thumbnail.
                     System.Drawing.Image thumb = System.Drawing.Image.FromFile(ass.path);
                     thumb = thumb.GetThumbnailImage(128, 128, null, new IntPtr());
-                    thumb.Save(newPath + "Thumbnail/" + ass.uniqueName);
+                    thumb.Save(Path.GetDirectoryName(newPath) + "/" + "Thumbnail/" + ass.uniqueName);
                     thumb.Dispose();
                 }
                 catch (Exception e) {
-                    throw new InvalidCSVArtworkException("Error copying image asset at " + ass.path);
+                    throw new InvalidCSVArtworkException("Error copying image asset at " + ass.path + ". Message: " + e.Message);
                 }
             }
             else if (Helpers.staticIsVideoFile(ass.path))

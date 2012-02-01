@@ -12,16 +12,12 @@ namespace CSVImport
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine("Args:");
-            for (int i = 0; i < args.Length; i++)
-            {
-                Debug.WriteLine(args[i]);
-            }
             // "C:/englishlads-yudi/CSVImport/fake_csv.csv"
             string path = args[0];
-            List<artwork> artworks = CSVImporter.parseCSV(path);
+            CSVImporter.DoBatchImport(path);
 
-            Debug.WriteLine("Printing artworks:");
+            //List<artwork> artworks = CSVImporter.parseCSV(path);
+            /*Debug.WriteLine("Printing artworks:");
             foreach (artwork aw in artworks)
             {
                 Debug.WriteLine("ARTWORK");
@@ -39,7 +35,7 @@ namespace CSVImport
                     Debug.WriteLine(ass.path);
                     Debug.WriteLine(ass.description);
                 }
-            }
+            }*/
             
 
         }
