@@ -338,6 +338,8 @@ namespace GCNav
             this.loadEvents();
             eventInfo.TextWrapping = TextWrapping.NoWrap;
             eventInfo.TextTrimming = TextTrimming.WordEllipsis;
+
+            help.Visibility = Visibility.Visible;
         }
 
         public event Helpers.ImageLoadedHandler ImageLoaded;
@@ -1141,5 +1143,24 @@ namespace GCNav
                 mainScatterViewItem.Height *= 0.9;
             }
         }
+
+        private void help_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            helpInstruction.Visibility = Visibility.Visible;
+            helpDone.Visibility = Visibility.Visible;
+        }
+
+        private void help_TouchDown(object sender, TouchEventArgs e)
+        {
+            helpInstruction.Visibility = Visibility.Visible;
+            helpDone.Visibility = Visibility.Visible;
+        }
+
+        private void helpDone_Click(object sender, RoutedEventArgs e)
+        {
+            helpInstruction.Visibility = Visibility.Hidden;
+            helpDone.Visibility = Visibility.Hidden;
+        }
+
     }
 }

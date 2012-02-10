@@ -79,16 +79,22 @@
         <TextBlock Name="Message" Text="No images found in selection." Foreground="Black" FontSize="22" FontWeight="Bold" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
             <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Collapsed" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Canvas.Bottom="20"  Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
+            
         </Grid>
-       
-        <Grid Name="InstructionBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50" Width ="500" Visibility="Collapsed" Opacity=".75" IsHitTestVisible="False">
+        <Canvas Name="helpPanel">
+            <Image Name="help" Height="35" Width="35" Source="Resources/question1.png"  Canvas.Top="345" Canvas.Right="440" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Collapsed" />
+            <Label Name="helpInstruction" Width="430" Content="Click on the image in the catalog to see information about the artwork. Click on the thumbnail image to view the artwork in detail. Zoom the map to see where the artwok is originated and currently displayed" FontSize="12" Canvas.Top="360" Canvas.Right="0" Visibility="Hidden" />
+            <s:SurfaceButton Name="helpDone" Width="50" Height="25" MinHeight="0"  Canvas.Right="440" Canvas.Top="385" Content="Done" FontSize="12" Click="helpDone_Click" Visibility="Hidden"/>
+        </Canvas>
+
+            <Grid Name="InstructionBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50" Width ="500" Visibility="Collapsed" Opacity=".75" IsHitTestVisible="False">
             <Border Name ="InstructionBorder" CornerRadius="5" Width ="500" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#ccd6c1" BorderBrush="#ccd6c1" BorderThickness="4">
               
 
                     <TextBlock Name="infoBox" Visibility ="Visible" Text="Select Artwork to View Details" Foreground="Black" TextAlignment="Center" FontSize="15" Width="500"></TextBlock>
-
+              
             </Border>
-
+            
         </Grid>
 
     </Grid>

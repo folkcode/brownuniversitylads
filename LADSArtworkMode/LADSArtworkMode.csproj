@@ -192,6 +192,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\question.png" />
     <None Include="Resources\Play.png" />
     <None Include="Resources\PlayPause.png" />
     <Content Include="Resources\icon.png">
