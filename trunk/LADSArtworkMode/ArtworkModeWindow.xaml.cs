@@ -163,6 +163,8 @@ namespace LADSArtworkMode
             //Canvas.SetLeft(collapseButtonDown, (collapseBar.Width - msi_thumb.ActualWidth) / 2 + msi_thumb.ActualWidth);
             Canvas.SetTop(collapseButtonLeft, 400);
             Canvas.SetTop(collapseButtonRight, 400);
+
+            
         }
 
 
@@ -1905,6 +1907,24 @@ namespace LADSArtworkMode
         {
             _isInteractionOnThumb = false;
             e.Handled = false;
+        }
+
+        private void help_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            helpInstruction.Visibility = Visibility.Visible;
+            helpDone.Visibility = Visibility.Visible;
+        }
+
+        private void help_TouchDown(object sender, TouchEventArgs e)
+        {
+            helpInstruction.Visibility = Visibility.Visible;
+            helpDone.Visibility = Visibility.Visible;
+        }
+
+        private void helpDone_Click(object sender, RoutedEventArgs e)
+        {
+            helpInstruction.Visibility = Visibility.Hidden;
+            helpDone.Visibility = Visibility.Hidden;
         }
     
     }
