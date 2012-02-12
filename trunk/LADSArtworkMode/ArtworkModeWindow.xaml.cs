@@ -1946,21 +1946,21 @@ namespace LADSArtworkMode
 
         private void help_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            helpInstruction.Visibility = Visibility.Visible;
-            helpDone.Visibility = Visibility.Visible;
+            helpWindow.Visibility = Visibility.Visible;
+            helpWindow.Width = this.Width;
+            helpWindow.Height = this.Height;
+            Canvas.SetZIndex(helpWindow, 100);
         }
 
         private void help_TouchDown(object sender, TouchEventArgs e)
         {
-            helpInstruction.Visibility = Visibility.Visible;
-            helpDone.Visibility = Visibility.Visible;
+            helpWindow.Visibility = Visibility.Visible;
+            helpWindow.Width = this.Width;
+            helpWindow.Height = this.Height;
+            Canvas.SetZIndex(helpWindow, 100);
         }
 
-        private void helpDone_Click(object sender, RoutedEventArgs e)
-        {
-            helpInstruction.Visibility = Visibility.Hidden;
-            helpDone.Visibility = Visibility.Hidden;
-        }
+        
     
     }
 

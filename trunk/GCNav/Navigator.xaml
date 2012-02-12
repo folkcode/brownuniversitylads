@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300" xmlns:my="http://schemas.microsoft.com/surface/2008">
     
       <Grid Name="MainGrid">
-
+        
         <Grid Name="curImageContainer" HorizontalAlignment="Right" VerticalAlignment="Top">
             <Border Name="imageBorder" Grid.Row="0" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="9" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
                 <Grid Name="curImageCanvas1" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -83,8 +83,8 @@
         </Grid>
         <Canvas Name="helpPanel">
             <Image Name="help" Height="35" Width="35" Source="Resources/question1.png"  Canvas.Top="345" Canvas.Right="440" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Collapsed" />
-            <Label Name="helpInstruction" Width="430" Content="Click on the image in the catalog to see information about the artwork. Click on the thumbnail image to view the artwork in detail. Zoom the map to see where the artwok is originated and currently displayed" FontSize="12" Canvas.Top="360" Canvas.Right="0" Visibility="Hidden" />
-            <s:SurfaceButton Name="helpDone" Width="50" Height="25" MinHeight="0"  Canvas.Right="440" Canvas.Top="385" Content="Done" FontSize="12" Click="helpDone_Click" Visibility="Hidden"/>
+            <!--<Label Name="helpInstruction" Width="430" Content="Click on the image in the catalog to see information about the artwork. Click on the thumbnail image to view the artwork in detail. Zoom the map to see where the artwok is originated and currently displayed" FontSize="12" Canvas.Top="360" Canvas.Right="0" Visibility="Hidden" />
+            <s:SurfaceButton Name="helpDone" Width="50" Height="25" MinHeight="0"  Canvas.Right="440" Canvas.Top="385" Content="Done" FontSize="12" Click="helpDone_Click" Visibility="Hidden"/>-->
         </Canvas>
 
             <Grid Name="InstructionBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50" Width ="500" Visibility="Collapsed" Opacity=".75" IsHitTestVisible="False">
@@ -96,8 +96,7 @@
             </Border>
             
         </Grid>
-
+        <m:helpWindow x:Name="helpWindow" Visibility ="hidden"/>
     </Grid>
     
-       
 </UserControl>

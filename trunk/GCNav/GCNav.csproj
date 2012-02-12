@@ -81,6 +81,9 @@
       <DependentUpon>FilterTimelineBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers.cs" />
+    <Compile Include="helpWindow.xaml.cs">
+      <DependentUpon>helpWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImageCluster.cs" />
     <Compile Include="ImageData.cs" />
     <Compile Include="MapControl.xaml.cs">
@@ -146,6 +149,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="FilterTimelineBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="helpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
