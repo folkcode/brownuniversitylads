@@ -15,6 +15,7 @@ using System.IO;
 using System.Windows.Ink;
 using System.Xml;
 using System.Net;
+using System.Windows.Threading;
 
 
 namespace LADSArtworkMode
@@ -105,6 +106,8 @@ namespace LADSArtworkMode
 
         #endregion
 
+        private DispatcherTimer _resetTimer = new DispatcherTimer();
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -164,7 +167,39 @@ namespace LADSArtworkMode
             Canvas.SetTop(collapseButtonLeft, 400);
             Canvas.SetTop(collapseButtonRight, 400);
 
-            
+            _resetTimer.Interval = TimeSpan.FromSeconds(120);
+            _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
+            _resetTimer.Start();
+        }
+
+        void _resetTimer_Tick(object sender, EventArgs e)
+        {
+            _resetTimer.Stop();
+            this.Close();
+        }
+
+        private void SurfaceWindow_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewTouchUp(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
         }
 
 

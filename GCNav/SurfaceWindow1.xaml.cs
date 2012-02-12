@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Surface;
 using Microsoft.Surface.Presentation.Controls;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace GCNav
 {
@@ -21,6 +22,7 @@ namespace GCNav
         /// </summary>
         private StartCard _startCard;
         private FilterTimelineBox filter;
+        private DispatcherTimer _resetTimer = new DispatcherTimer();
        
         public SurfaceWindow1()
         {
@@ -61,6 +63,9 @@ namespace GCNav
             map.Children.Add(filter);
            
             this.SizeChanged += SurfaceWindow1_SizeChanged;
+
+            _resetTimer.Interval = TimeSpan.FromSeconds(120);
+            _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
         }
 
         //This adjusts the winodw size for screens of different resolutions
@@ -183,6 +188,7 @@ namespace GCNav
                 Map.blur.Visibility = Visibility.Visible;
                 filter.Visibility = Visibility.Visible;
                 backRec.Visibility = Visibility.Visible;
+                _resetTimer.Start();
             }
         }
 
@@ -190,5 +196,52 @@ namespace GCNav
         {
             nav.setTimelineMouseUpFalse();
         }
+
+        private void SurfaceWindow_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            _startCard.Visibility = Visibility.Collapsed;
+            panImg.Visibility = Visibility.Collapsed;
+            InstrLabel.Visibility = Visibility.Collapsed;
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _startCard.Visibility = Visibility.Collapsed;
+            panImg.Visibility = Visibility.Collapsed;
+            InstrLabel.Visibility = Visibility.Collapsed;
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewTouchUp(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
+        }
+
+        void _resetTimer_Tick(object sender, EventArgs e)
+        {
+            _resetTimer.Stop();
+            _startCard.Visibility = Visibility.Visible;
+            panImg.Visibility = Visibility.Visible;
+            InstrLabel.Visibility = Visibility.Visible;
+        }
+
+        private void SurfaceWindow_Deactivated(object sender, EventArgs e)
+        {
+            _resetTimer.Start();
+        }
+
+
+
+
     }
 }

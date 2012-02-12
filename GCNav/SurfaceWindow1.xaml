@@ -5,9 +5,11 @@
     xmlns:m="clr-namespace:GCNav"
     WindowStyle="None" ResizeMode="CanResize"
     WindowState="Maximized"
-    Width="1920"
-    Height="1080"
+    Width="1920" Height="1080"
     Title="GCNav"
+    PreviewTouchDown="SurfaceWindow_PreviewTouchDown" PreviewTouchUp="SurfaceWindow_PreviewTouchUp"
+    PreviewMouseDown="SurfaceWindow_PreviewMouseDown"  PreviewMouseUp="SurfaceWindow_PreviewMouseUp"
+    Deactivated="SurfaceWindow_Deactivated"
     >
    
     <s:SurfaceWindow.Resources>
@@ -37,6 +39,7 @@
         <Canvas Name="panCan">
             <Image Name="panImg" Canvas.ZIndex="100"/>
         </Canvas>
+        <Label Name="InstrLabel" Content="Touch screen to begin" Width="2000" Height="1080" Opacity="0.5" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Visibility="Visible" Background="Gray" FontSize="150"/>
         <Canvas Name="startCan" HorizontalAlignment="Center" VerticalAlignment="Center" Width="660" Height="330"></Canvas>
         <s:SurfaceButton Canvas.ZIndex="102" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Height="1080" HorizontalAlignment="Left" Margin="0,0,0,0" Padding="0 25 0 0" Name="surfaceButton1" VerticalAlignment="Top" Width="2000" Click="surfaceButton1_Click" Background="Transparent"/>
         </Grid>
