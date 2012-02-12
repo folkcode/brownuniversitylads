@@ -14,7 +14,10 @@
     WindowStyle="None" ResizeMode="CanResize"
     WindowState="Maximized"
     Width="1920"
-    Height="1080" Loaded="SurfaceWindow_Loaded">
+    Height="1080" Loaded="SurfaceWindow_Loaded"
+    PreviewTouchDown="SurfaceWindow_PreviewTouchDown" PreviewTouchUp="SurfaceWindow_PreviewTouchUp"
+    PreviewMouseDown="SurfaceWindow_PreviewMouseDown"  PreviewMouseUp="SurfaceWindow_PreviewMouseUp"
+    >
 
     <s:SurfaceWindow.Resources>
         <!--<m:HotspotModel x:Key="HotspotBindingData"/>-->
