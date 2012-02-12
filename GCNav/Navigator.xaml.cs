@@ -85,6 +85,7 @@ namespace GCNav
                     ButtonPanel.Children.Remove(exitButton);
                 }
             }
+
         }
         public void setMapWidth(Double width)
         {
@@ -1146,21 +1147,24 @@ namespace GCNav
 
         private void help_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            helpInstruction.Visibility = Visibility.Visible;
-            helpDone.Visibility = Visibility.Visible;
+            helpWindow.Visibility = Visibility.Visible;
+            //helpInstruction.Visibility = Visibility.Visible;
+            //helpDone.Visibility = Visibility.Visible;
         }
 
         private void help_TouchDown(object sender, TouchEventArgs e)
         {
-            helpInstruction.Visibility = Visibility.Visible;
-            helpDone.Visibility = Visibility.Visible;
+            helpWindow.Visibility = Visibility.Visible;
+            //helpInstruction.Visibility = Visibility.Visible;
+            //helpDone.Visibility = Visibility.Visible;
         }
 
-        private void helpDone_Click(object sender, RoutedEventArgs e)
-        {
-            helpInstruction.Visibility = Visibility.Hidden;
-            helpDone.Visibility = Visibility.Hidden;
-        }
+        //private void helpDone_Click(object sender, RoutedEventArgs e)
+        //{
+        //    help.Visibility = Visibility.Visible;
+        //    //helpInstruction.Visibility = Visibility.Hidden;
+        //    //helpDone.Visibility = Visibility.Hidden;
+        //}
 
     }
 }
