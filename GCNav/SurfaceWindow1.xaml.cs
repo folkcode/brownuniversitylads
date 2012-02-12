@@ -20,16 +20,19 @@ namespace GCNav
         /// Default constructor.
         /// </summary>
         private StartCard _startCard;
-        private FilterTimelineBox filter;
+        //private FilterTimelineBox filter;
        
         public SurfaceWindow1()
         {
-
             InitializeComponent();
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
+
+            backgroundTopImg.Visibility = Visibility.Collapsed; // jcchin
+            exitButton.Visibility = Visibility.Collapsed; // jcchin
+
             this.SizeChanged += new SizeChangedEventHandler(SurfaceWindow1_SizeChanged);
-            this.SizeChanged += Map.WindowSizeChanged;
+            //this.SizeChanged += Map.WindowSizeChanged; // jcchin
             this.SizeChanged += nav.WindowSizeChanged;
             this.MouseUp += new MouseButtonEventHandler(MouseUp_Handler);
 
@@ -39,6 +42,14 @@ namespace GCNav
             startCan.Children.Add(_startCard);
 
             panImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\panning_startup.bmp", UriKind.Absolute));
+            backgroundTopImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\cxo_logo_stacked.png", UriKind.Absolute));
+            ImageBrush brush = new ImageBrush();
+            Image img = new Image();
+            img.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_selection_bg_top.jpg", UriKind.Absolute));
+            brush.ImageSource = img.Source;
+            backgroundTop.Background = brush;
+            //backgroundTopImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\SDO_Logo_flat_lg.png", UriKind.Absolute));
+            backgroundImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\catalog_chandra_bg.jpg", UriKind.Absolute));
          
             panImg.Width = 3598;
             panImg.Height = 1080;
@@ -53,12 +64,12 @@ namespace GCNav
             panImg.Opacity = 0.2;
             panCan.RenderTransform = t;
             t.BeginAnimation(TranslateTransform.XProperty, myAnimation);
-            nav.HandleImageSelected += Map.HandleImageSelectedEvent;
-            nav.setMapWidth(Map.Width);
-            filter = new FilterTimelineBox();
-            nav.filter = filter;
-           
-            map.Children.Add(filter);
+            //nav.HandleImageSelected += Map.HandleImageSelectedEvent; // jcchin
+            //nav.setMapWidth(Map.Width); // jcchin
+            //filter = new FilterTimelineBox(); // jcchin
+            //nav.filter = filter; // jcchin
+
+            //map.Children.Add(filter); // jcchin
            
             this.SizeChanged += SurfaceWindow1_SizeChanged;
         }
@@ -66,28 +77,28 @@ namespace GCNav
         //This adjusts the winodw size for screens of different resolutions
         void SurfaceWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Double canvasLeft = e.NewSize.Width / 2 - filter.ActualWidth / 2;
-            nav.setMapWidth(Map.ActualWidth);
+            //Double canvasLeft = e.NewSize.Width / 2 - filter.ActualWidth / 2; // jcchin
+            //nav.setMapWidth(Map.ActualWidth); // jcchin
             Double filterWidth = 420;
             if (e.NewSize.Width < 1600)
             {
                 ScaleTransform tran = new ScaleTransform();
                 tran.ScaleX = e.NewSize.Width / 1600;
-                filter.RenderTransform = tran;
-                canvasLeft = e.NewSize.Width / 2 - filterWidth * tran.ScaleX / 2;
+                //filter.RenderTransform = tran; // jcchin
+                //canvasLeft = e.NewSize.Width / 2 - filterWidth * tran.ScaleX / 2; // jcchin
                 filterWidth = filterWidth * tran.ScaleX;
             }
-            
-            Double scaleX= Map.tranScaleX;
-            Double scaleY = Map.tranScaleY;
-            Canvas.SetLeft(filter, canvasLeft);
-            Canvas.SetZIndex(filter, 10);
-            filter.Visibility = Visibility.Hidden;
 
-            backRec.Width = map.Width*scaleX +10;
-            backRec.Height = map.Height*scaleY + 30+10;
-            Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
-            Canvas.SetZIndex(backRec, -10); 
+            //Double scaleX= Map.tranScaleX; // jcchin
+            //Double scaleY = Map.tranScaleY; // jcchin
+            //Canvas.SetLeft(filter, canvasLeft); // jcchin
+            //Canvas.SetZIndex(filter, 10); // jcchin
+            //filter.Visibility = Visibility.Hidden; // jcchin
+
+            //backRec.Width = map.Width*scaleX +10; // jcchin
+            //backRec.Height = map.Height*scaleY + 30+10; // jcchin
+            //Canvas.SetLeft(backRec, e.NewSize.Width *0.316); // jcchin
+            //Canvas.SetZIndex(backRec, -10);  // jcchin
         }
 
         /// <summary>
@@ -179,16 +190,29 @@ namespace GCNav
             else
             {
                 panImg.Visibility = Visibility.Hidden;
-                Map.loadMap();
-                Map.blur.Visibility = Visibility.Visible;
-                filter.Visibility = Visibility.Visible;
-                backRec.Visibility = Visibility.Visible;
+                //Map.loadMap(); // jcchin
+                //Map.blur.Visibility = Visibility.Visible; // jcchin
+                
+                nav.filter.Visibility = Visibility.Visible; // jcchin
+                nav.imageBorder.Visibility = Visibility.Visible; // jcchin
+                nav.imageInfoBorder.Visibility = Visibility.Visible; // jcchin
+                
+                //backRec.Visibility = Visibility.Visible; // jcchin
+
+                exitButton.Visibility = Visibility.Visible;
+
+                backgroundTopImg.Visibility = Visibility.Visible;
             }
         }
 
         public void MouseUp_Handler(object sender, EventArgs e)
         {
             nav.setTimelineMouseUpFalse();
+        }
+
+        public void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

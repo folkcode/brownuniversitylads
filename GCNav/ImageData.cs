@@ -18,6 +18,9 @@ namespace GCNav
         private List<String> _locButtonInfo;
         public List<String> keywords;
         public int year {get;set;}
+        public int month { get; set; } // jcchin
+        public int day { get; set; } // jcchin
+        public string category { get; set; } // jcchin
         public String artist {get;set;}
         public String medium {get;set;}
         public String title {get;set;}

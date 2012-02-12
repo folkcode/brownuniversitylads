@@ -56,7 +56,6 @@ namespace LADSArtworkMode
         public DockedItemInfo info;
         public double aspectRatio;
         public Boolean isVideo = false;
-   
 
 
         public void resetValues(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar)
@@ -66,6 +65,82 @@ namespace LADSArtworkMode
             win = _win;
             isDocked = false;
         }
+
+
+        /// <summary>
+        /// jcchin - used by artwork mode (specifically the screenshot/annotation/e-mail feature)
+        /// </summary>
+        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, System.Drawing.Bitmap bitmap, int x, int y, double bitmapWidth, double bitmapHeight)
+        {
+            scatteruri = "";
+            image = new Image();
+            aldbi = null;
+            _helpers = new Helpers();
+
+            System.Drawing.Image dImage = bitmap;
+            System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
+            image.Source = wpfImage.Source;
+
+            this.isAnimating = false;
+            this.Background = Brushes.LightGray;
+            this.AddChild(image);
+            mainScatterView = _mainScatterView;
+            bar = _bar;
+            win = _win;
+            isDocked = false;
+            touchDown = false;
+
+            this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
+
+            DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
+            dpd.AddValueChanged(this, CenterChangedListener);
+
+            this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
+            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
+
+            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved); // jcchin
+
+            mainScatterView.Items.Add(this);
+            this.SetCurrentValue(MinWidthProperty, 40.0); // jcchin
+            this.SetCurrentValue(MinHeightProperty, 40.0); // jcchin
+            this.SetCurrentValue(HeightProperty, bitmapHeight);
+            this.SetCurrentValue(WidthProperty, bitmapWidth);
+            this.SetCurrentValue(OrientationProperty, 1.0); // jcchin
+
+            this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
+            this.CaptureMouse();
+
+            /*Random rnd = new Random();
+            Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
+                                              rnd.Next((int)(image.ActualHeight * 3), (int)(win.ActualHeight * .8 - image.ActualHeight * 3))); // jcchin
+            this.SetCurrentValue(CenterProperty, pt); // jcchin
+            this.Orientation = rnd.Next(-20, 20); // jcchin*/
+
+            Point center = new Point((x + (x + bitmapWidth)) / 2, (y + (y + bitmapHeight)) / 2);
+            this.SetCurrentValue(CenterProperty, center);
+
+            this.BorderBrush = Brushes.Black;
+            this.BorderThickness = new Thickness(2.0);
+
+            this.Background = new SolidColorBrush(Colors.Transparent);
+            RoutedEventHandler loadedEventHandler = null;
+            loadedEventHandler = new RoutedEventHandler(delegate
+            {
+                this.Loaded -= loadedEventHandler;
+                try
+                {
+                    Microsoft.Surface.Presentation.Generic.SurfaceShadowChrome ssc;
+                    ssc = this.Template.FindName("shadow", this) as Microsoft.Surface.Presentation.Generic.SurfaceShadowChrome;
+                    ssc.Visibility = Visibility.Hidden;
+                }
+                catch (Exception exc) { }
+
+            });
+            this.Loaded += loadedEventHandler;
+
+            imageURIPath = "";
+        }
+
 
         /// <summary>
         /// used by artwork mode, including the tour authoring & playback system
@@ -100,6 +175,8 @@ namespace LADSArtworkMode
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
 
+            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved); // jcchin
+
             mainScatterView.Items.Add(this);
             this.SetCurrentValue(HeightProperty, image.Height);
             this.SetCurrentValue(WidthProperty, image.Width);
@@ -108,6 +185,10 @@ namespace LADSArtworkMode
             this.CaptureMouse();
 
             Random rnd = new Random();
+            Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
+                                              rnd.Next((int)(image.ActualHeight * 3), (int)(win.ActualHeight * .8 - image.ActualHeight * 3))); // jcchin
+            this.SetCurrentValue(CenterProperty, pt); // jcchin
+            this.Orientation = rnd.Next(-20, 20); // jcchin
 
             this.Background = new SolidColorBrush(Colors.Transparent);
             RoutedEventHandler loadedEventHandler = null;
@@ -162,6 +243,8 @@ namespace LADSArtworkMode
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
+
+            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved); // jcchin
 
             mainScatterView.Items.Add(this);
             this.SetCurrentValue(HeightProperty, image.Height);
@@ -387,8 +470,32 @@ namespace LADSArtworkMode
             
         }
 
+        // jcchin
+        private void DockableItem_PreviewTouchMoved(object sender, TouchEventArgs e)
+        {
+            Point p = e.TouchDevice.GetPosition(win.emailScreenshotButton);
+
+            if (p.X >= 0 && p.X <= 159 && p.Y >= 0 && p.Y <= 40)
+                win.emailScreenshotButton.Background = (Brush) new BrushConverter().ConvertFrom("#4e765c");
+            else
+                win.emailScreenshotButton.ClearValue(BackgroundProperty);
+        }
+
         public void AddtoDock(object sender, EventArgs e)
         {
+            // jcchin - e-mail button
+            Point p = ((TouchEventArgs) e).TouchDevice.GetPosition(win.emailScreenshotButton); // need to handle mouse
+            win.emailScreenshotButton.ClearValue(BackgroundProperty);
+
+            Point UL = new Point(this.Center.X - this.Width / 2, this.Center.Y - this.Height / 2);
+            Point LR = new Point(this.Center.X + this.Width / 2, this.Center.Y + this.Height / 2);
+
+            if (p.X >= 0 && p.X <= 159 && p.Y >= 0 && p.Y <= 40)
+            {
+                new EmailWindow(win.MainScatterView, this, null); // jcchin - reset timer (last parameter) not needed for now
+            }
+            // jcchin - e-mail button END
+
 
             touchDown = false;
             DockableItem item = sender as DockableItem;

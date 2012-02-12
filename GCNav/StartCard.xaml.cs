@@ -22,7 +22,8 @@ namespace GCNav
         public StartCard()
         {
             InitializeComponent();
-            this.setImagePath("\\Data\\Startup\\StartCard_FooterLogos.png");
+            image_HarvardVeritasShield.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\HarvardVeritasShield.png", UriKind.Absolute)); // jcchin
+            this.setImagePath("\\Data\\Startup\\StartCard_FooterLogos_Wolbach.png");
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace GCNav
         /// <param name="p"></param>
         public void setImagePath(String p)
         {
-            image.Source = (new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + p, UriKind.Absolute))); ;
+            image.Source = (new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + p, UriKind.Absolute)));
         }
     }
 }

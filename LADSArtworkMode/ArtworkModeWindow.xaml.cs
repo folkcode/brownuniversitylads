@@ -6,8 +6,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Surface;
-using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
+using Microsoft.Surface.Presentation.Controls;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
 using System.Collections;
@@ -15,7 +15,9 @@ using System.IO;
 using System.Windows.Ink;
 using System.Xml;
 using System.Net;
-
+using System.Windows.Threading; // jcchin
+using System.Linq;
+using System.Globalization; // jcchin
 
 namespace LADSArtworkMode
 {
@@ -70,6 +72,19 @@ namespace LADSArtworkMode
         public bool IsTourOn { get { return tourSystem.IsExploreMode || tourSystem.tourPlaybackOn; } }
         public bool IsExploreOn { get { return tourSystem.IsExploreMode; } }
 
+        // jcchin - image info
+        public Size _windowSize; // jcchin
+        public String _imageInfo_title { get; set; }
+        public String _imageInfo_artist { get; set; }
+        public String _imageInfo_medium { get; set; }
+        public string _imageInfo_category { get; set; }
+        public List<String> _imageInfo_keywords;
+        public int _imageInfo_year { get; set; }
+        public int _imageInfo_month { get; set; }
+        public int _imageInfo_day { get; set; }
+
+        private DateTimeFormatInfo _dateInfo; // jcchin
+        private DateTime _lastOpened; // jcchin
         public bool isTourPlayingOrAuthoring()
         {
             return (tourSystem.tourAuthoringOn || tourSystem.tourPlaybackOn);
@@ -100,6 +115,15 @@ namespace LADSArtworkMode
                 msi_thumb = value;
             }
         }
+
+        // jcchin
+        private Dictionary<TouchDevice, Point> TrackedContacts = new Dictionary<TouchDevice, Point>();
+        private DispatcherTimer ContactTimer = null;
+        private DispatcherTimer ClipTimer = null;
+        private Point[] screenPoints;
+        private Point nullPoint = new Point();
+        private double msiHeightBefore = 0;
+        private Point msiOffsetBefore = new Point();
 
         // ------------------------------ END OF GLOBAL VARIABLES DEFINITION --------------------------------------- //
 
@@ -163,6 +187,35 @@ namespace LADSArtworkMode
             //Canvas.SetLeft(collapseButtonDown, (collapseBar.Width - msi_thumb.ActualWidth) / 2 + msi_thumb.ActualWidth);
             Canvas.SetTop(collapseButtonLeft, 400);
             Canvas.SetTop(collapseButtonRight, 400);
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // jcchin
+            screenPoints = new Point[2];
+            this.initializeScreenshotFeature();
+            ImageBrush ImageArea_Background = new ImageBrush(new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_viewing_bg.jpg", UriKind.Absolute)));
+            ImageArea_Background.TileMode = TileMode.Tile;
+            ImageArea_Background.Stretch = Stretch.Fill;
+            ImageArea_Background.Viewport = new Rect(0, 0, 630.666666666667, 601.333333333333);
+            ImageArea_Background.ViewportUnits = BrushMappingMode.Absolute;
+            ImageArea.Background = ImageArea_Background;
+
+            _dateInfo = new DateTimeFormatInfo(); // jcchin
+            _imageInfo_keywords = new List<string>(); // jcchin
+            _lastOpened = DateTime.UtcNow;
+
+            imageInfoBorder.Height = 40;
+            infoScroll.Visibility = Visibility.Hidden;
         }
 
 
@@ -535,6 +588,266 @@ namespace LADSArtworkMode
         {
         }
 
+        // jcchin
+        private void initializeScreenshotFeature()
+        {
+            ClipTimer = new DispatcherTimer();
+            ClipTimer.Interval = TimeSpan.FromSeconds(1.5);
+            ClipTimer.Tick += new EventHandler(ClipTimer_Tick);
+
+            ContactTimer = new DispatcherTimer();
+            ContactTimer.Interval = TimeSpan.FromMilliseconds(100);
+            ContactTimer.Tick += delegate(object sender, EventArgs e)
+            {
+                ContactTimer.Stop();
+                try
+                {
+                    int i = 0;
+                    while (i < TrackedContacts.Keys.Count)
+                    {
+                        TouchDevice c = TrackedContacts.Keys.ElementAt(0);
+                        try
+                        {
+                            c.GetPosition(this);
+                            i++;
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            this.removeContact(c);
+                        }
+                    }
+
+                    if (TrackedContacts.Count < 2 && ClipTimer.IsEnabled)
+                    {
+                        ClipTimer_Tick(null, e);
+                    }
+
+                    if (TrackedContacts.Count >= 2)
+                    {
+                        //double Xoffset = -(MainScatterViewItem.Width * ((MainScatterViewItem.Center.X - (MainScatterViewItem.Width / 2.0)) / MainScatterViewItem.Width)); // jcchin - not needed?
+                        double Xoffset = 0; // jcchin
+
+                        Point p2 = new Point();
+                        Point p1 = new Point();
+                        bool exo = false;
+
+                        // Make sure the contacts actually still exist...
+                        try
+                        {
+                            p2 = new Point(TrackedContacts.ElementAt(1).Key.GetPosition(this).X + Xoffset, TrackedContacts.ElementAt(1).Key.GetPosition(this).Y);
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            exo = true;
+                            this.removeContact(TrackedContacts.ElementAt(1).Key);
+                        }
+
+                        try
+                        {
+                            p1 = new Point(TrackedContacts.ElementAt(0).Key.GetPosition(this).X + Xoffset, TrackedContacts.ElementAt(0).Key.GetPosition(this).Y);
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            exo = true;
+                            this.removeContact(TrackedContacts.ElementAt(0).Key);
+                        }
+
+                        if (exo)
+                            return;
+
+                        Point o1 = TrackedContacts.ElementAt(0).Value;
+                        Point o2 = TrackedContacts.ElementAt(1).Value;
+                        o1.X += Xoffset;
+                        o2.X += Xoffset;
+
+                        double d1 = Utils.Distance(p1, o1);
+                        double d2 = Utils.Distance(p2, o2);
+                        if (d1 > 10 || d2 > 10)
+                        {
+                            clipIndicator1.Visibility = Visibility.Hidden;
+                            clipIndicator2.Visibility = Visibility.Hidden;
+                            ClipTimer.Stop();
+                        }
+                    }
+                }
+                finally
+                {
+                    ContactTimer.Start();
+                }
+            };
+
+            ContactTimer.Start();
+        }
+
+        // jcchin
+        public void loadImageInfo()
+        {
+            curInfoCol.Width = _windowSize.Width / 4;
+            curInfoCol.Height = _windowSize.Height / 3;
+
+            //infoScroll.Height = curInfoCol.Height;
+            ColumnDefinition width = new ColumnDefinition();
+            GridLength length = new GridLength(_windowSize.Width / 4 - 40);
+            width.Width = length;
+            curInfoCol.ColumnDefinitions.Add(width);
+
+            for (int i = 0; i < 2; i++) // hack to set height of keyword box correctly the first time - should fix in the future
+            {
+
+            title.Text = "";
+            artist.Text = "";
+            medium.Text = "";
+            date.Text = "";
+            category.Text = ""; // jcchin
+            title.Text += "Title: " + _imageInfo_title;
+            curInfoCol.UpdateLayout();
+            titleBack.Width = _windowSize.Width / 4 - 20;
+            titleBack.Height = title.ActualHeight + 5;
+            artist.Text += "Artist: " + _imageInfo_artist;
+            medium.Text += "Medium: " + _imageInfo_medium;
+            //date.Text += "Year: " + img.year;
+
+            // jcchin
+
+            if (_imageInfo_month > 0)
+            {
+                if (_imageInfo_day > 0)
+                {
+                    date.Text += "Date: " + _dateInfo.GetMonthName(_imageInfo_month) + " " + _imageInfo_day + ", " + _imageInfo_year;
+                }
+                else
+                {
+                    date.Text += "Date: " + _dateInfo.GetMonthName(_imageInfo_month) + " " + _imageInfo_year;
+                }
+            }
+            else
+            {
+                date.Text += "Date: " + _imageInfo_year;
+            }
+            category.Text += "Category: " + _imageInfo_category;
+
+            title.FontSize = 25 * _windowSize.Height / 1080.0;
+            artist.FontSize = 20 * _windowSize.Height / 1080.0;
+            medium.FontSize = artist.FontSize;
+            date.FontSize = artist.FontSize;
+            KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
+            curKeywords.FontSize = 18 * _windowSize.Height / 1080.0;
+            curInfoCol.UpdateLayout();
+            titleBack.Height = titleBack.ActualHeight + 10;
+
+            if (_imageInfo_keywords.Count() > 0)
+            {
+                KeywordsTitle.Visibility = Visibility.Visible;
+                curKeywords.Visibility = Visibility.Visible;
+                KeywordBack.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                KeywordsTitle.Visibility = Visibility.Hidden;
+                curKeywords.Visibility = Visibility.Hidden;
+                KeywordBack.Visibility = Visibility.Hidden;
+            }
+
+            KeywordBack.Width = _windowSize.Width / 4 - 20;
+            curKeywords.Text = "";
+
+            bool b = false;
+            foreach (String s in _imageInfo_keywords)
+            {
+                if (b)
+                    curKeywords.Text += ",";
+                else
+                    b = true;
+                curKeywords.Text += s;
+            }
+
+                curKeywords.UpdateLayout();
+                curInfoCol.UpdateLayout();
+
+                RowDefinition height = new RowDefinition();
+                GridLength height1 = new GridLength(curKeywords.ActualHeight);
+
+
+
+                height.Height = height1;
+                curInfoCol.RowDefinitions.Add(height);
+                KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+
+
+
+                curInfoCol.UpdateLayout();
+                infoScroll.UpdateLayout();
+
+                curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight;
+
+                if (curInfoCol.Height > _windowSize.Height / 3 - 50)
+                {
+                    //infoScroll.Height = _windowSize.Height / 3 - 50;
+                    title.MaxWidth = _windowSize.Width / 4 - 40;
+                    title.UpdateLayout();
+                    titleBack.Height = title.ActualHeight + 5;
+                    curKeywords.MaxWidth = _windowSize.Width / 4 - 40;
+                    curKeywords.UpdateLayout();
+                    KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+
+                    curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight +
+                        date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+                }
+                else
+                {
+                    //infoScroll.Height = curInfoCol.Height + 50;
+                    title.MaxWidth = _windowSize.Width / 4 - 120; // jcchin - changed "- 40" to "- 100"
+                    curKeywords.MaxWidth = _windowSize.Width / 4 - 100; // jcchin - changed "- 40" to "- 100"
+                }
+            }
+        }
+
+        public void toggleImageInfoBox()
+        {
+            if (infoScroll.IsVisible)
+            {
+                DoubleAnimation da = new DoubleAnimation();
+                da.From = 360;
+                da.To = 40;
+                da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                imageInfoBorder.BeginAnimation(Grid.HeightProperty, da);
+                infoScroll.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                DoubleAnimation da = new DoubleAnimation();
+                da.From = 40;
+                da.To = 360;
+                da.Duration = new Duration(TimeSpan.FromSeconds(.4));
+                imageInfoBorder.BeginAnimation(Grid.HeightProperty, da);
+                infoScroll.Visibility = Visibility.Visible;
+
+                curInfoCol_0.Width = new GridLength(infoScroll.ViewportWidth);
+                this.loadImageInfo();
+            }
+        }
+
+        private void handle_imageInfo()
+        {
+            DateTime currUtcTime = DateTime.UtcNow;
+            TimeSpan span = currUtcTime.Subtract(_lastOpened);
+            if (span.Days > 0 || span.Hours > 0 || span.Minutes > 0 || span.Seconds > 0 || span.Milliseconds > 400)
+            {
+                toggleImageInfoBox();
+                _lastOpened = currUtcTime;
+            }
+        }
+
+        private void imageInfo_mousedown(object sender, MouseEventArgs e)
+        {
+            this.handle_imageInfo();
+        }
+
+        private void imageInfo_touchdown(object sender, TouchEventArgs e)
+        {
+            this.handle_imageInfo();
+            e.Handled = true;
+        }
         #endregion
 
         #region hotspots/associated documents/tools
@@ -1415,6 +1728,200 @@ namespace LADSArtworkMode
             return null;
         }
 
+        #region screenshot/annotation/e-mail feature
+
+        private void ImageArea_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            //System.Console.WriteLine("Down: " + e.TouchDevice.Id); // TESTING!!!!!!!!
+
+            if (!e.TouchDevice.GetIsTagRecognized())
+            {
+                //Console.WriteLine("DeepZoomGrid_PreviewTouchDown - e.TouchDevice.GetPosition(this).X = " + e.TouchDevice.GetPosition(this).X + ", e.TouchDevice.GetPosition(this).Y = " + e.TouchDevice.GetPosition(this).Y); // TESTING
+
+                TrackedContacts.Add(e.TouchDevice, new Point(e.TouchDevice.GetPosition(this).X, e.TouchDevice.GetPosition(this).Y));
+                if (TrackedContacts.Count == 2)
+                {
+                    screenPoints[1] = this.PointToScreen(e.TouchDevice.GetPosition(this));
+
+                    Canvas.SetLeft(clipIndicator2, e.TouchDevice.GetPosition(this).X - clipIndicator2.Width / 2);
+                    Canvas.SetTop(clipIndicator2, e.TouchDevice.GetPosition(this).Y - clipIndicator2.Height / 2);
+                    Canvas.SetLeft(clipIndicator1, this.PointFromScreen(screenPoints[0]).X - clipIndicator1.Width / 2);
+                    Canvas.SetTop(clipIndicator1, this.PointFromScreen(screenPoints[0]).Y - clipIndicator1.Height / 2);
+                    clipIndicator2.Visibility = Visibility.Visible;
+                    clipIndicator1.Visibility = Visibility.Visible;
+
+                    msiHeightBefore = msi.ActualHeight; // jcchin
+                    msiOffsetBefore = msi.GetZoomableCanvas.Offset; // jcchin
+
+                    ClipTimer.Start();
+                }
+                else if (screenPoints[0] == nullPoint)
+                {
+                    screenPoints[0] = this.PointToScreen(e.TouchDevice.GetPosition(this));
+                }
+            }
+
+            //Console.WriteLine("DeepZoomGrid_PreviewTouchDown.TrackedContacts.Count = " + TrackedContacts.Count); // TESTING
+        }
+
+        void ClipTimer_Tick(object sender, EventArgs e)
+        {
+            clipIndicator1.Visibility = Visibility.Hidden;
+            clipIndicator2.Visibility = Visibility.Hidden;
+            ClipTimer.Stop();
+
+            if (Math.Abs(msiHeightBefore - msi.ActualHeight) / msi.ActualHeight < 0.15 || Utils.Distance(msiOffsetBefore, msi.GetZoomableCanvas.Offset) / msi.ActualWidth < 0.010)
+            {
+                try
+                {
+                    if (TrackedContacts.Count() >= 2)
+                    {
+                        //double panPercent = (MainScatterViewItem.Center.X - (MainScatterViewItem.Width / 2.0)) / MainScatterViewItem.Width; // jcchin - not needed?
+                        //double Xoffset = -(MainScatterViewItem.Width * panPercent); // jcchin - not needed?
+                        double Xoffset = 0; // jcchin
+
+                        Point p2 = new Point();
+                        Point p1 = new Point();
+                        bool exo = false;
+
+                        // Make sure the contacts actually still exist...
+                        try
+                        {
+                            p2 = new Point(TrackedContacts.ElementAt(1).Key.GetPosition(this).X + Xoffset, TrackedContacts.ElementAt(1).Key.GetPosition(this).Y);
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            exo = true;
+                            this.removeContact(TrackedContacts.ElementAt(1).Key);
+                        }
+
+                        try
+                        {
+                            p1 = new Point(TrackedContacts.ElementAt(0).Key.GetPosition(this).X + Xoffset, TrackedContacts.ElementAt(0).Key.GetPosition(this).Y);
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            exo = true;
+                            this.removeContact(TrackedContacts.ElementAt(0).Key);
+                        }
+
+                        if (exo)
+                            return;
+
+                        Point o1 = TrackedContacts.ElementAt(0).Value;
+                        Point o2 = TrackedContacts.ElementAt(1).Value;
+                        o1.X += Xoffset;
+                        o2.X += Xoffset;
+
+                        double d1 = Utils.Distance(p1, o1);
+                        double d2 = Utils.Distance(p2, o2);
+                        if (d1 <= 10 && d2 <= 10)
+                        {
+                            // jcchin - not needed?
+                            /*int Upr = p1.Y < p2.Y ? (int)p1.Y : (int)p2.Y;
+                            int Lft = p1.X < p2.X ? (int)p1.X : (int)p2.X;
+                            int Lwr = p1.Y > p2.Y ? (int)p1.Y : (int)p2.Y;
+                            int Rgt = p1.X > p2.X ? (int)p1.X : (int)p2.X;
+
+                            Point UpperLeft = new Point(Lft, Upr);
+                            Point LowerRight = new Point(Rgt, Lwr);
+
+                            VisualBrush b = new VisualBrush();
+                            b.Visual = MainCanvas;
+                            b.Stretch = Stretch.None;
+                            Canvas r = new Canvas();
+                            r.Background = b;
+                            r.Width = images.mainWidth;
+                            r.Height = 768;
+                            r.RenderTransform = new TranslateTransform(-Lft, -Upr);
+                            r.Clip = new RectangleGeometry(new Rect(UpperLeft, LowerRight));*/
+
+                            p1 = screenPoints[0];
+                            p2 = screenPoints[1];
+
+                            int Upr2 = p1.Y < p2.Y ? (int)p1.Y : (int)p2.Y;
+                            int Lft2 = p1.X < p2.X ? (int)p1.X : (int)p2.X;
+                            int Lwr2 = p1.Y > p2.Y ? (int)p1.Y : (int)p2.Y;
+                            int Rgt2 = p1.X > p2.X ? (int)p1.X : (int)p2.X;
+
+                            //prevent the exception when height/width = 0
+                            
+                            clipIndicator1.Visibility = Visibility.Hidden;
+                            clipIndicator2.Visibility = Visibility.Hidden;
+
+                            Utils.Soon(delegate()
+                            {
+                                System.Drawing.Bitmap temp = null;
+                                try
+                                {
+                                    temp = GetScreenShot((int)Lft2, (int)Upr2, (int)(Math.Abs(Lft2 - Rgt2)), (int)(Math.Abs(Upr2 - Lwr2)));
+                                }
+                                catch (Exception ex)
+                                {
+                                    return;
+                                }
+
+
+                                DockableItem dockItem = new DockableItem(MainScatterView, this, Bar, temp, (int)Lft2, (int)Upr2, (int)(Math.Abs(Lft2 - Rgt2)), (int)(Math.Abs(Upr2 - Lwr2)));
+                            });
+                        }
+                    }
+                }
+                finally
+                {
+                    //hover.StartHover(StaticCanvas);
+                }
+            }
+
+        }
+
+        public static System.Drawing.Bitmap GetScreenShot(int x, int y, int width, int height)
+        {
+            System.Drawing.Bitmap screen = new System.Drawing.Bitmap(width, height);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(screen);
+            g.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(width, height));
+            g.Dispose();
+
+            return screen;
+        }
+
+        private void ImageArea_PreviewTouchUp(object sender, TouchEventArgs e)
+        {
+            if (!e.TouchDevice.GetIsTagRecognized())
+            {
+                if (TrackedContacts.ContainsKey(e.TouchDevice))//why?
+                {
+                    clipIndicator1.Visibility = Visibility.Hidden;
+                    clipIndicator2.Visibility = Visibility.Hidden;
+                    this.removeContact(e.TouchDevice);
+                }
+            }
+
+            ClipTimer.Stop();
+
+            //Console.WriteLine("DeepZoomGrid_PreviewTouchUp.TrackedContacts.Count = " + TrackedContacts.Count); // TESTING
+        }
+
+        private void removeContact(TouchDevice c)
+        {
+            if (screenPoints[0] == this.PointToScreen(TrackedContacts[c]))
+                screenPoints[0] = nullPoint;
+            if (screenPoints[1] == this.PointToScreen(TrackedContacts[c]))
+                screenPoints[1] = nullPoint;
+            TrackedContacts.Remove(c);
+
+            if (TrackedContacts.Count == 1)
+                foreach (TouchDevice q in TrackedContacts.Keys)
+                    screenPoints[0] = this.PointToScreen(TrackedContacts[q]);
+        }
+
+        private void emailScreenshotButton_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.showPopupAtControl("Drag items here to email", emailScreenshotButton, TimeSpan.FromSeconds(60), this);
+        }
+
+        #endregion
+
         private void tourAuthoring_Click(object sender, RoutedEventArgs e)
         {
             //hide the buttons
@@ -1710,7 +2217,7 @@ namespace LADSArtworkMode
         }
 
         public void addDockedItems(List<DockableItem> docked)
-        {
+        {   
             if (docked == null) return;
             foreach (object item in docked)
             {
