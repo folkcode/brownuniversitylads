@@ -92,8 +92,8 @@
     <Compile Include="ArtworkMode\RGBA.cs" />
     <Compile Include="ArtworkMode\Utils.cs" />
     <Compile Include="BiDictionary.cs" />
-    <Compile Include="helpWindow2.xaml.cs">
-      <DependentUpon>helpWindow2.xaml</DependentUpon>
+    <Compile Include="helpWindow.xaml.cs">
+      <DependentUpon>helpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="VideoBubble.cs" />
     <Compile Include="Helpers.cs" />
@@ -145,7 +145,7 @@
       <DependentUpon>ArtworkModeWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="helpWindow2.xaml">
+    <Page Include="helpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

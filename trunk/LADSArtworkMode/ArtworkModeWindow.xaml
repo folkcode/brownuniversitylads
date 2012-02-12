@@ -519,7 +519,7 @@
 
             </Canvas>
         </Border>
-        <ae:helpWindow2 x:Name="helpWindow" Visibility="Hidden" />
+        <ae:helpWindow x:Name="helpWindow" Visibility="Hidden" />
     </Canvas>
     
 </s:SurfaceWindow>
