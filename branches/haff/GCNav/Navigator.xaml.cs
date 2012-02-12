@@ -46,7 +46,6 @@ namespace GCNav
         private ImageData currentImage;
         private System.Windows.Forms.Timer _timer;
         private bool _artOpen, _collectionEmpty;
-        private Double mapWidth;
         public FilterTimelineBox filter;
 
         public List<DockedItemInfo> SavedDockedItems;
@@ -74,43 +73,13 @@ namespace GCNav
             _artOpen = false;
             _collectionEmpty = true;
             timeline.nav = this;
-            
-            String[] c = Environment.GetCommandLineArgs();
+        }
 
-            if (c.Length != 1)
-            {
-                if (c[1].Contains("noauthoring"))
-                {
-                    
-                    ButtonPanel.Children.Remove(exitButton);
-                }
-            }
-        }
-        public void setMapWidth(Double width)
-        {
-            mapWidth = width;
-        }
         public void TimerTick_Handler(object sender, EventArgs e)
         {
             if (artmode != null)
             {
                 artmode.updateWebImages();
-            }
-        }
-
-        public void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            string message = "Are you sure you want to quit LADS?";
-            string caption = "Quit LADS";
-            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.YesNo;
-            System.Windows.Forms.DialogResult result;
-
-            result = System.Windows.Forms.MessageBox.Show(message, caption, buttons);
-
-            if (result == System.Windows.Forms.DialogResult.Yes)
-            {
-
-                Application.Current.Shutdown();
             }
         }
 
@@ -138,7 +107,6 @@ namespace GCNav
                 {
                     if (docNode.Name == "Collection")
                     {
-
                         int startY = 1;
                         int endY = 0;
                         foreach (XmlNode node in docNode.ChildNodes)
@@ -497,7 +465,6 @@ namespace GCNav
                 MainCanvas.Width = _windowSize.Width;
                 timeline_length = MainCanvas.Width;
             }
-            exitButton.Visibility = Visibility.Visible;
             InstructionBox.Visibility = Visibility.Visible;
             InstructionBox.Width = (_windowSize.Width / 4);
             InstructionBorder.Width = (_windowSize.Width / 4) - 5;

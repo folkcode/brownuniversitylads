@@ -153,8 +153,8 @@ namespace LADSArtworkMode
                                 
                                 VideoText.Width *= 0.95;
                                 this.UpdateLayout();
-                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 14);
-                                this.Height = hotspotCanvas.Height+8;
+                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 18);
+                                this.Height = hotspotCanvas.Height+12;
                               
                             }
                         }
@@ -189,8 +189,8 @@ namespace LADSArtworkMode
                                 videoElement.Width /= 0.95;
                                 VideoText.Width /= 0.95;
                                 this.UpdateLayout();
-                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 14);
-                                this.Height = hotspotCanvas.Height+8;
+                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 18);
+                                this.Height = hotspotCanvas.Height+12;
                               
                             }
 
