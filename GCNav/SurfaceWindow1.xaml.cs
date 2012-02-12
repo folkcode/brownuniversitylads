@@ -56,7 +56,6 @@ namespace GCNav
             panCan.RenderTransform = t;
             t.BeginAnimation(TranslateTransform.XProperty, myAnimation);
             nav.HandleImageSelected += Map.HandleImageSelectedEvent;
-            nav.setMapWidth(Map.Width);
             filter = new FilterTimelineBox();
             nav.filter = filter;
            
@@ -66,13 +65,24 @@ namespace GCNav
 
             _resetTimer.Interval = TimeSpan.FromSeconds(120);
             _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
+
+            help.Visibility = Visibility.Visible;
+
+            String[] c = Environment.GetCommandLineArgs();
+
+            if (c.Length != 1)
+            {
+                if (c[1].Contains("noauthoring"))
+                {
+                    ButtonPanel.Children.Remove(exitButton);
+                }
+            }
         }
 
         //This adjusts the winodw size for screens of different resolutions
         void SurfaceWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Double canvasLeft = e.NewSize.Width / 2 - filter.ActualWidth / 2;
-            nav.setMapWidth(Map.ActualWidth);
             Double filterWidth = 420;
             if (e.NewSize.Width < 1600)
             {
@@ -93,6 +103,22 @@ namespace GCNav
             backRec.Height = map.Height*scaleY + 30+10;
             Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
             Canvas.SetZIndex(backRec, -10); 
+        }
+
+        public void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            string message = "Are you sure you want to quit LADS?";
+            string caption = "Quit LADS";
+            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.YesNo;
+            System.Windows.Forms.DialogResult result;
+
+            result = System.Windows.Forms.MessageBox.Show(message, caption, buttons);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+
+                Application.Current.Shutdown();
+            }
         }
 
         /// <summary>
@@ -240,8 +266,25 @@ namespace GCNav
             _resetTimer.Start();
         }
 
+        private void help_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            helpWindow.Visibility = Visibility.Visible;
+            //helpInstruction.Visibility = Visibility.Visible;
+            //helpDone.Visibility = Visibility.Visible;
+        }
 
+        private void help_TouchDown(object sender, TouchEventArgs e)
+        {
+            helpWindow.Visibility = Visibility.Visible;
+            //helpInstruction.Visibility = Visibility.Visible;
+            //helpDone.Visibility = Visibility.Visible;
+        }
 
-
+        //private void helpDone_Click(object sender, RoutedEventArgs e)
+        //{
+        //    help.Visibility = Visibility.Visible;
+        //    //helpInstruction.Visibility = Visibility.Hidden;
+        //    //helpDone.Visibility = Visibility.Hidden;
+        //}
     }
 }

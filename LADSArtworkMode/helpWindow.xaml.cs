@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace LADSArtworkMode
 {
     /// <summary>
-    /// Interaction logic for helpWindow2.xaml
+    /// Interaction logic for helpWindow.xaml
     /// </summary>
-    public partial class helpWindow2 : UserControl
+    public partial class helpWindow : UserControl
     {
-        public helpWindow2()
+        public helpWindow()
         {
             InitializeComponent();
             setText();
