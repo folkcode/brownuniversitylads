@@ -19,6 +19,7 @@ using LADSArtworkMode;
 using System.Net;
 using System.IO;
 using System.Timers;
+using System.Globalization;
 
 namespace GCNav
 {
@@ -54,12 +55,17 @@ namespace GCNav
         // The arrows that indicate that there is more timeline content offscreen.
         Polygon _left_arrow, _right_arrow;
 
+        private DateTimeFormatInfo _dateInfo; // jcchin
+
         public Navigator()
         {
             InitializeComponent();
 
-            curImageContainer.Visibility = Visibility.Hidden;
-            curInfoContainer.Visibility = Visibility.Hidden;
+            //curImageContainer.Visibility = Visibility.Hidden;
+            //curInfoContainer.Visibility = Visibility.Hidden;
+            imageBorder.Visibility = Visibility.Collapsed;
+            imageInfoBorder.Visibility = Visibility.Collapsed;
+
             mainScatterViewItem.Width = 1920;
             MainCanvas.Width = 0;
             mainScatterViewItem.Background = Brushes.Transparent;
@@ -73,7 +79,17 @@ namespace GCNav
             _timer.Start();
             _artOpen = false;
             _collectionEmpty = true;
-            timeline.nav = this;
+
+            //timeline.nav = this; // jcchin
+
+            // testing - commenting this for now
+            //timelineBackground.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_selection_bg_bottom.jpg", UriKind.Absolute));
+
+            filter = new FilterTimelineBox(); // jcchin
+            this.NavigatorCanvas_Left.Children.Add(filter); // jcchin
+            filter.Visibility = Visibility.Hidden; // jcchin
+
+            _dateInfo = new DateTimeFormatInfo(); // jcchin
             
             String[] c = Environment.GetCommandLineArgs();
 
@@ -82,7 +98,7 @@ namespace GCNav
                 if (c[1].Contains("noauthoring"))
                 {
                     
-                    ButtonPanel.Children.Remove(exitButton);
+                    //ButtonPanel.Children.Remove(exitButton);
                 }
             }
         }
@@ -116,7 +132,7 @@ namespace GCNav
 
         public void setTimelineMouseUpFalse()
         {
-            timeline.setMouseOnAndDown(false);
+            //timeline.setMouseOnAndDown(false); // jcchin
         }
 
         public List<ImageData> getImageCollection()
@@ -151,6 +167,19 @@ namespace GCNav
                                 String medium = node.Attributes.GetNamedItem("medium").InnerText;
                                 String title = node.Attributes.GetNamedItem("title").InnerText;
                                 int year = Convert.ToInt32(node.Attributes.GetNamedItem("year").InnerText);
+                                
+                                // jcchin
+                                int month = 0;
+                                if (node.Attributes.GetNamedItem("month") != null)
+                                {
+                                    month = Convert.ToInt32(node.Attributes.GetNamedItem("month").InnerText);
+                                }
+                                int day = 0;
+                                if (node.Attributes.GetNamedItem("day") != null)
+                                {
+                                    day = Convert.ToInt32(node.Attributes.GetNamedItem("day").InnerText);
+                                }
+                                String category = "cat1";//node.Attributes.GetNamedItem("category").InnerText;
 
                                 String fullPath = dataDir + "Images/" + path;
                                 String thumbPath = dataDir + "Images/" + "Thumbnail/" + path;
@@ -160,6 +189,9 @@ namespace GCNav
                                 currentImage.xmlpath = xmlPath;
                                 currentImage.fullpath = fullPath;
                                 currentImage.year = year;
+                                currentImage.month = month; // jcchin
+                                currentImage.day = day; // jcchin
+                                currentImage.category = category; // jcchin
                                 currentImage.artist = artist;
                                 currentImage.medium = medium;
                                 currentImage.title = title;
@@ -323,18 +355,23 @@ namespace GCNav
         {
             _displayedCollection = _imageCollection;
             this.loadCollection();
-            double timeline_length = this.arrangeImages(_starty, _endy, _windowSize.Height / 2);
-            mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
+            this.arrangeImages(_starty, _endy, _windowSize.Height / 2);
+            mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999.25 / 2, mainScatterViewItem.Center.Y); // changed from 999
+
             _initScatterPos = mainScatterViewItem.Center;
             _initScatterWH = new Point();
             _initScatterWH.X = mainScatterViewItem.Width;
             _initScatterWH.Y = mainScatterViewItem.Height;
-            timeline.update(_starty, _endy, timeline_length/*MainCanvas.Width*/);
-            filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
+            
+            //timeline.update(_starty, _endy, MainCanvas.Width); // jcchin
+            
+            //filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height; // jcchin
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             eventInfoContainer.Width = System.Windows.SystemParameters.PrimaryScreenWidth; //?
             filter.init(this);
-            timeline.setRef(mainScatterViewItem);
+            
+            //timeline.setRef(mainScatterViewItem); // jcchin
+            
             this.loadEvents();
             eventInfo.TextWrapping = TextWrapping.NoWrap;
             eventInfo.TextTrimming = TextTrimming.WordEllipsis;
@@ -415,11 +452,10 @@ namespace GCNav
             }
             _displayedCollection = images;
 
-            double timeline_width = arrangeImages(_starty, _endy, MainCanvas.Height);
+           arrangeImages(_starty, _endy, MainCanvas.Height);
             mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
-            timeline.update(_starty, _endy, timeline_width); // MICHAEL PRICE!!! WE NEED TO TALK! -- yudi
-            //timeline.update(_starty, _endy, MainCanvas.Width); 
-            filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height;
+            //timeline.update(_starty, _endy, MainCanvas.Width); // jcchin
+            //filterBoxContainer.Height = 450.0 / 1080.0 * _windowSize.Height; // jcchin
             eventInfoContainer.Height = 500.0 / 1080.0 * _windowSize.Height;
             this.loadEvents();
 
@@ -430,8 +466,110 @@ namespace GCNav
                 ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
             }
         }
-
         private int ROWS = 3;
+        /// <summary>
+        /// Layout the images in the catalog. Not optimal, but works, 
+        /// if there is a better way to do it, by all means change this.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="containerHeight"></param>
+        private void arrangeImages(int start, int end, double containerHeight)
+        {
+            MainCanvas.Children.RemoveRange(0, MainCanvas.Children.Count);
+
+            int rowHeight = (int)containerHeight / ROWS;
+            int pad = 25;
+            int imgHeight = (int)(containerHeight - (pad * (ROWS + 1))) / ROWS;
+
+            //sort by year
+            _displayedCollection.Sort((i1, i2) => i1.year.CompareTo(i2.year));
+
+            if (_displayedCollection.Count >= 1)
+            {
+                foreach (ImageData img in _displayedCollection)
+                    img.setSize(imgHeight);
+
+                double aveWidth = _displayedCollection.Average(x => x.Width);//average width of the images
+                //pixels we should assign to one year tick mark
+
+                /*double unitLength = (double)_displayedCollection.Count / (double)ROWS * (double)aveWidth / (double)(end - start);
+                if (end - start == 0)
+                {
+                    //treat the year interval as 1 instead of 0
+                    unitLength = _displayedCollection.Count / (double)ROWS * aveWidth / 1;
+                }
+                //the space one image should take in terms of year count
+                double interval = Math.Ceiling(aveWidth / unitLength);*/
+
+                //divide the overall space into small parts based on the year and keep track of the availability of the spaces
+                Dictionary<int, ImageCluster> space = new Dictionary<int, ImageCluster>();
+                ImageCluster prevCluster = null;
+                double rightPos = 1;
+                foreach (ImageData img in _displayedCollection)
+                {
+                    //int index = (int)((img.year - start) / interval);
+                    int index = 0; // jcchin
+
+                    ImageCluster cluster = null;
+                    if (!space.ContainsKey(index))
+                    {
+                        Boolean collide = false;
+                        //check if new cluster would collide with prevcluster
+                        if (prevCluster != null)
+                        {
+                            if (index * aveWidth * 2 <= Canvas.GetLeft(prevCluster) + prevCluster.topRowWidth())
+                            {
+                                collide = true;
+                                cluster = prevCluster;
+                            }
+                        }
+
+                        //add new cluster
+                        if (!collide)
+                        {
+                            cluster = new ImageCluster(ROWS);
+                            space.Add(index, cluster);
+                            MainCanvas.Children.Add(cluster);
+                            Canvas.SetLeft(cluster, index * aveWidth * 2);//evil "*2"...
+                        }
+                    }
+                    else
+                    {
+                        cluster = space[index];
+                    }
+                    cluster.addImage(img);
+                    prevCluster = cluster;
+                    //keep track of rightmost point to appropriately scale maincanvas
+                    rightPos = Canvas.GetLeft(cluster) + cluster.topRowWidth();
+
+                    index++; // jcchin
+                }
+
+                Dictionary<int, ImageCluster> clusterdict = new Dictionary<int, ImageCluster>();
+                foreach (ImageCluster c in space.Values)
+                {
+                    clusterdict.Add(c.minYear, c);
+                }
+                List<int> keys = new List<int>();
+                keys.InsertRange(0, clusterdict.Keys);
+                //keys.Sort();
+                MainCanvas.Width = rightPos;
+                mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
+            }
+
+            //empty collection
+            else
+            {
+                MainCanvas.Width = _windowSize.Width;
+            }
+
+            InstructionBox.Visibility = Visibility.Visible;
+            InstructionBox.Width = (_windowSize.Width / 4);
+            InstructionBorder.Width = (_windowSize.Width / 4) - 5;
+            infoBox.Width = (_windowSize.Width / 4) - 5;
+        }
+        /*private int ROWS = 3;
         /// <summary>
         /// Layout the images in the catalog. Not optimal, but works, 
         /// if there is a better way to do it, by all means change this.
@@ -497,16 +635,121 @@ namespace GCNav
                 MainCanvas.Width = _windowSize.Width;
                 timeline_length = MainCanvas.Width;
             }
-            exitButton.Visibility = Visibility.Visible;
+
             InstructionBox.Visibility = Visibility.Visible;
             InstructionBox.Width = (_windowSize.Width / 4);
             InstructionBorder.Width = (_windowSize.Width / 4) - 5;
             infoBox.Width = (_windowSize.Width / 4) - 5;
 
             return (timeline_length == 0) ? 1 : timeline_length ;
-        }
+        }*/
+        /*
+        private int ROWS = 3;
+        /// <summary>
+        /// Layout the images in the catalog. Not optimal, but works, 
+        /// if there is a better way to do it, by all means change this.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="containerHeight"></param>
+        private void arrangeImages(int start, int end, double containerHeight)
+        {
+            MainCanvas.Children.RemoveRange(0, MainCanvas.Children.Count);
+
+            int rowHeight = (int)containerHeight / ROWS;
+            int pad = 25;
+            int imgHeight = (int)(containerHeight - (pad * (ROWS + 1))) / ROWS;
+
+            //sort by year
+            _displayedCollection.Sort((i1, i2) => i1.year.CompareTo(i2.year));
+
+            if (_displayedCollection.Count >= 1)
+            {
+                foreach (ImageData img in _displayedCollection)
+                    img.setSize(imgHeight);
+
+                double aveWidth = _displayedCollection.Average(x => x.Width);//average width of the images
+                //pixels we should assign to one year tick mark
+   
+                /*double unitLength = (double)_displayedCollection.Count / (double)ROWS * (double)aveWidth / (double)(end - start);
+                if (end - start == 0)
+                {
+                    //treat the year interval as 1 instead of 0
+                    unitLength = _displayedCollection.Count / (double)ROWS * aveWidth / 1;
+                }
+                //the space one image should take in terms of year count
+                double interval = Math.Ceiling(aveWidth / unitLength);*/
+        /*
+                //divide the overall space into small parts based on the year and keep track of the availability of the spaces
+                Dictionary<int, ImageCluster> space = new Dictionary<int, ImageCluster>();
+                ImageCluster prevCluster = null;
+                double rightPos = 1;
+                foreach (ImageData img in _displayedCollection)
+                {
+                    //int index = (int)((img.year - start) / interval);
+                    int index = 0; // jcchin
+
+                    ImageCluster cluster = null;
+                    if (!space.ContainsKey(index))
+                    {
+                        Boolean collide = false;
+                        //check if new cluster would collide with prevcluster
+                        if (prevCluster != null)
+                        {
+                            if (index * aveWidth * 2 <= Canvas.GetLeft(prevCluster) + prevCluster.topRowWidth())
+                            {
+                                collide = true;
+                                cluster = prevCluster;
+                            }
+                        }
+
+                        //add new cluster
+                        if (!collide)
+                        {
+                            cluster = new ImageCluster(ROWS);
+                            space.Add(index, cluster);
+                            MainCanvas.Children.Add(cluster);
+                            Canvas.SetLeft(cluster, index * aveWidth * 2);//evil "*2"...
+                        }
+                    }
+                    else
+                    {
+                        cluster = space[index];
+                    }
+                    cluster.addImage(img);
+                    prevCluster = cluster;
+                    //keep track of rightmost point to appropriately scale maincanvas
+                    rightPos = Canvas.GetLeft(cluster) + cluster.topRowWidth();
+
+                    index++; // jcchin
+                }
+
+                Dictionary<int, ImageCluster> clusterdict = new Dictionary<int, ImageCluster>();
+                foreach (ImageCluster c in space.Values)
+                {
+                    clusterdict.Add(c.minYear, c);
+                }
+                List<int> keys = new List<int>();
+                keys.InsertRange(0, clusterdict.Keys);
+                //keys.Sort();
+                MainCanvas.Width = rightPos;
+                mainScatterViewItem.Width = MainCanvas.Width + _windowSize.Width;
+            }
+
+            //empty collection
+            else
+            {
+                MainCanvas.Width = _windowSize.Width;
+            }
+
+            InstructionBox.Visibility = Visibility.Visible;
+            InstructionBox.Width = (_windowSize.Width / 4);
+            InstructionBorder.Width = (_windowSize.Width / 4) - 5;
+            infoBox.Width = (_windowSize.Width / 4) - 5;
+        }*/
 
         // Does one pass of arranging the images into clusters.  Returns the longest cluster.
+        /*
         private double arrangeHelper(int start, int end, double aveWidth, double unitLength)
         {
             // The space one image should take in terms of year count.
@@ -579,7 +822,7 @@ namespace GCNav
             diff = (diff == 0) ? 1 : diff;
             return (double)longest_cluster.getSize() / ((double)ROWS) * aveWidth / ((double) diff);
         }
-
+        */
 
         /// <summary>
         /// no longer in use
@@ -619,7 +862,7 @@ namespace GCNav
                 double marginY = (mainScatterViewItem.Height - MainCanvas.Height) / 2;
                 MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
 
-                timeline.zoom(zoomPercent);
+                //timeline.zoom(zoomPercent); // jcchin
                 zoomImages(zoomPercent);
             }
         }
@@ -648,7 +891,7 @@ namespace GCNav
                         double marginY = (mainScatterViewItem.Height - MainCanvas.Height) / 2;
                         MainCanvas.Margin = new Thickness(marginX, marginY, marginX, marginY);
 
-                        timeline.zoom(zoomPercent);
+                        //timeline.zoom(zoomPercent); // jcchin
                         zoomImages(zoomPercent);
                     }
                 }
@@ -702,7 +945,7 @@ namespace GCNav
             mainScatterViewItem.Width = _initScatterWH.X;
             mainScatterViewItem.Height = _initScatterWH.Y;
             mainScatterViewItem.Center = new Point(_initScatterPos.X, _initScatterPos.Y);
-            timeline.updateTickMarks();
+            //timeline.updateTickMarks(); // jcchin
         }
 
         private void mainScatterViewItem_CenterChanged(Object sender, EventArgs e)
@@ -714,9 +957,9 @@ namespace GCNav
             }
 
             //left
-            if (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2 + MainCanvas.Width / 2 < _windowSize.Width * 1 / 2)
-            {
-                mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 - MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
+            if (mainScatterViewItem.Center.X - _windowSize.Width * 998.2 / 2 + MainCanvas.Width / 2 < _windowSize.Width * 1 / 2)
+            {// changed from 999
+                mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 - MainCanvas.Width / 2 + _windowSize.Width * 998.2 / 2, mainScatterViewItem.Center.Y); // changed from 999
                 if (_right_arrow != null)
                     _right_arrow.Visibility = Visibility.Collapsed;
             }
@@ -735,8 +978,9 @@ namespace GCNav
                 mainScatterViewItem.Center = new Point(mainScatterViewItem.Center.X, (_windowSize.Height / 2) * 1 / 2 + MainCanvas.Height / 2);
 
             double panPercent = (MainCanvas.ActualWidth / 2 - (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2)) / MainCanvas.ActualWidth;
-            if (MainCanvas.ActualWidth != Double.NaN && MainCanvas.ActualWidth != 0)
-                timeline.pan(panPercent);
+            
+            //if (MainCanvas.ActualWidth != Double.NaN && MainCanvas.ActualWidth != 0)
+                //timeline.pan(panPercent); // jcchin
         }
 
         /// <summary>
@@ -751,7 +995,8 @@ namespace GCNav
             mainScatterView.Width = _windowSize.Width * 1000;
             mainScatterView.Height = _windowSize.Height * 1000;
             //shift the main scatterview to the left by _windowSize.Width * 999 / 2
-            mainScatterView.Margin = new Thickness(-_windowSize.Width * 999 / 2, _windowSize.Height / 2, 0, 0);
+            //mainScatterView.Margin = new Thickness(-_windowSize.Width * 999 / 2, _windowSize.Height / 2, 0, 0); // jcchin - commented out
+            mainScatterView.Margin = new Thickness(-_windowSize.Width * 999 / 2, 230, 0, 0); // jcchin
 
             double zoomPercent = _windowSize.Height / previous.Height;
 
@@ -774,23 +1019,23 @@ namespace GCNav
             mainScatterViewItem.MaxHeight = 11000;
             //mainScatterViewItem.MinWidth = _windowSize.Width;
             mainScatterViewItem.MinHeight = _windowSize.Height / 2;
-            mainScatterViewItem.Center = new Point(_windowSize.Width / 2 + _windowSize.Width * 999 / 2, _windowSize.Height / 4);
+            mainScatterViewItem.Center = new Point(_windowSize.Width / 2 + _windowSize.Width * 999 + MainCanvas.Width / 2, _windowSize.Height / 4);
             //the scatterview item needs to be shifted to the right by _windowSize.Width * 999 / 2, so that we can see it on screen
 
             MainCanvas.MaxHeight = mainScatterViewItem.MaxHeight - _windowSize.Height / 2;
 
             curImageContainer.Height = _windowSize.Height / 3;
             curImageContainer.Width = _windowSize.Width / 4;
-            curImageCanvas.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas.Height = _windowSize.Height / 3 - 10;
-            curImageCanvas1.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas1.Height = _windowSize.Height / 3 - 10;
+            //curImageCanvas.Width = _windowSize.Width / 4 - 10;
+            //curImageCanvas.Height = _windowSize.Height / 3 - 10;
+            //curImageCanvas1.Width = _windowSize.Width / 4 - 10;
+            //curImageCanvas1.Height = _windowSize.Height / 3 - 10;
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 4;
             curInfoCol.Width = _windowSize.Width / 4;
             infoScroll.MaxHeight = _windowSize.Height / 3;
 
-            timeline.setSize(_windowSize.Width, _windowSize.Height / 12);
+            //timeline.setSize(_windowSize.Width, _windowSize.Height / 12); // jcchin
             Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
 
             // Make the triangles to indicate that there is more content on the timeline offscreen.
@@ -869,9 +1114,26 @@ namespace GCNav
                 {
                 }
                 artmode.currentArtworkTitle = currentImage.title;
+
+                //jcchin - set image info
+                artmode._windowSize = _windowSize;
+                artmode._imageInfo_title = currentImage.title;
+                artmode._imageInfo_artist = currentImage.artist;
+                artmode._imageInfo_medium = currentImage.medium;
+                artmode._imageInfo_category = currentImage.category;
+                artmode._imageInfo_year = currentImage.year;
+                artmode._imageInfo_month = currentImage.month;
+                artmode._imageInfo_day = currentImage.day;
+                artmode._imageInfo_keywords.Clear();
+                foreach (String keyword in currentImage.keywords)
+                {
+                    artmode._imageInfo_keywords.Add(keyword);
+                }
+                artmode.loadImageInfo();
             }
             else
             {
+
                 if (currentImage.filename != artmode.currentArtworkFileName)
                 {
                     if (MessageBox.Show("Are you sure you want to switch artworks? You will lose what you have been working on.", "Switch", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -896,6 +1158,22 @@ namespace GCNav
                         else
                         {
                         }
+
+                        // jcchin - set image info
+                        artmode._windowSize = _windowSize;
+                        artmode._imageInfo_title = currentImage.title;
+                        artmode._imageInfo_artist = currentImage.artist;
+                        artmode._imageInfo_medium = currentImage.medium;
+                        artmode._imageInfo_category = currentImage.category;
+                        artmode._imageInfo_year = currentImage.year;
+                        artmode._imageInfo_month = currentImage.month;
+                        artmode._imageInfo_day = currentImage.day;
+                        artmode._imageInfo_keywords.Clear();
+                        foreach (String keyword in currentImage.keywords)
+                        {
+                            artmode._imageInfo_keywords.Add(keyword);
+                        }
+                        artmode.loadImageInfo();
                     }
                     else
                     {
@@ -924,12 +1202,13 @@ namespace GCNav
         /// </summary>
         public void loadEvents()
         {
-            List<Event> events = timeline.getEvents();
+            // jcchin - commented out
+            /*List<Event> events = timeline.getEvents();
             foreach (Event e in events)
             {
                 e.setParent(this);
                 e.PreviewMouseDown += EventTouchedHandler;
-            }
+            }*/
         }
 
         public void EventTouchedHandler(object sender, EventArgs e)
@@ -986,7 +1265,8 @@ namespace GCNav
 
             if (currentImage != null && currentImage.Parent != null)
             {
-                ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
+                ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = Brushes.White; // jcchin
+                //((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c)); // jcchin - commented out
                 ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
             }
             ((Border)((Canvas)img.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
@@ -1003,12 +1283,15 @@ namespace GCNav
             curImage.Source = bitmap;
 
             curImageCanvas.Children.Add(curImage);
+            InfoBorder.Visibility = Visibility.Visible;
+            
             curImageContainer.Height = _windowSize.Height / 3;
             curImageContainer.Width = _windowSize.Width / 4;
-            curImageCanvas.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas.Height = _windowSize.Height / 3 - 10;
-            curImageCanvas1.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas1.Height = _windowSize.Height / 3 - 10;
+            //curImageCanvas.Width = _windowSize.Width / 4 - 10;
+            //curImageCanvas.Height = _windowSize.Height / 3 - 10;
+            //curImageCanvas1.Width = _windowSize.Width / 4 - 10;
+            //curImageCanvas1.Height = _windowSize.Height / 3 - 10;
+
             Double actualWidth = curImage.Source.Width;
             Double actualHeight = curImage.Source.Height;
             Double ratio = actualWidth / actualHeight;
@@ -1043,83 +1326,111 @@ namespace GCNav
             width.Width = length;
             curInfoCol.ColumnDefinitions.Add(width);
 
-            title.Text = "";
-            artist.Text = "";
-            medium.Text = "";
-            date.Text = "";
-            title.Text += "Title: " + img.title;
-            curInfoCol.UpdateLayout();
-            titleBack.Width = _windowSize.Width / 4 - 20;
-            titleBack.Height = title.ActualHeight + 5;
-            artist.Text += "Artist: " + img.artist;
-            medium.Text += "Medium: " + img.medium;
-            date.Text += "Year: " + img.year;
-
-            title.FontSize = 25 * _windowSize.Height / 1080.0;
-            artist.FontSize = 20 * _windowSize.Height / 1080.0;
-            medium.FontSize = artist.FontSize;
-            date.FontSize = artist.FontSize;
-            KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
-            curKeywords.FontSize = 18 * _windowSize.Height / 1080.0;
-            curInfoCol.UpdateLayout();
-            titleBack.Height = titleBack.ActualHeight + 10;
-
-            if (currentImage.keywords.Count() > 0)
+            for (int i = 0; i < 2; i++) // hack to set height of keyword box correctly the first time - should fix in the future
             {
-                KeywordsTitle.Visibility = Visibility.Visible;
-                curKeywords.Visibility = Visibility.Visible;
-                KeywordBack.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                KeywordsTitle.Visibility = Visibility.Hidden;
-                curKeywords.Visibility = Visibility.Hidden;
-                KeywordBack.Visibility = Visibility.Hidden;
-            }
-
-            KeywordBack.Width = _windowSize.Width / 4 - 20;
-            curKeywords.Text = "";
-
-            bool b = false;
-            foreach (String s in currentImage.keywords)
-            {
-                if (b)
-                    curKeywords.Text += ",";
-                else
-                    b = true;
-                curKeywords.Text += s;
-            }
-            curKeywords.UpdateLayout();
-            curInfoCol.UpdateLayout();
-            RowDefinition height = new RowDefinition();
-            GridLength height1 = new GridLength(curKeywords.ActualHeight);
-            height.Height = height1;
-            curInfoCol.RowDefinitions.Add(height);
-            KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
-            curInfoCol.UpdateLayout();
-            infoScroll.UpdateLayout();
-
-            curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight;
-
-            if (curInfoCol.Height > _windowSize.Height / 3 - 50)
-            {
-                curInfoContainer.Height = _windowSize.Height / 3;
-                infoScroll.Height = _windowSize.Height / 3 - 50;
-                title.MaxWidth = _windowSize.Width / 4 - 80;
-                title.UpdateLayout();
+                title.Text = "";
+                artist.Text = "";
+                medium.Text = "";
+                date.Text = "";
+                category.Text = ""; // jcchin
+                title.Text += "Title: " + img.title;
+                curInfoCol.UpdateLayout();
+                titleBack.Width = _windowSize.Width / 4 - 20;
                 titleBack.Height = title.ActualHeight + 5;
-                curKeywords.MaxWidth = _windowSize.Width / 4 - 80;
+                artist.Text += "Artist: " + img.artist;
+                medium.Text += "Medium: " + img.medium;
+                //date.Text += "Year: " + img.year;
+
+                // jcchin
+                if (img.month > 0)
+                {
+                    if (img.day > 0)
+                    {
+                        date.Text += "Date: " + _dateInfo.GetMonthName(img.month) + " " + img.day + ", " + img.year;
+                    }
+                    else
+                    {
+                        date.Text += "Date: " + _dateInfo.GetMonthName(img.month) + " " + img.year;
+                    }
+                }
+                else
+                {
+                    date.Text += "Date: " + img.year;
+                }
+                category.Text += "Category: " + img.category;
+
+
+                title.FontSize = 25 * _windowSize.Height / 1080.0;
+                artist.FontSize = 20 * _windowSize.Height / 1080.0;
+                medium.FontSize = artist.FontSize;
+                date.FontSize = artist.FontSize;
+                KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
+                curKeywords.FontSize = 18 * _windowSize.Height / 1080.0;
+                curInfoCol.UpdateLayout();
+                titleBack.Height = titleBack.ActualHeight + 10;
+
+                if (currentImage.keywords.Count() > 0)
+                {
+                    KeywordsTitle.Visibility = Visibility.Visible;
+                    curKeywords.Visibility = Visibility.Visible;
+                    KeywordBack.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    KeywordsTitle.Visibility = Visibility.Hidden;
+                    curKeywords.Visibility = Visibility.Hidden;
+                    KeywordBack.Visibility = Visibility.Hidden;
+                }
+
+                KeywordBack.Width = _windowSize.Width / 4 - 20;
+                curKeywords.Text = "";
+
+                bool b = false;
+                foreach (String s in currentImage.keywords)
+                {
+                    if (b)
+                        curKeywords.Text += ",";
+                    else
+                        b = true;
+                    curKeywords.Text += s;
+                }
+
                 curKeywords.UpdateLayout();
+                curInfoCol.UpdateLayout();
+
+                RowDefinition height = new RowDefinition();
+                GridLength height1 = new GridLength(curKeywords.ActualHeight);
+
+                height.Height = height1;
+                curInfoCol.RowDefinitions.Add(height);
                 KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
-                curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight +
-                    date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
-            }
-            else
-            {
-                curInfoContainer.Height = curInfoCol.Height + 50;
-                infoScroll.Height = curInfoCol.Height + 50;
-                title.MaxWidth = _windowSize.Width / 4 - 40;
-                curKeywords.MaxWidth = _windowSize.Width / 4 - 40;
+
+                curInfoCol.UpdateLayout();
+                infoScroll.UpdateLayout();
+
+                curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight;
+
+                if (curInfoCol.Height > _windowSize.Height / 3 - 50)
+                {
+                    curInfoContainer.Height = _windowSize.Height / 3;
+                    infoScroll.Height = _windowSize.Height / 3 - 50;
+                    title.MaxWidth = _windowSize.Width / 4 - 40;
+                    title.UpdateLayout();
+                    titleBack.Height = title.ActualHeight + 5;
+                    curKeywords.MaxWidth = _windowSize.Width / 4 - 40;
+                    curKeywords.UpdateLayout();
+                    KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+
+                    curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight +
+                        date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+                }
+                else
+                {
+                    curInfoContainer.Height = curInfoCol.Height + 50;
+                    infoScroll.Height = curInfoCol.Height + 50;
+                    title.MaxWidth = _windowSize.Width / 4 - 120; // jcchin - changed "- 40" to "- 100"
+                    curKeywords.MaxWidth = _windowSize.Width / 4 - 100; // jcchin - changed "- 40" to "- 100"
+                }
             }
         }
 

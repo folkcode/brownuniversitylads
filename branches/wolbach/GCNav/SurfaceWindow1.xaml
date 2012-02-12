@@ -21,23 +21,33 @@
             </Setter>
         </Style>
     </s:SurfaceWindow.Resources>
-    
-        <Grid Background="#24524A" >
-        <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="800" Height="600" Canvas.Top="10" HorizontalAlignment="Left">
-           
+
+    <Grid Background="#24524A">
+        <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="1920" Height="216" Canvas.Top="0" HorizontalAlignment="Left" Background="Black" Panel.ZIndex="3">
+            <Image Name="backgroundTopImg" Canvas.Left="10" Canvas.Top="10" Height="196" /> <!-- Canvas.Left = "116" for SDO logo-->
+            <!-- jcchin -->
         </Canvas>
-        <Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
-            <m:newMap x:Name="Map" Height="355.25" Width="576.35" />
+
+        <Canvas Name="background" VerticalAlignment="Top" Width="1920" Height="1080" Canvas.Top="0" HorizontalAlignment="Left" Background="Black" Panel.ZIndex="1">
+            <Image Name="backgroundImg" />
+        </Canvas>
+
+        <!-- <Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
+            <m:newMap x:Name="Map" Height="355.25" Width="576.35"  Visibility="Hidden" />
             <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="0" Visibility="Hidden" />
-           
-        </Canvas>
-        
-        <m:Navigator x:Name="nav" />
+        </Canvas> -->
+
+        <m:Navigator x:Name="nav" Panel.ZIndex="2"/>
 
         <Canvas Name="panCan">
             <Image Name="panImg" Canvas.ZIndex="100"/>
         </Canvas>
-        <Canvas Name="startCan" HorizontalAlignment="Center" VerticalAlignment="Center" Width="660" Height="330"></Canvas>
+        <Canvas Name="startCan" HorizontalAlignment="Center" VerticalAlignment="Center" Width="660" Height="330" Panel.ZIndex="2"></Canvas>
         <s:SurfaceButton Canvas.ZIndex="102" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Height="1080" HorizontalAlignment="Left" Margin="0,0,0,0" Padding="0 25 0 0" Name="surfaceButton1" VerticalAlignment="Top" Width="2000" Click="surfaceButton1_Click" Background="Transparent"/>
+
+        <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top" Panel.ZIndex="10" Margin="0 5 5 0">
+            <s:SurfaceButton Name="exitButton" Content="QUIT" Foreground="Black" Background="White" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 0 0 0" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
         </Grid>
+    </Grid>
+
 </s:SurfaceWindow>

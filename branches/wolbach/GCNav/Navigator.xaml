@@ -7,66 +7,122 @@
              xmlns:m="clr-namespace:GCNav"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" xmlns:my="http://schemas.microsoft.com/surface/2008">
-    
-      <Grid Name="MainGrid">
 
+    <Grid Name="MainGrid">
+        <Grid Name="curImageContainer" HorizontalAlignment="Right" VerticalAlignment="Top">
+            
+        </Grid>
+<!--
         <Grid Name="curImageContainer" HorizontalAlignment="Right" VerticalAlignment="Top">
             <Border Name="imageBorder" Grid.Row="0" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="9" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
                 <Grid Name="curImageCanvas1" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Canvas Name="curImageCanvas" >
-                        
+
                     </Canvas>
                 </Grid>
             </Border>
-            <Border Name ="InfoBorder" Opacity="0.75" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="Bottom" Margin="20,0,0,-35" Background = "#ccd6c1" BorderBrush="#ccd6c1" BorderThickness="4">
-                <TextBlock Text="Tap Image to View Artwork in Detail" Height="25"  Foreground="Black" TextAlignment="Center" FontSize="15" VerticalAlignment="Bottom"/>
-            </Border>
         </Grid>
+-->
         <Grid Name="filterBoxContainer" HorizontalAlignment="Center" VerticalAlignment="Top" Height="540" Width="330" Visibility="Hidden">
-          
-            <m:FilterTimelineBox x:Name="timelineFilt" Padding="0,0,0,0" Visibility="Hidden"/>
+            <Border CornerRadius="5" Padding="0" HorizontalAlignment="center" VerticalAlignment="center" Margin="0,0,120,0" BorderBrush="#99000076" BorderThickness="2" Grid.RowSpan="1" Width="Auto" Height="Auto" Background="{x:Null}">
+                <!-- jcchin -->
+                <m:FilterTimelineBox x:Name="timelineFilt" Padding="0,0,0,0" Visibility="Hidden"/>
+            </Border>
             
         </Grid>
+
         <Grid Name="eventInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top" Height="500" Visibility="Hidden">
             <Border CornerRadius="5" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Background = "#FFA7C99F" BorderBrush="#FF002D0C" BorderThickness="4,4,4,4">
                 <TextBlock Name="eventInfo" Grid.Row="0" Grid.Column="0"  Text="" Foreground="Black" TextAlignment="Left" FontSize="15"></TextBlock>
             </Border>
         </Grid>
-        
+
         <Grid Name="curInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top">
-         
-            <Border CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" Margin="5" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4">
-              <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled">
-                <Grid Name="curInfoCol" VerticalAlignment="Top">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                            
-                    </Grid.ColumnDefinitions>
-                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill ="#24524A" Margin="-10,0,0,0" />
-                        <TextBlock Name="title" Grid.Row="0" Grid.Column="0" Text=""   Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0" ></TextBlock>
-                        <TextBlock Name="artist" Grid.Row="1" Grid.Column="0" Text="" Foreground="Black"  TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
-                        <TextBlock Name="date" Grid.Row="2" Grid.Column="0" Text=""  Foreground="Black"  TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
-                        <TextBlock Name="medium" Grid.Row="3" Grid.Column="0" Text=""  Foreground="Black" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
-                        <Rectangle Name="KeywordBack" Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Fill ="#44000000" Margin="-10,0,0,0"/>
-                        <TextBlock  Name="KeywordsTitle" Grid.Row="4" Grid.Column="0" Visibility="Hidden" Text="Keywords:" Foreground="White" TextAlignment="Center" FontSize="18" Margin="5,0,0,0"></TextBlock>
-                    
-                        <TextBlock  Name="curKeywords" Text=""  Visibility="Hidden"  Foreground="White"  TextAlignment="Left" FontSize="18" Margin="5,10,0,0" Grid.Row="5" Grid.Column="0"></TextBlock>
-                   
-                </Grid>
-             </s:SurfaceScrollViewer>
-            </Border>
-          
+
+
+
         </Grid>
+
+        <!-- jcchin -->
+        <!-- <Canvas Width="1920" Height="1080" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Image Canvas.Left="0" Canvas.Bottom="0" Name="timelineBackground" Height="540" Stretch="Fill" />
+        </Canvas> -->
+
+        <!-- jcchin -->
+        <Canvas Name="NavigatorCanvas" Width="1920" Height="864" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Canvas Name="NavigatorCanvas_Left" Width="384" Canvas.Left="0" Panel.ZIndex="2">
+
+            </Canvas>
+
+            <Canvas Name="NavigatorCanvas_Center" Width="1152" Canvas.Left="384" Panel.ZIndex="1">
+                <!--The catalog-->
+                <my:ScatterView Height="100" HorizontalAlignment="Left" Name="mainScatterView" VerticalAlignment="Top" Width="192">
+                    <!--  Background="#FFA7C99F"-->
+                    <my:ScatterViewItem Height="50" Width="2300" HorizontalAlignment="Left" Name="mainScatterViewItem" VerticalAlignment="Top" CanRotate="False" MouseWheel="mainScatterViewItem_MouseWheel" SizeChanged="mainScatterViewItem_SizeChanged" ShowsActivationEffects="True" IsHitTestVisible="True" Opacity="1">
+                        <Canvas Width="{Binding ElementName=mainScatterViewItem, Path=ActualWidth}" Height="{Binding ElementName=mainScatterViewItem, Path=ActualHeight}">
+                            <Rectangle Name="_background" Fill="#2c2c2c" Opacity="0.5" Width="{Binding ElementName=mainScatterViewItem, Path=ActualWidth}" Height="{Binding ElementName=mainScatterViewItem, Path=ActualHeight}"/>
+                            <!-- Fill="#FFA7C99F" Fill="#990F00BE" -->
+                            <!---->
+                            <Canvas Name="MainCanvas"/>
+                        </Canvas>
+                    </my:ScatterViewItem>
+                </my:ScatterView>
+            </Canvas>
+            
+            <Canvas Name="NavigatorCanvas_Right" Width="384" Canvas.Left="1536" Panel.ZIndex="2">
+                <Border Name="imageBorder" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#991122"  BorderBrush="#FF0F00BE" BorderThickness="4" Width="384" Height="300">
+                            <Grid Name="curImageCanvas1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="384" Height="300">
+                                <Canvas Name="curImageCanvas" Width="384" Height="300">
+                                </Canvas>
+                                <Border Name="InfoBorder" Visibility="Hidden"  Opacity="0.75" Padding="2,2,2,2" Height="40" VerticalAlignment="Bottom" Margin="0,0,0,10" HorizontalAlignment="center" Background = "#ccd6c1" BorderBrush="#ccd6c1" BorderThickness="4">
+                <TextBlock Text="Tap Image to View Artwork in Detail" Height="25"  Foreground="Black" TextAlignment="Center" FontSize="15" VerticalAlignment="Bottom"/>
+            </Border>
+                            </Grid>
+                            </Border>
+
+                            <Border Name="imageInfoBorder" CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#FF0F00BE" Background="#991122" Canvas.Top="300" Width="384" Height="564">
+                                <!-- OLD: Background = "#FFA7C99F" OLD2: Background="#99310ABA" BorderBrush="Black" -->
+                                <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
+                                    <Grid Name="curInfoCol" VerticalAlignment="Top">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill="#FF000076" Margin="-10,0,0,0" />
+                                        <!-- Fill ="#24524A" -->
+                                        <TextBlock Name="title" Grid.Row="0" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0" ></TextBlock>
+                                        <TextBlock Name="artist" Grid.Row="1" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <!-- Foreground="Black" -->
+                                        <TextBlock Name="date" Grid.Row="2" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <!-- Foreground="Black" -->
+                                        <TextBlock Name="category" Grid.Row="3" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <TextBlock Name="medium" Grid.Row="4" Grid.Column="0" Text=""  Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <!-- Foreground="Black" -->
+                                        <Rectangle Name="KeywordBack" Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Fill ="#44000000" Margin="-10,0,0,0"/>
+                                        <TextBlock  Name="KeywordsTitle" Grid.Row="5" Grid.Column="0" Visibility="Hidden" Text="Keywords:" Foreground="White" TextAlignment="Center" FontSize="18" Margin="5,0,0,0" Background="#66000000"></TextBlock>
+                                        <!-- jcchin: added background -->
+
+                                        <TextBlock  Name="curKeywords" Text=""  Visibility="Hidden" TextAlignment="Left" FontSize="18" Margin="5,10,0,0" Grid.Row="6" Grid.Column="0" Background="#44000000" Foreground="#FF4CEB27"></TextBlock>
+                                        <!-- Foreground="White" -->
+
+                                    </Grid>
+                                </s:SurfaceScrollViewer>
+                            </Border>
+                        </Canvas>
+
+            </Canvas>
+
 
 
             <!--The catalog-->
+            <!--
         <my:ScatterView Height="100" HorizontalAlignment="Left" Name="mainScatterView" VerticalAlignment="Top" Width="192" Background="#FFA7C99F">
             <my:ScatterViewItem Height="50" Width="2300" HorizontalAlignment="Left" Name="mainScatterViewItem" VerticalAlignment="Top" CanRotate="False" MouseWheel="mainScatterViewItem_MouseWheel" SizeChanged="mainScatterViewItem_SizeChanged" ShowsActivationEffects="True" IsHitTestVisible="True" Opacity="1" >
                 <Canvas Width="{Binding ElementName=mainScatterViewItem, Path=ActualWidth}" Height="{Binding ElementName=mainScatterViewItem, Path=ActualHeight}">
@@ -74,24 +130,21 @@
                     <Canvas Name="MainCanvas" />
                 </Canvas>
             </my:ScatterViewItem>
-        </my:ScatterView>
-        <m:Timeline x:Name="timeline"/>
-        <TextBlock Name="Message" Text="No images found in selection." Foreground="Black" FontSize="22" FontWeight="Bold" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Collapsed" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Canvas.Bottom="20"  Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
-        </Grid>
-       
-        <Grid Name="InstructionBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50" Width ="500" Visibility="Collapsed" Opacity=".75" IsHitTestVisible="False">
-            <Border Name ="InstructionBorder" CornerRadius="5" Width ="500" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#ccd6c1" BorderBrush="#ccd6c1" BorderThickness="4">
-              
+        </my:ScatterView>-->
+            <!--<m:Timeline x:Name="timeline"/>-->
+            <TextBlock Name="Message" Text="No images found in selection." Foreground="Black" FontSize="22" FontWeight="Bold" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <Grid Name="InstructionBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50" Width ="500" Visibility="Collapsed" Opacity=".75" IsHitTestVisible="False">
+                <Border Name ="InstructionBorder" CornerRadius="5" Width ="500" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#ccd6c1" BorderBrush="#ccd6c1" BorderThickness="4">
+
 
                     <TextBlock Name="infoBox" Visibility ="Visible" Text="Select Artwork to View Details" Foreground="Black" TextAlignment="Center" FontSize="15" Width="500"></TextBlock>
 
-            </Border>
+                </Border>
 
-        </Grid>
+            </Grid>
 
     </Grid>
-    
-       
+
+
 </UserControl>

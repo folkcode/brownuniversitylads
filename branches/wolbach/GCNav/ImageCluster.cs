@@ -38,6 +38,24 @@ namespace GCNav
             //this.Background = new SolidColorBrush(Colors.Red);  // For debugging.
         }
 
+        //used to determine width for collisions while populating timeline
+        //returns the longest row width.  nevermind the name.
+        public double topRowWidth()
+        {
+            double maxW = 0;
+            for (int i = 0; i < _numRows; i++)
+            {
+                double w = 0;
+                foreach (Border b in stacks[i].Children)
+                {
+                    w += ((ImageData)((Canvas)b.Child).Children[0]).Width;
+                    w += size_padding_constant;
+                }
+                maxW = (maxW > w) ? maxW : w;
+            }
+            return maxW;
+        }
+
         // Used to determine width for collisions while populating timeline.
         // Returns the longest row width.
         public double longestRowWidth()
@@ -72,7 +90,10 @@ namespace GCNav
             images.Add(img);
             //create border thing, add image
             Border bord = new Border();
-            bord.BorderBrush = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
+
+            bord.BorderBrush = Brushes.White; // jcchin
+            //bord.BorderBrush = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c)); // jcchin - commented out
+
             bord.Background = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
             bord.CornerRadius = new CornerRadius(5);
             bord.HorizontalAlignment = HorizontalAlignment.Center;
