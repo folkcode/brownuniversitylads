@@ -159,7 +159,7 @@ namespace GCNav
             {
                 SurfaceListBoxItem b = new SurfaceListBoxItem();
                 b.Content = theItems[i];
-                b.Background =new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#665D9D8E"));
+                b.Background =new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#5e5e5e"));
                 filtItemList.Items.Add(b);
             }
         }
@@ -177,7 +177,7 @@ namespace GCNav
             {
                 SurfaceListBoxItem b = new SurfaceListBoxItem();
                 b.Content = yearsEnum.Current;
-                b.Background = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#665D9D8E"));
+                b.Background = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#5e5e5e"));
                 filtItemList_years.Items.Add(b);
             }
         }
@@ -209,7 +209,7 @@ namespace GCNav
                             SurfaceListBoxItem b = new SurfaceListBoxItem();
 
                             b.Content = _dateInfo.GetMonthName(month);
-                            b.Background = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#665D9D8E"));
+                            b.Background = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#5e5e5e"));
                             filtItemList_months.Items.Add(b);
                         }
                     }
@@ -238,7 +238,7 @@ namespace GCNav
                         {
                             SurfaceListBoxItem b = new SurfaceListBoxItem();
                             b.Content = day.ToString();
-                            b.Background = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#665D9D8E"));
+                            b.Background = new SolidColorBrush((Color)System.Windows.Media.ColorConverter.ConvertFromString("#5e5e5e"));
                             filtItemList_days.Items.Add(b);
                         }
                     }

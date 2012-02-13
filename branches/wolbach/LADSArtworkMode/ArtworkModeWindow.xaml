@@ -108,9 +108,9 @@
         </s:SurfaceButton>-->
 
 
-        <DockPanel Name="BottomPanel" Opacity=".9" Canvas.Top="864" Background="#eceff0" Height="216" Width="1920" Canvas.ZIndex ="100">
+        <DockPanel Name="BottomPanel" Opacity=".9" Canvas.Top="864" Background="#5e5e5e" Height="216" Width="1920" Canvas.ZIndex ="100">
  
-            <Grid Name="NavPanel" Background="#bdd0bd" DockPanel.Dock="Left" Width="384" Height="216">
+            <Grid Name="NavPanel" Background="#1e1e1e" DockPanel.Dock="Left" Width="384" Height="216">
                 <!-- zoom navigator -->
                 <Grid Margin="20, 20, 20, 20" Background="Black" ClipToBounds="True" Name="ThumbGrid">
                     <dz:MultiScaleImage Name="msi_thumb" />
@@ -130,8 +130,8 @@
             </Grid>
             <DockPanel DockPanel.Dock="Right">
                 
-                  <Canvas Name="collapseBar" Width="1536" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="Visible" IsHitTestVisible="True" Canvas.ZIndex="20">
-                    <s:SurfaceButton Name="collapseButtonBg" Width="1536" Background="Transparent" DockPanel.Dock="Top" Height="30" HorizontalAlignment="Stretch"   Click="BottomButtonClick" />
+                  <Canvas Name="collapseBar" Width="1536" HorizontalAlignment="Stretch" Background="#003162" DockPanel.Dock="Top" Visibility="Visible" IsHitTestVisible="True" Canvas.ZIndex="20">
+                    <s:SurfaceButton Name="collapseButtonBg" Width="1536" Background="Transparent" DockPanel.Dock="Top" Height="30" HorizontalAlignment="Stretch"  Click="BottomButtonClick" />
                       <Canvas Name="collapseButtonDown" Visibility="Visible" DockPanel.Dock="Top" Height="30" >
                         <s:SurfaceButton  Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="600" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
                             <StackPanel>
@@ -183,7 +183,7 @@
 
                 </Canvas>
 
-                <Canvas x:Name="textBar" DockPanel.Dock="Top" Background="Blue" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" MouseUp="BottomButtonClick" TouchUp="BottomButtonClick">
+                <Canvas x:Name="textBar" DockPanel.Dock="Top" Background="#003162" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" MouseUp="BottomButtonClick" TouchUp="BottomButtonClick">
                     <TextBlock Name="textMessage" Foreground="White" Text="Bar cannot be docked during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
                     <TextBlock Name="verticalMessage" Foreground="White" Text="Toolbar cannot be opened during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
                 </Canvas>
@@ -201,9 +201,9 @@
         <Canvas Name="tourAuthoringUICanvas" Width="1920" Height="216" Canvas.Top="864" ClipToBounds="True" Canvas.ZIndex ="100"></Canvas>
         <!-- tour authoring UI canvas -->
 
-        <DockPanel Name="LeftPanel" Opacity=".9" Canvas.Top="0" Canvas.Left="0" Height="864" Width="384" Background="#DD310ABA" Canvas.ZIndex="99"> <!--Background="#618276"-->
+        <DockPanel Name="LeftPanel" Opacity=".9" Canvas.Top="0" Canvas.Left="0" Height="864" Width="384" Background="#2e2e2e" Canvas.ZIndex="99"> <!--Background="#618276"-->
 
-            <s:SurfaceButton Name="leftButton" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="#5a675f" Click="LeftButtonClick" DockPanel.Dock="Right">
+            <s:SurfaceButton Name="leftButton" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="#003162" Click="LeftButtonClick" DockPanel.Dock="Right">
                 <Canvas>
                     <Canvas Name="collapseButtonRight" Visibility="Hidden"  >
                         <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="0">
@@ -227,22 +227,24 @@
                
             </s:SurfaceButton>
             
-            <StackPanel Name="leftPaneContent" Background="#99310ABA" DockPanel.Dock="Right"> <!-- Background="#618276"-->
+            <StackPanel Name="leftPaneContent" Background="#2e2e2e" DockPanel.Dock="Right"> <!-- Background="#618276"-->
                 <Canvas Name="Tools" 
                         Height="{Binding Height, ElementName=SectionBoxMaster}"
                         MinHeight="{Binding Height, ElementName=SectionBoxMaster}"
                         MaxHeight="{Binding Height, ElementName=SectionBoxMaster}"
                         Width="{Binding Width, ElementName=SectionBoxMaster}" 
-                        Background="#99310ABA"> <!-- Background="#618276"-->
+                        Background="#2e2e2e"> <!-- Background="#618276"-->
 
                     <Label Content="Tools"
                            FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}"
                            Name="labelTools" 
-                           FontFamily="Segoe360" FontWeight="Bold"/>
+                           FontFamily="Segoe360" FontWeight="Bold"
+                           Foreground="#9e9e9e"/>
                     <Label 
                         Canvas.Top="43"
                         Content="Brightness" FontSize="{Binding FontSize, ElementName=ToolLabelMaster}"
-                        Name="labelBrightness"/>
+                        Name="labelBrightness"
+                        Foreground="White"/>
                     <s:SurfaceSlider  
                                       Minimum="-100" Maximum="100"
                                       Canvas.Top="63" 
@@ -259,7 +261,8 @@
                                TextAlignment="Center"/>
                     <Label Content="Contrast" 
                            FontSize="{Binding FontSize, ElementName=ToolLabelMaster}" Canvas.Top="85" 
-                           Name="labelContrast"/>
+                           Name="labelContrast"
+                           Foreground="White"/>
                     <s:SurfaceSlider Height="23" 
                                      Minimum="-100" Maximum="100" Canvas.Top="106"
                                      Name="sliderContrast" 
@@ -279,7 +282,8 @@
                         Content="Saturation" 
                         FontSize="{Binding FontSize, ElementName=ToolLabelMaster}"
                         Canvas.Top="129" 
-                        Name="labelSaturation"/>
+                        Name="labelSaturation"
+                        Foreground="White"/>
                     <s:SurfaceSlider Height="23" 
                                      Minimum="-100" Maximum="100" Canvas.Top="148" 
                                      Name="sliderSaturation" 
@@ -306,7 +310,7 @@
                                      Padding="7 2 7 0"/>
                 </Canvas>
                 <Canvas Height="1" Background="Black" Width="{Binding Width, ElementName=SectionBoxMaster}"/>
-                <Canvas Height="2" Background="#FF7C7CAA" Width="{Binding Width, ElementName=SectionBoxMaster}"/> <!-- Background="#5a675f" -->
+                <Canvas Height="2" Background="#5e5e5e" Width="{Binding Width, ElementName=SectionBoxMaster}"/> <!-- Background="#5a675f" -->
                 <Canvas Height="1" Background="Black" Width="{Binding Width, ElementName=SectionBoxMaster}"/>
                 <Canvas Name="HotspotNav" 
                         Height="{Binding Height, ElementName=SectionBoxMaster}"
@@ -316,7 +320,8 @@
 
                     <Label Content="Hotspots" 
                            FontFamily="Segoe360" FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" 
-                           FontWeight="Bold" Name="labelHotspotNav"/>
+                           FontWeight="Bold" Name="labelHotspotNav"
+                           Foreground="#9e9e9e"/>
 
                     <s:SurfaceButton Name="toggleHotspots" 
                                      Content="Hotspots On"
@@ -366,7 +371,7 @@
                                       ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
                 </Canvas>
                 <Canvas Height="1" Background="Black" Width="{Binding Width, ElementName=SectionBoxMaster}"/>
-                <Canvas Height="2" Background="#FF7C7CAA" Width="{Binding Width, ElementName=SectionBoxMaster}"/> <!-- Background="#5a675f" -->
+                <Canvas Height="2" Background="#5e5e5e" Width="{Binding Width, ElementName=SectionBoxMaster}"/> <!-- Background="#5a675f" -->
                 <Canvas Height="1" Background="Black" Width="{Binding Width, ElementName=SectionBoxMaster}"/>
                 <Canvas Name="AssociatedDocs"
                         Height="{Binding Height, ElementName=SectionBoxMaster}"
@@ -375,7 +380,8 @@
                         Width="{Binding Width, ElementName=SectionBoxMaster}">
                     <Label Content="Associated Media" FontFamily="Segoe360" 
                            FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" 
-                           HorizontalAlignment="Left" Name="labelDocs" VerticalAlignment="Top" Width="240" />
+                           HorizontalAlignment="Left" Name="labelDocs" VerticalAlignment="Top" Width="240" 
+                           Foreground="#9e9e9e"/>
 
                     <s:SurfaceTextBox Name="sTextBoxDocsSearch"  Canvas.Top="40" Canvas.Left="5" Height="30" MinHeight="0" Width="260" FontSize="14" Foreground="Gray" PreviewMouseDown="sTextBoxDocsSearch_Click" PreviewTouchDown="sTextBoxDocsSearch_Click" Text="Type here to search..."  TextChanged="sTextBoxDocsSearch_TextChanged"/>
                     <s:SurfaceButton Name="sBDocsSearchClear" Content="Clear"
@@ -398,7 +404,7 @@
                                       />
                 </Canvas>
                 <Canvas Height="1" Background="Black" Width="{Binding Width, ElementName=SectionBoxMaster}"/>
-                <Canvas Height="2" Background="#FF7C7CAA" Width="{Binding Width, ElementName=SectionBoxMaster}"/> <!-- Background="#5a675f"-->
+                <Canvas Height="2" Background="#5e5e5e" Width="{Binding Width, ElementName=SectionBoxMaster}"/> <!-- Background="#5a675f"-->
                 <Canvas Height="1" Background="Black" Width="{Binding Width, ElementName=SectionBoxMaster}"/>
                 <Canvas Name="Tours"
                         Height="{Binding Height, ElementName=SectionBoxMaster}"
@@ -406,7 +412,7 @@
                         MaxHeight="{Binding Height, ElementName=SectionBoxMaster}"
                         Width="{Binding Width, ElementName=SectionBoxMaster}"
                         > <!--Background="#ee618276"-->
-                    <Label Grid.Row="3" Content="Tours" FontFamily="Segoe360" FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" HorizontalAlignment="Left" Margin="2,1,0,0" Name="labelTours" VerticalAlignment="Top" Width="380" />
+                    <Label Grid.Row="3" Content="Tours" Foreground="#9e9e9e" FontFamily="Segoe360" FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" HorizontalAlignment="Left" Margin="2,1,0,0" Name="labelTours" VerticalAlignment="Top" Width="380" />
                     <Label Grid.Row="3" Content="Currently Playing Tour" FontFamily="Segoe360" FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}" FontWeight="Bold" Height="40" HorizontalAlignment="Left" Margin="2,1,0,0" Name="labelResumeTour" Canvas.Top="90" Width="380" Visibility="Collapsed"/>
                     <s:SurfaceButton Name="sBResumeTour1" Content="Resume"
                                      FontSize="{Binding FontSize, ElementName=LeftPanelButtonMaster}"
@@ -451,12 +457,12 @@
         </DockPanel>
 
 
-        <DockPanel Name="AuthLeftPanel" Opacity=".9" Canvas.Top="0" Canvas.Left="0" Height="864" Width="384" Background="#618276" Visibility="Hidden" Canvas.ZIndex="99">
+        <DockPanel Name="AuthLeftPanel" Opacity=".9" Canvas.Top="0" Canvas.Left="0" Height="864" Width="384" Background="#2e2e2e" Visibility="Hidden" Canvas.ZIndex="99">
 
-            <s:SurfaceButton VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="30" Background="#5a675f" DockPanel.Dock="Right" Click="LeftButtonAuthClick">
+            <s:SurfaceButton VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="30" Background="#2e2e2e" DockPanel.Dock="Right" Click="LeftButtonAuthClick">
             </s:SurfaceButton>
 
-            <StackPanel Name="authPanelContent" Background="#618276" DockPanel.Dock="Right">
+            <StackPanel Name="authPanelContent" Background="#1e1e1e" DockPanel.Dock="Right">
                 <!--<Canvas Name="AuthTools" 
                         Height="{Binding Height, ElementName=SectionBoxMaster}"
                         MinHeight="{Binding Height, ElementName=SectionBoxMaster}"
@@ -469,7 +475,7 @@
                         MinHeight="{Binding Height}"
                         MaxHeight="{Binding Height}"
                         Width="{Binding Width}" 
-                        Background="#618276">
+                        Background="#2e2e2e">
 
                     <Label Content="Tour Authoring Tools"
                            FontSize="{Binding FontSize, ElementName=SectionTitlesMaster}"
@@ -502,40 +508,40 @@
         
         <s:SurfaceButton Name="exitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
         <s:SurfaceButton Name="quitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" Visibility="Collapsed"/>
-        <Border Name="TimeBorder" BorderBrush="#214236" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="50" Canvas.Left="50" Width="300" Height="150" Canvas.ZIndex="100">
-            <Canvas Visibility="Collapsed" Background="#ccd6c1" Name="TourLengthBox">
+        <Border Name="TimeBorder" BorderBrush="#1e1e1e" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="50" Canvas.Left="50" Width="300" Height="150" Canvas.ZIndex="100">
+            <Canvas Visibility="Collapsed" Background="#5e5e5e" Name="TourLengthBox">
                 <Label>Change Tour Length</Label>
                 <s:SurfaceTextBox Height="30" Width="50" Name="TourLengthTextBox" Canvas.Left="40" Canvas.Top="50" FontSize="20">60</s:SurfaceTextBox>
                 <Label Canvas.Top="50" Canvas.Left="90">Seconds</Label>
                 <Label Name="shortTimeLabel" Canvas.Top="20" FontSize="14" Visibility="Hidden">Events will be lost - choose longer duration</Label>
-                <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyTimeTourButton" Background="CadetBlue" Click="applyTimeTourButton_Click">
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyTimeTourButton" Background="#003162" Click="applyTimeTourButton_Click">
                     Apply
                 </s:SurfaceButton>
-                <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelTimeTourButton" Background="CadetBlue" Click="cancelTimeTourButton_Click">
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelTimeTourButton" Background="#003162" Click="cancelTimeTourButton_Click">
                     Cancel
                 </s:SurfaceButton>
             </Canvas>
         </Border>
-        <Border Name="RenameBorder" BorderBrush="#214236" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="200" Canvas.Left="200" Width="250" Height="150" Canvas.ZIndex="100">
-            <Canvas Visibility="Collapsed" Background="#ccd6c1" Name="renameTimelineBox" >
+        <Border Name="RenameBorder" BorderBrush="#1e1e1e" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="200" Canvas.Left="200" Width="250" Height="150" Canvas.ZIndex="100">
+            <Canvas Visibility="Collapsed" Background="#5e5e5e" Name="renameTimelineBox" >
 
                 <Label>Type New Name</Label>
-                <s:SurfaceTextBox Height="30" Width="200" Name="renameTimelineTextBox" Canvas.Left="20" Canvas.Top="50" FontSize="20">
+                <s:SurfaceTextBox Height="30" Width="200" Name="renameTimelineTextBox" Canvas.Left="20" Canvas.Top="50" FontSize="20" >
                     new name here
                 </s:SurfaceTextBox>
 
 
-                <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyRenameTimelineButton" Background="CadetBlue">
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Right="5" Name="applyRenameTimelineButton" Background="#003162">
                     Apply
                 </s:SurfaceButton>
-                <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelRenameTimelineButton" Background="CadetBlue">
+                <s:SurfaceButton Canvas.Bottom="5" Canvas.Left="5" Name="cancelRenameTimelineButton" Background="#003162">
                     Cancel
                 </s:SurfaceButton>
 
             </Canvas>
         </Border>
 
-        <Border Name="imageInfoBorder" CornerRadius="5" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#FF0F00BE" Background="#991122" Canvas.Top="0" Canvas.Left="768" Width="384" Height="360">
+        <Border Name="imageInfoBorder" CornerRadius="5" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#1e1e1e" Background="#2e2e2e" Canvas.Top="0" Canvas.Left="768" Width="384" Height="360">
             <!-- OLD: Background = "#FFA7C99F" OLD2: Background="#99310ABA" BorderBrush="Black" -->
             <Grid>
                 <Grid.RowDefinitions>
@@ -543,7 +549,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Width="384" Height="40" Margin="0 0 0 10" Text="Image Info" Foreground="White" FontSize="22" TextAlignment="Center"  Background="#FF000076" PreviewMouseUp="imageInfo_mousedown" PreviewTouchUp="imageInfo_touchdown"/>
+                <TextBlock Grid.Row="0" Width="384" Height="40" Margin="0 0 0 10" Text="Image Info" Foreground="White" FontSize="22" TextAlignment="Center"  Background="#2e2e2e" PreviewMouseUp="imageInfo_mousedown" PreviewTouchUp="imageInfo_touchdown"/>
 
                 <s:SurfaceScrollViewer Grid.Row="1" x:Name="infoScroll"  Height="300" VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
                     <Grid Name="curInfoCol" VerticalAlignment="Top">
@@ -559,7 +565,7 @@
                             <ColumnDefinition Name="curInfoCol_0" Width="379" />
                         </Grid.ColumnDefinitions>
 
-                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill="#FF000076" Margin="10,0,10,0" />
+                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill="#1e1e1e" Margin="10,0,10,0" />
                         <!-- Fill ="#24524A" -->
                         <TextBlock Name="title" Grid.Row="0" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="15,0,0,0" ></TextBlock>
                         <TextBlock Name="artist" Grid.Row="1" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="15,0,0,0"/>
@@ -569,11 +575,11 @@
                         <TextBlock Name="category" Grid.Row="3" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="15,0,0,0"/>
                         <TextBlock Name="medium" Grid.Row="4" Grid.Column="0" Text=""  Foreground="White" TextAlignment="Left" FontSize="20" Margin="15,0,0,0"/>
                         <!-- Foreground="Black" -->
-                        <Rectangle Name="KeywordBack" Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Fill ="#44000000" Margin="10,0,10,0"/>
-                        <TextBlock  Name="KeywordsTitle" Grid.Row="5" Grid.Column="0" Visibility="Hidden" Text="Keywords:" Foreground="White" TextAlignment="Center" FontSize="18" Margin="15,0,0,0" Background="#66000000"></TextBlock>
+                        <Rectangle Name="KeywordBack" Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Fill ="#2e2e2e" Margin="10,0,10,0"/>
+                        <TextBlock  Name="KeywordsTitle" Grid.Row="5" Grid.Column="0" Visibility="Hidden" Text="Keywords:" Foreground="White" TextAlignment="Center" FontSize="18" Margin="15,0,0,0" Background="#2e2e2e"></TextBlock>
                         <!-- jcchin: added background -->
 
-                        <TextBlock  Name="curKeywords" Text=""  Visibility="Hidden" TextAlignment="Left" FontSize="18" Margin="15,10,15,0" Grid.Row="6" Grid.Column="0" Background="#44000000" Foreground="#FF4CEB27"></TextBlock>
+                        <TextBlock  Name="curKeywords" Text=""  Visibility="Hidden" TextAlignment="Left" FontSize="18" Margin="15,10,15,0" Grid.Row="6" Grid.Column="0" Background="#2e2e2e" Foreground="#99cceb"></TextBlock>
                         <!-- Foreground="White" -->
 
                     </Grid>
