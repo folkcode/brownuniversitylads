@@ -21,7 +21,7 @@
             <TextBlock Name="names_harvard_header" Text="HARVARD UNIVERSITY" FontFamily="Segoe" Foreground="Crimson" TextAlignment="Left" FontSize="12" Margin="25,120,60,0"></TextBlock>
             <TextBlock Name="names_harvard" Text="Justin Daoust, Chris Erdmann" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="16" Margin="25,135,60,0"></TextBlock>
             <TextBlock Name="names_brown_header" Text="BROWN UNIVERSITY" FontFamily="Segoe" Foreground="Crimson" TextAlignment="Left" FontSize="12" Margin="25,165,60,0"></TextBlock>
-            <TextBlock Name="names_brown" Text="Andy van Dam, Donnie Kendall, Jessica Herron, Alex Hills, James Chin, Ferdi Adeputra, Maxwell Ashby, Yuting Chen, Yudi Fu, Julie Mond, Maggie Pace, Michael Price, Diem Tran" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="16" Margin="25,180,60,0"></TextBlock>
+            <TextBlock Name="names_brown" Text="Andy van Dam, Donnie Kendall, Jessica Herron, Alex Hills, James Chin, Ferdi Adeputra, Max Ashby, Yuting Chen, Yudi Fu, Julie Mond, Maggie Pace, Michael Price, Diem Tran" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="16" Margin="25,180,60,0"></TextBlock>
 
             <Canvas Name="imageHolder" Margin="25,247,25,12.5">
                 <Image x:Name="image"></Image>
