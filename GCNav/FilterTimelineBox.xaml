@@ -6,8 +6,8 @@
              xmlns:my="http://schemas.microsoft.com/surface/2008"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
-    <Border Background="#24524A" CornerRadius="5" BorderBrush="#FF0F00BE" BorderThickness="4"> <!-- BorderBrush="Black" -->
-    <Grid Name="timelineFilter"  Height="854" Background="#991122" >
+    <Border Background="#2e2e2e" CornerRadius="5" BorderBrush="#1e1e1e" BorderThickness="4"> <!-- BorderBrush="Black" -->
+    <Grid Name="timelineFilter"  Height="854" Background="#2e2e2e" >
             <!-- jcchin: adding background Background="#99000076"-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/> <!-- "Filter" -->
@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/> <!-- Filter content - date -->
             <RowDefinition Height="Auto"/> <!-- "Reset  All" button -->
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Filter" Foreground="White" FontSize="22" Width="420" TextAlignment="Center" PreviewMouseUp="filt_mousedown" PreviewTouchUp="filt_touchdown" Background="#FF000076"> <!-- Foreground="#FFb9D9cF" Background="#FF5D9D8E" -->
+        <TextBlock Grid.Row="0" Text="Filter" Foreground="White" FontSize="22" Width="420" TextAlignment="Center" PreviewMouseUp="filt_mousedown" PreviewTouchUp="filt_touchdown" Background="#1e1e1e"> <!-- Foreground="#FFb9D9cF" Background="#FF5D9D8E" -->
            <!-- <TextBlock.Background>
                 <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
                 <GradientStop Color="#005D9D8E" Offset="0"/> 
@@ -38,8 +38,8 @@
                 <!-- <my:SurfaceListBoxItem Content="Medium" Width="100" Foreground="Black" /> -->
                 <!-- Background="#FF5D9D8E"-->
                     
-                <my:SurfaceListBoxItem Content="Category" Width="188" Foreground="Black" />
-                <my:SurfaceListBoxItem Content="Date" Width="188" Foreground="Black" />
+                <my:SurfaceListBoxItem Content="Category" Width="188" Foreground="#99cceb" />
+                <my:SurfaceListBoxItem Content="Date" Width="188" Foreground="#99cceb" />
                 <!-- Background="#FF5D9D8E"-->
 
                 <my:SurfaceListBox.ItemsPanel>
@@ -68,7 +68,7 @@
                 <my:SurfaceListBox Grid.Column="2" Width="112" HorizontalAlignment="Left" Name="filtItemList_days" VerticalAlignment="Top" SelectionMode="Single" SelectionChanged="filtItemList_days_SelectionChanged" />
             </Grid>
 
-        <TextBlock Grid.Row="5" Margin="0 10 0 0 " Text="Reset All" Foreground="White" Background="#FF7C7CAA" FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" TextAlignment="Center" PreviewTouchDown="reset_touch" PreviewMouseDown="reset_mouse"></TextBlock> <!-- Foreground="#FFb9D9cF"/jcchin: added background -->
+        <TextBlock Grid.Row="5" Margin="0 10 0 0 " Text="Reset All" Foreground="White" Background="#003162" FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" TextAlignment="Center" PreviewTouchDown="reset_touch" PreviewMouseDown="reset_mouse"></TextBlock> <!-- Foreground="#FFb9D9cF"/jcchin: added background -->
     </Grid>
    </Border>
 </UserControl>
