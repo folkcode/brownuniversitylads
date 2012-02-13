@@ -38,8 +38,8 @@
                 <!-- <my:SurfaceListBoxItem Content="Medium" Width="100" Foreground="Black" /> -->
                 <!-- Background="#FF5D9D8E"-->
                     
-                <my:SurfaceListBoxItem Content="Category" Width="188" Foreground="#99cceb" />
-                <my:SurfaceListBoxItem Content="Date" Width="188" Foreground="#99cceb" />
+                <my:SurfaceListBoxItem Content="Category" Width="188" Foreground="#ffffff" />
+                <my:SurfaceListBoxItem Content="Date" Width="188" Foreground="#ffffff" />
                 <!-- Background="#FF5D9D8E"-->
 
                 <my:SurfaceListBox.ItemsPanel>
