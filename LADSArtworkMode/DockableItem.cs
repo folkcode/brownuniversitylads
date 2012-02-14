@@ -56,6 +56,7 @@ namespace LADSArtworkMode
         public DockedItemInfo info;
         public double aspectRatio;
         public Boolean isVideo = false;
+        private Boolean isBeingRemoved = false;
 
 
         public void resetValues(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar)
@@ -96,9 +97,10 @@ namespace LADSArtworkMode
             dpd.AddValueChanged(this, CenterChangedListener);
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
+            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock_mouse); // mashby
 
-            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved); // jcchin
+            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved);// jcchin
+            this.PreviewMouseMove += new MouseEventHandler(DockableItem_PreviewMouseMoved);// mashby
 
             mainScatterView.Items.Add(this);
             this.SetCurrentValue(MinWidthProperty, 40.0); // jcchin
@@ -173,9 +175,10 @@ namespace LADSArtworkMode
             dpd.AddValueChanged(this, CenterChangedListener);
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
+            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock_mouse); // mashby
 
-            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved); // jcchin
+            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved);// jcchin
+            this.PreviewMouseMove += new MouseEventHandler(DockableItem_PreviewMouseMoved);// mashby
 
             mainScatterView.Items.Add(this);
             this.SetCurrentValue(HeightProperty, image.Height);
@@ -242,9 +245,10 @@ namespace LADSArtworkMode
             dpd.AddValueChanged(this, CenterChangedListener);
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
+            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock_mouse); // mashby
 
-            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved); // jcchin
+            this.PreviewTouchMove += new EventHandler<TouchEventArgs>(DockableItem_PreviewTouchMoved);// jcchin
+            this.PreviewMouseMove += new MouseEventHandler(DockableItem_PreviewMouseMoved);// mashby
 
             mainScatterView.Items.Add(this);
             this.SetCurrentValue(HeightProperty, image.Height);
@@ -306,7 +310,7 @@ namespace LADSArtworkMode
             dpd.AddValueChanged(this, CenterChangedListener);
 
             this.PreviewTouchUp += new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
+            this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock_mouse);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
 
@@ -381,7 +385,7 @@ namespace LADSArtworkMode
         public void removeDockability()
         {
             this.PreviewTouchUp -= new EventHandler<TouchEventArgs>(AddtoDock);
-            this.PreviewMouseUp -= new MouseButtonEventHandler(AddtoDock);
+            this.PreviewMouseUp -= new MouseButtonEventHandler(AddtoDock_mouse);
             this.PreviewMouseWheel -= new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
         }
 
@@ -481,10 +485,25 @@ namespace LADSArtworkMode
                 win.emailScreenshotButton.ClearValue(BackgroundProperty);
         }
 
-        public void AddtoDock(object sender, EventArgs e)
+
+        private void DockableItem_PreviewMouseMoved(object sender, MouseEventArgs e)
+        {
+            Point p = e.MouseDevice.GetPosition(win.emailScreenshotButton);
+
+            if (p.X >= 0 && p.X <= 159 && p.Y >= 0 && p.Y <= 40)
+                win.emailScreenshotButton.Background = (Brush)new BrushConverter().ConvertFrom("#4e765c");
+            else
+                win.emailScreenshotButton.ClearValue(BackgroundProperty);
+        }
+
+
+
+        public void AddtoDock(object sender, TouchEventArgs e)
         {
             // jcchin - e-mail button
-            Point p = ((TouchEventArgs) e).TouchDevice.GetPosition(win.emailScreenshotButton); // need to handle mouse
+            
+            Point p = ((TouchEventArgs) e).TouchDevice.GetPosition(win.emailScreenshotButton);// need to handle mouse
+
             win.emailScreenshotButton.ClearValue(BackgroundProperty);
 
             Point UL = new Point(this.Center.X - this.Width / 2, this.Center.Y - this.Height / 2);
@@ -495,8 +514,32 @@ namespace LADSArtworkMode
                 new EmailWindow(win.MainScatterView, this, null); // jcchin - reset timer (last parameter) not needed for now
             }
             // jcchin - e-mail button END
+            AddtoDockHelper(sender);
 
+        }
 
+        public void AddtoDock_mouse(object sender, MouseEventArgs e)
+        {
+            // jcchin - e-mail button
+
+            Point p = e.MouseDevice.GetPosition(win.emailScreenshotButton);// need to handle mouse
+
+            win.emailScreenshotButton.ClearValue(BackgroundProperty);
+
+            Point UL = new Point(this.Center.X - this.Width / 2, this.Center.Y - this.Height / 2);
+            Point LR = new Point(this.Center.X + this.Width / 2, this.Center.Y + this.Height / 2);
+
+            if (p.X >= 0 && p.X <= 159 && p.Y >= 0 && p.Y <= 40)
+            {
+                new EmailWindow(win.MainScatterView, this, null); // jcchin - reset timer (last parameter) not needed for now
+            }
+            // jcchin - e-mail button END
+            AddtoDockHelper(sender);
+
+        }
+
+        public void AddtoDockHelper(object sender)
+        {
             touchDown = false;
             DockableItem item = sender as DockableItem;
             Helpers helpers = new Helpers();
@@ -611,15 +654,20 @@ namespace LADSArtworkMode
         public void CenterChangedListener(object sender, EventArgs e)
         {
             Helpers helpers = new Helpers();
-            if (!this.isDocked && this.Center.X > win.ActualWidth - 100 && !touchDown && this.Center.Y < win.ActualHeight * .7 && !win.isTourPlayingOrAuthoring())
+            if (!this.isDocked && this.Center.X > win.ActualWidth - 100 && !touchDown && this.Center.Y < win.ActualHeight * .7 && !win.isTourPlayingOrAuthoring()  && !isBeingRemoved)
             {
+                isBeingRemoved = true;
                 PointAnimation anim1 = new PointAnimation();
                 anim1.Completed += anim3Completed;
                 anim1.From = new Point(this.Center.X, this.Center.Y);
                 anim1.To = new Point(win.ActualWidth + 1000, this.Center.Y);
                 anim1.Duration = new Duration(TimeSpan.FromSeconds(.4));
                 anim1.FillBehavior = FillBehavior.Stop;
-                if (aldbi != null) aldbi.opened = false;
+                if (aldbi != null)
+                {
+                    win._openedAssets.Remove(aldbi.scatteruri);
+                    aldbi.opened = false;
+                }
                 this.BeginAnimation(CenterProperty, anim1);
                 if (_helpers.IsVideoFile(imageURIPath))
                 {
@@ -630,10 +678,13 @@ namespace LADSArtworkMode
 
         public void anim3Completed(object sender, EventArgs e)
         {
+            Console.Out.WriteLine("ScatterView Item removed");
+            
             aldbi = null;
             mainScatterView.Items.Remove(this);
             if (info != null && win.SavedDockedItems.Contains(info))
             win.SavedDockedItems.Remove(info);
+            
         }
 
     }
@@ -645,7 +696,7 @@ namespace LADSArtworkMode
         Label label;
         ArtworkModeWindow _lb;
         DockPanel dp;
-        String scatteruri;
+        public String scatteruri;
         public Boolean opened;
         private Helpers _helpers;
 
@@ -766,7 +817,7 @@ namespace LADSArtworkMode
             {
                 _lb.tourExploreManageAdd(scatteruri, this);  // Will add it if possible.
             }
-            if (!_lb._openedAssets.ContainsKey(scatteruri))
+            if (!_lb._openedAssets.ContainsKey(scatteruri) || this.opened == false )
             {
                 //if it's an image, do this:
                 if (_helpers.IsImageFile(scatteruri))
