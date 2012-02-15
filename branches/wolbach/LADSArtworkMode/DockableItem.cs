@@ -798,6 +798,8 @@ namespace LADSArtworkMode
                     lb.getAssociatedDocToolBar().Items.Add(this);
                 }
             }
+
+            label.Foreground = new SolidColorBrush(Colors.White);
         }
 
         public void setLabel(string l)

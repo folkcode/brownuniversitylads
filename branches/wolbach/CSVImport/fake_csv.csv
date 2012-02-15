@@ -1,4 +1,4 @@
 Path to Image,Path to Thumbnail,Title,Year,Artist,Medium,Keywords (semicolon delimited),Asset1,
-imagePath1,imageThumb1,Title1,1989,Artist1,Medium1,keyword1;blue;fuzzy;happy;,"path_to_asset;asset_name;'''description. Yes this is the description. Omg such special characters: ; """" blahblahblah!!!!''';",another_asset_path;another_name;'''oh my god there is another asset in just this one row!''';
-imagePath2,imageThumb2,Title2,2002,Artist2,Medium2,keywords2,path_to_asset;asset_name;'''description''';,
-imagePath3,imageThumb3,Title3,1468,Artist3,Medium3,keywords3,path_to_asset;asset_name;'''description''';,
+silly_images/flower.png,,Flower Closeup,1989,Michael Price,Computer Graphics,keyword1;blue;fuzzy;happy;,"silly_images/lorax.jpg;The Lorax;'''description. Yes this is the description. Omg such special characters: ; """" blahblahblah!!!!''';",C:/englishlads-yudi/CSVImport/silly_images/jungle.jpg;Jungle;'''oh my god there is another asset in just this one row!''';
+silly_images/mandala.png,,Crazy Mandala,2002,Garibaldi,Flesh and Bone,keywords2,silly_images/lorax.jpg;Danny DeVito;'''Because he is voice acting the Lorax.''';,
+silly_images/grass.jpg,,Grass,1468,Father Time,Photograph,keywords3,silly_images/lorax.jpg;Alice;'''description''';,

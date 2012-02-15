@@ -47,13 +47,12 @@ namespace GCNav
         private ImageData currentImage;
         private System.Windows.Forms.Timer _timer;
         private bool _artOpen, _collectionEmpty;
-        private Double mapWidth;
         public FilterTimelineBox filter;
 
         public List<DockedItemInfo> SavedDockedItems;
 
         // The arrows that indicate that there is more timeline content offscreen.
-        Polygon _left_arrow, _right_arrow;
+        //Polygon _left_arrow, _right_arrow;
 
         private DateTimeFormatInfo _dateInfo; // jcchin
 
@@ -90,43 +89,13 @@ namespace GCNav
             filter.Visibility = Visibility.Hidden; // jcchin
 
             _dateInfo = new DateTimeFormatInfo(); // jcchin
-            
-            String[] c = Environment.GetCommandLineArgs();
+        }
 
-            if (c.Length != 1)
-            {
-                if (c[1].Contains("noauthoring"))
-                {
-                    
-                    //ButtonPanel.Children.Remove(exitButton);
-                }
-            }
-        }
-        public void setMapWidth(Double width)
-        {
-            mapWidth = width;
-        }
         public void TimerTick_Handler(object sender, EventArgs e)
         {
             if (artmode != null)
             {
                 artmode.updateWebImages();
-            }
-        }
-
-        public void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            string message = "Are you sure you want to quit LADS?";
-            string caption = "Quit LADS";
-            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.YesNo;
-            System.Windows.Forms.DialogResult result;
-
-            result = System.Windows.Forms.MessageBox.Show(message, caption, buttons);
-
-            if (result == System.Windows.Forms.DialogResult.Yes)
-            {
-
-                Application.Current.Shutdown();
             }
         }
 
@@ -154,7 +123,6 @@ namespace GCNav
                 {
                     if (docNode.Name == "Collection")
                     {
-
                         int startY = 1;
                         int endY = 0;
                         foreach (XmlNode node in docNode.ChildNodes)
@@ -635,7 +603,6 @@ namespace GCNav
                 MainCanvas.Width = _windowSize.Width;
                 timeline_length = MainCanvas.Width;
             }
-
             InstructionBox.Visibility = Visibility.Visible;
             InstructionBox.Width = (_windowSize.Width / 4);
             InstructionBorder.Width = (_windowSize.Width / 4) - 5;
@@ -950,25 +917,25 @@ namespace GCNav
 
         private void mainScatterViewItem_CenterChanged(Object sender, EventArgs e)
         {
-            if (!this.collectionEmpty() && _left_arrow != null)
+            /*if (!this.collectionEmpty() && _left_arrow != null)
             {
                 _left_arrow.Visibility = Visibility.Visible;
                 _right_arrow.Visibility = Visibility.Visible;
-            }
+            }*/
 
             //left
             if (mainScatterViewItem.Center.X - _windowSize.Width * 998.2 / 2 + MainCanvas.Width / 2 < _windowSize.Width * 1 / 2)
             {// changed from 999
                 mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 - MainCanvas.Width / 2 + _windowSize.Width * 998.2 / 2, mainScatterViewItem.Center.Y); // changed from 999
-                if (_right_arrow != null)
-                    _right_arrow.Visibility = Visibility.Collapsed;
+                //if (_right_arrow != null)
+                //    _right_arrow.Visibility = Visibility.Collapsed;
             }
             //right
             if (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2 - MainCanvas.Width / 2 > _windowSize.Width * 1 / 2)
             {
                 mainScatterViewItem.Center = new Point(_windowSize.Width * 1 / 2 + MainCanvas.Width / 2 + _windowSize.Width * 999 / 2, mainScatterViewItem.Center.Y);
-                if (_left_arrow != null)
-                    _left_arrow.Visibility = Visibility.Collapsed;
+                //if (_left_arrow != null)
+                //    _left_arrow.Visibility = Visibility.Collapsed;
             }
             //up
             if (mainScatterViewItem.Center.Y + MainCanvas.Height / 2 < (_windowSize.Height / 2) * 1 / 2)
@@ -1039,7 +1006,7 @@ namespace GCNav
             Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
 
             // Make the triangles to indicate that there is more content on the timeline offscreen.
-            if (_left_arrow == null)
+            /*if (_left_arrow == null)
             {
                 _left_arrow = new Polygon();
                 PointCollection l_arrow_points = new PointCollection();
@@ -1077,7 +1044,7 @@ namespace GCNav
 
                 _left_arrow.Visibility = Visibility.Collapsed;
                 _right_arrow.Visibility = Visibility.Collapsed;
-            }
+            }*/
 
         }
 
