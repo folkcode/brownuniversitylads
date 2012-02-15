@@ -43,6 +43,8 @@
         <s:SurfaceButton Name="LeftPanelButtonMaster" Visibility="Collapsed" FontSize="15" Width="5"/>
         <s:SurfaceListBox Name="SectionListBoxMaster" Visibility="Collapsed" Height="135"/>
 
+        <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="400"></s:ScatterView>
+
         <Canvas Name="ImageArea" Background="#ccd6c1" Height="1080" Width="1920" Canvas.ZIndex ="-1">
 
             <Grid Name="DeepZoomGrid" Height="1080" Width="1920" Canvas.Top="0" Canvas.Left="0">
@@ -67,7 +69,7 @@
                 </Canvas>
 
                 <s:ScatterView Name="MSIScatterView" Width="1920" Height="1080">
-                    <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="100"></s:ScatterView>
+                    
                 </s:ScatterView>
             </Grid>
         </Canvas>
