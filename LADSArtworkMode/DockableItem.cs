@@ -512,7 +512,11 @@ namespace LADSArtworkMode
                 anim1.To = new Point(win.ActualWidth + 1000, this.Center.Y);
                 anim1.Duration = new Duration(TimeSpan.FromSeconds(.4));
                 anim1.FillBehavior = FillBehavior.Stop;
-                if (aldbi != null) aldbi.opened = false;
+                if (aldbi != null)
+                {
+                    win._openedAssets.Remove(aldbi.scatteruri);
+                    aldbi.opened = false;
+                }
                 this.BeginAnimation(CenterProperty, anim1);
                 if (_helpers.IsVideoFile(imageURIPath))
                 {
@@ -538,7 +542,7 @@ namespace LADSArtworkMode
         Label label;
         ArtworkModeWindow _lb;
         DockPanel dp;
-        String scatteruri;
+        public String scatteruri;
         public Boolean opened;
         private Helpers _helpers;
 
