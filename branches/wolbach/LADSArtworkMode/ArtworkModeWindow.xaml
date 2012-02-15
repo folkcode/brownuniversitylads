@@ -42,6 +42,9 @@
         <StackPanel Name="SectionBoxMaster" Visibility="Collapsed" Height="214" Width="345"/>
         <s:SurfaceButton Name="LeftPanelButtonMaster" Visibility="Collapsed" FontSize="15" Width="5"/>
         <s:SurfaceListBox Name="SectionListBoxMaster" Visibility="Collapsed" Height="135"/>
+        
+        
+        <s:ScatterView Name="MainScatterView" MinHeight="1080" Width="1920" Canvas.ZIndex="400"  ></s:ScatterView>
 
         <Canvas Name="ImageArea" Height="1080" Width="1920" Canvas.ZIndex ="-1" PreviewTouchDown="ImageArea_PreviewTouchDown" PreviewTouchUp="ImageArea_PreviewTouchUp"> <!-- Background="#ccd6c1" -->
 
@@ -67,8 +70,9 @@
                 </Canvas>
 
                 <s:ScatterView Name="MSIScatterView" Width="1920" Height="1080">
-                    <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="100"></s:ScatterView>
+                    
                 </s:ScatterView>
+                
             </Grid>
 
             <!-- jcchin -->

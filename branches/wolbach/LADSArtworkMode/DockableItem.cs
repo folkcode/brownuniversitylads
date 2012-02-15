@@ -251,6 +251,7 @@ namespace LADSArtworkMode
             this.PreviewMouseMove += new MouseEventHandler(DockableItem_PreviewMouseMoved);// mashby
 
             mainScatterView.Items.Add(this);
+            //mainScatterView.Background = Brushes.Red;
             this.SetCurrentValue(HeightProperty, image.Height);
             this.SetCurrentValue(WidthProperty, image.Width);
 
@@ -260,12 +261,17 @@ namespace LADSArtworkMode
             Random rnd = new Random();
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
                                                           rnd.Next((int)(image.ActualHeight * 3), (int)(win.ActualHeight * .8 - image.ActualHeight * 3)));
+            Console.Out.WriteLine("win width: " + win.ActualWidth + "  win height: " + win.ActualHeight);
+            Console.Out.WriteLine("X:" + pt.X + "  Y:" + pt.Y);
+            
             this.SetCurrentValue(CenterProperty, pt);
             this.Orientation = rnd.Next(-20, 20);
+            Console.Out.WriteLine("dockX" + this.Center.X + "  dockY:" + this.Center.Y);
 
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
             imageURIPath = imageURIPathParam;
+            
             
         }
 
@@ -819,7 +825,7 @@ namespace LADSArtworkMode
             {
                 _lb.tourExploreManageAdd(scatteruri, this);  // Will add it if possible.
             }
-            if (!_lb._openedAssets.ContainsKey(scatteruri) || this.opened == false )
+            if (!_lb._openedAssets.ContainsKey(scatteruri))  // workinggg
             {
                 //if it's an image, do this:
                 if (_helpers.IsImageFile(scatteruri))
