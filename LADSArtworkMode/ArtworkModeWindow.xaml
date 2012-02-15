@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:dz="clr-namespace:DeepZoom.Controls;assembly=DeepZoom"
+ 
     xmlns:ae="clr-namespace:LADSArtworkMode"
     xmlns:local="Local"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,11 +11,15 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     mc:Ignorable="d" x:Class="LADSArtworkMode.ArtworkModeWindow"
+ 
     Title="LADS - Artwork Mode"
     WindowStyle="None" ResizeMode="CanResize"
     WindowState="Maximized"
     Width="1920"
-    Height="1080" Loaded="SurfaceWindow_Loaded">
+    Height="1080" Loaded="SurfaceWindow_Loaded"
+    PreviewTouchDown="SurfaceWindow_PreviewTouchDown" PreviewTouchUp="SurfaceWindow_PreviewTouchUp"
+    PreviewMouseDown="SurfaceWindow_PreviewMouseDown"  PreviewMouseUp="SurfaceWindow_PreviewMouseUp"
+    >
 
     <s:SurfaceWindow.Resources>
         <!--<m:HotspotModel x:Key="HotspotBindingData"/>-->
@@ -61,7 +66,9 @@
                     </Canvas.RenderTransform>
                 </Canvas>
 
-                <s:ScatterView Name="MSIScatterView" Width="1920" Height="1080"></s:ScatterView>
+                <s:ScatterView Name="MSIScatterView" Width="1920" Height="1080">
+                    <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="100"></s:ScatterView>
+                </s:ScatterView>
             </Grid>
 
             <!-- jcchin -->
@@ -486,8 +493,9 @@
 
             </StackPanel>
         </DockPanel>
-
-        <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="100"></s:ScatterView>
+        <Image Name="help" Source="Resources/question.png" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Height="35" Width="35" Canvas.Right="140" Canvas.Top="40" Visibility="Hidden"/>
+        <!--<s:SurfaceButton Name="helpDone" MinHeight="0" Height="30" Width="55" Content="Done" FontSize="14" Canvas.Right="60" Canvas.Top="40" Visibility="Hidden" Click="helpDone_Click" />-->
+        <Label Name="helpInstruction" Content="Click the Catalog button to go back to the catalog, click Tour Authoring start to make a new tour" Canvas.Right="8" Canvas.Top="66" MaxWidth="160" FontSize="14" Visibility="Hidden"/>
         
         <!-- jcchin -->
         <s:SurfaceButton Name="emailScreenshotButton" Content="E-mail Media Item" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="455"  Click="emailScreenshotButton_Click" Canvas.ZIndex="100"/>
@@ -540,6 +548,8 @@
 
             </Canvas>
         </Border>
+        <ae:helpWindow x:Name="helpWindow" Visibility="Hidden" />
+
 
         <Border Name="imageInfoBorder" CornerRadius="5" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#1e1e1e" Background="#2e2e2e" Canvas.Top="0" Canvas.Left="768" Width="384" Height="360">
             <!-- OLD: Background = "#FFA7C99F" OLD2: Background="#99310ABA" BorderBrush="Black" -->
@@ -588,5 +598,5 @@
 
         </Border>
     </Canvas>
-
+    
 </s:SurfaceWindow>

@@ -129,6 +129,8 @@ namespace LADSArtworkMode
 
         #endregion
 
+        private DispatcherTimer _resetTimer = new DispatcherTimer();
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -188,6 +190,10 @@ namespace LADSArtworkMode
             Canvas.SetTop(collapseButtonLeft, 400);
             Canvas.SetTop(collapseButtonRight, 400);
 
+            _resetTimer.Interval = TimeSpan.FromSeconds(120);
+            _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
+            _resetTimer.Start();
+
 
 
 
@@ -203,12 +209,13 @@ namespace LADSArtworkMode
             // jcchin
             screenPoints = new Point[2];
             this.initializeScreenshotFeature();
-            ImageBrush ImageArea_Background = new ImageBrush(new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_viewing_bg.jpg", UriKind.Absolute)));
+            /*ImageBrush ImageArea_Background = new ImageBrush(new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_viewing_bg.jpg", UriKind.Absolute)));
             ImageArea_Background.TileMode = TileMode.Tile;
             ImageArea_Background.Stretch = Stretch.Fill;
             ImageArea_Background.Viewport = new Rect(0, 0, 630.666666666667, 601.333333333333);
             ImageArea_Background.ViewportUnits = BrushMappingMode.Absolute;
-            ImageArea.Background = ImageArea_Background;
+            ImageArea.Background = ImageArea_Background;*/
+            ImageArea.Background = new SolidColorBrush(Colors.Black);
 
             _dateInfo = new DateTimeFormatInfo(); // jcchin
             _imageInfo_keywords = new List<string>(); // jcchin
@@ -216,6 +223,36 @@ namespace LADSArtworkMode
 
             imageInfoBorder.Height = 40;
             infoScroll.Visibility = Visibility.Hidden;
+        }
+
+        void _resetTimer_Tick(object sender, EventArgs e)
+        {
+            _resetTimer.Stop();
+            this.Close();
+        }
+
+        private void SurfaceWindow_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewTouchUp(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
         }
 
 
@@ -568,6 +605,7 @@ namespace LADSArtworkMode
             if (count == 0)
             {
                 SurfaceListBoxItem item = new SurfaceListBoxItem();
+                item.Foreground = new SolidColorBrush(Colors.White);
                 item.Content = "(No assets for this artwork)";
                 treeDocs.Items.Add(item);
             }
@@ -932,6 +970,7 @@ namespace LADSArtworkMode
                     {
                         SurfaceListBoxItem item = new SurfaceListBoxItem();
                         item.Tag = i; // the tag stores the index (position of the hotspot in hotspotCollection)
+                        item.Foreground = new SolidColorBrush(Colors.White);
                         item.Content = m_hotspotCollection.Hotspots[i].Name;
                         listHotspotNav.Items.Add(item);
                         if (m_hotspotOnOff == true)
@@ -944,6 +983,7 @@ namespace LADSArtworkMode
                 if (m_hotspotCollection.Hotspots.Length == 0)
                 {
                     SurfaceListBoxItem item = new SurfaceListBoxItem();
+                    item.Foreground = new SolidColorBrush(Colors.White);
                     item.Content = "(No hotspots for this artwork)";
                     listHotspotNav.Items.Add(item);
                 }
@@ -951,6 +991,7 @@ namespace LADSArtworkMode
             else
             {
                 SurfaceListBoxItem item = new SurfaceListBoxItem();
+                item.Foreground = new SolidColorBrush(Colors.White);
                 item.Content = "(No hotspots for this artwork)";
                 listHotspotNav.Items.Add(item);
             }
@@ -2413,6 +2454,24 @@ namespace LADSArtworkMode
             _isInteractionOnThumb = false;
             e.Handled = false;
         }
+
+        private void help_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            helpWindow.Visibility = Visibility.Visible;
+            helpWindow.Width = this.Width;
+            helpWindow.Height = this.Height;
+            Canvas.SetZIndex(helpWindow, 100);
+        }
+
+        private void help_TouchDown(object sender, TouchEventArgs e)
+        {
+            helpWindow.Visibility = Visibility.Visible;
+            helpWindow.Width = this.Width;
+            helpWindow.Height = this.Height;
+            Canvas.SetZIndex(helpWindow, 100);
+        }
+
+        
     
     }
 

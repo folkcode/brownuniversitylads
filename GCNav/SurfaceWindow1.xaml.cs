@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Surface;
 using Microsoft.Surface.Presentation.Controls;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace GCNav
 {
@@ -21,6 +22,7 @@ namespace GCNav
         /// </summary>
         private StartCard _startCard;
         //private FilterTimelineBox filter;
+        private DispatcherTimer _resetTimer = new DispatcherTimer();
        
         public SurfaceWindow1()
         {
@@ -74,6 +76,21 @@ namespace GCNav
             //map.Children.Add(filter); // jcchin
            
             this.SizeChanged += SurfaceWindow1_SizeChanged;
+
+            _resetTimer.Interval = TimeSpan.FromSeconds(120);
+            _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
+
+            //help.Visibility = Visibility.Visible;
+
+            String[] c = Environment.GetCommandLineArgs();
+
+            if (c.Length != 1)
+            {
+                if (c[1].Contains("noauthoring"))
+                {
+                    ButtonPanel.Children.Remove(exitButton);
+                }
+            }
         }
 
         //This adjusts the winodw size for screens of different resolutions
@@ -101,6 +118,22 @@ namespace GCNav
             //backRec.Height = map.Height*scaleY + 30+10; // jcchin
             //Canvas.SetLeft(backRec, e.NewSize.Width *0.316); // jcchin
             //Canvas.SetZIndex(backRec, -10);  // jcchin
+        }
+
+        public void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            string message = "Are you sure you want to quit LADS?";
+            string caption = "Quit LADS";
+            System.Windows.Forms.MessageBoxButtons buttons = System.Windows.Forms.MessageBoxButtons.YesNo;
+            System.Windows.Forms.DialogResult result;
+
+            result = System.Windows.Forms.MessageBox.Show(message, caption, buttons);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+
+                Application.Current.Shutdown();
+            }
         }
 
         /// <summary>
@@ -204,6 +237,7 @@ namespace GCNav
                 exitButton.Visibility = Visibility.Visible;
 
                 backgroundTopImg.Visibility = Visibility.Visible;
+                _resetTimer.Start();
             }
         }
 
@@ -212,9 +246,68 @@ namespace GCNav
             nav.setTimelineMouseUpFalse();
         }
 
-        public void ExitButton_Click(object sender, RoutedEventArgs e)
+        private void SurfaceWindow_PreviewTouchDown(object sender, TouchEventArgs e)
         {
-            Application.Current.Shutdown();
+            _startCard.Visibility = Visibility.Collapsed;
+            panImg.Visibility = Visibility.Collapsed;
+            InstrLabel.Visibility = Visibility.Collapsed;
+            _resetTimer.Stop();
+            e.Handled = false;
         }
+
+        private void SurfaceWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _startCard.Visibility = Visibility.Collapsed;
+            panImg.Visibility = Visibility.Collapsed;
+            InstrLabel.Visibility = Visibility.Collapsed;
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewTouchUp(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
+        }
+
+        void _resetTimer_Tick(object sender, EventArgs e)
+        {
+            _resetTimer.Stop();
+            _startCard.Visibility = Visibility.Visible;
+            panImg.Visibility = Visibility.Visible;
+            InstrLabel.Visibility = Visibility.Visible;
+        }
+
+        private void SurfaceWindow_Deactivated(object sender, EventArgs e)
+        {
+            _resetTimer.Start();
+        }
+
+        private void help_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            helpWindow.Visibility = Visibility.Visible;
+            //helpInstruction.Visibility = Visibility.Visible;
+            //helpDone.Visibility = Visibility.Visible;
+        }
+
+        private void help_TouchDown(object sender, TouchEventArgs e)
+        {
+            helpWindow.Visibility = Visibility.Visible;
+            //helpInstruction.Visibility = Visibility.Visible;
+            //helpDone.Visibility = Visibility.Visible;
+        }
+
+        //private void helpDone_Click(object sender, RoutedEventArgs e)
+        //{
+        //    help.Visibility = Visibility.Visible;
+        //    //helpInstruction.Visibility = Visibility.Hidden;
+        //    //helpDone.Visibility = Visibility.Hidden;
+        //}
     }
 }
