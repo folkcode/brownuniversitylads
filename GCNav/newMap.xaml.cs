@@ -472,29 +472,30 @@ namespace GCNav
          */
         private void showInfoBox(string text, Point origin)
         {
+            _infoContainer.Visibility = Visibility.Collapsed;
             _infoBox.Text = text;
             Storyboard storyboard = new Storyboard();
 
             //Animate width.
-            DoubleAnimation animWidth = new DoubleAnimation(0.0, _windowSize.Width/4.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            DoubleAnimation animWidth = new DoubleAnimation(0.0, _windowSize.Width/4.0, new Duration(TimeSpan.FromSeconds(0.3)));
             storyboard.Children.Add(animWidth);
             Storyboard.SetTargetName(animWidth, InfoBoxShadow.Name);
             Storyboard.SetTargetProperty(animWidth, new PropertyPath(Rectangle.WidthProperty));
 
             //Animate height
-            DoubleAnimation animHeight = new DoubleAnimation(0.0, _windowSize.Height / 6.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            DoubleAnimation animHeight = new DoubleAnimation(0.0, _windowSize.Height / 6.0, new Duration(TimeSpan.FromSeconds(0.3)));
             storyboard.Children.Add(animHeight);
             Storyboard.SetTargetName(animHeight, InfoBoxShadow.Name);
             Storyboard.SetTargetProperty(animHeight, new PropertyPath(Rectangle.HeightProperty));
 
             //Animate centerX
-            DoubleAnimation animX = new DoubleAnimation(origin.X, -_windowSize.Width / 4.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            DoubleAnimation animX = new DoubleAnimation(origin.X, -_windowSize.Width / 4.0, new Duration(TimeSpan.FromSeconds(0.3)));
             storyboard.Children.Add(animX);
             Storyboard.SetTargetName(animX, InfoBoxShadow.Name);
             Storyboard.SetTargetProperty(animX, new PropertyPath("(Canvas.Left)"));
 
             //Animate centerY
-            DoubleAnimation animY = new DoubleAnimation(origin.Y, this.ActualHeight - _windowSize.Height / 6.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            DoubleAnimation animY = new DoubleAnimation(origin.Y, this.ActualHeight - _windowSize.Height / 6.0, new Duration(TimeSpan.FromSeconds(0.3)));
             storyboard.Children.Add(animY);
             Storyboard.SetTargetName(animY, InfoBoxShadow.Name);
             Storyboard.SetTargetProperty(animY, new PropertyPath("(Canvas.Top)"));
