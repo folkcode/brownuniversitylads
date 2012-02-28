@@ -133,25 +133,24 @@
             <Label Content="Then select the location on the map and fill in the information below." Canvas.Left="19" FontSize="16" Canvas.Top="18" Foreground="Black"/>
             
             <dz:MultiScaleImage Name="map1" Width="768.5" Height="433.7" Canvas.Left="42" Canvas.Top="89" Canvas.ZIndex="10"/>
-            <Rectangle Height="433.7"  Stroke="#227174" Width="768.5" Fill="#FFEDF5E2" StrokeThickness="3" Canvas.ZIndex="0" Canvas.Top="87" Canvas.Left="40"/>
+            <Rectangle Height="436.7"  Stroke="#227174" Width="771.5" Fill="#FFEDF5E2" StrokeThickness="3" Canvas.ZIndex="0" Canvas.Top="87" Canvas.Left="40"/>
             <Canvas x:Name="mapCover" Height="433.7" Width="768.5" Canvas.Top="87" Canvas.Left="40" Canvas.ZIndex="20" Background="Transparent" IsHitTestVisible="False">
             
             </Canvas>
-            <Label Name="dateLabel" Content="Date:  From:" Canvas.Bottom="70" Canvas.Left="30" Foreground="Black" FontSize="16"/>          
-            <my:SurfaceTextBox x:Name="date" Canvas.Bottom="70" Canvas.Left="128" Width="100" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" MaxLength="5" />
-            <Label Content="To:" Canvas.Bottom="70" Canvas.Left="227" Foreground="Black" />
-            <my:SurfaceTextBox x:Name="dateTo" Canvas.Bottom="70" Canvas.Left="260" Width="100" Foreground="Black" FontSize="16" BorderBrush="#227174" Background="Transparent" IsReadOnly="True" MaxLength="5" TextChanged="dateTo_TextChanged" />
-            <Label Content="Country and city:" Canvas.Bottom="70" Canvas.Left="380" Foreground="Black" Background="Transparent"  FontSize="16"/>
-            <my:SurfaceTextBox x:Name="city" Canvas.Bottom="70" Canvas.Left="550" Width="200" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="city_TextChanged" />
+            <Label Name="dateLabel" Visibility="Collapsed" Content="Date:  From:" Canvas.Bottom="70" Canvas.Left="30" Foreground="Black" FontSize="16"/>
+            <my:SurfaceTextBox x:Name="date" Visibility="Collapsed" Canvas.Bottom="70" Canvas.Left="128" Width="100" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="date_TextChanged" MaxLength="5" />
+            <Label Visibility="Collapsed" Content="To:" Canvas.Bottom="70" Canvas.Left="227" Foreground="Black" />
+            <my:SurfaceTextBox x:Name="dateTo" Visibility="Collapsed" Canvas.Bottom="70" Canvas.Left="260" Width="100" Foreground="Black" FontSize="16" BorderBrush="#227174" Background="Transparent" IsReadOnly="True" MaxLength="5" TextChanged="dateTo_TextChanged" />
+            <Label Content="Description:" Canvas.Bottom="70" Canvas.Left="40" Foreground="Black" Background="Transparent"  FontSize="16"/>
+            <my:SurfaceTextBox x:Name="city" Canvas.Bottom="70" Canvas.Left="140" Width="648.5" BorderBrush="#227174" Background="Transparent" Foreground="Black" FontSize="16" IsReadOnly="True" TextChanged="city_TextChanged" />
 
             <Rectangle Height="35" Name="rectangle1" Stroke="#FFEDF5E2" Width="780" Fill="#227174" StrokeThickness="3" Canvas.Top="47" Canvas.Left="27"/>
-            <my:SurfaceRadioButton x:Name="red" BorderBrush="White" BorderThickness="2" Content="Point of origin" Background="Red" Canvas.Top="53" Canvas.Left="40" Checked="SurfaceRadioButton_Checked" Style="{StaticResource style1}" ToolTip="Only one point of origin will be recorded"/>
-            <my:SurfaceRadioButton x:Name="blue" BorderBrush="White"  BorderThickness="2" Content="Exhibition locations" Canvas.Top="53" Background="Blue" Canvas.Left="265" Checked ="SurfaceRadioButton_Checked_1"  Style="{StaticResource style2}" Width="203" />
+            <my:SurfaceRadioButton x:Name="red"  Visibility="Collapsed" BorderBrush="White" BorderThickness="2" Content="Point of origin" Background="Red" Canvas.Top="53" Canvas.Left="40" Checked="SurfaceRadioButton_Checked" Style="{StaticResource style1}" ToolTip="Only one point of origin will be recorded"/>
+            <my:SurfaceRadioButton x:Name="blue" IsChecked="True"  BorderBrush="White"  BorderThickness="2" Content="Exhibition locations" Canvas.Top="53" Background="Blue" Canvas.Left="265" Checked ="SurfaceRadioButton_Checked_1"  Style="{StaticResource style2}" Width="203" />
+            <my:SurfaceRadioButton x:Name="yellow" Visibility="Collapsed"  BorderBrush="White" BorderThickness="2" Content="Current location" Background="Yellow" Checked="SurfaceRadioButton_Checked_2" Style="{StaticResource style3}" Canvas.Left="553" Canvas.Top="53" ToolTip="Only one point of current locations will be recorded" />
             <my:SurfaceButton Content="Cancel Changes" x:Name="Cancel" Height="30" Width="125"  Foreground="White" Canvas.Bottom="18" Canvas.Right="179" Click="Cancel_Click" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" FontSize="14"/>
             <my:SurfaceButton Content="Remove One" x:Name="RemoveOne" Height="30" Width="120"  Foreground="White" Canvas.Bottom="18"  Canvas.Right="316" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" FontSize="14" Click="RemoveOne_Click" />
             <my:SurfaceButton Content="Save and Close" Height="30" Foreground="White" Canvas.Bottom="18" Canvas.Right="25" Click="save_close_click" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Width="141" MinHeight="0" MinWidth="0" FontSize="14" />
-            <my:SurfaceRadioButton x:Name="yellow" BorderBrush="White" BorderThickness="2" Content="Current location" Background="Yellow" Checked="SurfaceRadioButton_Checked_2" Style="{StaticResource style3}" Canvas.Left="553" Canvas.Top="53" ToolTip="Only one point of current locations will be recorded" />
-            
         </Canvas>
     </Grid>
 </UserControl>

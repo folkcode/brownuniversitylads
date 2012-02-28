@@ -886,12 +886,12 @@ namespace GCNav
                 {
                     switch (_type)
                     {
-                        case 0:
+                        /*case 0:
                             return " was created here";
                         case 1:
                             return " was displayed here";
                         case 2:
-                            return " was purchased here";
+                            return " was purchased here";*/
                         default:
                             return "";
                     }

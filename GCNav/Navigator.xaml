@@ -56,7 +56,7 @@
             </Border>
         </Grid>
 
-            <!--The catalog-->
+        <!--The catalog-->
         <my:ScatterView Height="100" HorizontalAlignment="Left" Name="mainScatterView" VerticalAlignment="Top" Width="192" Background="#FFA7C99F">
             <my:ScatterViewItem Height="50" Width="2300" HorizontalAlignment="Left" Name="mainScatterViewItem" VerticalAlignment="Top" CanRotate="False" MouseWheel="mainScatterViewItem_MouseWheel" SizeChanged="mainScatterViewItem_SizeChanged" ShowsActivationEffects="True" IsHitTestVisible="True" Opacity="1" >
                 <Canvas Width="{Binding ElementName=mainScatterViewItem, Path=ActualWidth}" Height="{Binding ElementName=mainScatterViewItem, Path=ActualHeight}">
