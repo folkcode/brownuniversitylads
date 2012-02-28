@@ -36,7 +36,7 @@
         <Grid Name="curMapInfoContainer" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="200">
             <Border CornerRadius="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4" Margin="5">
                 <s:SurfaceScrollViewer x:Name="mapInfoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" Width="{Binding ElementName=curMapInfoContainer, Path=Width}" Height="{Binding ElementName=curMapInfoContainer, Path=Height}">
-                    <TextBlock x:Name="MapInfoBox" FontSize="18" Foreground="Black" Padding="20" IsHitTestVisible="False" VerticalAlignment="Center" TextAlignment="Left" Text="here is some location info, check it out, and more info, and more and more and more and more" Width="{Binding ElementName=curMapInfoContainer, Path=Width}"/>
+                    <TextBlock x:Name="MapInfoBox" FontSize="18" Foreground="Black" Padding="30, 20" IsHitTestVisible="False" VerticalAlignment="Center" TextAlignment="Left" Text="here is some location info, check it out, and more info, and more and more and more and more" Width="{Binding ElementName=curMapInfoContainer, Path=Width}"/>
                 </s:SurfaceScrollViewer>
             </Border>
         </Grid>
