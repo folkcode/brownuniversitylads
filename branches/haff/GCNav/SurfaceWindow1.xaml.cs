@@ -60,6 +60,8 @@ namespace GCNav
             nav.filter = filter;
            
             map.Children.Add(filter);
+            Map.InfoBox = MapInfoBox;
+            Map.InfoContainer = curMapInfoContainer;
            
             this.SizeChanged += SurfaceWindow1_SizeChanged;
 
@@ -102,7 +104,17 @@ namespace GCNav
             backRec.Width = map.Width*scaleX +10;
             backRec.Height = map.Height*scaleY + 30+10;
             Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
-            Canvas.SetZIndex(backRec, -10); 
+            Canvas.SetZIndex(backRec, -10);
+
+            curMapInfoContainer.Height = e.NewSize.Height / 6.0;
+            curMapInfoContainer.Width = e.NewSize.Width / 4.0;
+            curMapInfoContainer.Margin = new Thickness(0, e.NewSize.Height / 4.0, 0, 0);
+            mapInfoScroll.MaxHeight = e.NewSize.Height / 6.0;
+
+            if (Map != null)
+            {
+                Map.WindowSize = e.NewSize;
+            }
         }
 
         public void ExitButton_Click(object sender, RoutedEventArgs e)

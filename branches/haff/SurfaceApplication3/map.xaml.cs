@@ -54,7 +54,11 @@ namespace SurfaceApplication3
             currLocationExists = false;
             canAdd = true;
             currentMarker = "";
-           
+
+            //set the default map hotspot to "Exhibition locations"
+            RadioColor = 2;
+            currentMarker = "exhibit";
+            buttonChecked = blue;//blue is a button
         }
         public void findImageSize()
         {

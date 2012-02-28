@@ -25,16 +25,22 @@
         </Style>
     </s:SurfaceWindow.Resources>
     
-        <Grid Background="#24524A" >
+    <Grid Background="#24524A" >
         <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="800" Height="600" Canvas.Top="10" HorizontalAlignment="Left">
-           
         </Canvas>
         <Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
             <m:newMap x:Name="Map" Height="355.25" Width="576.35" />
             <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="0" Visibility="Hidden" />
-           
         </Canvas>
-        
+
+        <Grid Name="curMapInfoContainer" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="200">
+            <Border CornerRadius="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background = "#FFA7C99F" BorderBrush="Black" BorderThickness="4" Margin="5">
+                <s:SurfaceScrollViewer x:Name="mapInfoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" Width="{Binding ElementName=curMapInfoContainer, Path=Width}" Height="{Binding ElementName=curMapInfoContainer, Path=Height}">
+                    <TextBlock x:Name="MapInfoBox" FontSize="18" Foreground="Black" Padding="20" IsHitTestVisible="False" VerticalAlignment="Center" TextAlignment="Left" Text="here is some location info, check it out, and more info, and more and more and more and more" Width="{Binding ElementName=curMapInfoContainer, Path=Width}"/>
+                </s:SurfaceScrollViewer>
+            </Border>
+        </Grid>
+
         <m:Navigator x:Name="nav" />
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
             <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Visible" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right"/>

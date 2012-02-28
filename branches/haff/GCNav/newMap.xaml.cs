@@ -11,6 +11,7 @@ using Microsoft.Surface.Presentation.Controls;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Xml;
+using System.Windows.Media.Animation;
 
 namespace GCNav
 {
@@ -25,6 +26,18 @@ namespace GCNav
         private ImageData data;
         public Double tranScaleX, tranScaleY;
         private Double mapWidth, mapHeight;
+
+        //text box used to display map information 
+        private TextBlock _infoBox;
+        public TextBlock InfoBox { set { _infoBox = value; } }
+
+        //infobox container
+        private Grid _infoContainer;
+        public Grid InfoContainer { set { _infoContainer = value; } }
+
+        //mainwindow size
+        private Size _windowSize;
+        public Size WindowSize { set { _windowSize = value; } }
 
         public newMap()
         {
@@ -327,7 +340,8 @@ namespace GCNav
         //Displays the infomation of the mapButtons
         public void newButton_Click(SurfaceRadioButton sender)
         {
-            String str = locButtons[(SurfaceRadioButton)sender];
+            SurfaceRadioButton button = (sender as SurfaceRadioButton);
+            String str = locButtons[button];
             sender.IsChecked = true;
             String name = data.title;
             if (name.Length > 20)
@@ -381,9 +395,10 @@ namespace GCNav
                 }
                 else
                 {
-                    labelText += " was displayed in" + " " + city;
+                    //labelText += " was displayed in" + " " + city;
+                    labelText += city;
                 }
-                if (date != "")
+                /*if (date != "")
                 {
                     String[] strings = Regex.Split(date, "/");
                     if (strings[0] != "null" && strings[1] != "null")
@@ -401,7 +416,7 @@ namespace GCNav
                             labelText += ", " + strings[0];
                         }
                     }
-                }
+                }*/
             }
             else
             {
@@ -433,8 +448,8 @@ namespace GCNav
                     }
                 }
             }
-            infoLabel.Text = labelText;
-            Canvas.SetZIndex(infoLabel, 20);
+            
+            this.showInfoBox(labelText, new Point(Canvas.GetLeft(button), Canvas.GetTop(button)));
         }
 
         //This method is called when the user select a new image
@@ -442,8 +457,8 @@ namespace GCNav
         {
             data = e.getImage();
             this.hideButtons();
-            infoLabel.Text = "";
-            // infoLabel1.Text = "";
+            this.hideInfoBox();
+
             List<String> locInfo = e.getImage().getLocButtonInfo();
 
             foreach (String info in locInfo)
@@ -451,7 +466,63 @@ namespace GCNav
                 this.createButtons(info);
             }
         }
-        //Class for the mapButtons on the map
+
+        /**
+         * Show map information box
+         */
+        private void showInfoBox(string text, Point origin)
+        {
+            _infoBox.Text = text;
+            Storyboard storyboard = new Storyboard();
+
+            //Animate width.
+            DoubleAnimation animWidth = new DoubleAnimation(0.0, _windowSize.Width/4.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            storyboard.Children.Add(animWidth);
+            Storyboard.SetTargetName(animWidth, InfoBoxShadow.Name);
+            Storyboard.SetTargetProperty(animWidth, new PropertyPath(Rectangle.WidthProperty));
+
+            //Animate height
+            DoubleAnimation animHeight = new DoubleAnimation(0.0, _windowSize.Height / 6.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            storyboard.Children.Add(animHeight);
+            Storyboard.SetTargetName(animHeight, InfoBoxShadow.Name);
+            Storyboard.SetTargetProperty(animHeight, new PropertyPath(Rectangle.HeightProperty));
+
+            //Animate centerX
+            DoubleAnimation animX = new DoubleAnimation(origin.X, -_windowSize.Width / 4.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            storyboard.Children.Add(animX);
+            Storyboard.SetTargetName(animX, InfoBoxShadow.Name);
+            Storyboard.SetTargetProperty(animX, new PropertyPath("(Canvas.Left)"));
+
+            //Animate centerY
+            DoubleAnimation animY = new DoubleAnimation(origin.Y, this.ActualHeight - _windowSize.Height / 6.0, new Duration(TimeSpan.FromSeconds(0.5)));
+            storyboard.Children.Add(animY);
+            Storyboard.SetTargetName(animY, InfoBoxShadow.Name);
+            Storyboard.SetTargetProperty(animY, new PropertyPath("(Canvas.Top)"));
+
+            storyboard.Completed += new EventHandler(storyboard_Completed);
+            InfoBoxShadow.Visibility = Visibility.Visible;
+            storyboard.Begin(this);
+        }
+
+        void storyboard_Completed(object sender, EventArgs e)
+        {
+            InfoBoxShadow.Visibility = Visibility.Collapsed;
+            _infoContainer.Visibility = Visibility.Visible;
+        }
+
+        /**
+         * Hides map information box
+         */
+        private void hideInfoBox()
+        {
+            _infoBox.Text = "";
+            _infoContainer.Visibility = Visibility.Collapsed;
+        }
+
+        
+        /// <summary>
+        /// Class for the mapButtons on the map
+        /// </summary>
         public class newMapButton
         {
             private double _x;
@@ -465,12 +536,12 @@ namespace GCNav
                 {
                     switch (_type)
                     {
-                        case 0:
+                        /*case 0:
                             return " was created here";
                         case 1:
                             return " was displayed here";
                         case 2:
-                            return " was purchased here";
+                            return " was purchased here";*/
                         default:
                             return "";
                     }

@@ -155,7 +155,7 @@ namespace GCNav
 
                                             if (locInfo.Name == "Purchase")
                                             {
-                                                Point p = this.parceLongLat(locInfo);
+                                                Point p = this.parseLongLat(locInfo);
                                                 currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 2, currentImage));
                                                 if (locInfo.Attributes.GetNamedItem("longitude") != null)
                                                 {
@@ -178,7 +178,7 @@ namespace GCNav
                                             }
                                             else if (locInfo.Name == "Work")
                                             {
-                                                Point p = this.parceLongLat(locInfo);
+                                                Point p = this.parseLongLat(locInfo);
                                                 currentImage.addButton(new MapControl.MapButton(p.X, p.Y, 0, currentImage));
                                                 if (locInfo.Attributes.GetNamedItem("longitude") != null)
                                                 {
@@ -206,7 +206,7 @@ namespace GCNav
                                                 {
                                                     if (displayLoc.Name == "Location")
                                                     {
-                                                        Point p = this.parceLongLat(displayLoc);
+                                                        Point p = this.parseLongLat(displayLoc);
                                                         
                                                         if (displayLoc.Attributes.GetNamedItem("longitude") != null)
                                                         {
@@ -275,7 +275,7 @@ namespace GCNav
         /// </summary>
         /// <param name="locNode"></param>
         /// <returns></returns>
-        private Point parceLongLat(XmlNode locNode)
+        private Point parseLongLat(XmlNode locNode)
         {
             double[] longLat = new double[2];
             XmlNode xs = locNode.Attributes.GetNamedItem("longitude");
