@@ -69,7 +69,7 @@
             </Canvas>
             
             <Canvas Name="NavigatorCanvas_Right" Width="384" Canvas.Left="1536" Panel.ZIndex="2">
-                <Border Name="imageBorder" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#2e2e2e"  BorderBrush="#1e1e1e" BorderThickness="4" Width="384" Height="300">
+                <Border Name="imageBorder" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#003162"  BorderBrush="#1e1e1e" BorderThickness="4" Width="384" Height="300">
                             <Grid Name="curImageCanvas1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="384" Height="300">
                                 <Canvas Name="curImageCanvas" Width="384" Height="300">
                                 </Canvas>
@@ -79,7 +79,7 @@
                             </Grid>
                             </Border>
 
-                            <Border Name="imageInfoBorder" CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#1e1e1e" Background="#2e2e2e" Canvas.Top="300" Width="384" Height="564">
+                            <Border Name="imageInfoBorder" CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#1e1e1e" Background="#003162" Canvas.Top="300" Width="384" Height="564">
                                 <!-- OLD: Background = "#FFA7C99F" OLD2: Background="#99310ABA" BorderBrush="Black" -->
                                 <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
                                     <Grid Name="curInfoCol" VerticalAlignment="Top">

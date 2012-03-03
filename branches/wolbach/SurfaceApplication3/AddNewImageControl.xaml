@@ -118,6 +118,9 @@
                     <Label Content="Medium:" Canvas.Left="218" Canvas.Top="164" Width="108" Foreground="Black"  FontSize="18" Height="30" />
             <s:SurfaceTextBox x:Name="medium_tag"  Width="308" BorderBrush="#227174" BorderThickness="2" Canvas.Left="312" Canvas.Top="165" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black"  FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
 
+            <Label Content="Category:" Canvas.Left="218" Canvas.Top="200" Width="108" Foreground="Black"  FontSize="18" Height="30" />
+            <s:SurfaceTextBox x:Name="category_tag"  Width="308" BorderBrush="#227174" BorderThickness="2" Canvas.Left="312" Canvas.Top="205" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black"  FontSize="15" Height="30" AutoWordSelection="True" VerticalContentAlignment="Center" MinHeight="0" MinWidth="0" />
+
             <s:SurfaceTextBox x:Name="tags" Height="150" Width="165" BorderBrush="#227174" BorderThickness="2" Canvas.Left="639" Canvas.Top="45" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" VerticalScrollBarVisibility="Auto" FontSize="16" ToolTip="Please seperate each keyword with a comma, eg. soldier, river" MouseDoubleClick="tagsMouseDoubleClick" />
                     <Label Content="Keywords:" Canvas.Left="637" Canvas.Top="15" Width="112" Height="40" Foreground="Black" FontSize="18" />
 

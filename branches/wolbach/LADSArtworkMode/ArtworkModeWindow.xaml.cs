@@ -1958,7 +1958,9 @@ namespace LADSArtworkMode
 
         private void emailScreenshotButton_Click(object sender, RoutedEventArgs e)
         {
-            Utils.showPopupAtControl("Drag items here to email", emailScreenshotButton, TimeSpan.FromSeconds(60), this);
+            String message = "Drag items here to email";
+            message += "\n\nTo take a SNAPSHOT, \nplace two fingers on the screen\nto deliniate the top-left and bottom-right\nof the snapshot rectangle\nand hold for two seconds. Try it!";
+            Utils.showPopupAtControl(message, emailScreenshotButton, TimeSpan.FromSeconds(15), this);
         }
 
         #endregion

@@ -27,8 +27,9 @@
 
     <Grid Background="#24524A">
         <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="1920" Height="216" Canvas.Top="0" HorizontalAlignment="Left" Background="Black" Panel.ZIndex="3">
-            <Image Name="backgroundTopImg" Canvas.Left="10" Canvas.Top="10" Height="196" /> <!-- Canvas.Left = "116" for SDO logo-->
+            <!--Image Name="backgroundTopImg" Canvas.Left="10" Canvas.Top="10" Height="196" /> Canvas.Left = "116" for SDO logo-->
             <!-- jcchin -->
+            <Label Name="backgroundTopImg" Canvas.Left="10" Canvas.Bottom="0" Height="120" Content="Library Explorer" FontFamily="Segoe" FontWeight="SemiBold" FontSize="90" Foreground="White" /> <!--mashby-->
         </Canvas>
 
         <Canvas Name="background" VerticalAlignment="Top" Width="1920" Height="1080" Canvas.Top="0" HorizontalAlignment="Left" Background="Black" Panel.ZIndex="1">

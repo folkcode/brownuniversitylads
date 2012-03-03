@@ -193,6 +193,7 @@ namespace SurfaceApplication3
                     title_tag.Text = "";
                     year_tag.Text = "";
                     medium_tag.Text = "";
+                    category_tag.Text = "";
                     artist_tag.Text = "";
                     tags.Text = "";
                     summary.Text = "";
@@ -423,6 +424,11 @@ namespace SurfaceApplication3
                                         String artist = node.Attributes.GetNamedItem("artist").InnerText;
                                         String medium = node.Attributes.GetNamedItem("medium").InnerText;
                                         String year = node.Attributes.GetNamedItem("year").InnerText;
+                                        String category = "cat1";
+                                        if (node.Attributes.GetNamedItem("category") != null)
+                                            category = node.Attributes.GetNamedItem("category").InnerText;
+                                        
+                                            
 
                                         if (title_tag.Text != title)
                                         {
@@ -439,6 +445,19 @@ namespace SurfaceApplication3
                                         if (medium_tag.Text != medium)
                                         {
                                             node.Attributes.GetNamedItem("medium").InnerText = medium_tag.Text;
+                                        }
+                                        if (node.Attributes.GetNamedItem("category") == null)
+                                        {
+                                            XmlAttribute newAttr = doc.CreateAttribute("category");
+                                            newAttr.Value = "" + category_tag.Text;
+                                            node.Attributes.SetNamedItem(newAttr);
+                                        }
+                                        else
+                                        {
+                                            if (node.Attributes.GetNamedItem("category").InnerText != category_tag.Text)
+                                            {
+                                                node.Attributes.GetNamedItem("category").InnerText = category_tag.Text;
+                                            }
                                         }
                                         if (node.Attributes.GetNamedItem("description") == null)
                                         {
@@ -643,6 +662,7 @@ namespace SurfaceApplication3
                                     newEntry.SetAttribute("year", "" + year_tag.Text);
                                     newEntry.SetAttribute("artist", "" + artist_tag.Text);
                                     newEntry.SetAttribute("medium", "" + medium_tag.Text);
+                                    newEntry.SetAttribute("category", "" + category_tag.Text); // category_addition
                                     newEntry.SetAttribute("description", "" + summary.Text);
                                     if (tags.Text != "")
                                     {
@@ -780,6 +800,7 @@ namespace SurfaceApplication3
                                     year_tag.BorderBrush = Brushes.DarkGreen;
                                     artist_tag.BorderBrush = Brushes.DarkGreen;
                                     medium_tag.BorderBrush = Brushes.DarkGreen;
+                                    category_tag.BorderBrush = Brushes.DarkGreen;
                                     newOld = true;
 
                                     
@@ -960,6 +981,7 @@ namespace SurfaceApplication3
             entryToModify.title_tag.Text = title_tag.Text;
             entryToModify.year_tag.Text = year_tag.Text;
             entryToModify.medium_tag.Text = medium_tag.Text;
+            entryToModify.category_tag.Text = category_tag.Text;
             entryToModify.artist_tag.Text = artist_tag.Text;
             entryToModify.summary.Text = summary.Text;
 

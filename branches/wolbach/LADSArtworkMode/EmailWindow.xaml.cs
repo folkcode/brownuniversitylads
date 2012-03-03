@@ -19,6 +19,7 @@ using Microsoft.Surface.Presentation;
 using System.Windows.Threading;
 using System.Net.Mime;
 using System.Net;
+using System.Xml;
 
 namespace LADSArtworkMode
 {
@@ -132,6 +133,51 @@ namespace LADSArtworkMode
                 //first we create the Plain Text part
                 AlternateView plainView = AlternateView.CreateAlternateViewFromString("Wolbach", null, "text/plain");
 
+
+
+                // Get email settings from General Settings Content Authoring
+                String address = "ladsgaribaldi@gmail.com";
+                String password = "browngfx1";
+                String host = "smtp.gmail.com";
+                int port = 587;
+                String copyright = "";
+
+                XmlDocument doc = new XmlDocument();
+                doc.Load("data/NewCollection.xml");
+                if (doc.HasChildNodes)
+                {
+                    foreach (XmlNode docNode in doc.ChildNodes)
+                    {
+                        if (docNode.Name == "Collection")
+                        {
+                            foreach (XmlNode node in docNode.ChildNodes)
+                            {
+                                if (node.Name == "Email")
+                                {
+
+                                    if (node.Attributes.GetNamedItem("address") != null)
+                                        address = node.Attributes.GetNamedItem("address").InnerText;
+
+                                    if (node.Attributes.GetNamedItem("password") != null)
+                                        password = node.Attributes.GetNamedItem("password").InnerText;
+
+                                    if (node.Attributes.GetNamedItem("host") != null)
+                                        host = node.Attributes.GetNamedItem("host").InnerText;
+
+                                    if (node.Attributes.GetNamedItem("port") != null)
+                                        port = Convert.ToInt32(node.Attributes.GetNamedItem("port").InnerText);
+
+                                    if (node.Attributes.GetNamedItem("copyright") != null)
+                                        copyright = node.Attributes.GetNamedItem("copyright").InnerText;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+
                 /*LinkedResource defaultText = null;
                 defaultText = new LinkedResource("C:/Garibaldi/EmailBody.txt");
                 defaultText.ContentId = "LibraryText";*/
@@ -153,6 +199,7 @@ namespace LADSArtworkMode
                     body = body + "<br> --Notes-- <br>" + Body.Text;
                 }
 
+                body = body + "<br><br>" + copyright;
                 //create the LinkedResource (embedded image)
                 LinkedResource pic = null;
                 AlternateView htmlView = null;
@@ -207,11 +254,16 @@ namespace LADSArtworkMode
                 mail.AlternateViews.Add(plainView);
                 mail.AlternateViews.Add(htmlView);
 
+
+                
+
+
+
                 //send the message
                 SmtpClient smtp = new SmtpClient();
-                NetworkCredential creds = new System.Net.NetworkCredential("ladsgaribaldi@gmail.com", "browngfx1");
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
+                NetworkCredential creds = new System.Net.NetworkCredential(address, password);
+                smtp.Host = host;
+                smtp.Port = port;
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = true;
                 smtp.Credentials = creds;
@@ -225,7 +277,10 @@ namespace LADSArtworkMode
             catch (Exception ex)
             {
                 //place the box that says email address is not valid here, dunno how to to do it with existing infrastructure
-                Warning.Text = "Email address is not valid";
+
+                //Warning.Text = "Email address is not valid";
+                Console.Out.WriteLine(ex.Message);
+                Warning.Text = ex.Message;
             }
         }
 
