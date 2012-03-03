@@ -147,7 +147,11 @@ namespace GCNav
                                 {
                                     day = Convert.ToInt32(node.Attributes.GetNamedItem("day").InnerText);
                                 }
-                                String category = "cat1";//node.Attributes.GetNamedItem("category").InnerText;
+                                String category;
+                                if (node.Attributes.GetNamedItem("category") != null)
+                                    category = node.Attributes.GetNamedItem("category").InnerText;
+                                else
+                                    category = "cat1";// category_addition
 
                                 String fullPath = dataDir + "Images/" + path;
                                 String thumbPath = dataDir + "Images/" + "Thumbnail/" + path;

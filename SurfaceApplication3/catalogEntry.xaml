@@ -67,7 +67,7 @@
 
             <Label Canvas.Left="220" Canvas.Top="155" Content="Medium:" FontSize="22" Foreground="Black" Width="113" Height="30" />
         <s:SurfaceTextBox x:Name="medium_tag" Height="40" Width="300" BorderBrush="#227174" BorderThickness="2" Canvas.Left="330" Canvas.Top="155" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14"/>
-
+        <s:SurfaceTextBox x:Name="category_tag" Visibility="Collapsed" Height="40" Width="300" BorderBrush="#227174" BorderThickness="2" Canvas.Left="330" Canvas.Top="155" Background="{x:Null}" TextWrapping="Wrap" Foreground="Black" MinHeight="30"  IsReadOnly="True" VerticalContentAlignment="Center" FontSize="14"/>
         <s:SurfaceTextBox x:Name ="summary" Height="98" Width="260" Canvas.Left="650" Canvas.Top="51" Background="#B8DAD2" BorderBrush="#227174" BorderThickness="2" TextWrapping="Wrap" Foreground="Black"  IsReadOnly="True"  FontSize="14"/>
         <s:SurfaceButton x:Name="edit" Content="Edit" BorderBrush="#FF076F72" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="650" Canvas.Top="157" PreviewMouseUp="edit_Click" PreviewTouchUp="edit_Click" HorizontalContentAlignment="Center" MinHeight="0" MinWidth="0" />
             <s:SurfaceButton x:Name="delete" Content="Delete" BorderBrush="#FF0D8174" Height="35" FontFamily="Calibri" FontSize="22" BorderThickness="3,2"  Width="114" Canvas.Left="793" Canvas.Top="157" Click="delete_Click" AllowDrop="True" MinHeight="0" MinWidth="0" />

@@ -46,7 +46,7 @@ namespace GCNav
             panImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\panning_startup.bmp", UriKind.Absolute));
             // Logo pics!!
             //backgroundTopImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\cxo_logo_stacked.png", UriKind.Absolute));
-            backgroundTopImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\bode30.tif", UriKind.Absolute));
+            //backgroundTopImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\bode30.tif", UriKind.Absolute));
             ImageBrush brush = new ImageBrush();
             Image img = new Image();
             img.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_selection_bg_top.jpg", UriKind.Absolute));

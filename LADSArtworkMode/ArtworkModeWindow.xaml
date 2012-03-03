@@ -504,7 +504,7 @@
         <!-- jcchin -->
         <s:SurfaceButton Name="emailScreenshotButton" Content="E-mail Media Item" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="455"  Click="emailScreenshotButton_Click" Canvas.ZIndex="100"/>
         
-        <s:SurfaceButton Name="switchToCatalogButton" Content="Catalog" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="switchToCatalogButton" Content="Home" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
         <!-- switch to artwork selection mode -->
         <!--s:SurfaceButton Name="activateKW" Content="Knowledge Web"  Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right ="367" Canvas.ZIndex="100" Visibility="Collapsed" /-->
         <!-- switch to knowledge web mode -->

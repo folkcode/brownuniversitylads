@@ -158,6 +158,15 @@ namespace SurfaceApplication3
 
         }
 
+        private void generalSettings_Click(object sender, RoutedEventArgs e)
+        {
+            GeneralSettingsWindow newWindow = new GeneralSettingsWindow();
+            newWindow.WindowState = System.Windows.WindowState.Normal;
+            newWindow.ShowDialog();
+            
+
+        }
+
         private void addEvent_Click(object sender, RoutedEventArgs e)
         {
             EventWindow evWin = new EventWindow();

@@ -90,12 +90,16 @@ namespace SurfaceApplication3
                                     String year = node.Attributes.GetNamedItem("year").InnerText;
                                     
                                     String medium = node.Attributes.GetNamedItem("medium").InnerText;
+                                    String category = "cat1";
+                                    if (node.Attributes.GetNamedItem("category") != null)
+                                        category =  node.Attributes.GetNamedItem("category").InnerText;
                                     
                                     //Loads the information about the imgae
                                     newBigWindow.big_window1.year_tag.Text = year;
                                     newBigWindow.big_window1.artist_tag.Text = artist;
                                     newBigWindow.big_window1.title_tag.Text = title;
                                     newBigWindow.big_window1.medium_tag.Text = medium;
+                                    newBigWindow.big_window1.category_tag.Text = category;
                                     newBigWindow.big_window1.setImageName(path);
                                     newBigWindow.big_window1.setImagePath(dataUri + "Images\\" + "Thumbnail\\" + path);
                                     newBigWindow.big_window1.setImageProperty(true);
