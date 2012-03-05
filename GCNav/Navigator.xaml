@@ -69,7 +69,7 @@
             </Canvas>
             
             <Canvas Name="NavigatorCanvas_Right" Width="384" Canvas.Left="1536" Panel.ZIndex="2">
-                <Border Name="imageBorder" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#003162"  BorderBrush="#1e1e1e" BorderThickness="4" Width="384" Height="300">
+                <Border Name="imageBorder" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#002745"  BorderBrush="#1e1e1e" BorderThickness="4" Width="384" Height="300">
                             <Grid Name="curImageCanvas1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="384" Height="300">
                                 <Canvas Name="curImageCanvas" Width="384" Height="300">
                                 </Canvas>
@@ -79,7 +79,7 @@
                             </Grid>
                             </Border>
 
-                            <Border Name="imageInfoBorder" CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#1e1e1e" Background="#003162" Canvas.Top="300" Width="384" Height="564">
+                            <Border Name="imageInfoBorder" CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#1e1e1e" Background="#002745" Canvas.Top="300" Width="384" Height="564">
                                 <!-- OLD: Background = "#FFA7C99F" OLD2: Background="#99310ABA" BorderBrush="Black" -->
                                 <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
                                     <Grid Name="curInfoCol" VerticalAlignment="Top">
@@ -94,7 +94,7 @@
                                         <Grid.ColumnDefinitions>
 
                                         </Grid.ColumnDefinitions>
-                                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill="#003163" Margin="-10,0,0,0" />
+                                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill="#2e2e2e" Margin="-10,0,0,0" />
                                         <!-- Fill ="#24524A" -->
                                         <TextBlock Name="title" Grid.Row="0" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0" ></TextBlock>
                                         <TextBlock Name="artist" Grid.Row="1" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
@@ -137,7 +137,7 @@
                 <Border Name ="InstructionBorder" CornerRadius="5" Width ="500" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#2e2e2e" BorderBrush="#1e1e1e" BorderThickness="4">
 
 
-                    <TextBlock Name="infoBox" Visibility ="Visible" Text="Select Artwork to View Details" Foreground="Black" TextAlignment="Center" FontSize="15" Width="500"></TextBlock>
+                    <TextBlock Name="infoBox" Visibility ="Visible" Text="Select Artwork to View Details" Foreground="White" TextAlignment="Center" FontSize="15" Width="500"></TextBlock>
 
                 </Border>
 

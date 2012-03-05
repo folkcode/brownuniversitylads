@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
     <Border Background="#2e2e2e" CornerRadius="5" BorderBrush="#1e1e1e" BorderThickness="4"> <!-- BorderBrush="Black" -->
-        <Grid Name="timelineFilter"  Height="854" Background="#003162" >
+        <Grid Name="timelineFilter"  Height="854" Background="#002745" >
             <!-- jcchin: adding background Background="#99000076"-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/> <!-- "Filter" -->
