@@ -105,6 +105,9 @@
       <DependentUpon>mapWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
+    <Compile Include="GeneralSettingsWindow.xaml.cs">
+      <DependentUpon>GeneralSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="addHotspotMix.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EventWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GeneralSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
