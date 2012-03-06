@@ -66,7 +66,7 @@ namespace GCNav
             _resetTimer.Interval = TimeSpan.FromSeconds(120);
             _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
 
-            help.Visibility = Visibility.Visible;
+            //help.Visibility = Visibility.Visible;
 
             String[] c = Environment.GetCommandLineArgs();
 
@@ -259,6 +259,7 @@ namespace GCNav
             _startCard.Visibility = Visibility.Visible;
             panImg.Visibility = Visibility.Visible;
             InstrLabel.Visibility = Visibility.Visible;
+            helpWindow.Visibility = Visibility.Collapsed;
         }
 
         private void SurfaceWindow_Deactivated(object sender, EventArgs e)
@@ -268,16 +269,17 @@ namespace GCNav
 
         private void help_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            helpWindow.Visibility = Visibility.Visible;
-            //helpInstruction.Visibility = Visibility.Visible;
-            //helpDone.Visibility = Visibility.Visible;
+            this.showHelp();
         }
 
         private void help_TouchDown(object sender, TouchEventArgs e)
         {
-            helpWindow.Visibility = Visibility.Visible;
-            //helpInstruction.Visibility = Visibility.Visible;
-            //helpDone.Visibility = Visibility.Visible;
+            this.showHelp();
+        }
+
+        private void showHelp()
+        {
+            helpWindow.ShowHelp(true);
         }
 
         //private void helpDone_Click(object sender, RoutedEventArgs e)

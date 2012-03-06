@@ -11,6 +11,7 @@
     PreviewTouchDown="SurfaceWindow_PreviewTouchDown" PreviewTouchUp="SurfaceWindow_PreviewTouchUp"
     PreviewMouseDown="SurfaceWindow_PreviewMouseDown"  PreviewMouseUp="SurfaceWindow_PreviewMouseUp"
     Deactivated="SurfaceWindow_Deactivated"
+    Name="CatalogMainWindow"
     >
    
     <s:SurfaceWindow.Resources>
@@ -38,10 +39,10 @@
         <m:Navigator x:Name="nav" />
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
             <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Visible" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right"/>
-            <Image Name="help" Height="35" Width="35" Margin="0 0 60 0" Source="Resources/question1.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Collapsed" />
+            <Image Name="help" Height="35" Width="35" Margin="0 0 60 0" Source="Resources/question1.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Visible" />
         </Grid>
 
-        <am:helpWindow x:Name="helpWindow" Visibility ="hidden"/>
+        <am:helpWindow x:Name="helpWindow" Visibility ="hidden" Width="{Binding ElementName=CatalogMainWindow, Path=Width}" Height="{Binding ElementName=CatalogMainWindow, Path=Height}"/>
 
         <Canvas Name="panCan">
             <Image Name="panImg" Canvas.ZIndex="100"/>
