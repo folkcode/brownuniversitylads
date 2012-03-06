@@ -19,6 +19,7 @@
     Height="1080" Loaded="SurfaceWindow_Loaded"
     PreviewTouchDown="SurfaceWindow_PreviewTouchDown" PreviewTouchUp="SurfaceWindow_PreviewTouchUp"
     PreviewMouseDown="SurfaceWindow_PreviewMouseDown"  PreviewMouseUp="SurfaceWindow_PreviewMouseUp"
+    Name="ArtModeMainWindow"
     >
 
     <s:SurfaceWindow.Resources>
@@ -471,9 +472,7 @@
 
             </StackPanel>
         </DockPanel>
-        <Image Name="help" Source="Resources/question.png" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Height="35" Width="35" Canvas.Right="140" Canvas.Top="40"/>
-        <!--<s:SurfaceButton Name="helpDone" MinHeight="0" Height="30" Width="55" Content="Done" FontSize="14" Canvas.Right="60" Canvas.Top="40" Visibility="Hidden" Click="helpDone_Click" />-->
-        <Label Name="helpInstruction" Content="Click the Catalog button to go back to the catalog, click Tour Authoring start to make a new tour" Canvas.Right="8" Canvas.Top="66" MaxWidth="160" FontSize="14" Visibility="Hidden"/>
+        <Image Name="help" Visibility="Visible" Source="Resources/question.png" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Height="35" Width="35" Canvas.Right="140" Canvas.Top="40"/>
         <s:SurfaceButton Name="switchToCatalogButton" Content="Catalog" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
         <!-- switch to artwork selection mode -->
         <!--s:SurfaceButton Name="activateKW" Content="Knowledge Web"  Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right ="367" Canvas.ZIndex="100" Visibility="Collapsed" /-->
@@ -521,7 +520,7 @@
 
             </Canvas>
         </Border>
-        <ae:helpWindow x:Name="helpWindow" Visibility="Hidden" />
+        <ae:helpWindow x:Name="helpWindow" Visibility="Collapsed" Width="{Binding ElementName=ArtModeMainWindow, Path=Width}" Height="{Binding ElementName=ArtModeMainWindow, Path=Height}"/>
     </Canvas>
     
 </s:SurfaceWindow>

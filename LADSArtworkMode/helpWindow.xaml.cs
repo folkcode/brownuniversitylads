@@ -22,18 +22,45 @@ namespace LADSArtworkMode
         public helpWindow()
         {
             InitializeComponent();
-            setText();
         }
-        public void setText()
+
+        public void ShowHelp(bool isCatalog)
         {
-
-            text.Text = "Tap the TourAuthoring button to start making a new tour. Tap the Catalog button to go back to the catalog. Tap the tool bars on the left panels to explore the details of the artwork.";
+            this.Visibility = Visibility.Visible;
+            if (isCatalog)
+            {
+                this.Catalog_SurfaceButton_Click(this, null);
+            }
+            else
+            {
+                this.Artwork_SurfaceButton_Click(this, null);
+            }
 
         }
+
         private void Done_Click(object sender, RoutedEventArgs e)
         {
             this.Visibility = Visibility.Hidden;
+        }
 
+        private void Catalog_SurfaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            Catalog_SurfaceButton.Background = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
+            Catalog_SurfaceButton.Foreground = new SolidColorBrush(Colors.Black);
+            CatalogHelp.Visibility = Visibility.Visible;
+            Artwork_SurfaceButton.Background = new SolidColorBrush(Color.FromRgb(0x24, 0x52, 0x4a));
+            Artwork_SurfaceButton.Foreground = new SolidColorBrush(Colors.White);
+            ArtworkHelp.Visibility = Visibility.Collapsed;
+        }
+
+        private void Artwork_SurfaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            Artwork_SurfaceButton.Background = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
+            Artwork_SurfaceButton.Foreground = new SolidColorBrush(Colors.Black);
+            ArtworkHelp.Visibility = Visibility.Visible;
+            Catalog_SurfaceButton.Background = new SolidColorBrush(Color.FromRgb(0x24, 0x52, 0x4a));
+            Catalog_SurfaceButton.Foreground = new SolidColorBrush(Colors.White);
+            CatalogHelp.Visibility = Visibility.Collapsed;
         }
     }
 }
