@@ -63,6 +63,9 @@ namespace SurfaceApplication3
 
                                 if (node.Attributes.GetNamedItem("copyright") != null)
                                     copyright_tag.Text = node.Attributes.GetNamedItem("copyright").InnerText;
+
+                                if (node.Attributes.GetNamedItem("logaddress") != null)
+                                    logaddress_tag.Text = node.Attributes.GetNamedItem("logaddress").InnerText;
                             }
                         }
                     }
@@ -85,36 +88,44 @@ namespace SurfaceApplication3
                         {
                             if (node.Name == "Email")
                             {
-                                hasEmail = true;
-
-                                if (node.Attributes.GetNamedItem("address") != null)
-                                    node.Attributes.GetNamedItem("address").InnerText = address_tag.Text;
-
-                                if (node.Attributes.GetNamedItem("password") != null)
-                                    node.Attributes.GetNamedItem("password").InnerText = password_tag.Text;
-
-                                if (node.Attributes.GetNamedItem("host") != null)
-                                    node.Attributes.GetNamedItem("host").InnerText = host_tag.Text;
-
-                                if (node.Attributes.GetNamedItem("port") != null)
-                                    node.Attributes.GetNamedItem("port").InnerText = port_tag.Text;
-
-                                if (node.Attributes.GetNamedItem("copyright") != null)
-                                    node.Attributes.GetNamedItem("copyright").InnerText = copyright_tag.Text;
+                                docNode.RemoveChild(node);
                             }
                         }
-                        if (hasEmail == false)
-                        {
-                            XmlElement emailElement = doc.CreateElement("Email");
-                            docNode.AppendChild(emailElement);
-                            emailElement.SetAttribute("address", "" + address_tag.Text);
-                            emailElement.SetAttribute("password", "" + password_tag.Text);
-                            emailElement.SetAttribute("host", "" + host_tag.Text);
-                            emailElement.SetAttribute("port", "" + port_tag.Text);
-                            emailElement.SetAttribute("copyright", "" + copyright_tag.Text);
-                        }
+                        //hasEmail = true;
 
+                        //if (node.Attributes.GetNamedItem("address") != null)
+                        //    node.Attributes.GetNamedItem("address").InnerText = address_tag.Text;
+
+                        //if (node.Attributes.GetNamedItem("password") != null)
+                        //    node.Attributes.GetNamedItem("password").InnerText = password_tag.Text;
+
+                        //if (node.Attributes.GetNamedItem("host") != null)
+                        //     node.Attributes.GetNamedItem("host").InnerText = host_tag.Text;
+
+                        //if (node.Attributes.GetNamedItem("port") != null)
+                        //    node.Attributes.GetNamedItem("port").InnerText = port_tag.Text;
+
+                        //if (node.Attributes.GetNamedItem("copyright") != null)
+                        //    node.Attributes.GetNamedItem("copyright").InnerText = copyright_tag.Text;
+
+                        //if (node.Attributes.GetNamedItem("logaddress") != null) 
+                        //node.Attributes.GetNamedItem("logaddress").InnerText = logaddress_tag.Text;
+
+
+                        //}
+                        //if (hasEmail == false)
+                        //{
+                        XmlElement emailElement = doc.CreateElement("Email");
+                        docNode.AppendChild(emailElement);
+                        emailElement.SetAttribute("address", "" + address_tag.Text);
+                        emailElement.SetAttribute("password", "" + password_tag.Text);
+                        emailElement.SetAttribute("host", "" + host_tag.Text);
+                        emailElement.SetAttribute("port", "" + port_tag.Text);
+                        emailElement.SetAttribute("copyright", "" + copyright_tag.Text);
+                        emailElement.SetAttribute("logaddress", "" + logaddress_tag.Text);
+                        //}
                     }
+                    //}
                 }
                 String dataDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
                 doc.Save(dataDir + "NewCollection.xml");

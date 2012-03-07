@@ -209,13 +209,15 @@ namespace LADSArtworkMode
             // jcchin
             screenPoints = new Point[2];
             this.initializeScreenshotFeature();
-            /*ImageBrush ImageArea_Background = new ImageBrush(new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_viewing_bg.jpg", UriKind.Absolute)));
+            ////////
+            ImageBrush ImageArea_Background = new ImageBrush(new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_viewing_bg.jpg", UriKind.Absolute)));
             ImageArea_Background.TileMode = TileMode.Tile;
             ImageArea_Background.Stretch = Stretch.Fill;
             ImageArea_Background.Viewport = new Rect(0, 0, 630.666666666667, 601.333333333333);
             ImageArea_Background.ViewportUnits = BrushMappingMode.Absolute;
-            ImageArea.Background = ImageArea_Background;*/
-            ImageArea.Background = new SolidColorBrush(Colors.Black);
+            ImageArea.Background = ImageArea_Background;
+            ///////
+            //ImageArea.Background = new SolidColorBrush(Colors.Black);
 
             _dateInfo = new DateTimeFormatInfo(); // jcchin
             _imageInfo_keywords = new List<string>(); // jcchin
@@ -763,7 +765,7 @@ namespace LADSArtworkMode
                 date.Text += "Date: " + _imageInfo_year;
             }
             category.Text += "Category: " + _imageInfo_category;
-
+            
             title.FontSize = 25 * _windowSize.Height / 1080.0;
             artist.FontSize = 20 * _windowSize.Height / 1080.0;
             medium.FontSize = artist.FontSize;
@@ -1904,6 +1906,7 @@ namespace LADSArtworkMode
 
 
                                 DockableItem dockItem = new DockableItem(MainScatterView, this, Bar, temp, (int)Lft2, (int)Upr2, (int)(Math.Abs(Lft2 - Rgt2)), (int)(Math.Abs(Upr2 - Lwr2)));
+                                new EmailWindow(MainScatterView, dockItem, null);  // mashby - additition annotation immediately upon taking snapshot
                             });
                         }
                     }

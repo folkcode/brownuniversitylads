@@ -67,7 +67,7 @@
 
         <Canvas Canvas.Top="90">
             
-            <Rectangle x:Name="background" Fill="White" Height="270" Width="901" Canvas.Top="15" Canvas.Left="10"/>
+            <Rectangle x:Name="background" Fill="White" Height="310" Width="901" Canvas.Top="15" Canvas.Left="10"/>
             <Label Content="Sender Address:" Canvas.Left="15" Canvas.Top="20" Foreground="Black" FontSize="22" Width="200" Height="30" />
             <s:SurfaceTextBox x:Name="address_tag" Height="40" Width="450" BorderBrush="#227174" BorderThickness="2" Canvas.Left="230" Canvas.Top="20" SelectionBrush="{x:Null}" Foreground="Black" Background="{x:Null}" TextWrapping="Wrap" MinHeight="30" VerticalContentAlignment="Center" FontSize="14" />
 
@@ -83,6 +83,8 @@
             
             
             <Label Canvas.Left="15" Canvas.Top="200" Content="Copyright String:" FontSize="22" Foreground="Black" Height="30" Width="200" />
+            <Label Canvas.Left="15" Canvas.Top="275" Content="Log Email:" FontSize="22" Foreground="Black" Height="30" Width="200" />
+            <s:SurfaceTextBox x:Name="logaddress_tag" Height="40" Width="450" BorderBrush="#227174" BorderThickness="2" Canvas.Left="230" Canvas.Top="275" SelectionBrush="{x:Null}" Foreground="Black" Background="{x:Null}" TextWrapping="Wrap" MinHeight="30" VerticalContentAlignment="Center" FontSize="14" />
 
 
 
