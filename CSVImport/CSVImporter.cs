@@ -29,6 +29,7 @@ namespace CSVImport
         public int year;
         public string artist;
         public string medium;
+        public string category;
         public List<string> keywords;
         public List<asset> assets;
         public List<asset> validatedAssets;
@@ -46,11 +47,12 @@ namespace CSVImport
         public const int YEAR_INDEX = 3;
         public const int ARTIST_INDEX = 4;
         public const int MEDIUM_INDEX = 5;
-        public const int KEYWORDS_INDEX = 6;
+        public const int CATEGORY_INDEX = 6;
+        public const int KEYWORDS_INDEX = 7;
 
         // Each asset takes up one cell, and all assets are at the end of the row,
         // so indices FIRST_ASSET_INDEX until the end of the array should each describe an asset.
-        public const int FIRST_ASSET_INDEX = 7;
+        public const int FIRST_ASSET_INDEX = 8;
 
         // Given the path of the CSV file, imports it, parses it, adds all artworks and assets to the data repository,
         // and appends to the XML collection.
@@ -147,6 +149,7 @@ namespace CSVImport
             }
             doc.Save(dataDir + "NewCollection.xml");
 
+            csvLog("Added to collection at " + dataDir + "NewCollection.xml");
             csvLog("All done!");
         }
 
@@ -219,6 +222,7 @@ namespace CSVImport
                     }                    
                     aw.artist = csv[ARTIST_INDEX];
                     aw.medium = csv[MEDIUM_INDEX];
+                    aw.category = csv[CATEGORY_INDEX];
                     aw.keywords = parseKeywords(csv[KEYWORDS_INDEX]);
                     aw.assets = new List<asset>();
                     for (int i = FIRST_ASSET_INDEX; i < fieldCount; i++)
@@ -257,7 +261,7 @@ namespace CSVImport
             if (tokens1.Length < 3) throw new InvalidCSVArtworkException("Unable to parse description.  Did you include all required fields?");
             // Then split the other two fields.
             string[] tokens2 = tokens1[0].Split(';');
-            if (tokens2.Length != 2) throw new InvalidCSVArtworkException("Unable to parse path or title.  Did you include all required fields?");
+            if (tokens2.Length < 2) throw new InvalidCSVArtworkException("Unable to parse path or title.  Did you include all required fields?");
             asset ass = new asset();
             ass.description = tokens1[1];
             ass.path = tokens2[0];
@@ -275,6 +279,7 @@ namespace CSVImport
             el.SetAttribute("year", "" + aw.year);
             el.SetAttribute("artist", "" + aw.artist);
             el.SetAttribute("medium", "" + aw.medium);
+            el.SetAttribute("category", "" + aw.category);
             // TODO: Do we want this?
             // newEntry.SetAttribute("description", "" + aw.);
 
