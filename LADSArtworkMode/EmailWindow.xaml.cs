@@ -123,7 +123,7 @@ namespace LADSArtworkMode
             try
             {
                 MailMessage mail = new MailMessage();
-                
+
                 if (AddressBox.Text == null)
                     return;
                 mail.To.Add(AddressBox.Text);
@@ -188,12 +188,12 @@ namespace LADSArtworkMode
                 logMessage.Subject = "Wolbach UX LAB - Screenshot Log";
 
                 String message = "An attachment has been sent via LIBRARY EXPLORER <br><br>";
-                message = message  + "Image Info:<br>";
+                message = message + "Image Info:<br>";
                 message += "Artist:  " + _dockItem.win._imageInfo_artist + "<br>";
                 message += "Category:  " + _dockItem.win._imageInfo_category + "<br>";
                 message += "Title:  " + _dockItem.win._imageInfo_title + "<br>";
                 message += "Date:  " + _dockItem.win._imageInfo_month + "/" + _dockItem.win._imageInfo_day + "/" + _dockItem.win._imageInfo_year + "<br>";
-
+                message += "Email timestamp: " + DateTime.Now.ToString("M/d/yyyy HH:mm:ss tt");
                 AlternateView loghtmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
                 logMessage.AlternateViews.Add(loghtmlView);
 
@@ -239,10 +239,11 @@ namespace LADSArtworkMode
                     renderTargetBitmap.Render(_dockItem.image);
                     JpegBitmapEncoder jpegBitmapEncoder = new JpegBitmapEncoder();
                     jpegBitmapEncoder.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
+                    String path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) + "\\data\\screenshot.jpg";
+                    String filePath = "C:/WolbachUXLab_Screenshot.jpg"; // jcchin - PICK A BETTER LOCATION!!!!!!!!
+                    filePath = System.IO.Path.GetFullPath("WolbachUXLab_Screenshot.jpg");
 
-                    String filePath = "C:/Temp/WolbachUXLab_Screenshot.jpg"; // jcchin - PICK A BETTER LOCATION!!!!!!!!
-
-                    using (FileStream fileStream = new FileStream(filePath, FileMode.Create)) 
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         jpegBitmapEncoder.Save(fileStream);
                         fileStream.Flush();
@@ -283,7 +284,7 @@ namespace LADSArtworkMode
                 mail.AlternateViews.Add(htmlView);
 
 
-                
+
 
 
 
@@ -295,7 +296,7 @@ namespace LADSArtworkMode
                 smtp.EnableSsl = true;
                 smtp.UseDefaultCredentials = true;
                 smtp.Credentials = creds;
-                
+
                 smtp.Send(mail);
 
                 smtp.Send(logMessage);
@@ -326,3 +327,4 @@ namespace LADSArtworkMode
         }
     }
 }
+
