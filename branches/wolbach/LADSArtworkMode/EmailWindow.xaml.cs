@@ -123,6 +123,7 @@ namespace LADSArtworkMode
             try
             {
                 MailMessage mail = new MailMessage();
+                
                 if (AddressBox.Text == null)
                     return;
                 mail.To.Add(AddressBox.Text);
@@ -141,6 +142,7 @@ namespace LADSArtworkMode
                 String host = "smtp.gmail.com";
                 int port = 587;
                 String copyright = "";
+                String logaddress = "";
 
                 XmlDocument doc = new XmlDocument();
                 doc.Load("data/NewCollection.xml");
@@ -169,11 +171,37 @@ namespace LADSArtworkMode
 
                                     if (node.Attributes.GetNamedItem("copyright") != null)
                                         copyright = node.Attributes.GetNamedItem("copyright").InnerText;
+
+                                    if (node.Attributes.GetNamedItem("logaddress") != null)
+                                        logaddress = node.Attributes.GetNamedItem("logaddress").InnerText;
                                 }
                             }
                         }
                     }
                 }
+
+
+                // Send log email
+
+                MailMessage logMessage = new MailMessage();// logmessage
+                logMessage.To.Add(logaddress);
+                logMessage.Subject = "Wolbach UX LAB - Screenshot Log";
+
+                String message = "An attachment has been sent via LIBRARY EXPLORER <br><br>";
+                message = message  + "Image Info:<br>";
+                message += "Artist:  " + _dockItem.win._imageInfo_artist + "<br>";
+                message += "Category:  " + _dockItem.win._imageInfo_category + "<br>";
+                message += "Title:  " + _dockItem.win._imageInfo_title + "<br>";
+                message += "Date:  " + _dockItem.win._imageInfo_month + "/" + _dockItem.win._imageInfo_day + "/" + _dockItem.win._imageInfo_year + "<br>";
+
+                AlternateView loghtmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+                logMessage.AlternateViews.Add(loghtmlView);
+
+
+
+
+
+
 
 
 
@@ -269,6 +297,9 @@ namespace LADSArtworkMode
                 smtp.Credentials = creds;
                 
                 smtp.Send(mail);
+
+                smtp.Send(logMessage);
+
                 Utils.Soon(delegate
                 {
                     this.CancelButton_Click(this, null);

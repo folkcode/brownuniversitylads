@@ -12,7 +12,7 @@
             <TextBlock Name="version" Text="1.1 (7/13/11)" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="12" Margin="25,125,0,0"></TextBlock>
             <TextBlock Name="names" Text="Andy van Dam, Donnie Kendall, Jessica Herron, Alex Hills, James Chin, Ferdi Adeputra, Maxwell Ashby, Yuting Chen, Yudi Fu, Julie Mond, Michael Price, Diem Tran, Maggie Pace" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="16" Margin="25,157,60,0"></TextBlock> -->
 
-            <TextBlock Name="title" Text="Library Explorer" FontFamily="Segoe" FontWeight="SemiBold" FontSize="64" Foreground="White" TextAlignment="Left"  Margin="20,5,0,0"></TextBlock>
+            <TextBlock Name="title" Text="Library Explorer" FontFamily="Segoe" FontWeight="SemiBold" FontSize="60" Foreground="White" TextAlignment="Left"  Margin="20,5,0,0"></TextBlock>
             <Canvas Name="HarvardVeritasShield_Canvas" Margin="525,20,25,200">
                 <Image x:Name="image_HarvardVeritasShield"></Image>
             </Canvas>
@@ -24,6 +24,9 @@
             <TextBlock Name="names_brown_header" Text="BROWN UNIVERSITY" FontFamily="Segoe" Foreground="Crimson" TextAlignment="Left" FontSize="12" Margin="25,165,60,0"></TextBlock>
             <TextBlock Name="names_brown" Text="Andy van Dam, Donnie Kendall, Jessica Herron, Alex Hills, James Chin, Ferdi Adeputra, Max Ashby, Yuting Chen, Yudi Fu, Julie Mond, Maggie Pace, Michael Price, Diem Tran" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="16" Margin="25,180,60,0"></TextBlock>
             -->
+
+            <TextBlock Name="names_brown_header" Text="Galactic Center Header Image Credit:" FontFamily="Segoe" Foreground="Crimson" TextAlignment="Left" FontSize="12" Margin="25,165,60,0"></TextBlock>
+            <TextBlock Text="X-ray: NASA/CXC/UMass/D. Wang et al.; Optical: NASA/ESA/STScI/D.Wang et al.; IR: NASA/JPL-Caltech/SSC/S.Stolovy" FontFamily="Segoe" Foreground="White" TextAlignment="Left" FontSize="10" Margin="25,180,60,0"></TextBlock>
             <Canvas Name="imageHolder" Margin="25,247,25,12.5">
                 <Image x:Name="image"></Image>
             </Canvas>

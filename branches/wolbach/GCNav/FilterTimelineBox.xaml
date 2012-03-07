@@ -6,8 +6,8 @@
              xmlns:my="http://schemas.microsoft.com/surface/2008"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
-    <Border Background="#2e2e2e" CornerRadius="5" BorderBrush="#1e1e1e" BorderThickness="4"> <!-- BorderBrush="Black" -->
-        <Grid Name="timelineFilter"  Height="854" Background="#002745" >
+    <Border Background="#2e2e2e" CornerRadius="5" BorderBrush="#000070" BorderThickness="4"> <!-- BorderBrush="Black" -->
+        <Grid Name="timelineFilter"  Height="854" Background="#0000ee" >
             <!-- jcchin: adding background Background="#99000076"-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/> <!-- "Filter" -->
@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/> <!-- Filter content - date -->
             <RowDefinition Height="Auto"/> <!-- "Reset  All" button -->
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Filter" Foreground="White" FontSize="22" Width="420" TextAlignment="Center" PreviewMouseUp="filt_mousedown" PreviewTouchUp="filt_touchdown" Background="#1e1e1e"> <!-- Foreground="#FFb9D9cF" Background="#FF5D9D8E" -->
+        <TextBlock Grid.Row="0" Text="Filter" Foreground="White" FontSize="22" Width="420" TextAlignment="Center" PreviewMouseUp="filt_mousedown" PreviewTouchUp="filt_touchdown" Background="#000070"> <!-- Foreground="#FFb9D9cF" Background="#FF5D9D8E" -->
            <!-- <TextBlock.Background>
                 <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
                 <GradientStop Color="#005D9D8E" Offset="0"/> 

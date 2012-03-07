@@ -49,7 +49,8 @@ namespace GCNav
             //backgroundTopImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\bode30.tif", UriKind.Absolute));
             ImageBrush brush = new ImageBrush();
             Image img = new Image();
-            img.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_selection_bg_top.jpg", UriKind.Absolute));
+            //img.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\wolbach_selection_bg_top.jpg", UriKind.Absolute));
+            img.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\Galactic_Banner.png", UriKind.Absolute));
             brush.ImageSource = img.Source;
             backgroundTop.Background = brush;
             //backgroundTopImg.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Startup\\SDO_Logo_flat_lg.png", UriKind.Absolute));

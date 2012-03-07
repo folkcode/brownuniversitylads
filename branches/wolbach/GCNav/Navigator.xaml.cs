@@ -1307,7 +1307,7 @@ namespace GCNav
                 title.Text += "Title: " + img.title;
                 curInfoCol.UpdateLayout();
                 titleBack.Width = _windowSize.Width / 4 - 20;
-                titleBack.Height = title.ActualHeight + 5;
+                //titleBack.Height = title.ActualHeight + 5;
                 artist.Text += "Artist: " + img.artist;
                 medium.Text += "Medium: " + img.medium;
                 //date.Text += "Year: " + img.year;
@@ -1330,15 +1330,16 @@ namespace GCNav
                 }
                 category.Text += "Category: " + img.category;
 
-
-                title.FontSize = 25 * _windowSize.Height / 1080.0;
+                //header.FontSize = 25 * _windowSize.Height / 1080.0;
+                title.FontSize = 20 * _windowSize.Height / 1080.0;
                 artist.FontSize = 20 * _windowSize.Height / 1080.0;
                 medium.FontSize = artist.FontSize;
                 date.FontSize = artist.FontSize;
+                category.FontSize = artist.FontSize;
                 KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
                 curKeywords.FontSize = 18 * _windowSize.Height / 1080.0;
                 curInfoCol.UpdateLayout();
-                titleBack.Height = titleBack.ActualHeight + 10;
+                //titleBack.Height = titleBack.ActualHeight + 10;
 
                 if (currentImage.keywords.Count() > 0)
                 {

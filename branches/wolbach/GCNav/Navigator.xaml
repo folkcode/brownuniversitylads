@@ -33,7 +33,7 @@
         </Grid>
 
         <Grid Name="eventInfoContainer" HorizontalAlignment="Left" VerticalAlignment="Top" Height="500" Visibility="Hidden">
-            <Border CornerRadius="5" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Background = "#2e2e2e" BorderBrush="#1e1e1e" BorderThickness="4,4,4,4">
+            <Border CornerRadius="5" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Background = "#2e2e2e" BorderBrush="#000070" BorderThickness="4,4,4,4">
                 <TextBlock Name="eventInfo" Grid.Row="0" Grid.Column="0"  Text="" Foreground="Black" TextAlignment="Left" FontSize="15"></TextBlock>
             </Border>
         </Grid>
@@ -69,19 +69,23 @@
             </Canvas>
             
             <Canvas Name="NavigatorCanvas_Right" Width="384" Canvas.Left="1536" Panel.ZIndex="2">
-                <Border Name="imageBorder" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#002745"  BorderBrush="#1e1e1e" BorderThickness="4" Width="384" Height="300">
+               
+                <Border Name="imageBorder" CornerRadius="5" Padding="10"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="#0000ee"  BorderBrush="#000070" BorderThickness="4" Width="384" Height="300">
+                    
                             <Grid Name="curImageCanvas1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="384" Height="300">
+                                 
                                 <Canvas Name="curImageCanvas" Width="384" Height="300">
                                 </Canvas>
-                                <Border Name="InfoBorder" Visibility="Hidden"  Opacity="0.75" Padding="2,2,2,2" Height="40" VerticalAlignment="Bottom" Margin="0,0,0,10" HorizontalAlignment="center" Background = "#2e2e2e" BorderBrush="#1e1e1e" BorderThickness="4">
+                                <Border Name="InfoBorder" Visibility="Hidden"  Opacity="0.75" Padding="2,2,2,2" Height="40" VerticalAlignment="Bottom" Margin="0,0,0,10" HorizontalAlignment="center" Background = "#2e2e2e" BorderBrush="#000070" BorderThickness="4">
                 <TextBlock Text="Tap Image to View Artwork in Detail" Height="25"  Foreground="White" TextAlignment="Center" FontSize="15" VerticalAlignment="Bottom"/>
             </Border>
                             </Grid>
                             </Border>
 
-                            <Border Name="imageInfoBorder" CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#1e1e1e" Background="#002745" Canvas.Top="300" Width="384" Height="564">
+                            <Border Name="imageInfoBorder" CornerRadius="5" Padding="10" HorizontalAlignment="Right" VerticalAlignment="center" BorderThickness="4" BorderBrush="#000070" Background="#0000ee" Canvas.Top="300" Width="384" Height="564">
                                 <!-- OLD: Background = "#FFA7C99F" OLD2: Background="#99310ABA" BorderBrush="Black" -->
-                                <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
+                            
+                            <s:SurfaceScrollViewer x:Name="infoScroll"  VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
                                     <Grid Name="curInfoCol" VerticalAlignment="Top">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -90,25 +94,29 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
+                                             <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
 
                                         </Grid.ColumnDefinitions>
-                                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill="#2e2e2e" Margin="-10,0,0,0" />
+                                        <Rectangle Grid.Row="0" Name ="titleBack" Grid.Column="0" Fill="#000040" Margin="-10,0,0,0" />
                                         <!-- Fill ="#24524A" -->
-                                        <TextBlock Name="title" Grid.Row="0" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0" ></TextBlock>
-                                        <TextBlock Name="artist" Grid.Row="1" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <TextBlock Name="header" Text="Image Details" Grid.Row="0" Grid.Column="0" Foreground="White" TextAlignment="Left" FontSize="25" Margin="5,0,0,0" ></TextBlock>
+                                        <!--Rectangle Name="titleBack" Grid.Row="1" Grid.Column="0" Fill="#2e2e2e" Margin="-10,0,0,0" /-->
+                                        <!-- Fill ="#24524A" -->
+                                        <TextBlock Name="title" Grid.Row="1" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0" ></TextBlock>
+                                        <TextBlock Name="artist" Grid.Row="2" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
                                         <!-- Foreground="Black" -->
-                                        <TextBlock Name="date" Grid.Row="2" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <TextBlock Name="date" Grid.Row="3" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
                                         <!-- Foreground="Black" -->
-                                        <TextBlock Name="category" Grid.Row="3" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
-                                        <TextBlock Name="medium" Grid.Row="4" Grid.Column="0" Text=""  Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <TextBlock Name="category" Grid.Row="4" Grid.Column="0" Text="" Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                                        <TextBlock Name="medium" Grid.Row="5" Grid.Column="0" Text=""  Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
                                         <!-- Foreground="Black" -->
-                                        <Rectangle Name="KeywordBack" Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Fill ="#1e1e1e" Margin="-10,0,0,0"/>
-                                        <TextBlock  Name="KeywordsTitle" Grid.Row="5" Grid.Column="0" Visibility="Hidden" Text="Keywords:" Foreground="White" TextAlignment="Center" FontSize="18" Margin="5,0,0,0" Background="#1e1e1e"></TextBlock>
+                                        <Rectangle Name="KeywordBack" Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Fill ="#000070" Margin="-10,0,0,0"/>
+                                        <TextBlock  Name="KeywordsTitle" Grid.Row="6" Grid.Column="0" Visibility="Hidden" Text="Keywords:" Foreground="White" TextAlignment="Center" FontSize="18" Margin="5,0,0,0" Background="#000070"></TextBlock>
                                         <!-- jcchin: added background -->
 
-                                        <TextBlock  Name="curKeywords" Text=""  Visibility="Hidden" TextAlignment="Left" FontSize="18" Margin="5,10,0,0" Grid.Row="6" Grid.Column="0" Background="#1e1e1e" Foreground="#99cceb"></TextBlock>
+                                        <TextBlock  Name="curKeywords" Text=""  Visibility="Hidden" TextAlignment="Left" FontSize="18" Margin="5,10,0,0" Grid.Row="7" Grid.Column="0" Background="#000070" Foreground="#99cceb"></TextBlock>
                                         <!-- Foreground="White" -->
 
                                     </Grid>
@@ -134,7 +142,7 @@
             <TextBlock Name="Message" Text="No images found in selection." Foreground="Black" FontSize="22" FontWeight="Bold" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="48,121" />
 
             <Grid Name="InstructionBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50" Width ="500" Visibility="Collapsed" Opacity=".75" IsHitTestVisible="False" Grid.ColumnSpan="2" Margin="-100,0">
-                <Border Name ="InstructionBorder" CornerRadius="5" Width ="500" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#2e2e2e" BorderBrush="#1e1e1e" BorderThickness="4">
+                <Border Name ="InstructionBorder" CornerRadius="5" Width ="500" Padding="2,2,2,2"  HorizontalAlignment="center" VerticalAlignment="center" Margin="10" Background = "#2e2e2e" BorderBrush="#000070" BorderThickness="4">
 
 
                     <TextBlock Name="infoBox" Visibility ="Visible" Text="Select Artwork to View Details" Foreground="White" TextAlignment="Center" FontSize="15" Width="500"></TextBlock>
