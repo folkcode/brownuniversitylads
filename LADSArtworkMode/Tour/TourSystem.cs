@@ -914,7 +914,7 @@ namespace LADSArtworkMode
                 artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.hideMetaList();
-                artModeWin.metaData.Visibility = Visibility.Collapsed;
+                //artModeWin.metaData.Visibility = Visibility.Collapsed;
                 artModeWin.m_hotspotCollection.reAddHotspotIcons();
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
                 artModeWin.MainScatterView.Visibility = Visibility.Visible;
@@ -1952,7 +1952,7 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
-                artModeWin.exitButton.Visibility = Visibility.Collapsed;
+                //artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
                 artModeWin.m_hotspotCollection.removeHotspotIcons();
 
@@ -1997,7 +1997,7 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
-                artModeWin.exitButton.Visibility = Visibility.Collapsed;
+                //artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
                 tourStoryboard.CurrentTimeInvalidated += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_CurrentTimeInvalidated);
                 tourStoryboard.Completed += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_Completed);

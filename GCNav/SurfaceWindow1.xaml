@@ -44,8 +44,8 @@
 
         <m:Navigator x:Name="nav" />
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Visible" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right"/>
-            <Image Name="help" Height="35" Width="35" Margin="0 0 60 0" Source="Resources/question1.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Visible" />
+            <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Visible" Background="Red" Opacity=".5" FontSize="22" Width="70" Height="50" Margin="0 0 5 0" VerticalContentAlignment="Center" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right"/>
+            <Image Name="help" Height="50" Width="50" Margin="0 5 80 0" Source="Resources/question1.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Visible" />
         </Grid>
 
         <am:helpWindow x:Name="helpWindow" Visibility ="hidden" Width="{Binding ElementName=CatalogMainWindow, Path=Width}" Height="{Binding ElementName=CatalogMainWindow, Path=Height}"/>
@@ -53,7 +53,7 @@
         <Canvas Name="panCan">
             <Image Name="panImg" Canvas.ZIndex="100"/>
         </Canvas>
-        <Label Name="InstrLabel" Content="Touch screen to begin" Width="2000" Height="1080" Opacity="0.5" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Visibility="Visible" Background="Gray" FontSize="150"/>
+        <Label Name="InstrLabel" Content="Touch screen to begin" Width="2000" Height="1080" Opacity="0.5" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Visibility="Visible" Background="Gray" Foreground="Black" FontSize="150"/>
         <Canvas Name="startCan" HorizontalAlignment="Center" VerticalAlignment="Center" Width="660" Height="330"></Canvas>
         <s:SurfaceButton Canvas.ZIndex="102" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Height="1080" HorizontalAlignment="Left" Margin="0,0,0,0" Padding="0 25 0 0" Name="surfaceButton1" VerticalAlignment="Top" Width="2000" Click="surfaceButton1_Click" Background="Transparent"/>
     </Grid>
