@@ -156,11 +156,11 @@ namespace LADSArtworkMode
             tourStopButton.Click += tourSystem.TourStopButton_Click;
             tourAuthoringDoneButton.Click += tourSystem.TourAuthoringDoneButton_Click;
             tourAuthoringDeleteButton.Click += tourSystem.TourAuthoringDeleteButton_Click;
-            drawPaths.Click += tourSystem.drawPaths_Click;
-            metaData.Click += new RoutedEventHandler(metaData_Click);
+            //drawPaths.Click += tourSystem.drawPaths_Click;
+            //metaData.Click += new RoutedEventHandler(metaData_Click);
             tourAuthoringSaveButton.Click += TourAuthoringSaveButton_Click;
-            addAudioButton.Click += tourSystem.grabSound;
-            addAudioButton.Visibility = Visibility.Collapsed;
+            //addAudioButton.Click += tourSystem.grabSound;
+            //addAudioButton.Visibility = Visibility.Collapsed;
             //Canvas.SetTop(downButton, 648);
 
             //Canvas.SetLeft(collapseButtonDown, (collapseBar.Width - msi_thumb.ActualWidth) / 2 + msi_thumb.ActualWidth);
@@ -324,7 +324,7 @@ namespace LADSArtworkMode
             tourAuthoringButton.Visibility = Visibility.Collapsed;
             switchToCatalogButton.Visibility = Visibility.Collapsed;
             resetArtworkButton.Visibility = Visibility.Collapsed;
-            exitButton.Visibility = Visibility.Collapsed;
+            //exitButton.Visibility = Visibility.Collapsed;
             MainScatterView.Visibility = Visibility.Collapsed;
             HotspotOverlay.Visibility = Visibility.Collapsed;
             ImageArea.Width = 1920;
