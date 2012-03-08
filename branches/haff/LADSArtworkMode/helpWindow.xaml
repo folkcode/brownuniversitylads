@@ -11,38 +11,38 @@
         <Rectangle Name="Background" Width="800" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" RadiusX="10" RadiusY="10" StrokeThickness="4" Fill="#FFA7C99F" Stroke="Black" />
         <Canvas Width="800" Height="600">
             <TextBlock Name="helpBox" Text="Help" Canvas.Top="5" Canvas.Left="5" Foreground="#24524A" FontSize="18" FontWeight="Bold" />
-            <s:SurfaceButton Name="Catalog_SurfaceButton" Content="Catalog Mode" FontSize="25" FontWeight="Bold" Background="#24524A" Canvas.Left="50" Canvas.Top="40" Click="Catalog_SurfaceButton_Click"/>
-            <s:SurfaceButton Name="Artwork_SurfaceButton" Content="Artwork Mode" FontSize="25" FontWeight="Bold" Background="#24524A" Canvas.Left="239" Canvas.Top="40" Click="Artwork_SurfaceButton_Click"/>
+            <s:SurfaceButton Name="Catalog_SurfaceButton" Content="Catalog Mode" FontSize="25" FontWeight="Bold" Background="#24524A" Foreground="White" Canvas.Left="50" Canvas.Top="40" Click="Catalog_SurfaceButton_Click"/>
+            <s:SurfaceButton Name="Artwork_SurfaceButton" Content="Artwork Mode" FontSize="25" FontWeight="Bold" Background="#24524A" Foreground="White" Canvas.Left="239" Canvas.Top="40" Click="Artwork_SurfaceButton_Click"/>
             <Canvas Name="CatalogHelp" Visibility="Collapsed">
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="90" Canvas.Left="50" Width="700" FontWeight="Bold"> 
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="90" Canvas.Left="50" Width="700" FontWeight="Bold" Foreground="Black"> 
                     View pieces based on date of creation and where it has been around the world! Browse the collection. </TextBlock>
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="180" Width="700" Canvas.Left="50"> Things to see: </TextBlock>
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="230" Width="675" Canvas.Left="75">
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="180" Width="700" Canvas.Left="50" Foreground="Black"> Things to see: </TextBlock>
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="230" Width="675" Canvas.Left="75" Foreground="Black">
                     - Main Browser: Touch and drag or pinch zoom to view the pieces in more detail <LineBreak />
                     - World Browser: Touch and drag or pinch zoom to see geographical information about a selected piece <LineBreak />
                     - Filter: Tap filters to change what's displayed in the Main Browser
                 </TextBlock>
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="440" Width="675" Canvas.Left="50">
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="440" Width="675" Canvas.Left="50" Foreground="Black">
                     Tap a selected artwork's enlarged thumbnail to enter Artwork Mode
                 </TextBlock>
             </Canvas>
             <Canvas Name="ArtworkHelp" Visibility="Collapsed">
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="90" Canvas.Left="50" Width="700" FontWeight="Bold"> 
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="90" Canvas.Left="50" Width="700" FontWeight="Bold" Foreground="Black"> 
                     View pieces and details, ranging from hotspots and associated media to digital tours. Browse the piece.</TextBlock>
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="180" Width="700" Canvas.Left="50"> Things to see:</TextBlock>
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="230" Width="675" Canvas.Left="75">
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="180" Width="700" Canvas.Left="50" Foreground="Black"> Things to see:</TextBlock>
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="230" Width="675" Canvas.Left="75" Foreground="Black">
                     - Main Piece: Touch and pinch zoom to move around <LineBreak />
                     - Tools: Drag sliders to see what can't be seen with the unaided human eye <LineBreak />
                     - Hotspots: Tap to see media and content associated with specific parts of an image <LineBreak />
                     - Associated Media: Tap to browse images and media closely associated with the current piece <LineBreak />
                     - Tour: View a digital tour (if available for the piece).
                 </TextBlock>
-                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="500" Width="675" Canvas.Left="50">
+                <TextBlock FontSize="24" TextWrapping="Wrap" Canvas.Top="500" Width="675" Canvas.Left="50" Foreground="Black">
                     Tap Catalog to return to Catalog mode
                 </TextBlock>
             </Canvas>
             
-            <s:SurfaceButton Name="Done" Content="Done" Canvas.Bottom="30" Canvas.Right="30" Width="110" Height="50" HorizontalContentAlignment="Center" FontSize="30" Background="#24524A" Click="Done_Click" />
+            <s:SurfaceButton Name="Done" Content="Done" Foreground="White" Canvas.Bottom="30" Canvas.Right="30" Width="110" Height="50" HorizontalContentAlignment="Center" FontSize="30" Background="#24524A" Click="Done_Click" />
         </Canvas>
 
         
