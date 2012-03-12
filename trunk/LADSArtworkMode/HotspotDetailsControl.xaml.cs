@@ -832,27 +832,29 @@ namespace LADSArtworkMode
                 if (videoElement!=null)
                 {
                     VideoStackPanel.Width = actual.Width - 10;
-                    VideoStackPanel.Height = actual.Height - 30;
+                    VideoStackPanel.Height = actual.Height - 10;
                     this.UpdateLayout();
                     VideoStackPanel.Measure(new Size(VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
                     VideoStackPanel.Arrange(new Rect(3, 8, VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
                     this.UpdateLayout();
+                    VideoText.Width = actual.Width-8;
+                    VideoText.UpdateLayout();
                     videoElement.Width = VideoStackPanel.Width-15;
-                    videoElement.Height = VideoStackPanel.Height - 60;
+                    videoElement.Height = VideoStackPanel.Height - VideoText.ActualHeight;
                     this.UpdateLayout();
                     videoElement.Measure(new Size(videoElement.ActualWidth, videoElement.ActualHeight));
-                    videoElement.Arrange(new Rect(5, 35, videoElement.ActualWidth, videoElement.ActualHeight));
+                    videoElement.Arrange(new Rect(5, 15, videoElement.ActualWidth, videoElement.ActualHeight));
                     this.UpdateLayout();
-                    VideoText.Width = actual.Width;
-                    VideoText.UpdateLayout();
+                   
                     VideoText.Measure(new Size(VideoText.ActualWidth, VideoText.ActualHeight));
-                    VideoText.Arrange(new Rect(0, actual.Height-VideoStackPanel.ActualHeight-10 , VideoText.ActualWidth, VideoText.ActualHeight));
+                    VideoText.Arrange(new Rect(4, 20+videoElement.ActualHeight, VideoText.ActualWidth, VideoText.ActualHeight));
                     this.UpdateLayout();
                 }
-                hotspotCanvas.Height = actual.Height + VideoText.ActualHeight;
+                hotspotCanvas.Height = actual.Height+35;
                 hotspotCanvas.Width = actual.Width;
-                hotspotCanvas.Measure(new Size(actual.Width, actual.Height + VideoText.ActualHeight+20));
-                hotspotCanvas.Arrange(new Rect(0, 0, actual.Width, actual.Height + VideoText.ActualHeight+20));
+                this.UpdateLayout();
+                hotspotCanvas.Measure(new Size(hotspotCanvas.ActualWidth, hotspotCanvas.ActualHeight));
+                hotspotCanvas.Arrange(new Rect(0, 0, hotspotCanvas.ActualWidth, hotspotCanvas.ActualHeight));
 
                // VideoText.Arrange(new Rect(0, actual.Height - 3, VideoText.ActualWidth, VideoText.ActualHeight));
 
