@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using Microsoft.Surface.Presentation.Generic;
 using System.Windows.Threading;
+using System.Threading;
 
 
 namespace LADSArtworkMode
@@ -43,6 +44,7 @@ namespace LADSArtworkMode
         private System.Windows.Threading.DispatcherTimer _sliderTimer;
         Boolean _hasBeenOpened;
         double minX;
+        bool firstTime = false;
         public double MinX
         {
             get { return minX; }
@@ -97,7 +99,7 @@ namespace LADSArtworkMode
         }
 
         public double _volume;
-
+        Size windowSize;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -114,90 +116,13 @@ namespace LADSArtworkMode
             hasVideo = false;
             _hasBeenOpened = false;
             _volume = .5;
+           // windowSize = new Size();
+            sizeChanged = true;
+            firstTime = true;
         }
 
-        void HotspotDetailsControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (m_hotspotData.Type.ToLower().Contains("video") || m_hotspotData.Type.ToLower().Contains("image"))
-            {
-
-                if (this.Height > 350 && this.Width > 350)
-                {
-                    if (e.Delta < 0)
-                    {
-                        this.Width *= 0.95;
-                        this.Height *= 0.95;
-                        if (m_hotspotData.Type.ToLower().Contains("image"))
-                        {
-                            HotspotImageMix.Height *= 0.95;
-                            HotspotImageMix.Width *= 0.95;
-                            
-                            HotspotTextBoxMix.Width *= 0.95;
-                            hotspotCanvas.Height *= 0.95;
-                            hotspotCanvas.Width *= 0.95;
-                            this.UpdateLayout();
-                            this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 8.0 + HotspotTextBoxMix.ActualHeight);
-                        }
-                        else
-                        {
-                               // SurfacePlayButton.Height *=0.95;
-                               // SurfacePlayButton.Width *=0.95;
-                                //SurfaceTimelineSlider.Height *=0.95;
-                                SurfaceTimelineSlider.Width *=0.95;
-                                hotspotCanvas.Height *= 0.95;
-                                hotspotCanvas.Width *= 0.95;
-                                VideoStackPanel.Height *= 0.95;
-                                VideoStackPanel.Width *= 0.95;
-                                videoElement.Height *= 0.95;
-                                videoElement.Width *= 0.95;
-                                
-                                VideoText.Width *= 0.95;
-                                this.UpdateLayout();
-                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 18);
-                                this.Height = hotspotCanvas.Height+12;
-                              
-                            }
-                        }
-                    }
-                
-                
-                    if (e.Delta > 0)
-                    {
-                        if (this.Height < 800 && this.Width < 800)
-                        {
-
-                            this.Width /= 0.95;
-                            this.Height /= 0.95;
-                            if (m_hotspotData.Type.ToLower().Contains("image"))
-                            {
-                                HotspotImageMix.Height /= 0.95;
-                                HotspotImageMix.Width /= 0.95;
-                                
-                                HotspotTextBoxMix.Width /= 0.95;
-                                this.UpdateLayout();
-                                this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 8.0 + HotspotTextBoxMix.ActualHeight);
-
-                            }
-                            else
-                            {
-                                hotspotCanvas.Height /= 0.95;
-                                hotspotCanvas.Width /= 0.95;
-                                SurfaceTimelineSlider.Width /= 0.95;
-                                VideoStackPanel.Height /= 0.95;
-                                VideoStackPanel.Width /= 0.95;
-                                videoElement.Height /= 0.95;
-                                videoElement.Width /= 0.95;
-                                VideoText.Width /= 0.95;
-                                this.UpdateLayout();
-                                hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 18);
-                                this.Height = hotspotCanvas.Height+12;
-                              
-                            }
-
-                        }
-                }
-            }
-        }
+        
+      
         //when not muted
         public void showAudioIcon()
         {
@@ -318,8 +243,11 @@ namespace LADSArtworkMode
         /// <summary>
         /// Load data inside the hotspot detail control, can be text or image.
         /// </summary>
+        /// 
+       
         private void scatterItem_Loaded(object sender, RoutedEventArgs e)
         {
+            firstTime = true;
             //if (m_hotspotData.Type.ToLower().Contains("image"))
             //{
             //    MinX = 402;
@@ -541,6 +469,7 @@ namespace LADSArtworkMode
             }
             else if((m_hotspotData.Type.ToLower().Contains("image")))
             {
+                sizeChanged = false;
                 BitmapImage img = new BitmapImage();
                 String imgUri = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Hotspots\\Images\\" + m_hotspotData.Description;
                 img.BeginInit();
@@ -589,13 +518,15 @@ namespace LADSArtworkMode
                 Canvas.SetZIndex(Mix, 100);
                 this.UpdateLayout();
 
-                this.CanScale = false;
+                this.CanScale = true;
 
                 Canvas.SetZIndex(closeButton, 100);
                 //HotspotTextBox.Visibility = Visibility.Hidden;
                 //textBoxScroll.Visibility = Visibility.Hidden;
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Hidden;
+               // windowSize = new Size(this.Width, this.Height);
+             
             }
             Name.Content = m_hotspotData.Name;
             Double[] size = this.findImageSize();
@@ -604,6 +535,8 @@ namespace LADSArtworkMode
             screenPosY = (m_msi.GetZoomableCanvas.Scale * m_hotspotData.PositionY *size[1]) - m_msi.GetZoomableCanvas.Offset.Y;
            
             this.Center = new Point(screenPosX + this.Width/2.0, screenPosY + this.Height/2.0);
+            sizeChanged = true;
+            firstTime = false;
         }
 
 
@@ -837,48 +770,319 @@ namespace LADSArtworkMode
         {
             return _dragging;
         }
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            Size actual = new Size();
+         
+            if (arrangeBounds.Width > 800)
+            {
+                arrangeBounds.Width = 800;
+                arrangeBounds.Height = 615;
+
+            }
+            else if (arrangeBounds.Width < 400)
+            {
+                arrangeBounds.Width = 400;
+                arrangeBounds.Height = 300;
+            }
+            
+            actual.Width = arrangeBounds.Width;
+            actual.Height = arrangeBounds.Height;
+            
+            //Console.Out.WriteLine("height" + arrangeBounds.Height);
+            //Console.Out.WriteLine("width" + arrangeBounds.Width);
+            if (m_hotspotData.Type.ToLower().Contains("image"))
+            {
+
+                HotspotImageMix.Height = actual.Height - 20;
+                HotspotImageMix.Width = actual.Width - 10;
+                HotspotImageMix.Measure(new Size(actual.Width - 10, actual.Height - 20));
+
+                HotspotImageMix.UpdateLayout();
+                this.UpdateLayout();
+
+                HotspotTextBoxMix.Width = actual.Width;
+              
+                this.UpdateLayout();
+
+                hotspotCanvas.Height = actual.Height;
+                hotspotCanvas.Width = actual.Width;
+                hotspotCanvas.Measure(new Size(actual.Width, actual.Height));
+                hotspotCanvas.Arrange(new Rect(0, 0, actual.Width, actual.Height));
+                //this.UpdateLayout();
+                //HotspotTextBoxMix.Measure(new Size(HotspotTextBoxMix.ActualWidth, HotspotTextBoxMix.ActualHeight));
+                HotspotTextBoxMix.UpdateLayout();
+                HotspotImageMix.Arrange(new Rect(4, 30, actual.Width - 12, actual.Height - 20));
+                HotspotTextBoxMix.Arrange(new Rect(0, actual.Height - 3, HotspotTextBoxMix.ActualWidth, HotspotTextBoxMix.ActualHeight));
+                //updateLocation();
+                HotspotTextBoxMix.UpdateLayout();
+                this.UpdateLayout();
+            }
+            else if (m_hotspotData.Type.ToLower().Contains("video"))
+            {
+                VideoText.Width = actual.Width;
+                this.updateLocation();
+                //VideoStackPanel.Width = actual.Width - 6;
+                //VideoStackPanel.Measure(new Size(actual.Width - 6, actual.Height - 10));
+                //VideoStackPanel.Arrange(new Rect(3, 10, actual.Width - 12, actual.Height - 20));
+                
+                //VideoText.Visibility = Visibility.Visible;
+               
+
+                if (videoElement!=null)
+                {
+                    VideoStackPanel.Width = actual.Width - 10;
+                    VideoStackPanel.Height = actual.Height - 30;
+                    this.UpdateLayout();
+                    VideoStackPanel.Measure(new Size(VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
+                    VideoStackPanel.Arrange(new Rect(3, 8, VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
+                    this.UpdateLayout();
+                    videoElement.Width = VideoStackPanel.Width-15;
+                    videoElement.Height = VideoStackPanel.Height - 60;
+                    this.UpdateLayout();
+                    videoElement.Measure(new Size(videoElement.ActualWidth, videoElement.ActualHeight));
+                    videoElement.Arrange(new Rect(5, 35, videoElement.ActualWidth, videoElement.ActualHeight));
+                    this.UpdateLayout();
+                    VideoText.Width = actual.Width;
+                    VideoText.UpdateLayout();
+                    VideoText.Measure(new Size(VideoText.ActualWidth, VideoText.ActualHeight));
+                    VideoText.Arrange(new Rect(0, actual.Height-VideoStackPanel.ActualHeight-10 , VideoText.ActualWidth, VideoText.ActualHeight));
+                    this.UpdateLayout();
+                }
+                hotspotCanvas.Height = actual.Height + VideoText.ActualHeight;
+                hotspotCanvas.Width = actual.Width;
+                hotspotCanvas.Measure(new Size(actual.Width, actual.Height + VideoText.ActualHeight+20));
+                hotspotCanvas.Arrange(new Rect(0, 0, actual.Width, actual.Height + VideoText.ActualHeight+20));
+
+               // VideoText.Arrange(new Rect(0, actual.Height - 3, VideoText.ActualWidth, VideoText.ActualHeight));
+
+            }
+                //for (int i = 0; i < VideoStackPanel.Children.Count; i++)
+                //{
+                //    VideoStackPanel.Measure(new Size(actual.Width - 6, actual.Height - 10));
+                //    VideoStackPanel.Children[i].Arrange(new Rect(3, 10, actual.Width - 12, actual.Height - 20));
+                //}
+            //}
+            //else
+            //{
+                //VideoText.Width = actual.Width;
+                //this.UpdateLayout();
+                //hotspotCanvas.Height = actual.Height;
+                //hotspotCanvas.Width = actual.Width;
+                //hotspotCanvas.Measure(new Size(actual.Width, actual.Height));
+                //hotspotCanvas.Arrange(new Rect(0, 0, actual.Width, actual.Height));
+                //VideoStackPanel.Height = actual.Height - 10;
+                //VideoStackPanel.Width = actual.Width - 6;
+                //VideoStackPanel.Measure(new Size(actual.Width - 6, actual.Height - 10));
+                //VideoStackPanel.Arrange(new Rect(3, 10, actual.Width - 12, actual.Height - 20));
+                //VideoText.Arrange(new Rect(0, actual.Height - 3, VideoText.ActualWidth, VideoText.ActualHeight));
+                //if (!firstTime)
+                //{
+                //    videoElement.Width = VideoStackPanel.Width;
+                //}
+                //this.UpdateLayout();
+
+            //}
+            //HotspotTextBoxMix.Refresh();
+            //Thread.Sleep(500);
+            //double actualHeight = HotspotTextBoxMix.ActualHeight;
+            //HotspotImageMix.Measure(new Size(hotspotCanvas.Width - 12, hotspotCanvas.Height - actualHeight - 12));
+            //HotspotImageMix.Arrange(new Rect(4, 4, hotspotCanvas.Width - 12, hotspotCanvas.Height - HotspotTextBoxMix.ActualHeight - 12));
+            //HotspotTextBoxMix.Measure(new Size(hotspotCanvas.Width,actualHeight));
+            //HotspotTextBoxMix.Arrange(new Rect(0,hotspotCanvas.Height-10-HotspotImageMix.Height,actual.Width-12,actualHeight));
+            //Mix.Measure(new Size(hotspotCanvas.Width - 12, hotspotCanvas.Height - 12));
+            //Mix.Arrange(new Rect(4, 4, hotspotCanvas.Width - 12, hotspotCanvas.Height - 12));
+            //windowSize = actual;
+            //this.Refresh();
+            //Thread.Sleep(500);
+            return actual;
+        }
+        void updateLocation()
+        {
+            Canvas.SetLeft(HotspotTextBoxMix, 0);
+        }
         bool sizeChanged = false;
         private void scatterItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+
+            //if (e.NewSize.Height > 400 && e.NewSize.Width > 400)
+            //{
+            //    this.Height = e.NewSize.Height;
+            //    this.Width = e.NewSize.Width;
+            //}
+            //else
+            //{
+            //    this.Width = 400;
+            //    this.Height =300;
+
+            //}
+            //AllowUIToUpdate();
+            //this.UpdateLayout();
+            //this.Center = new Point(this.Center.X+1, this.Center.Y+1);
+
             //if (e.NewSize.Height > 800 || e.NewSize.Width > 800 || e.NewSize.Height < MinY || e.NewSize.Width < MinX)
             //{
             //    Width = e.PreviousSize.Width;
             //    Height = e.PreviousSize.Height;
             //}
 
-            if (m_hotspotData.Type.ToLower().Contains("video"))
-            {
-                if (videoElement != null && !sizeChanged)
-                {
-                    hotspotCanvas.Width = Width - 8;
-                    hotspotCanvas.Height = Height - 8;
-                    VideoStackPanel.Width = hotspotCanvas.Width - 24;
-                    VideoStackPanel.Height = hotspotCanvas.Height + VideoText.Height - 47;
-                    videoElement.Width = VideoStackPanel.Width;
-                    videoElement.Height = VideoStackPanel.Height - 30 - VideoText.Height;
-                    
-                    SurfaceTimelineSlider.Width = hotspotCanvas.Width - 180;
-                    Name.Width = Width - (422 - 335);
+            //if (m_hotspotData.Type.ToLower().Contains("video"))
+            //{
+            //    if (videoElement != null && !sizeChanged)
+            //    {
+            //        hotspotCanvas.Width = Width - 8;
+            //        hotspotCanvas.Height = Height - 8;
+            //        VideoStackPanel.Width = hotspotCanvas.Width - 24;
+            //        VideoStackPanel.Height = hotspotCanvas.Height + VideoText.Height - 47;
+            //        videoElement.Width = VideoStackPanel.Width;
+            //        videoElement.Height = VideoStackPanel.Height - 30 - VideoText.Height;
 
-                    this.UpdateLayout();
-                    hotspotCanvas.Height = hotspotCanvas.Height + VideoText.ActualHeight;
-                    this.Height = hotspotCanvas.Height + 8;
-                    sizeChanged = true;
+            //        SurfaceTimelineSlider.Width = hotspotCanvas.Width - 180;
+            //        Name.Width = Width - (422 - 335);
+
+            //        this.UpdateLayout();
+            //        hotspotCanvas.Height = hotspotCanvas.Height + VideoText.ActualHeight;
+            //        this.Height = hotspotCanvas.Height + 8;
+            //        windowSize = new Size(this.Width, this.Height);
+            //    }
+            //}
+
+            //if (m_hotspotData.Type.ToLower().Contains("image"))
+            //{
+            //    //hotspotCanvas.Width = e.NewSize.Width - 8;
+            //    //hotspotCanvas.Height = e.NewSize.Height - 8;
+            //    //HotspotImage.Height = hotspotCanvas.Height - 47.0;
+            //    //HotspotImage.Width = hotspotCanvas.Width - 24.0;
+            //    //Name.Width = Width - (422 - 335);
+            //    //Canvas.SetLeft(HotspotImage, 12);
+            //    //Canvas.SetTop(HotspotImage, 35);
+            //    //windowSize = new Size(this.Width, this.Height);
+            //    //ScaleTransform tran = new ScaleTransform();
+            //    //tran.ScaleY = e.NewSize.Height/e.PreviousSize.Height;
+            //    //tran.ScaleX = e.NewSize.Width / e.PreviousSize.Width;
+            //    //tran.ScaleY = 1.1;
+            //    //tran.ScaleX = 1.1;
+            //    //this.RenderTransform = tran;
+            //}
+        }
+        void AllowUIToUpdate()
+        {
+            DispatcherFrame frame = new DispatcherFrame();
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Render, new DispatcherOperationCallback(delegate(object parameter)
+            {
+                frame.Continue = false;
+                return null;
+            }), null);
+            Dispatcher.PushFrame(frame);
+        }
+
+            bool mousewheel = false;
+        void HotspotDetailsControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            mousewheel = true;
+            this.Refresh();
+            Thread.Sleep(500);
+            if (m_hotspotData.Type.ToLower().Contains("video") || m_hotspotData.Type.ToLower().Contains("image"))
+            {
+
+                if (this.Height > 350 && this.Width > 350)
+                {
+                    if (e.Delta < 0)
+                    {
+                        this.Width *= 0.95;
+                        this.Height *= 0.95;
+                        if (m_hotspotData.Type.ToLower().Contains("image"))
+                        {
+                           // HotspotTextBoxMix.UpdateLayout();
+                            //this.UpdateLayout();
+                            this.Height = this.Height;
+                            this.Width = this.Width;
+                            //ScaleTransform tran = new ScaleTransform();
+                            //tran.ScaleY = 0.95;
+                            //tran.ScaleX = 0.95;
+                            //hotspotCanvas.RenderTransform = tran;
+
+                            //HotspotImageMix.Height *= 0.95;
+                            //HotspotImageMix.Width *= 0.95;
+
+                            //HotspotTextBoxMix.Width *= 0.95;
+                            //hotspotCanvas.Height *= 0.95;
+                            //hotspotCanvas.Width *= 0.95;
+                            //this.UpdateLayout();
+                            //this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 8.0 + HotspotTextBoxMix.ActualHeight);
+                            //windowSize = new Size(this.Width, this.Height);
+                        }
+                        else
+                        {
+                            // SurfacePlayButton.Height *=0.95;
+                            // SurfacePlayButton.Width *=0.95;
+                            //SurfaceTimelineSlider.Height *=0.95;
+                            //SurfaceTimelineSlider.Width *= 0.95;
+                            //hotspotCanvas.Height *= 0.95;
+                            //hotspotCanvas.Width *= 0.95;
+                            //VideoStackPanel.Height *= 0.95;
+                            //VideoStackPanel.Width *= 0.95;
+                            //videoElement.Height *= 0.95;
+                            //videoElement.Width *= 0.95;
+
+                            //VideoText.Width *= 0.95;
+                            //this.UpdateLayout();
+                            //hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 18);
+                            //this.Height = hotspotCanvas.Height + 12;
+                            //windowSize = new Size(this.Width, this.Height);
+                        }
+                    }
+                }
+
+
+                if (e.Delta > 0)
+                {
+                    if (this.Height < 800 && this.Width < 800)
+                    {
+
+                        this.Width /= 0.95;
+                        this.Height /= 0.95;
+                        if (m_hotspotData.Type.ToLower().Contains("image"))
+                        {
+                            //ScaleTransform tran = new ScaleTransform();
+                            //tran.ScaleY = 1.1;
+                            //tran.ScaleX = 1.1;
+                            //hotspotCanvas.RenderTransform = tran;
+
+                            //this.Height = hotspotCanvas.Height + 30;
+                            //this.Width = hotspotCanvas.Width + 30;
+                            //HotspotImageMix.Height /= 0.95;
+                            //HotspotImageMix.Width /= 0.95;
+
+                            //HotspotTextBoxMix.Width /= 0.95;
+                            //this.UpdateLayout();
+                            //this.SetCurrentValue(HeightProperty, HotspotImageMix.Height + 8.0 + HotspotTextBoxMix.ActualHeight);
+                            //Canvas.SetLeft(HotspotImage, 12);
+                            //Canvas.SetTop(HotspotImage, 35);
+                            //windowSize = new Size(this.Width, this.Height);
+                        }
+                        else
+                        {
+                            //hotspotCanvas.Height /= 0.95;
+                            //hotspotCanvas.Width /= 0.95;
+                            //SurfaceTimelineSlider.Width /= 0.95;
+                            //VideoStackPanel.Height /= 0.95;
+                            //VideoStackPanel.Width /= 0.95;
+                            //videoElement.Height /= 0.95;
+                            //videoElement.Width /= 0.95;
+                            //VideoText.Width /= 0.95;
+                            //this.UpdateLayout();
+                            //hotspotCanvas.SetCurrentValue(HeightProperty, VideoStackPanel.ActualHeight + 18);
+                            //this.Height = hotspotCanvas.Height + 12;
+                            //windowSize = new Size(this.Width, this.Height);
+                        }
+
+                    }
                 }
             }
-
-            if (m_hotspotData.Type.ToLower().Contains("image"))
-            {
-                    hotspotCanvas.Width = e.NewSize.Width - 8;
-                    hotspotCanvas.Height = e.NewSize.Height - 8;
-                    HotspotImage.Height = hotspotCanvas.Height - 47.0;
-                    HotspotImage.Width = hotspotCanvas.Width - 24.0;
-                    Name.Width = Width - (422 - 335);
-                    Canvas.SetLeft(HotspotImage, 12);
-                    Canvas.SetTop(HotspotImage, 35);
-                
-            }
+            
         }
+
 
         bool isPlaying;
 
@@ -939,4 +1143,14 @@ namespace LADSArtworkMode
 
       
     }
+    public static class ExtensionMethods
+    {
+        private static Action EmptyDelegate = delegate() { };
+        public static void Refresh(this UIElement uiElement)
+        {
+            uiElement.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
+        }
+
+    }
+
 }
