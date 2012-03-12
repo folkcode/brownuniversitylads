@@ -10,7 +10,7 @@
              xmlns:my="http://schemas.microsoft.com/surface/2008" xmlns:System_Windows_Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI" 
              x:Class="LADSArtworkMode.HotspotDetailsControl" 
                        
-        Name="scatterItem" CanScale="True" Height="320" Width="422" Loaded="scatterItem_Loaded" Orientation="0" SizeChanged="scatterItem_SizeChanged">
+        Name="scatterItem" CanScale="True" Height="320" Width="422" MinWidth="400" MinHeight="320" Loaded="scatterItem_Loaded" Orientation="0" SizeChanged="scatterItem_SizeChanged">
     <Border BorderBrush="#214236" BorderThickness="4" CornerRadius="4" Name="border">
         <Canvas Name="hotspotCanvas" Background="#618276" Opacity="0.95">
            
@@ -114,7 +114,7 @@
             <Label Name="AudioTextbox" Margin="0,-40" DockPanel.Dock="Bottom" Foreground="White" Visibility="Visible" HorizontalAlignment="Stretch" Background="Transparent"/>
             </DockPanel>
 
-            <Label Content="Label" Height="28" HorizontalAlignment="Left" x:Name="Name" VerticalAlignment="Top" FontSize="16" MinWidth="0" MinHeight="0" Width="335" Padding="5,3,0,0" FontWeight="Bold" Foreground="White" Canvas.Top="3" Canvas.Left="7" />
+            <Label Content="Label" Height="28" HorizontalAlignment="Left" x:Name="Name" VerticalAlignment="Top" FontSize="16"  Width="335" Padding="5,3,0,0" FontWeight="Bold" Foreground="White" Canvas.Top="3" Canvas.Left="7" />
         <my:SurfaceButton  Content="Close" Height="24" HorizontalAlignment="Right" x:Name="closeButton" VerticalAlignment="Center" Width="48" FontSize="11" MinWidth="0" MinHeight="0" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" Background="{x:Null}" FontWeight="Bold" FontStyle="Normal" Click="closeButton_Click" Grid.Row="1" Grid.ColumnSpan="2" Canvas.Top="6" Canvas.Right="10" />
        
     </Canvas>
