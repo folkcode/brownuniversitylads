@@ -791,44 +791,18 @@ namespace LADSArtworkMode
             
             //Console.Out.WriteLine("height" + arrangeBounds.Height);
             //Console.Out.WriteLine("width" + arrangeBounds.Width);
-            if (m_hotspotData.Type.ToLower().Contains("image"))
-            {
-
-                HotspotImageMix.Height = actual.Height - 20;
-                HotspotImageMix.Width = actual.Width - 10;
-                HotspotImageMix.Measure(new Size(actual.Width - 10, actual.Height - 20));
-
-                HotspotImageMix.UpdateLayout();
-                this.UpdateLayout();
-
-                HotspotTextBoxMix.Width = actual.Width;
-              
-                this.UpdateLayout();
-
-                hotspotCanvas.Height = actual.Height;
-                hotspotCanvas.Width = actual.Width;
-                hotspotCanvas.Measure(new Size(actual.Width, actual.Height));
-                hotspotCanvas.Arrange(new Rect(0, 0, actual.Width, actual.Height));
-                //this.UpdateLayout();
-                //HotspotTextBoxMix.Measure(new Size(HotspotTextBoxMix.ActualWidth, HotspotTextBoxMix.ActualHeight));
-                HotspotTextBoxMix.UpdateLayout();
-                HotspotImageMix.Arrange(new Rect(4, 30, actual.Width - 12, actual.Height - 20));
-                HotspotTextBoxMix.Arrange(new Rect(0, actual.Height - 3, HotspotTextBoxMix.ActualWidth, HotspotTextBoxMix.ActualHeight));
-                //updateLocation();
-                HotspotTextBoxMix.UpdateLayout();
-                this.UpdateLayout();
-            }
-            else if (m_hotspotData.Type.ToLower().Contains("video"))
+           
+            if (m_hotspotData.Type.ToLower().Contains("video"))
             {
                 VideoText.Width = actual.Width;
                 this.updateLocation();
                 //VideoStackPanel.Width = actual.Width - 6;
                 //VideoStackPanel.Measure(new Size(actual.Width - 6, actual.Height - 10));
                 //VideoStackPanel.Arrange(new Rect(3, 10, actual.Width - 12, actual.Height - 20));
-                
+
                 //VideoText.Visibility = Visibility.Visible;
-               
-                if (videoElement!=null)
+
+                if (videoElement != null)
                 {
                     //VideoStackPanel.Width = actual.Width - 10;
                     //VideoStackPanel.Height = actual.Height - 10;
@@ -854,17 +828,50 @@ namespace LADSArtworkMode
                     this.UpdateLayout();
 
                     VideoText.Measure(new Size(VideoText.ActualWidth, VideoText.ActualHeight));
-                    VideoText.Arrange(new Rect(4, VideoStackPanel.ActualHeight-VideoText.ActualHeight-30, VideoText.ActualWidth, VideoText.ActualHeight));
+                    VideoText.Arrange(new Rect(4, VideoStackPanel.ActualHeight - VideoText.ActualHeight - 30, VideoText.ActualWidth, VideoText.ActualHeight));
                     this.UpdateLayout();
 
                 }
-                hotspotCanvas.Height = VideoStackPanel.ActualHeight+40;
+                hotspotCanvas.Height = VideoStackPanel.ActualHeight + 40;
                 hotspotCanvas.Width = actual.Width;
                 this.UpdateLayout();
                 hotspotCanvas.Measure(new Size(hotspotCanvas.ActualWidth, hotspotCanvas.ActualHeight));
                 hotspotCanvas.Arrange(new Rect(0, 0, hotspotCanvas.ActualWidth, hotspotCanvas.ActualHeight));
 
             }
+            //if (m_hotspotData.Type.ToLower().Contains("image"))
+            else
+            {
+
+                HotspotImageMix.Height = actual.Height - 20;
+                HotspotImageMix.Width = actual.Width - 10;
+                HotspotImageMix.Measure(new Size(actual.Width - 10, actual.Height - 20));
+
+                HotspotImageMix.UpdateLayout();
+                this.UpdateLayout();
+
+                HotspotTextBoxMix.Width = actual.Width;
+
+                this.UpdateLayout();
+
+                hotspotCanvas.Height = actual.Height;
+                hotspotCanvas.Width = actual.Width;
+                hotspotCanvas.Measure(new Size(actual.Width, actual.Height));
+                hotspotCanvas.Arrange(new Rect(0, 0, actual.Width, actual.Height));
+                //this.UpdateLayout();
+                //HotspotTextBoxMix.Measure(new Size(HotspotTextBoxMix.ActualWidth, HotspotTextBoxMix.ActualHeight));
+                HotspotTextBoxMix.UpdateLayout();
+                HotspotImageMix.Arrange(new Rect(4, 30, actual.Width - 12, actual.Height - 20));
+                HotspotTextBoxMix.Arrange(new Rect(0, actual.Height - 3, HotspotTextBoxMix.ActualWidth, HotspotTextBoxMix.ActualHeight));
+                //updateLocation();
+                HotspotTextBoxMix.UpdateLayout();
+                this.UpdateLayout();
+            }
+            //else
+            //{
+            //    hotspotCanvas.Width = actual.Width;
+            //    hotspotCanvas.Height = actual.Height;
+            //}
                 //for (int i = 0; i < VideoStackPanel.Children.Count; i++)
                 //{
                 //    VideoStackPanel.Measure(new Size(actual.Width - 6, actual.Height - 10));
