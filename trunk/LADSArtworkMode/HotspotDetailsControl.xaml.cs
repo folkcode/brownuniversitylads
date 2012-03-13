@@ -828,35 +828,41 @@ namespace LADSArtworkMode
                 
                 //VideoText.Visibility = Visibility.Visible;
                
-
                 if (videoElement!=null)
                 {
-                    VideoStackPanel.Width = actual.Width - 10;
-                    VideoStackPanel.Height = actual.Height - 10;
-                    this.UpdateLayout();
-                    VideoStackPanel.Measure(new Size(VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
-                    VideoStackPanel.Arrange(new Rect(3, 8, VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
-                    this.UpdateLayout();
-                    VideoText.Width = actual.Width-8;
-                    VideoText.UpdateLayout();
-                    videoElement.Width = VideoStackPanel.Width-15;
-                    videoElement.Height = VideoStackPanel.Height - VideoText.ActualHeight;
+                    //VideoStackPanel.Width = actual.Width - 10;
+                    //VideoStackPanel.Height = actual.Height - 10;
+                    //this.UpdateLayout();
+                    //VideoStackPanel.Measure(new Size(VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
+                    //VideoStackPanel.Arrange(new Rect(3, 8, VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
+                    //this.UpdateLayout();
+                    videoElement.Width = actual.Width - 20;
+                    videoElement.Height = actual.Height - 15;
                     this.UpdateLayout();
                     videoElement.Measure(new Size(videoElement.ActualWidth, videoElement.ActualHeight));
-                    videoElement.Arrange(new Rect(5, 15, videoElement.ActualWidth, videoElement.ActualHeight));
+                    videoElement.Arrange(new Rect(10, 10, videoElement.ActualWidth, videoElement.ActualHeight));
                     this.UpdateLayout();
-                   
+
+                    VideoText.Width = actual.Width - 8;
+                    this.UpdateLayout();
+
+                    VideoStackPanel.Width = actual.Width - 20;
+                    VideoStackPanel.Height = actual.Height + VideoText.ActualHeight + 40;
+                    this.UpdateLayout();
+                    VideoStackPanel.Measure(new Size(VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
+                    VideoStackPanel.Arrange(new Rect(10, 8, VideoStackPanel.ActualWidth, VideoStackPanel.ActualHeight));
+                    this.UpdateLayout();
+
                     VideoText.Measure(new Size(VideoText.ActualWidth, VideoText.ActualHeight));
-                    VideoText.Arrange(new Rect(4, 20+videoElement.ActualHeight, VideoText.ActualWidth, VideoText.ActualHeight));
+                    VideoText.Arrange(new Rect(4, VideoStackPanel.ActualHeight-VideoText.ActualHeight-30, VideoText.ActualWidth, VideoText.ActualHeight));
                     this.UpdateLayout();
+
                 }
-                hotspotCanvas.Height = actual.Height+35;
+                hotspotCanvas.Height = VideoStackPanel.ActualHeight+40;
                 hotspotCanvas.Width = actual.Width;
                 this.UpdateLayout();
                 hotspotCanvas.Measure(new Size(hotspotCanvas.ActualWidth, hotspotCanvas.ActualHeight));
                 hotspotCanvas.Arrange(new Rect(0, 0, hotspotCanvas.ActualWidth, hotspotCanvas.ActualHeight));
-
-               // VideoText.Arrange(new Rect(0, actual.Height - 3, VideoText.ActualWidth, VideoText.ActualHeight));
 
             }
                 //for (int i = 0; i < VideoStackPanel.Children.Count; i++)

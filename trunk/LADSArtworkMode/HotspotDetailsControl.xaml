@@ -24,7 +24,7 @@
                 <UserControl Name="video"></UserControl>
                 
             </Canvas> 
-            <Canvas Name="videoCanvas2">
+            
                 <StackPanel Name="VideoStackPanel">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <s:SurfaceButton Name="SurfacePlayButton" Content ="Play/Pause" Width="80" Height="20" Click="SurfacePlayButton_Click" Margin="5">
@@ -33,7 +33,7 @@
                     </StackPanel>
                     <Label Name="VideoText" VerticalAlignment="Bottom" Foreground="White" Background="Transparent" />
                 </StackPanel>
-            </Canvas>
+            
             <DockPanel Name="AudioMix" Visibility="Visible" DockPanel.Dock="Top">
                 <StackPanel Name="AudioScroll" Height="272" Width="340" Background="#618276" Margin="0,40" Canvas.Left="12" Visibility="Hidden" DockPanel.Dock="Top">
 
