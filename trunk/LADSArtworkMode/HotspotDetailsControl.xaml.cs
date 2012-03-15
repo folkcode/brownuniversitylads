@@ -294,6 +294,7 @@ namespace LADSArtworkMode
                 VideoStackPanel.Visibility = Visibility.Collapsed;
                 AudioScroll.Visibility = Visibility.Hidden;
                 this.CanScale = false;
+                this.Width = 420;
             }
             else  if (m_hotspotData.Type.ToLower().Contains("audio"))
             {
@@ -842,7 +843,11 @@ namespace LADSArtworkMode
             //if (m_hotspotData.Type.ToLower().Contains("image"))
             else
             {
-
+                //if (m_hotspotData.Type.ToLower().Contains("text"))
+                //{
+                //    HotspotTextBox.Width = actual.Width - 20;
+                //    this.UpdateLayout();
+                //}
                 HotspotImageMix.Height = actual.Height - 20;
                 HotspotImageMix.Width = actual.Width - 10;
                 HotspotImageMix.Measure(new Size(actual.Width - 10, actual.Height - 20));
@@ -995,8 +1000,8 @@ namespace LADSArtworkMode
         void HotspotDetailsControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             mousewheel = true;
-            this.Refresh();
-            Thread.Sleep(500);
+            //this.Refresh();
+            //Thread.Sleep(500);
             if (m_hotspotData.Type.ToLower().Contains("video") || m_hotspotData.Type.ToLower().Contains("image"))
             {
 
