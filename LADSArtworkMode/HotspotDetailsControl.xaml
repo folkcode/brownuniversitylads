@@ -10,7 +10,7 @@
              xmlns:my="http://schemas.microsoft.com/surface/2008" xmlns:System_Windows_Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI" 
              x:Class="LADSArtworkMode.HotspotDetailsControl" 
                        
-        Name="scatterItem" CanScale="True" Height="320" Width="422" MinWidth="400" MinHeight="320" MaxHeight="615" MaxWidth="800" Loaded="scatterItem_Loaded" Orientation="0" SizeChanged="scatterItem_SizeChanged">
+        Name="scatterItem" CanScale="True" Height="320" Width="422" MinWidth="400" MinHeight="320" Loaded="scatterItem_Loaded" Orientation="0" SizeChanged="scatterItem_SizeChanged">
     <Border BorderBrush="#214236" BorderThickness="4" CornerRadius="4" Name="border">
         <Canvas Name="hotspotCanvas" Background="#618276" Opacity="0.95">
            
