@@ -774,17 +774,22 @@ namespace LADSArtworkMode
         protected override Size ArrangeOverride(Size arrangeBounds)
         {
             Size actual = new Size();
-         
+            double ratio = arrangeBounds.Height / arrangeBounds.Width;
             if (arrangeBounds.Width > 800)
             {
                 arrangeBounds.Width = 800;
-                arrangeBounds.Height = 615;
+                arrangeBounds.Height = arrangeBounds.Width * ratio;
 
             }
             else if (arrangeBounds.Width < 400)
             {
                 arrangeBounds.Width = 400;
                 arrangeBounds.Height = 300;
+            }
+            else if (arrangeBounds.Height > 800)
+            {
+                arrangeBounds.Height = 800;
+                arrangeBounds.Width = arrangeBounds.Height / ratio;
             }
             
             actual.Width = arrangeBounds.Width;
