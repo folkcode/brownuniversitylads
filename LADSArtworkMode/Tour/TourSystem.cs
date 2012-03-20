@@ -589,7 +589,7 @@ namespace LADSArtworkMode
                 // swap tour control buttons with artwork inter-mode navigation ones
                 artModeWin.toggleLeftSide();
                 //artModeWin.languageButton.Visibility = Visibility.Visible;
-                artModeWin.exitButton.Visibility = Visibility.Visible;
+                //artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
@@ -740,7 +740,7 @@ namespace LADSArtworkMode
             artModeWin.tourStopButton.Visibility = Visibility.Visible;
 
             //artModeWin.languageButton.Visibility = Visibility.Visible;
-            artModeWin.exitButton.Visibility = Visibility.Visible;
+            //artModeWin.exitButton.Visibility = Visibility.Visible;
             artModeWin.HotspotOverlay.Visibility = Visibility.Hidden;
             //???artModeWin.showMetaList();
             artModeWin.m_hotspotCollection.removeHotspotIcons();
@@ -806,7 +806,7 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Visible;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Visible;
-                artModeWin.exitButton.Visibility = Visibility.Visible;
+                //artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
@@ -909,7 +909,7 @@ namespace LADSArtworkMode
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Visible;
                 //artModeWin.languageButton.Visibility = Visibility.Visible;
-                artModeWin.exitButton.Visibility = Visibility.Visible;
+                //artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
                 artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
@@ -1504,7 +1504,7 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Visible;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Visible;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Visible;
-                artModeWin.exitButton.Visibility = Visibility.Visible;
+                //artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Visible;
                 artModeWin.tourControlButton.Visibility = Visibility.Collapsed;
                 artModeWin.tourExploreButton.Visibility = Visibility.Collapsed;
@@ -1903,7 +1903,7 @@ namespace LADSArtworkMode
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
                 //artModeWin.languageButton.Visibility = Visibility.Visible;
-                artModeWin.exitButton.Visibility = Visibility.Visible;
+                //artModeWin.exitButton.Visibility = Visibility.Visible;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
                 artModeWin.tourExploreButton.Visibility = Visibility.Visible;
                 artModeWin.tourControlButton.Visibility = Visibility.Visible;
@@ -1952,7 +1952,7 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
-                artModeWin.exitButton.Visibility = Visibility.Collapsed;
+                //artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
                 artModeWin.m_hotspotCollection.removeHotspotIcons();
 
@@ -1997,7 +1997,7 @@ namespace LADSArtworkMode
                 artModeWin.tourAuthoringButton.Visibility = Visibility.Collapsed;
                 artModeWin.switchToCatalogButton.Visibility = Visibility.Collapsed;
                 artModeWin.resetArtworkButton.Visibility = Visibility.Collapsed;
-                artModeWin.exitButton.Visibility = Visibility.Collapsed;
+                //artModeWin.exitButton.Visibility = Visibility.Collapsed;
                 artModeWin.HotspotOverlay.Visibility = Visibility.Collapsed;
                 tourStoryboard.CurrentTimeInvalidated += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_CurrentTimeInvalidated);
                 tourStoryboard.Completed += new EventHandler(tourAuthoringUI.TourStoryboardAuthoring_Completed);

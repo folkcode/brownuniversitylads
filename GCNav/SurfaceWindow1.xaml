@@ -37,7 +37,7 @@
         </Canvas>
 
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top" Panel.ZIndex="10" Margin="0 5 5 0">
-            <s:SurfaceButton Name="exitButton" Content="QUIT" Foreground="Black" Background="White" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 0 0 0" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
+            <!--s:SurfaceButton Name="exitButton" Content="QUIT" Foreground="Black" Background="White" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 0 0 0" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/-->
             <Image Name="help" Height="35" Width="35" Margin="0 0 60 0" Source="Resources/question1.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Collapsed" />
         </Grid>
 

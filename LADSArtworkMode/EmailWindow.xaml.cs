@@ -143,6 +143,8 @@ namespace LADSArtworkMode
                 int port = 587;
                 String copyright = "";
                 String logaddress = "";
+                String returnaddress = "";
+                String location = "";
 
                 XmlDocument doc = new XmlDocument();
                 doc.Load("data/NewCollection.xml");
@@ -174,6 +176,12 @@ namespace LADSArtworkMode
 
                                     if (node.Attributes.GetNamedItem("logaddress") != null)
                                         logaddress = node.Attributes.GetNamedItem("logaddress").InnerText;
+
+                                    if (node.Attributes.GetNamedItem("returnaddress") != null)
+                                        returnaddress = node.Attributes.GetNamedItem("returnaddress").InnerText;
+
+                                    if (node.Attributes.GetNamedItem("location") != null)
+                                        location = node.Attributes.GetNamedItem("location").InnerText;
                                 }
                             }
                         }
@@ -186,14 +194,16 @@ namespace LADSArtworkMode
                 MailMessage logMessage = new MailMessage();// logmessage
                 logMessage.To.Add(logaddress);
                 logMessage.Subject = "Wolbach UX LAB - Screenshot Log";
-
+                /*
                 String message = "An attachment has been sent via LIBRARY EXPLORER <br><br>";
                 message = message + "Image Info:<br>";
                 message += "Artist:  " + _dockItem.win._imageInfo_artist + "<br>";
                 message += "Category:  " + _dockItem.win._imageInfo_category + "<br>";
                 message += "Title:  " + _dockItem.win._imageInfo_title + "<br>";
                 message += "Date:  " + _dockItem.win._imageInfo_month + "/" + _dockItem.win._imageInfo_day + "/" + _dockItem.win._imageInfo_year + "<br>";
-                message += "Email timestamp: " + DateTime.Now.ToString("M/d/yyyy HH:mm:ss tt");
+                */
+                String message = "Library note of '" + _dockItem.win._imageInfo_title + "' @ " + location;
+                //message += "Email timestamp: " + DateTime.Now.ToString("M/d/yyyy HH:mm:ss tt");
                 AlternateView loghtmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
                 logMessage.AlternateViews.Add(loghtmlView);
 
@@ -298,7 +308,8 @@ namespace LADSArtworkMode
                 smtp.Credentials = creds;
 
                 smtp.Send(mail);
-
+                if (returnaddress != "")
+                logMessage.ReplyTo = new MailAddress(returnaddress);
                 smtp.Send(logMessage);
 
                 Utils.Soon(delegate

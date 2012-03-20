@@ -141,18 +141,18 @@
             </Grid>
             <DockPanel DockPanel.Dock="Right">
                 
-                  <Canvas Name="collapseBar" Width="1536" HorizontalAlignment="Stretch" Background="#0000ee" DockPanel.Dock="Top" Visibility="Visible" IsHitTestVisible="True" Canvas.ZIndex="20">
-                    <s:SurfaceButton Name="collapseButtonBg" Width="1536" Background="Transparent" DockPanel.Dock="Top" Height="30" HorizontalAlignment="Stretch"  Click="BottomButtonClick" />
-                      <Canvas Name="collapseButtonDown" Visibility="Visible" DockPanel.Dock="Top" Height="30" >
-                        <s:SurfaceButton  Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="600" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
+                  <Canvas Name="collapseBar" Width="1536" HorizontalAlignment="Stretch" Background="#00ee00" DockPanel.Dock="Top" Visibility="Visible" IsHitTestVisible="True" Canvas.ZIndex="20">
+                    <!--s:SurfaceButton Name="collapseButtonBg" Width="1536" Background="#0000ee" DockPanel.Dock="Top" Height="40" HorizontalAlignment="Stretch"  Click="BottomButtonClick" Canvas.Left="0"/-->
+                      <Canvas Name="collapseButtonDown" Visibility="Visible" DockPanel.Dock="Top" Height="40" >
+                        <s:SurfaceButton  Height="40" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="600" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
                             <StackPanel>
                                 <Polygon Name="down" HorizontalAlignment="Center" Points="0,0 22,0 11,16" Margin="0,3,0,0" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
                             </StackPanel>
 
                         </s:SurfaceButton>
                     </Canvas>
-                    <Canvas  DockPanel.Dock="Top"  Height="30" Name="collapseButtonUp"  Visibility="Hidden"  >
-                            <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="600" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
+                    <Canvas  DockPanel.Dock="Top"  Height="40" Name="collapseButtonUp"  Visibility="Hidden"  >
+                            <s:SurfaceButton Height="40" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="600" VerticalAlignment="Center" HorizontalContentAlignment="Center" Click="BottomButtonClick" >
                                 <StackPanel>
                                 <Polygon Name="up" HorizontalAlignment="Center" Points="0,22 22,22 11,0" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
 
@@ -194,7 +194,7 @@
 
                 </Canvas>
 
-                <Canvas x:Name="textBar" DockPanel.Dock="Top" Background="#0000ee" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" MouseUp="BottomButtonClick" TouchUp="BottomButtonClick">
+                <Canvas x:Name="textBar" DockPanel.Dock="Top" Background="#0000ee" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" MouseUp="BottomButtonClick" TouchUp="BottomButtonClick">
                     <TextBlock Name="textMessage" Foreground="White" Text="Bar cannot be docked during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
                     <TextBlock Name="verticalMessage" Foreground="White" Text="Toolbar cannot be opened during a tour" Opacity="0" FontSize="16" Canvas.Top="2"/>
                 </Canvas>
@@ -214,10 +214,10 @@
 
         <DockPanel Name="LeftPanel" Opacity=".9" Canvas.Top="0" Canvas.Left="0" Height="864" Width="384" Background="#000070" Canvas.ZIndex="99"> <!--Background="#618276"-->
 
-            <s:SurfaceButton Name="leftButton" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="#0000ee" Click="LeftButtonClick" DockPanel.Dock="Right">
+            <s:SurfaceButton Name="leftButton" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="#0000ee" Click="LeftButtonClick" DockPanel.Dock="Right" Width="40">
                 <Canvas>
                     <Canvas Name="collapseButtonRight" Visibility="Hidden"  >
-                        <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="0">
+                        <s:SurfaceButton Height="30" Width="40" MinHeight="0" Background="Transparent" Canvas.Left="0">
                             <StackPanel>
                                 <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Points="0,0 0,18 18,9" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
 
@@ -226,7 +226,7 @@
                         </s:SurfaceButton>
                     </Canvas>
                     <Canvas Name="collapseButtonLeft" Visibility="Visible"  >
-                        <s:SurfaceButton Height="30" Width="30" MinHeight="0" Background="Transparent" Canvas.Left="0">
+                        <s:SurfaceButton Height="30" Width="40" MinHeight="0" Background="Transparent" Canvas.Left="0">
                             <StackPanel>
                                 <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Points="18,0 18,18 0,9" Fill="{Binding ElementName=BottomPanel, Path=Background}" Opacity="0.8"/>
 
@@ -502,14 +502,14 @@
         <Label Name="helpInstruction" Content="Click the Catalog button to go back to the catalog, click Tour Authoring start to make a new tour" Canvas.Right="8" Canvas.Top="66" MaxWidth="160" FontSize="14" Visibility="Hidden"/>
         
         <!-- jcchin -->
-        <s:SurfaceButton Name="emailScreenshotButton" Content="E-mail Media Item" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="455"  Click="emailScreenshotButton_Click" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="emailScreenshotButton" Content="Help" Height="40" Width="70" MinHeight="0" Padding="7 2 7 0" Canvas.Right="455"  Click="emailScreenshotButton_Click" Canvas.ZIndex="100"/>
         
-        <s:SurfaceButton Name="switchToCatalogButton" Content="Home" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="switchToCatalogButton" Content="Home" Height="40" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
         <!-- switch to artwork selection mode -->
         <!--s:SurfaceButton Name="activateKW" Content="Knowledge Web"  Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right ="367" Canvas.ZIndex="100" Visibility="Collapsed" /-->
         <!-- switch to knowledge web mode -->
-        <s:SurfaceButton Name="resetArtworkButton" Content="Reset Artwork" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="78" Click="ResetArtworkButton_Click" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="tourAuthoringButton" Content="Tour Authoring" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="300" Click="tourAuthoring_Click" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="resetArtworkButton" Content="Reset Artwork" Height="40" MinHeight="0" Padding="7 2 7 0" Canvas.Right="78" Click="ResetArtworkButton_Click" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="tourAuthoringButton" Content="Tour Authoring" Height="40" MinHeight="0" Padding="7 2 7 0" Canvas.Right="300" Click="tourAuthoring_Click" Canvas.ZIndex="100"/>
         <s:SurfaceButton Name="metaData" Content="Assets list" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="160" Visibility="Collapsed" Canvas.ZIndex="100"/>
         <s:SurfaceButton Name="drawPaths" Content="Add paths" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="500" Visibility="Collapsed" Canvas.ZIndex="100"/>
         
@@ -518,8 +518,8 @@
         <s:SurfaceButton Name="tourAuthoringSaveButton" Content="Save" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="80" Visibility="Collapsed" Canvas.ZIndex="100"/>
         <s:SurfaceButton Name="tourAuthoringDeleteButton" Content="Delete" Background="Red" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="80" Visibility="Collapsed" Canvas.ZIndex="100"/>
         
-        <s:SurfaceButton Name="exitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
-        <s:SurfaceButton Name="quitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" Visibility="Collapsed"/>
+        <!--s:SurfaceButton Name="exitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/-->
+        <!--s:SurfaceButton Name="quitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" Visibility="Collapsed"/-->
         <Border Name="TimeBorder" BorderBrush="#000070" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="50" Canvas.Left="50" Width="300" Height="150" Canvas.ZIndex="100">
             <Canvas Visibility="Collapsed" Background="#5e5e5e" Name="TourLengthBox">
                 <Label>Change Tour Length</Label>

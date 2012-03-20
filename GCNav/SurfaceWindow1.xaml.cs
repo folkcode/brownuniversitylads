@@ -31,7 +31,7 @@ namespace GCNav
             AddWindowAvailabilityHandlers();
 
             backgroundTopImg.Visibility = Visibility.Collapsed; // jcchin
-            exitButton.Visibility = Visibility.Collapsed; // jcchin
+            //exitButton.Visibility = Visibility.Collapsed; // jcchin  // navigator exit
 
             this.SizeChanged += new SizeChangedEventHandler(SurfaceWindow1_SizeChanged);
             //this.SizeChanged += Map.WindowSizeChanged; // jcchin
@@ -89,7 +89,7 @@ namespace GCNav
             {
                 if (c[1].Contains("noauthoring"))
                 {
-                    ButtonPanel.Children.Remove(exitButton);
+                    //ButtonPanel.Children.Remove(exitButton);  // navigator exit
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace GCNav
                 
                 //backRec.Visibility = Visibility.Visible; // jcchin
 
-                exitButton.Visibility = Visibility.Visible;
+                //exitButton.Visibility = Visibility.Visible; // navigator exit
 
                 backgroundTopImg.Visibility = Visibility.Visible;
                 _resetTimer.Start();

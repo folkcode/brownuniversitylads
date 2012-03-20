@@ -1004,7 +1004,7 @@ namespace GCNav
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 4;
             curInfoCol.Width = _windowSize.Width / 4;
-            infoScroll.MaxHeight = _windowSize.Height / 3;
+            infoScroll.MaxHeight = _windowSize.Height / 2;
 
             //timeline.setSize(_windowSize.Width, _windowSize.Height / 12); // jcchin
             Message.Margin = new Thickness(0, _windowSize.Height / 3, 0, 0);
@@ -1291,7 +1291,8 @@ namespace GCNav
             curInfoCol.Width = _windowSize.Width / 4;
             curInfoCol.Height = _windowSize.Height / 3;
 
-            infoScroll.Height = curInfoCol.Height;
+            //infoScroll.Height = curInfoCol.Height;
+            infoScroll.Height = _windowSize.Height / 2;
             ColumnDefinition width = new ColumnDefinition();
             GridLength length = new GridLength(_windowSize.Width / 4 - 40);
             width.Width = length;
@@ -1366,7 +1367,7 @@ namespace GCNav
                         b = true;
                     curKeywords.Text += s;
                 }
-
+                
                 curKeywords.UpdateLayout();
                 curInfoCol.UpdateLayout();
 
@@ -1375,31 +1376,31 @@ namespace GCNav
 
                 height.Height = height1;
                 curInfoCol.RowDefinitions.Add(height);
-                KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
-
+                KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight + 50;
+                //KeywordBack.Height = 500;
                 curInfoCol.UpdateLayout();
                 infoScroll.UpdateLayout();
 
-                curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight;
+                curInfoCol.Height = titleBack.ActualHeight + artist.ActualHeight + date.ActualHeight + medium.ActualHeight + KeywordBack.ActualHeight + 50;
 
                 if (curInfoCol.Height > _windowSize.Height / 3 - 50)
                 {
                     curInfoContainer.Height = _windowSize.Height / 3;
-                    infoScroll.Height = _windowSize.Height / 3 - 50;
+                    //infoScroll.Height = _windowSize.Height / 3 - 50;
                     title.MaxWidth = _windowSize.Width / 4 - 40;
                     title.UpdateLayout();
                     titleBack.Height = title.ActualHeight + 5;
-                    curKeywords.MaxWidth = _windowSize.Width / 4 - 40;
+                    curKeywords.MaxWidth = _windowSize.Width / 4 - 170;
                     curKeywords.UpdateLayout();
                     KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
 
                     curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight +
-                        date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+                        date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight + 50;
                 }
                 else
                 {
                     curInfoContainer.Height = curInfoCol.Height + 50;
-                    infoScroll.Height = curInfoCol.Height + 50;
+                    //infoScroll.Height = curInfoCol.Height + 50;
                     title.MaxWidth = _windowSize.Width / 4 - 120; // jcchin - changed "- 40" to "- 100"
                     curKeywords.MaxWidth = _windowSize.Width / 4 - 100; // jcchin - changed "- 40" to "- 100"
                 }
