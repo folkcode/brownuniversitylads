@@ -59,7 +59,7 @@
                     <!--  Background="#FFA7C99F"-->
                     <my:ScatterViewItem Height="50" Width="2300" HorizontalAlignment="Left" Name="mainScatterViewItem" VerticalAlignment="Top" CanRotate="False" MouseWheel="mainScatterViewItem_MouseWheel" SizeChanged="mainScatterViewItem_SizeChanged" ShowsActivationEffects="True" IsHitTestVisible="True" Opacity="1">
                         <Canvas Width="{Binding ElementName=mainScatterViewItem, Path=ActualWidth}" Height="{Binding ElementName=mainScatterViewItem, Path=ActualHeight}">
-                            <Rectangle Name="_background" Fill="#2e2e2e" Opacity="0.5" Width="{Binding ElementName=mainScatterViewItem, Path=ActualWidth}" Height="{Binding ElementName=mainScatterViewItem, Path=ActualHeight}"/>
+                            <Rectangle Name="_background" Fill="#000000" Opacity="0.5" Width="{Binding ElementName=mainScatterViewItem, Path=ActualWidth}" Height="{Binding ElementName=mainScatterViewItem, Path=ActualHeight}"/>
                             <!-- Fill="#FFA7C99F" Fill="#990F00BE" -->
                             <!---->
                             <Canvas Name="MainCanvas"/>

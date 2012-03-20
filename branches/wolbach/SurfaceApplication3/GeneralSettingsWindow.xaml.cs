@@ -66,6 +66,12 @@ namespace SurfaceApplication3
 
                                 if (node.Attributes.GetNamedItem("logaddress") != null)
                                     logaddress_tag.Text = node.Attributes.GetNamedItem("logaddress").InnerText;
+
+                                if (node.Attributes.GetNamedItem("returnaddress") != null)
+                                    returnaddress_tag.Text = node.Attributes.GetNamedItem("returnaddress").InnerText;
+
+                                if (node.Attributes.GetNamedItem("location") != null)
+                                    location_tag.Text = node.Attributes.GetNamedItem("location").InnerText;
                             }
                         }
                     }
@@ -123,6 +129,8 @@ namespace SurfaceApplication3
                         emailElement.SetAttribute("port", "" + port_tag.Text);
                         emailElement.SetAttribute("copyright", "" + copyright_tag.Text);
                         emailElement.SetAttribute("logaddress", "" + logaddress_tag.Text);
+                        emailElement.SetAttribute("returnaddress", "" + returnaddress_tag.Text);
+                        emailElement.SetAttribute("location", "" + location_tag.Text);
                         //}
                     }
                     //}

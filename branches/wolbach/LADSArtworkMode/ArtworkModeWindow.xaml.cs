@@ -144,7 +144,7 @@ namespace LADSArtworkMode
                 if (c[1].Contains("noauthoring"))
                 {
                     Main.Children.Remove(tourAuthoringButton);
-                    Main.Children.Remove(exitButton);
+                    //Main.Children.Remove(exitButton);
                     
                 }
             }
@@ -379,7 +379,7 @@ namespace LADSArtworkMode
             tourAuthoringButton.Visibility = Visibility.Collapsed;
             switchToCatalogButton.Visibility = Visibility.Collapsed;
             resetArtworkButton.Visibility = Visibility.Collapsed;
-            exitButton.Visibility = Visibility.Collapsed;
+            //exitButton.Visibility = Visibility.Collapsed;
             MainScatterView.Visibility = Visibility.Collapsed;
             HotspotOverlay.Visibility = Visibility.Collapsed;
             ImageArea.Width = 1920;
@@ -445,7 +445,7 @@ namespace LADSArtworkMode
             tourAuthoringButton.Visibility = Visibility.Visible;
             switchToCatalogButton.Visibility = Visibility.Visible;
             resetArtworkButton.Visibility = Visibility.Visible;
-            exitButton.Visibility = Visibility.Visible;
+            //exitButton.Visibility = Visibility.Visible;
             MainScatterView.Visibility = Visibility.Visible;
             HotspotOverlay.Visibility = Visibility.Visible;
             ImageArea.RenderTransform = null;
@@ -1439,7 +1439,8 @@ namespace LADSArtworkMode
             msi_thumb.ResetArtwork();
             resetAll();
         }
-
+        
+        /*
         public void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             string message = "Are you sure you want to quit LADS?";
@@ -1455,6 +1456,7 @@ namespace LADSArtworkMode
                 Application.Current.Shutdown();
             }
         }
+         * */
 
         public void goBack()
         {
@@ -1962,7 +1964,7 @@ namespace LADSArtworkMode
         private void emailScreenshotButton_Click(object sender, RoutedEventArgs e)
         {
             String message = "Drag items here to email";
-            message += "\n\nTo take a SNAPSHOT, \nplace two fingers on the screen\nto deliniate the top-left and bottom-right\nof the snapshot rectangle\nand hold for two seconds. Try it!";
+            message = "To take a SNAPSHOT, \nplace two fingers on the screen\nto deliniate the top-left and bottom-right\nof the snapshot rectangle\nand hold for two seconds. Try it!";
             Utils.showPopupAtControl(message, emailScreenshotButton, TimeSpan.FromSeconds(15), this);
         }
 
@@ -2542,6 +2544,8 @@ namespace LADSArtworkMode
                 }
 
         }
+
+        /*
         public void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             
@@ -2558,6 +2562,7 @@ namespace LADSArtworkMode
                 Application.Current.Shutdown();
             }
         }
+         */
 
         // Same as releaseItem(), but without the animation, and returns the released item.
         // It makes sense to use this if you are undocking items to be further manipulated programmatically.
