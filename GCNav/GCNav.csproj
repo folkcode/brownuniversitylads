@@ -80,6 +80,12 @@
     <Compile Include="FilterTimelineBox.xaml.cs">
       <DependentUpon>FilterTimelineBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gestures\AutoScroll.cs" />
+    <Compile Include="Gestures\ExponentialAnimation.cs" />
+    <Compile Include="Gestures\MapZoom.cs" />
+    <Compile Include="Gestures\Pan.cs" />
+    <Compile Include="Gestures\RectangleSelectionGesture.cs" />
+    <Compile Include="Gestures\SelectionRectVisual.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="ImageCluster.cs" />
     <Compile Include="ImageData.cs" />
@@ -92,6 +98,8 @@
     <Compile Include="newMap.xaml.cs">
       <DependentUpon>newMap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PerfTimer.cs" />
+    <Compile Include="QuadTree.cs" />
     <Compile Include="StartCard.xaml.cs">
       <DependentUpon>StartCard.xaml</DependentUpon>
     </Compile>
@@ -100,6 +108,10 @@
     </Compile>
     <Compile Include="Timeline.xaml.cs">
       <DependentUpon>Timeline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualCanvas.cs" />
+    <Compile Include="Window2.xaml.cs">
+      <DependentUpon>Window2.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +133,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="Gestures\Gestures.zip" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -171,6 +184,10 @@
     <Page Include="Timeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
