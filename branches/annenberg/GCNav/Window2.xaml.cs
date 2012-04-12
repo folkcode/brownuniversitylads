@@ -33,10 +33,18 @@ namespace WpfApplication
 
             grid.Background = new SolidColorBrush(Color.FromRgb(0xd0, 0xd0, 0xd0));
             grid.ContentCanvas.Background = Brushes.Black;
+            grid.SmallScrollIncrement = new Size(100,100);
 
             AllocateNodes();
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
             dpd.AddValueChanged(MainSVI, mainSVI_CenterChanged);
+
+            MainSVI.ApplyTemplate();
+            MainSVI.Background = new SolidColorBrush(Colors.Transparent);
+            MainSVI.ShowsActivationEffects = false;
+            Microsoft.Surface.Presentation.Generic.SurfaceShadowChrome ssc;
+            ssc = MainSVI.Template.FindName("shadow", MainSVI) as Microsoft.Surface.Presentation.Generic.SurfaceShadowChrome;
+            ssc.Visibility = Visibility.Hidden;
         }
 
         private string RandomString(int size, Random random)
@@ -67,10 +75,21 @@ namespace WpfApplication
             double yborder = 2;
             double prevX = xborder;
             double prevY = yborder;
+
+            string[] strings = new string[count];
+            while (count > 0)
+            {
+                strings[count - 1] = RandomString(r.Next() % 20, r);
+                count--;
+            }
+            count = total;
+            Array.Sort(strings);
+            Array.Reverse(strings);
+
             while (count > 0)
             {
                 TextBlock t = new TextBlock();
-                string text = RandomString(r.Next()%20,r);
+                string text = strings[count-1];
                 t.Text = text;
                 t.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                 Size a = t.DesiredSize;
@@ -96,7 +115,7 @@ namespace WpfApplication
         {
             Point center = MainSVI.ActualCenter;
             if (center.X == 960 && center.Y == 540) return;
-            double delta = 540- center.Y;
+            double delta = 540 - center.Y;
             Graph.SetVerticalOffset(Graph.VerticalOffset + delta);
             double a = 0;
             MainSVI.Center = new Point(960, 540);
@@ -137,10 +156,10 @@ namespace WpfApplication
                 TextBlock t = new TextBlock();
                 t.Text = _text;
                 t.Foreground = Brushes.Gray;
-                st.Children.Add(da);
-                Storyboard.SetTarget(da, t);
-                Storyboard.SetTargetProperty(da, new PropertyPath(TextBlock.OpacityProperty));
-                st.Begin();
+                //st.Children.Add(da);
+                //Storyboard.SetTarget(da, t);
+                //Storyboard.SetTargetProperty(da, new PropertyPath(TextBlock.OpacityProperty));
+                //st.Begin();
                 _visual = t;
             }
             return _visual;
@@ -148,8 +167,8 @@ namespace WpfApplication
 
         public void DisposeVisual()
         {
-            st.Stop();
-            st.Children.Clear();
+            //st.Stop();
+            //st.Children.Clear();
             _visual = null;
         }
 
