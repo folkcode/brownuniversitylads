@@ -66,7 +66,6 @@
 
         <Canvas Name="mainCanvas" Height="800" Width="1024">
             <s:SurfaceButton x:Name="addEvent" Content="Add New Event" Foreground="White" Height="46" Canvas.Top="8" Canvas.Left="9" Click="addEvent_Click" Width="146" />
-
             <s:SurfaceListBox x:Name="EntryListBox" Height="680" Width="995" Canvas.Left="5" Canvas.Top="69" BorderThickness="3" BorderBrush="#227174"/>
             <Label Canvas.Top="8" Canvas.Left="155" Content="Events" Width="691" Height="57" Name="WindowName" FontSize="40" FontWeight="Bold" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="Black" />
         </Canvas>
