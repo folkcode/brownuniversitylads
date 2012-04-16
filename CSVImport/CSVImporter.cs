@@ -5,13 +5,16 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using System.Xml;
-using SurfaceApplication3;
 using LumenWorks.Framework.IO.Csv;
 using Microsoft.DeepZoomTools;
 
-
 namespace CSVImport
 {
+    public interface CSVMsgReceiver
+    {
+        void outputMessage(String msg);
+    }
+
     public class asset
     {
         public string path;
@@ -34,7 +37,7 @@ namespace CSVImport
         public List<asset> validatedAssets;
     }
 
-    static class CSVImporter
+    public static class CSVImporter
     {
         public static StreamWriter logFileStreamWriter = null;
         public static string inputCSVPath = null;
@@ -48,6 +51,13 @@ namespace CSVImport
         public const int MEDIUM_INDEX = 5;
         public const int KEYWORDS_INDEX = 6;
 
+        public static CSVMsgReceiver importer_window = null;
+        public static void setOutputWindow(CSVMsgReceiver win)
+        {
+            importer_window = win;
+        }
+
+
         // Each asset takes up one cell, and all assets are at the end of the row,
         // so indices FIRST_ASSET_INDEX until the end of the array should each describe an asset.
         public const int FIRST_ASSET_INDEX = 7;
@@ -58,7 +68,7 @@ namespace CSVImport
         public static void DoBatchImport(string path)
         {
             // Initialize the logfile.
-            initLogFile(path);
+            string logpath = initLogFile(path);
 
             // Record the absolute path to the CSV file (since all relative paths are relative to the CSV file).
             inputCSVPath = path;
@@ -88,7 +98,7 @@ namespace CSVImport
             // For each artwork, process it (thumbs, etc).  If an exception bubbles up this far, log and kill the artwork.
             for (int i = 0; i < artworks.Count; i++)
             {
-                Console.WriteLine("Processing artwork: " + i);
+                csvMsg("Processing artwork: " + i);
                 try
                 {
                     artwork aw = artworks[i];
@@ -128,7 +138,8 @@ namespace CSVImport
                 }
             }
 
-            Console.WriteLine("Generating XML");
+            csvMsg("Generating XML");
+
 
             XmlDocument doc = new XmlDocument();
             String dataDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
@@ -148,10 +159,13 @@ namespace CSVImport
             doc.Save(dataDir + "NewCollection.xml");
 
             csvLog("All done!");
+            csvMsg("Logfile written to " + logpath);
+            logFileStreamWriter.Close();
         }
 
         // Given the path of the input CSV file, create a unique logfile in the same directory.
-        public static void initLogFile(string path)
+        // Returns the path of this new file.
+        public static String initLogFile(string path)
         {
             // Generate the unique path of the logfile.
             string logdir = Path.GetDirectoryName(path);
@@ -176,16 +190,32 @@ namespace CSVImport
             // If this throws an exception, we just don't use the log.
             // Should we crash instead?
             try { logFileStreamWriter = File.CreateText(logpath); }
-            catch (Exception e) { Console.WriteLine("Error making log file.  We're in for a bumpy ride!"); }
+            catch (Exception e) { csvMsg("Error making log file.  We're in for a bumpy ride!"); }
+            return logpath;
         }
 
         // Write a line to the logfile, if it isn't null.
         public static void csvLog(string line) {
-            Console.WriteLine(line);
+            csvMsg(line);
             if (logFileStreamWriter != null)
             {
                 logFileStreamWriter.WriteLine(line);
                 logFileStreamWriter.Flush();
+            }
+        }
+
+        // Shows a message in the interactive session.
+        // All log mesages are written to the interactive session.
+        // Some superfluous messages are written to the interactive session but NOT to the log.
+        public static void csvMsg(string line)
+        {
+            if (importer_window != null)
+            {
+                importer_window.outputMessage(line + "\n");
+            }
+            else
+            {
+                Console.WriteLine(line);
             }
         }
 
@@ -257,7 +287,8 @@ namespace CSVImport
             if (tokens1.Length < 3) throw new InvalidCSVArtworkException("Unable to parse description.  Did you include all required fields?");
             // Then split the other two fields.
             string[] tokens2 = tokens1[0].Split(';');
-            if (tokens2.Length != 2) throw new InvalidCSVArtworkException("Unable to parse path or title.  Did you include all required fields?");
+
+            if (tokens2.Length < 2) throw new InvalidCSVArtworkException("Unable to parse path or title.  Did you include all required fields?");
             asset ass = new asset();
             ass.description = tokens1[1];
             ass.path = tokens2[0];

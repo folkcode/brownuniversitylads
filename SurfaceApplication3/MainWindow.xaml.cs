@@ -171,5 +171,12 @@ namespace SurfaceApplication3
             Application.Current.Shutdown();
         }
 
+        private void CSVImportButton_Click(object sender, RoutedEventArgs e)
+        {
+            CSVImportDialog csv_dialog = new CSVImportDialog();
+            csv_dialog.WindowState = System.Windows.WindowState.Normal;
+            csv_dialog.ShowDialog();
+        }
+
     }
 }
