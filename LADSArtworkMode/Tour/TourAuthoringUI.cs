@@ -486,12 +486,11 @@ namespace LADSArtworkMode
         public SurfaceButton newAudioButton = new SurfaceButton();
         public SurfaceButton newDrawingButton = new SurfaceButton();
         public SurfaceButton newHighlightButton = new SurfaceButton();
-        public SurfaceButton doneButton = new SurfaceButton();
-        public SurfaceButton saveButton = new SurfaceButton();
-        public SurfaceButton deleteButton = new SurfaceButton();
+        public SurfaceButton doneButton;// = new SurfaceButton();
+        public SurfaceButton saveButton;// = new SurfaceButton();
+        public SurfaceButton deleteButton;// = new SurfaceButton();
         public SurfaceButton undoButton = new SurfaceButton();
         public SurfaceButton redoButton = new SurfaceButton();
-        public SurfaceButton tourQuitButton = new SurfaceButton();
         public SurfaceButton removeComponentButton = new SurfaceButton();
         public SurfaceButton removeEventButton = new SurfaceButton();
         public SurfaceButton eraseButton = new SurfaceButton();
@@ -515,8 +514,6 @@ namespace LADSArtworkMode
                 doneButton.Visibility = Visibility.Collapsed;
                 saveButton.Visibility = Visibility.Collapsed;
                 saveButton.PreviewMouseUp -= artModeWin.TourAuthoringSaveButton_Click;
-                tourQuitButton.Visibility = Visibility.Collapsed;
-                tourQuitButton.PreviewMouseUp -= artModeWin.ExitButton_Click;
                 deleteButton.Visibility = Visibility.Collapsed;
                 deleteButton.PreviewMouseUp -= tourSystem.TourAuthoringDeleteButton_Click;
                 (undoButton.Parent as Panel).Children.Remove(undoButton);
@@ -559,7 +556,6 @@ namespace LADSArtworkMode
             undoButton = new SurfaceButton();
             redoButton = new SurfaceButton();
             deleteButton = artModeWin.tourAuthoringDeleteButton;
-            tourQuitButton = artModeWin.quitButton;
             removeComponentButton = new SurfaceButton();
             removeEventButton = new SurfaceButton();
             eraseButton = new SurfaceButton();
@@ -588,7 +584,6 @@ namespace LADSArtworkMode
             redoButton.Content = "Redo";
             saveButton.Content = "Save";
             deleteButton.Content = "Delete";
-            tourQuitButton.Content = "QUIT";
             removeComponentButton.Content = "Remove Component";
             removeEventButton.Content = "Remove Event";
             opacityLabel.Content = "Mask Opacity";
@@ -599,7 +594,6 @@ namespace LADSArtworkMode
             doneButton.Visibility = Visibility.Visible;
             saveButton.Visibility = Visibility.Visible;
             deleteButton.Visibility = Visibility.Visible;
-            tourQuitButton.Visibility = Visibility.Visible;
             artModeWin.Main.Children.Add(successfulSaveLabel);
 
             artModeWin.AuthTools.Children.Add(addNewLabel);
@@ -619,11 +613,10 @@ namespace LADSArtworkMode
             artModeWin.AuthTools.Children.Add(timelineSlider);
             artModeWin.AuthTools.Children.Add(timeLineLabel);
 
-            Canvas.SetTop(tourQuitButton, 0);
-            Canvas.SetTop(saveButton, 0);
+            //Canvas.SetTop(saveButton, 0);
             Canvas.SetTop(successfulSaveLabel, saveButton.Height+10);
-            Canvas.SetTop(doneButton, 0);
-            Canvas.SetTop(deleteButton, 0);
+            //Canvas.SetTop(doneButton, 0);
+            //Canvas.SetTop(deleteButton, 0);
             Canvas.SetTop(undoButton, toolBoxHeight * boxPartition);
             Canvas.SetTop(redoButton, toolBoxHeight * boxPartition);
             Canvas.SetTop(addNewLabel, 2.3 * toolBoxHeight * boxPartition);
@@ -641,11 +634,10 @@ namespace LADSArtworkMode
             Canvas.SetTop(timeLineLabel, 14.9 * toolBoxHeight * boxPartition);
             Canvas.SetTop(timelineSlider, 15.5 * toolBoxHeight * boxPartition);
 
-            Canvas.SetRight(tourQuitButton, 20);
             Canvas.SetRight(successfulSaveLabel, 45);
-            Canvas.SetRight(doneButton, 75);
+            /*Canvas.SetRight(doneButton, 75);
             Canvas.SetRight(saveButton, 140);
-            Canvas.SetRight(deleteButton, 200);
+            Canvas.SetRight(deleteButton, 200);*/
             Canvas.SetLeft(newMediaButton, 20);
             Canvas.SetLeft(newAudioButton, 20);
             Canvas.SetLeft(newDrawingButton, 20);
@@ -700,7 +692,6 @@ namespace LADSArtworkMode
             eraseButton.Height = buttonHeight;
             renameTimelineButton.Height = buttonHeight;
 
-            tourQuitButton.Click += artModeWin.ExitButton_Click;
             saveButton.Click += artModeWin.TourAuthoringSaveButton_Click;
             doneButton.Click += tourSystem.TourAuthoringDoneButton_Click;
             deleteButton.Click += tourSystem.TourAuthoringDeleteButton_Click;
