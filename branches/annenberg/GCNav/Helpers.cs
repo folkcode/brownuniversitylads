@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Media.Animation;
 using System.Windows;
+using System.Xml;
+using System.Text;
 
 namespace GCNav
 {
@@ -57,6 +59,26 @@ namespace GCNav
             {
                 return data;
             }
+        }
+
+        public static XmlNodeList LoadNamesFromXML()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load("data/AnnenbergCollection.xml");
+            return doc.SelectNodes("/Collection/Image");
+        }
+
+        public static string RandomString(int size, Random random)
+        {
+            StringBuilder builder = new StringBuilder();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+
+            return builder.ToString();
         }
     }
 }
