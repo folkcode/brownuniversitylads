@@ -15,6 +15,7 @@ using System.IO;
 using System.Windows.Ink;
 using System.Xml;
 using System.Net;
+using System.Windows.Threading;
 
 
 namespace LADSArtworkMode
@@ -105,6 +106,8 @@ namespace LADSArtworkMode
 
         #endregion
 
+        private DispatcherTimer _resetTimer = new DispatcherTimer();
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -153,16 +156,50 @@ namespace LADSArtworkMode
             tourStopButton.Click += tourSystem.TourStopButton_Click;
             tourAuthoringDoneButton.Click += tourSystem.TourAuthoringDoneButton_Click;
             tourAuthoringDeleteButton.Click += tourSystem.TourAuthoringDeleteButton_Click;
-            drawPaths.Click += tourSystem.drawPaths_Click;
-            metaData.Click += new RoutedEventHandler(metaData_Click);
+            //drawPaths.Click += tourSystem.drawPaths_Click;
+            //metaData.Click += new RoutedEventHandler(metaData_Click);
             tourAuthoringSaveButton.Click += TourAuthoringSaveButton_Click;
-            addAudioButton.Click += tourSystem.grabSound;
-            addAudioButton.Visibility = Visibility.Collapsed;
+            //addAudioButton.Click += tourSystem.grabSound;
+            //addAudioButton.Visibility = Visibility.Collapsed;
             //Canvas.SetTop(downButton, 648);
 
             //Canvas.SetLeft(collapseButtonDown, (collapseBar.Width - msi_thumb.ActualWidth) / 2 + msi_thumb.ActualWidth);
             Canvas.SetTop(collapseButtonLeft, 400);
             Canvas.SetTop(collapseButtonRight, 400);
+
+            _resetTimer.Interval = TimeSpan.FromSeconds(120);
+            _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
+            _resetTimer.Start();
+        }
+
+        void _resetTimer_Tick(object sender, EventArgs e)
+        {
+            _resetTimer.Stop();
+            this.Close();
+        }
+
+        private void SurfaceWindow_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Stop();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewTouchUp(object sender, TouchEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
+        }
+
+        private void SurfaceWindow_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _resetTimer.Start();
+            e.Handled = false;
         }
 
 
@@ -287,7 +324,7 @@ namespace LADSArtworkMode
             tourAuthoringButton.Visibility = Visibility.Collapsed;
             switchToCatalogButton.Visibility = Visibility.Collapsed;
             resetArtworkButton.Visibility = Visibility.Collapsed;
-            exitButton.Visibility = Visibility.Collapsed;
+            //exitButton.Visibility = Visibility.Collapsed;
             MainScatterView.Visibility = Visibility.Collapsed;
             HotspotOverlay.Visibility = Visibility.Collapsed;
             ImageArea.Width = 1920;
@@ -1905,6 +1942,22 @@ namespace LADSArtworkMode
         {
             _isInteractionOnThumb = false;
             e.Handled = false;
+        }
+
+        private void help_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.showHelp();
+        }
+
+        private void help_TouchDown(object sender, TouchEventArgs e)
+        {
+            this.showHelp();
+        }
+
+        private void showHelp()
+        {
+            helpWindow.ShowHelp(false);
+            Canvas.SetZIndex(helpWindow, 100);
         }
     
     }

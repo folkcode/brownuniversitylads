@@ -10,11 +10,17 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     mc:Ignorable="d" x:Class="LADSArtworkMode.ArtworkModeWindow"
+  
+ 
     Title="LADS - Artwork Mode"
     WindowStyle="None" ResizeMode="CanResize"
     WindowState="Maximized"
     Width="1920"
-    Height="1080" Loaded="SurfaceWindow_Loaded">
+    Height="1080" Loaded="SurfaceWindow_Loaded"
+    PreviewTouchDown="SurfaceWindow_PreviewTouchDown" PreviewTouchUp="SurfaceWindow_PreviewTouchUp"
+    PreviewMouseDown="SurfaceWindow_PreviewMouseDown"  PreviewMouseUp="SurfaceWindow_PreviewMouseUp"
+    Name="ArtModeMainWindow"
+    >
 
     <s:SurfaceWindow.Resources>
         <!--<m:HotspotModel x:Key="HotspotBindingData"/>-->
@@ -37,6 +43,8 @@
         <StackPanel Name="SectionBoxMaster" Visibility="Collapsed" Height="214" Width="345"/>
         <s:SurfaceButton Name="LeftPanelButtonMaster" Visibility="Collapsed" FontSize="15" Width="5"/>
         <s:SurfaceListBox Name="SectionListBoxMaster" Visibility="Collapsed" Height="135"/>
+
+        <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="400"></s:ScatterView>
 
         <Canvas Name="ImageArea" Background="#ccd6c1" Height="1080" Width="1920" Canvas.ZIndex ="-1">
 
@@ -61,7 +69,9 @@
                     </Canvas.RenderTransform>
                 </Canvas>
 
-                <s:ScatterView Name="MSIScatterView" Width="1920" Height="1080"></s:ScatterView>
+                <s:ScatterView Name="MSIScatterView" Width="1920" Height="1080">
+                    
+                </s:ScatterView>
             </Grid>
         </Canvas>
 
@@ -462,23 +472,23 @@
 
             </StackPanel>
         </DockPanel>
+        <s:SurfaceButton Name="exitButton" Content="QUIT" Background="Red" Opacity=".5" FontSize="22" Width="70" Height="50" Canvas.Right="5" Click="ExitButton_Click" Canvas.ZIndex="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Image Name="help" Visibility="Visible" Source="Resources/question.png" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Height="50" Width="50" Canvas.Top="5" Canvas.Right="80" />
+        <s:SurfaceButton Name="resetArtworkButton" Content="Reset Artwork" FontSize="22" Height="50" Width="170" Canvas.Right="135" Click="ResetArtworkButton_Click" Canvas.ZIndex="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <s:SurfaceButton Name="switchToCatalogButton" Content="Catalog" FontSize="22" Height="50" Width="100" Canvas.Right="310"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <s:SurfaceButton Name="tourAuthoringButton" Content="Tour Authoring" FontSize="22" Height="50" Width="180" Canvas.Right="415" Click="tourAuthoring_Click" Canvas.ZIndex="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <s:SurfaceButton Name="tourAuthoringDoneButton" Content="Done" Opacity=".5" FontSize="22" Height="50" Width="75" Canvas.Right="135" Visibility="Collapsed" Canvas.ZIndex="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <s:SurfaceButton Name="tourAuthoringSaveButton" Content="Save" Opacity=".5" FontSize="22" Height="50" Width="75" Canvas.Right="215" Visibility="Collapsed" Canvas.ZIndex="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <s:SurfaceButton Name="tourAuthoringDeleteButton" Content="Delete" Background="Red" Opacity=".5" FontSize="22" Height="50" Width="100" Canvas.Right="295" Visibility="Collapsed" Canvas.ZIndex="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
-        <s:ScatterView Name="MainScatterView" Height="1080" Width="1920" Canvas.ZIndex="100"></s:ScatterView>
-        <s:SurfaceButton Name="switchToCatalogButton" Content="Catalog" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="214"  Click="switchToCatalogButton_Click" Canvas.ZIndex="100"/>
         <!-- switch to artwork selection mode -->
         <!--s:SurfaceButton Name="activateKW" Content="Knowledge Web"  Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right ="367" Canvas.ZIndex="100" Visibility="Collapsed" /-->
         <!-- switch to knowledge web mode -->
-        <s:SurfaceButton Name="resetArtworkButton" Content="Reset Artwork" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="78" Click="ResetArtworkButton_Click" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="tourAuthoringButton" Content="Tour Authoring" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="300" Click="tourAuthoring_Click" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="metaData" Content="Assets list" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="160" Visibility="Collapsed" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="drawPaths" Content="Add paths" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="500" Visibility="Collapsed" Canvas.ZIndex="100"/>
         
-        <s:SurfaceButton Name="tourAuthoringDoneButton" Content="Done" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="10" Visibility="Collapsed" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="addAudioButton" Content="Add Audio" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="260" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="tourAuthoringSaveButton" Content="Save" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="80" Visibility="Collapsed" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="tourAuthoringDeleteButton" Content="Delete" Background="Red" Opacity=".5" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="80" Visibility="Collapsed" Canvas.ZIndex="100"/>
-        <s:SurfaceButton Name="exitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center"/>
-        <s:SurfaceButton Name="quitButton" Content="QUIT" Background="Red" Opacity=".5" Width="48" Height="30" MinHeight="0" Padding="0 2 0 0" Canvas.Right="20" Click="ExitButton_Click" Canvas.ZIndex="100" Visibility="Collapsed"/>
+        <!--<s:SurfaceButton Name="metaData" Content="Assets list" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="160" Visibility="Collapsed" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="drawPaths" Content="Add paths" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="500" Visibility="Collapsed" Canvas.ZIndex="100"/>
+        <s:SurfaceButton Name="addAudioButton" Content="Add Audio" Height="30" MinHeight="0" Padding="7 2 7 0" Canvas.Right="260" Canvas.ZIndex="100"/>-->
+        
         <Border Name="TimeBorder" BorderBrush="#214236" Visibility ="Collapsed" BorderThickness="4" CornerRadius="4" Canvas.Bottom="50" Canvas.Left="50" Width="300" Height="150" Canvas.ZIndex="100">
             <Canvas Visibility="Collapsed" Background="#ccd6c1" Name="TourLengthBox">
                 <Label>Change Tour Length</Label>
@@ -511,6 +521,7 @@
 
             </Canvas>
         </Border>
+        <ae:helpWindow x:Name="helpWindow" Visibility="Collapsed" Width="{Binding ElementName=ArtModeMainWindow, Path=Width}" Height="{Binding ElementName=ArtModeMainWindow, Path=Height}"/>
     </Canvas>
-
+    
 </s:SurfaceWindow>

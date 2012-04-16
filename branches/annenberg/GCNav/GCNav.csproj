@@ -144,6 +144,7 @@
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\question1.png" />
     <Resource Include="GCNav.xml">
       <SubType>Designer</SubType>
     </Resource>

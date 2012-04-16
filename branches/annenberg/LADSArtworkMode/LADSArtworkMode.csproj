@@ -92,6 +92,9 @@
     <Compile Include="ArtworkMode\RGBA.cs" />
     <Compile Include="ArtworkMode\Utils.cs" />
     <Compile Include="BiDictionary.cs" />
+    <Compile Include="helpWindow.xaml.cs">
+      <DependentUpon>helpWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VideoBubble.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Tour\TourEvents\FadeInHighlightEvent.cs" />
@@ -142,6 +145,10 @@
       <DependentUpon>ArtworkModeWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="helpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="HotspotDetailsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -192,6 +199,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\question.png" />
     <None Include="Resources\Play.png" />
     <None Include="Resources\PlayPause.png" />
     <Content Include="Resources\icon.png">
