@@ -16,7 +16,7 @@
         </ScrollViewer>
         <s:ScatterView x:Name="MainScatterView" Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}" Background="Transparent">
             <s:ScatterViewItem  x:Name="MainSVI" Background="Transparent" Center="480,540" CanRotate="False" CanScale="False" Deceleration="0.01" ShowsActivationEffects="False"
-                                Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}" ></s:ScatterViewItem>
+                                Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}" PreviewMouseUp="MainSVI_PreviewMouseUp" PreviewTouchUp="MainSVI_PreviewTouchUp"></s:ScatterViewItem>
         </s:ScatterView>
     </Grid>
 </UserControl>

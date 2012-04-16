@@ -31,7 +31,7 @@ namespace GCNav
             Canvas target = Wall.ContentCanvas;
 
             Wall.ContentCanvas.Background = Brushes.Black;
-            Wall.SmallScrollIncrement = new Size(100, 100);
+            Wall.SmallScrollIncrement = new Size(10, 30);
 
             AllocateNodes();
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
@@ -50,8 +50,8 @@ namespace GCNav
             double width = Wall.DesiredSize.Width-20;
             Wall.ContentCanvas.Margin = new Thickness(10);
             Wall.ContentCanvas.Width = width;
-            double xborder = 10;
-            double yborder = 2;
+            double xborder = 35;
+            double yborder = 8;
             double prevX = xborder;
             double prevY = yborder;
 
@@ -61,18 +61,19 @@ namespace GCNav
             {
                 //get rid of the weird names, necessary?
                 string first = node.Attributes.GetNamedItem("PanelFirst").InnerText;
-                if (first.Equals("1") || first.Equals("NULL"))
+                if (first.Equals("1") || first.Equals("NULL") || first.Equals(" "))
                 {
                     first = "";
                 }
                 string last = node.Attributes.GetNamedItem("PanelLast").InnerText;
-                if (last.Equals("1") || last.Equals("NULL"))
+                if (last.Equals("1") || last.Equals("NULL") || last.Equals(" "))
                 {
                     last = "";
                 }
  
                 string name = (first.Equals("")) ? last : first + " " + last;
                 name = (name.Equals("")) ? "UNKNOWN" : name;
+                name = name.Trim();
                 names.Add(name);
             }
             names.Sort();
@@ -106,6 +107,44 @@ namespace GCNav
             double delta = 540 - center.Y;
             Wall.SetVerticalOffset(Wall.VerticalOffset + delta);
             MainSVI.Center = new Point(480, 540);
+        }
+
+        private void MainSVI_PreviewTouchUp(object sender, TouchEventArgs e)
+        {
+            //Perform hit testing on all children
+            foreach (IVirtualChild i in Wall.VirtualChildren)
+            {
+                UIElement visual = i.Visual;
+                if (visual == null) continue;
+                FrameworkElement visualElement = (FrameworkElement)visual;
+                Point p = e.GetTouchPoint(visualElement).Position;
+                if (p.X > 0 && p.X < visualElement.ActualWidth && p.Y>0 && p.Y < visualElement.ActualHeight)
+                {
+                    TestShapeUp((TestShape)i);
+                }
+            }
+
+        }
+
+        private void MainSVI_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            //Perform hit testing on all children
+            foreach (IVirtualChild i in Wall.VirtualChildren)
+            {
+                UIElement visual = i.Visual;
+                if (visual == null) continue;
+                FrameworkElement visualElement = (FrameworkElement)visual;
+                Point p = e.GetPosition(visualElement);
+                if (p.X > 0 && p.X < visualElement.ActualWidth && p.Y > 0 && p.Y < visualElement.ActualHeight)
+                {
+                    TestShapeUp((TestShape)i);
+                }
+            }
+        }
+
+        private void TestShapeUp(TestShape shape)
+        {
+
         }
     }
 
@@ -144,6 +183,8 @@ namespace GCNav
                 t.FontSize = 20;
                 t.Text = _text;
                 t.Foreground = Brushes.Gray;
+                t.PreviewTouchUp += new EventHandler<TouchEventArgs>(t_TouchUp);
+                t.PreviewMouseUp += new MouseButtonEventHandler(t_PreviewMouseUp);
                 //st.Children.Add(da);
                 //Storyboard.SetTarget(da, t);
                 //Storyboard.SetTargetProperty(da, new PropertyPath(TextBlock.OpacityProperty));
@@ -151,6 +192,16 @@ namespace GCNav
                 _visual = t;
             }
             return _visual;
+        }
+
+        void t_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            int a = 0;
+        }
+
+        void t_TouchUp(object sender, TouchEventArgs e)
+        {
+            int a = 0;
         }
 
         public void DisposeVisual()
