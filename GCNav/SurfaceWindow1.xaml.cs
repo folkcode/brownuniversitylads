@@ -21,7 +21,7 @@ namespace GCNav
         /// Default constructor.
         /// </summary>
         private StartCard _startCard;
-        private FilterTimelineBox filter;
+        //private FilterTimelineBox filter;
         private DispatcherTimer _resetTimer = new DispatcherTimer();
        
         public SurfaceWindow1()
@@ -31,8 +31,8 @@ namespace GCNav
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
             this.SizeChanged += new SizeChangedEventHandler(SurfaceWindow1_SizeChanged);
-            this.SizeChanged += Map.WindowSizeChanged;
-            this.SizeChanged += nav.WindowSizeChanged;
+            /*this.SizeChanged += Map.WindowSizeChanged;
+            this.SizeChanged += nav.WindowSizeChanged;*/
             this.MouseUp += new MouseButtonEventHandler(MouseUp_Handler);
 
             _startCard = new StartCard();
@@ -55,18 +55,16 @@ namespace GCNav
             panImg.Opacity = 0.2;
             panCan.RenderTransform = t;
             t.BeginAnimation(TranslateTransform.XProperty, myAnimation);
-            nav.HandleImageSelected += Map.HandleImageSelectedEvent;
+            /*nav.HandleImageSelected += Map.HandleImageSelectedEvent;
             filter = new FilterTimelineBox();
             nav.filter = filter;
            
-            map.Children.Add(filter);
+            map.Children.Add(filter);*/
            
             this.SizeChanged += SurfaceWindow1_SizeChanged;
 
             _resetTimer.Interval = TimeSpan.FromSeconds(120);
             _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
-
-            //help.Visibility = Visibility.Visible;
 
             String[] c = Environment.GetCommandLineArgs();
 
@@ -82,7 +80,7 @@ namespace GCNav
         //This adjusts the winodw size for screens of different resolutions
         void SurfaceWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Double canvasLeft = e.NewSize.Width / 2 - filter.ActualWidth / 2;
+            /*Double canvasLeft = e.NewSize.Width / 2 - filter.ActualWidth / 2;
             Double filterWidth = 420;
             if (e.NewSize.Width < 1600)
             {
@@ -102,7 +100,7 @@ namespace GCNav
             backRec.Width = map.Width*scaleX +10;
             backRec.Height = map.Height*scaleY + 30+10;
             Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
-            Canvas.SetZIndex(backRec, -10); 
+            Canvas.SetZIndex(backRec, -10); */
         }
 
         public void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -196,10 +194,10 @@ namespace GCNav
         /// <param name="e"></param>
         private void surfaceButton1_Click(object sender, RoutedEventArgs e)
         {
-            nav.startAll();
+            //nav.startAll();
             surfaceButton1.Visibility = Visibility.Collapsed;
             _startCard.Visibility = Visibility.Hidden;
-            if (nav.collectionEmpty())
+            /*if (nav.collectionEmpty())
             {
                 EmptyCollectionControl popup = new EmptyCollectionControl();
                 popup.HorizontalAlignment = HorizontalAlignment.Center;
@@ -208,19 +206,19 @@ namespace GCNav
 
             }
             else
-            {
+            {*/
                 panImg.Visibility = Visibility.Hidden;
-                Map.loadMap();
+                /*Map.loadMap();
                 Map.blur.Visibility = Visibility.Visible;
                 filter.Visibility = Visibility.Visible;
-                backRec.Visibility = Visibility.Visible;
+                backRec.Visibility = Visibility.Visible;*/
                 _resetTimer.Start();
-            }
+            //}
         }
 
         public void MouseUp_Handler(object sender, EventArgs e)
         {
-            nav.setTimelineMouseUpFalse();
+            //nav.setTimelineMouseUpFalse();
         }
 
         private void SurfaceWindow_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -281,12 +279,5 @@ namespace GCNav
         {
             helpWindow.ShowHelp(true);
         }
-
-        //private void helpDone_Click(object sender, RoutedEventArgs e)
-        //{
-        //    help.Visibility = Visibility.Visible;
-        //    //helpInstruction.Visibility = Visibility.Hidden;
-        //    //helpDone.Visibility = Visibility.Hidden;
-        //}
     }
 }
