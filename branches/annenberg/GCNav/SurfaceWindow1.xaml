@@ -13,7 +13,7 @@
     Deactivated="SurfaceWindow_Deactivated"
     Name="CatalogMainWindow"
     >
-   
+   <!--
     <s:SurfaceWindow.Resources>
         <Style TargetType="{x:Type s:ScatterViewItem}">
             <Setter Property="Template">
@@ -25,7 +25,7 @@
             </Setter>
         </Style>
     </s:SurfaceWindow.Resources>
-    
+    -->
         <Grid Background="#24524A" >
         <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="800" Height="600" Canvas.Top="10" HorizontalAlignment="Left">
            
