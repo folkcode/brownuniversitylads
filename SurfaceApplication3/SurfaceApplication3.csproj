@@ -82,6 +82,9 @@
     <Compile Include="catalogEntry.xaml.cs">
       <DependentUpon>catalogEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CSVImportDialog.xaml.cs">
+      <DependentUpon>CSVImportDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EventEntry.xaml.cs">
       <DependentUpon>EventEntry.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="catalogEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CSVImportDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -240,6 +247,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSVImport\CSVImport.csproj">
+      <Project>{84E98E32-A422-4CA2-B9DC-80224A3D0241}</Project>
+      <Name>CSVImport</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
