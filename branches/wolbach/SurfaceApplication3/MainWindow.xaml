@@ -65,6 +65,7 @@
             <s:SurfaceButton x:Name="addImage" Content="Add New Image" Height="46" Canvas.Top="8" Canvas.Left="9" Click="addImage_Click" Width="146" />
             <s:SurfaceButton x:Name="addEvent" Content="Add/Edit Events" Height="46" Canvas.Top="8" Canvas.Right="9" Click="addEvent_Click" Width="146" />
         <s:SurfaceButton x:Name="settings" Content="General Settings" Height="46" Canvas.Top="8" Canvas.Right="170" Width="146" Click="generalSettings_Click"  />
+        <s:SurfaceButton x:Name="CSVImportButton" Content="Batch Import (CSV)" Height="46" Canvas.Bottom="4" Canvas.Left="9" Click="CSVImportButton_Click" Width="160" />
         <s:SurfaceListBox x:Name="EntryListBox" Height="630" Width="995" Canvas.Left="5" Canvas.Top="69" BorderThickness="3"/>
         <!--Label Canvas.Top="8" Canvas.Left="155" Content="LADS - Content Authoring Tool" Width="691" Height="57" Name="WindowName" FontSize="40" FontWeight="Bold" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="Black" /-->
         <Label Canvas.Top="8" Canvas.Left="150" Content="LADS - Content Authoring Tool" Width="530" Height="57" Name="WindowName" FontSize="32" FontWeight="Bold" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="Black" />
