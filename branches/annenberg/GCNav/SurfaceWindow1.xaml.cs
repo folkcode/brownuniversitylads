@@ -28,6 +28,10 @@ namespace GCNav
         {
 
             InitializeComponent();
+
+            //show default thumbnail
+            Helpers.ChangeToDefaultImage(CurrImage);
+
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
             this.SizeChanged += new SizeChangedEventHandler(SurfaceWindow1_SizeChanged);
@@ -75,6 +79,8 @@ namespace GCNav
                     ButtonPanel.Children.Remove(exitButton);
                 }
             }
+
+            Wall.MainWindow = this;
         }
 
         //This adjusts the winodw size for screens of different resolutions
@@ -101,6 +107,12 @@ namespace GCNav
             backRec.Height = map.Height*scaleY + 30+10;
             Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
             Canvas.SetZIndex(backRec, -10); */
+
+            CurrImageInfo.Width = 512;
+            CurrImageInfo.Height = e.NewSize.Height;
+            CurrInfo.Height = CurrImageInfo.Height - 512;
+            CurrImageInfo.Margin = new Thickness(0,0,(e.NewSize.Width / 3 - 512) / 2,0);
+            Wall.Window_SizeChanged(e.NewSize);
         }
 
         public void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -214,6 +226,8 @@ namespace GCNav
                 backRec.Visibility = Visibility.Visible;*/
                 _resetTimer.Start();
             //}
+
+            Wall.StartAll();
         }
 
         public void MouseUp_Handler(object sender, EventArgs e)
