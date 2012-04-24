@@ -9,7 +9,7 @@
              Name="WallUserControl"
              Height="1080" Width="960">
     <Grid Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}">
-        <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Scroller" HorizontalScrollBarVisibility="Hidden" 
+        <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Scroller" HorizontalScrollBarVisibility="Disabled" 
                   VerticalScrollBarVisibility="Hidden" CanContentScroll="True" Visibility="Visible">
             <ui:VirtualCanvas x:Name="Wall" Background="Black"
                               Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}"/>

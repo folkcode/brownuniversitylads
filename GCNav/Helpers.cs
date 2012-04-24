@@ -4,6 +4,10 @@ using System.Windows.Media.Animation;
 using System.Windows;
 using System.Xml;
 using System.Text;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.IO;
 
 namespace GCNav
 {
@@ -66,6 +70,27 @@ namespace GCNav
             XmlDocument doc = new XmlDocument();
             doc.Load("data/AnnenbergCollection.xml");
             return doc.SelectNodes("/Collection/Image");
+        }
+
+        public static void ChangeImageSource(Image image, string uri)
+        {
+            image.Stretch = Stretch.UniformToFill;
+            try
+            {
+                image.Source = new BitmapImage(new Uri(
+                    System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + uri,
+                    UriKind.RelativeOrAbsolute));
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+                ChangeToDefaultImage(image);
+            }
+        }
+
+        public static void ChangeToDefaultImage(Image image)
+        {
+            ChangeImageSource(image, "/data/Images/Thumbnail/00000a_512.jpg");
         }
 
         public static string RandomString(int size, Random random)

@@ -26,10 +26,8 @@
         </Style>
     </s:SurfaceWindow.Resources>
     -->
-        <Grid Background="#24524A" >
-        <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="800" Height="600" Canvas.Top="10" HorizontalAlignment="Left">
-           
-        </Canvas>
+    <Grid Background="#24524A" >
+        <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="800" Height="600" Canvas.Top="10" HorizontalAlignment="Left"></Canvas>
         <!--Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
             <m:newMap x:Name="Map" Height="355.25" Width="576.35" />
             <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="0" Visibility="Hidden" />
@@ -37,7 +35,41 @@
         </Canvas-->
         
         <!--m:Navigator x:Name="nav" /-->
-        <m:NamesWall Height="{Binding ElementName=CatalogMainWindow, Path=Height}" Width="960" HorizontalAlignment="Left" />    
+        <m:NamesWall x:Name="Wall" Height="{Binding ElementName=CatalogMainWindow, Path=Height}" Width="960" HorizontalAlignment="Left" />
+
+        <Canvas Name="CurrImageInfo" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-20">
+            <Canvas Name="CurrImageCanvas" Width="{Binding ElementName=CurrImage, Path=Width}" Height="{Binding ElementName=CurrImage, Path=Height}">
+                <Image Name="CurrImage" Width="512" Height="512" Visibility="Visible"/>
+            </Canvas>
+            <Canvas Name="CurrInfo" Canvas.Top="512" Width="{Binding ElementName=CurrImageInfo, Path=Width}">
+                <s:SurfaceScrollViewer x:Name="infoScroll" VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled" 
+                                       Width="{Binding ElementName=CurrInfo, Path=Width}" MaxHeight="{Binding ElementName=CurrInfo, Path=Height}" >
+                    <Grid Name="curInfoCol" VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Name="titleBack" Grid.Row="0" Grid.Column="0" Fill ="#24524A" Margin="0,0,0,0" />
+                        <TextBlock Name="name" Grid.Row="0" Grid.Column="0" Text="Here is a name"   Foreground="White" TextAlignment="Left" FontSize="20" Margin="5,0,0,0" ></TextBlock>
+                        <TextBlock Name="dob" Grid.Row="1" Grid.Column="0" Text="DOB" Foreground="Black"  TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                        <TextBlock Name="dod" Grid.Row="2" Grid.Column="0" Text="DOD"  Foreground="Black"  TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                        <TextBlock Name="city" Grid.Row="3" Grid.Column="0" Text="City, State, Country"  Foreground="Black" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                        <TextBlock Name="othercities" Grid.Row="4" Grid.Column="0" Text="other cities"  Foreground="Black" TextAlignment="Left" FontSize="20" Margin="5,0,0,0"/>
+                        <Rectangle Name="RelatedNamesBack" Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Fill ="#44000000" Margin="-10,0,0,0"/>
+                        <TextBlock Name="RelatedNamesTitle" Grid.Row="5" Grid.Column="0" Visibility="Visible" Text="Other names in this block:" Foreground="White" TextAlignment="Center" FontSize="18" Margin="5,0,0,0"></TextBlock>
+                        <TextBlock Name="RelatedNames" Grid.Row="6" Grid.Column="0" Text="Here are the other names"  Visibility="Visible"  Foreground="White"  TextAlignment="Left" FontSize="18" Margin="5,10,0,0"></TextBlock>
+                    </Grid>
+                </s:SurfaceScrollViewer>
+            </Canvas>
+        </Canvas>
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
             <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Visible" Background="Red" Opacity=".5" FontSize="22" Width="70" Height="50" Margin="0 0 5 0" VerticalContentAlignment="Center" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right"/>
             <Image Name="help" Height="50" Width="50" Margin="0 5 80 0" Source="Resources/question.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Visible" />

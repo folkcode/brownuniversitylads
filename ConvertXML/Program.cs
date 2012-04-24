@@ -27,6 +27,7 @@ namespace ConvertXML
         private void InitDesiredFields()
         {
             _desiredFields = new HashSet<string>();
+            _desiredFields.Add("Block");
             _desiredFields.Add("City");
             _desiredFields.Add("Country");
             _desiredFields.Add("DateReceived");
