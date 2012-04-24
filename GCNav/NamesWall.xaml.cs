@@ -126,9 +126,17 @@ namespace GCNav
             }
 
             _names.Sort(delegate (NameInfo n1, NameInfo n2)
+                {
+                    return n1.PanelName.CompareTo(n2.PanelName);
+                });
+
+            foreach (List<NameInfo> nameList in _blockToNames.Values)
             {
-                return n1.PanelName.CompareTo(n2.PanelName);
-            });
+                nameList.Sort(delegate(NameInfo n1, NameInfo n2)
+                    {
+                        return n1.PanelName.CompareTo(n2.PanelName);
+                    });
+            }
         }
 
         private string getNodeAttribute(XmlNode node, string attribute)
@@ -143,6 +151,7 @@ namespace GCNav
             double width = Wall.Width-20;
             Wall.ContentCanvas.Margin = new Thickness(10);
             Wall.ContentCanvas.Width = width;
+            Wall.ContentCanvas.Background = new SolidColorBrush(Colors.Transparent);
             double xborder = 35;
             double yborder = 8;
             double prevX = xborder;
@@ -150,9 +159,7 @@ namespace GCNav
 
             foreach (NameInfo name in _names)
             {
-                TextBlock t = new TextBlock();
-                t.FontSize = 20;
-                t.Text = name.PanelName;
+                TextBlock t = Helpers.createNameTextBlock(name.PanelName);
                 t.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                 Size a = t.DesiredSize;
                 t = null;
@@ -190,7 +197,7 @@ namespace GCNav
                 Point p = e.GetTouchPoint(visualElement).Position;
                 if (p.X > 0 && p.X < visualElement.ActualWidth && p.Y>0 && p.Y < visualElement.ActualHeight)
                 {
-                    TestShapeUp((TestShape)i);
+                    TestShapeSelected((TestShape)i);
                 }
             }
 
@@ -207,13 +214,18 @@ namespace GCNav
                 Point p = e.GetPosition(visualElement);
                 if (p.X > 0 && p.X < visualElement.ActualWidth && p.Y > 0 && p.Y < visualElement.ActualHeight)
                 {
-                    TestShapeUp((TestShape)i);
+                    TestShape shape = (TestShape)i;
+                    /*if (shape.Selected != null)
+                    {
+                        shape.Selected(shape);
+                    }*/
+                    TestShapeSelected(shape);
                 }
             }
         }
 
         private TestShape _prevSelected;
-        private void TestShapeUp(TestShape shape)
+        void TestShapeSelected(TestShape shape)
         {
             if (_prevSelected != null)
             {
@@ -221,10 +233,10 @@ namespace GCNav
             }
             shape.Fill = new SolidColorBrush(Colors.Yellow);
             _prevSelected = shape;
-            this.NameSelected(shape.Name);
+            this.UpdateCurrInfo(shape.Name);
         }
 
-        private void NameSelected(NameInfo name)
+        private void UpdateCurrInfo(NameInfo name)
         {
             Helpers.ChangeImageSource(_mainWindow.CurrImage, "/data/Images/Thumbnail/" + name.Block.ToString("D5") + "_512.jpg");
             _mainWindow.name.Text = name.PanelName;
@@ -237,9 +249,27 @@ namespace GCNav
             _mainWindow.othercities.Text = "Other Cities: " + name.OtherCities;
             //_mainWindow.othercities.Visibility = (name.OtherCities.Equals("")) ? Visibility.Hidden : Visibility.Visible;
 
+            _mainWindow.UpdateLayout();
+
+            int row = 0;
+            _mainWindow.RelatedNames.Margin = new Thickness(0, _mainWindow.curInfoCol.ActualHeight, 0, 0);
+            _mainWindow.RelatedNames.RowDefinitions.Clear();
+            _mainWindow.RelatedNames.Children.Clear();
             foreach (NameInfo otherName in _blockToNames[name.Block])
             {
-                //TODO: _mainWindow.RelatedNames
+                if (otherName != name)
+                {
+                    //add the textblock to the next row
+                    TestShape shape = new TestShape(Rect.Empty, otherName);
+                    shape.Selected += new TestShape.SelectedEventHandler(TestShapeSelected);
+                    TextBlock t = (TextBlock) shape.CreateVisual(null);
+                    t.FontSize = 18;
+                    _mainWindow.RelatedNames.RowDefinitions.Add(new RowDefinition());
+                    Grid.SetRow(t, row);
+                    t.Margin = new Thickness(5,10,0,0);
+                    _mainWindow.RelatedNames.Children.Add(t);
+                    row++;
+                }
             }
         }
 
@@ -250,78 +280,86 @@ namespace GCNav
             MainSVI_CENTER_Y = newSize.Height / 2;
             MainSVI.Center = new Point(MainSVI_CENTER_X, MainSVI_CENTER_Y);
         }
-    }
 
-    class TestShape : IVirtualChild
-    {
-        private NameInfo _nameInfo;
-        public NameInfo Name { get { return _nameInfo; } }
+        
 
-        Rect _bounds;
-        public Brush Fill { get { return (_visual == null) ? null : _visual.Background; } set { if (_visual != null) { _visual.Background = value; } } }
-        public Brush Stroke { get; set; }
-        public string Label { get; set; }
-        TextBlock _visual;
-        string _text;
-        public event EventHandler BoundsChanged;
-        Storyboard st = new Storyboard();
-        DoubleAnimation da = new DoubleAnimation();
-
-        public TestShape(Rect bounds, NameInfo name)
+        class TestShape : IVirtualChild
         {
-            _nameInfo = name;
-            _text = name.PanelName;
-            _bounds = bounds;
-            da.From = 0.0;
-            da.To = 1.0;
-            da.Duration = new Duration(TimeSpan.FromSeconds(0.25));
-        }
+            private NameInfo _nameInfo;
+            public NameInfo Name { get { return _nameInfo; } }
 
+            Rect _bounds;
+            public Brush Fill { get { return (_visual == null) ? null : _visual.Background; } set { if (_visual != null) { _visual.Background = value; } } }
+            public Brush Stroke { get; set; }
+            public string Label { get; set; }
+            TextBlock _visual;
+            string _text;
+            public event EventHandler BoundsChanged;
+            //Storyboard st = new Storyboard();
+            //DoubleAnimation da = new DoubleAnimation();
+            public delegate void SelectedEventHandler(TestShape shape);
+            public event SelectedEventHandler Selected;
 
-        public UIElement Visual
-        {
-            get { return _visual; }
-        }
-
-        public UIElement CreateVisual(VirtualCanvas parent)
-        {
-            if (_visual == null)
+            public TestShape(Rect bounds, NameInfo name)
             {
-                _visual = new TextBlock();
-                _visual.FontSize = 20;
-                _visual.Text = _text;
-                _visual.Foreground = Brushes.Gray;
-                _visual.PreviewTouchUp += new EventHandler<TouchEventArgs>(t_TouchUp);
-                _visual.PreviewMouseUp += new MouseButtonEventHandler(t_PreviewMouseUp);
-                //st.Children.Add(da);
-                //Storyboard.SetTarget(da, t);
-                //Storyboard.SetTargetProperty(da, new PropertyPath(TextBlock.OpacityProperty));
-                //st.Begin();
+                _nameInfo = name;
+                _text = name.PanelName;
+                _bounds = bounds;
+                //da.From = 0.0;
+                //da.To = 1.0;
+                //da.Duration = new Duration(TimeSpan.FromSeconds(0.25));
+                //this.Selected +=new EventHandler(TestShape_Selected);
             }
-            return _visual;
-        }
 
-        void t_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            int a = 0;
-        }
 
-        void t_TouchUp(object sender, TouchEventArgs e)
-        {
-            int a = 0;
-        }
+            public UIElement Visual
+            {
+                get { return _visual; }
+            }
 
-        public void DisposeVisual()
-        {
-            //st.Stop();
-            //st.Children.Clear();
-            _visual = null;
-        }
+            public UIElement CreateVisual(VirtualCanvas parent)
+            {
+                if (_visual == null)
+                {
+                    _visual = Helpers.createNameTextBlockDisplay(_text);
+                    _visual.TouchDown += new EventHandler<TouchEventArgs>(t_TouchDown);
+                    _visual.MouseDown += new MouseButtonEventHandler(t_MouseDown);
+                    //st.Children.Add(da);
+                    //Storyboard.SetTarget(da, t);
+                    //Storyboard.SetTargetProperty(da, new PropertyPath(TextBlock.OpacityProperty));
+                    //st.Begin();
+                }
+                return _visual;
+            }
 
-        public Rect Bounds
-        {
-            get { return _bounds; }
-        }
+            void t_MouseDown(object sender, MouseButtonEventArgs e)
+            {
+                if (this.Selected != null)
+                {
+                    this.Selected(this);
+                }
+            }
 
+            void t_TouchDown(object sender, TouchEventArgs e)
+            {
+                if (this.Selected != null)
+                {
+                    this.Selected(this);
+                }
+            }
+
+            public void DisposeVisual()
+            {
+                //st.Stop();
+                //st.Children.Clear();
+                _visual = null;
+            }
+
+            public Rect Bounds
+            {
+                get { return _bounds; }
+            }
+
+        }
     }
 }

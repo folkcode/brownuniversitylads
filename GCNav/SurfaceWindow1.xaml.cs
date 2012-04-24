@@ -112,6 +112,7 @@ namespace GCNav
             CurrImageInfo.Height = e.NewSize.Height;
             CurrInfo.Height = CurrImageInfo.Height - 512;
             CurrImageInfo.Margin = new Thickness(0,0,(e.NewSize.Width / 3 - 512) / 2,0);
+            infoScroll.MaxHeight = e.NewSize.Height - 600;
             Wall.Window_SizeChanged(e.NewSize);
         }
 

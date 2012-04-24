@@ -105,5 +105,32 @@ namespace GCNav
 
             return builder.ToString();
         }
+
+        public static TextBlock createNameTextBlock(string name)
+        {
+            //default fontsize 20;
+            return createNameTextBlock(name, 20);
+        }
+
+        public static TextBlock createNameTextBlock(string name, int fontsize)
+        {
+            TextBlock t = new TextBlock();
+            t.FontSize = fontsize;
+            t.Text = name;
+            return t;
+        }
+
+        public static TextBlock createNameTextBlockDisplay(string name)
+        {
+            //default fontsize 20;
+            return Helpers.createNameTextBlockDisplay(name, 20);
+        }
+
+        public static TextBlock createNameTextBlockDisplay(string name, int fontsize)
+        {
+            TextBlock t = Helpers.createNameTextBlock(name, fontsize);
+            t.Foreground = Brushes.Gray;
+            return t;
+        }
     }
 }
