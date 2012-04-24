@@ -8,11 +8,17 @@
              mc:Ignorable="d" 
              Name="WallUserControl"
              Height="1080" Width="960">
-    <Grid Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}">
+    <Grid Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}" >
+        <Grid.Background>
+            <ImageBrush />
+        </Grid.Background>
         <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Scroller" HorizontalScrollBarVisibility="Disabled" 
                   VerticalScrollBarVisibility="Hidden" CanContentScroll="True" Visibility="Visible">
-            <ui:VirtualCanvas x:Name="Wall" Background="Black"
-                              Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}"/>
+            <ui:VirtualCanvas x:Name="Wall" Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}">
+                <ui:VirtualCanvas.Background>
+                    <ImageBrush ImageSource="/GCNav;component/Resources/black_marble.jpg" Stretch="UniformToFill" />
+                </ui:VirtualCanvas.Background>
+            </ui:VirtualCanvas>
         </ScrollViewer>
         <s:ScatterView x:Name="MainScatterView" Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}" Background="Transparent">
             <s:ScatterViewItem  x:Name="MainSVI" Background="Transparent" Center="480,540" CanRotate="False" CanScale="False" Deceleration="0.01" ShowsActivationEffects="False"
