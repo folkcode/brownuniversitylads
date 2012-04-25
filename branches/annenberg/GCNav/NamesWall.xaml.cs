@@ -159,10 +159,7 @@ namespace GCNav
 
             foreach (NameInfo name in _names)
             {
-                TextBlock t = Helpers.createNameTextBlock(name.PanelName);
-                t.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-                Size a = t.DesiredSize;
-                t = null;
+                Size a = Helpers.MeasureTextBlock(name.PanelName);
 
                 if (prevX + a.Width + xborder > width)
                 {
@@ -172,7 +169,7 @@ namespace GCNav
                 Point pos = new Point(prevX, prevY);
                 prevX += a.Width + xborder;
                 Size s = new Size(a.Width + 2 * xborder, a.Height + 2 * yborder);
-                TestShape shape = new TestShape(new Rect(pos, s), name);
+                TestShape shape = new TestShape(new Rect(pos, a), name);//was (pos,s), Alex?
                 Wall.AddVirtualChild(shape);
             }
         }
@@ -214,12 +211,7 @@ namespace GCNav
                 Point p = e.GetPosition(visualElement);
                 if (p.X > 0 && p.X < visualElement.ActualWidth && p.Y > 0 && p.Y < visualElement.ActualHeight)
                 {
-                    TestShape shape = (TestShape)i;
-                    /*if (shape.Selected != null)
-                    {
-                        shape.Selected(shape);
-                    }*/
-                    TestShapeSelected(shape);
+                    TestShapeSelected((TestShape)i);
                 }
             }
         }
@@ -229,28 +221,26 @@ namespace GCNav
         {
             if (_prevSelected != null)
             {
-                _prevSelected.Fill = new SolidColorBrush(Colors.Black);
+                _prevSelected.Fill = new SolidColorBrush(Colors.Transparent);
             }
-            shape.Fill = new SolidColorBrush(Colors.Yellow);
+            shape.Fill = new SolidColorBrush(Colors.White);
             _prevSelected = shape;
             this.UpdateCurrInfo(shape.Name);
         }
 
         private void UpdateCurrInfo(NameInfo name)
         {
+            _mainWindow.CurrInfo.Visibility = Visibility.Visible;
             Helpers.ChangeImageSource(_mainWindow.CurrImage, "/data/Images/Thumbnail/" + name.Block.ToString("D5") + "_512.jpg");
             _mainWindow.name.Text = name.PanelName;
             _mainWindow.dob.Text = "DOB: " + name.Dob;
-            //_mainWindow.dob.Visibility = (name.Dob.Equals("")) ? Visibility.Hidden : Visibility.Visible;
             _mainWindow.dod.Text = "DOD: " + name.Dod;
-            //_mainWindow.dod.Visibility = (name.Dod.Equals("")) ? Visibility.Hidden : Visibility.Visible;
             _mainWindow.city.Text = "City: " + name.CityFull;
-            //_mainWindow.city.Visibility = (name.CityFull.Equals("")) ? Visibility.Hidden : Visibility.Visible;
             _mainWindow.othercities.Text = "Other Cities: " + name.OtherCities;
-            //_mainWindow.othercities.Visibility = (name.OtherCities.Equals("")) ? Visibility.Hidden : Visibility.Visible;
-
+            
             _mainWindow.UpdateLayout();
 
+            //add other names on the same block
             int row = 0;
             _mainWindow.RelatedNames.Margin = new Thickness(0, _mainWindow.curInfoCol.ActualHeight, 0, 0);
             _mainWindow.RelatedNames.RowDefinitions.Clear();
@@ -260,13 +250,13 @@ namespace GCNav
                 if (otherName != name)
                 {
                     //add the textblock to the next row
-                    TestShape shape = new TestShape(Rect.Empty, otherName);
+                    Size a = Helpers.MeasureTextBlock(otherName.PanelName);
+                    TestShape shape = new TestShape(new Rect(new Point(), a), otherName);
                     shape.Selected += new TestShape.SelectedEventHandler(TestShapeSelected);
-                    TextBlock t = (TextBlock) shape.CreateVisual(null);
-                    t.FontSize = 18;
+                    Canvas t = (Canvas) shape.CreateVisual(null);
                     _mainWindow.RelatedNames.RowDefinitions.Add(new RowDefinition());
                     Grid.SetRow(t, row);
-                    t.Margin = new Thickness(5,10,0,0);
+                    //t.Margin = new Thickness(5,10,0,0);
                     _mainWindow.RelatedNames.Children.Add(t);
                     row++;
                 }
@@ -292,7 +282,7 @@ namespace GCNav
             public Brush Fill { get { return (_visual == null) ? null : _visual.Background; } set { if (_visual != null) { _visual.Background = value; } } }
             public Brush Stroke { get; set; }
             public string Label { get; set; }
-            TextBlock _visual;
+            Canvas _visual;
             string _text;
             public event EventHandler BoundsChanged;
             //Storyboard st = new Storyboard();
@@ -308,7 +298,6 @@ namespace GCNav
                 //da.From = 0.0;
                 //da.To = 1.0;
                 //da.Duration = new Duration(TimeSpan.FromSeconds(0.25));
-                //this.Selected +=new EventHandler(TestShape_Selected);
             }
 
 
@@ -321,7 +310,16 @@ namespace GCNav
             {
                 if (_visual == null)
                 {
-                    _visual = Helpers.createNameTextBlockDisplay(_text);
+                    Canvas c = new Canvas();
+                    c.Height = Math.Max(Bounds.Height,0);
+                    c.Width = Math.Max(Bounds.Width, 0);
+                    TextBlock shadow = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0x88, 0xBB, 0xBB, 0xBB));
+                    TextBlock text = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xFF, 0x20, 0x20, 0x20));
+                    c.Children.Add(shadow);
+                    c.Children.Add(text);
+                    Canvas.SetTop(shadow, -1.5);
+                    Canvas.SetLeft(shadow, -1.5);
+                    _visual = c;
                     _visual.TouchDown += new EventHandler<TouchEventArgs>(t_TouchDown);
                     _visual.MouseDown += new MouseButtonEventHandler(t_MouseDown);
                     //st.Children.Add(da);
