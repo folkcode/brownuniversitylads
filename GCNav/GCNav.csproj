@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\black_marble.jpg" />
+    <Resource Include="Resources\grass.jpg" />
     <Content Include="Resources\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

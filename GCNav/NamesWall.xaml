@@ -9,14 +9,11 @@
              Name="WallUserControl"
              Height="1080" Width="960">
     <Grid Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}" >
-        <Grid.Background>
-            <ImageBrush />
-        </Grid.Background>
         <ScrollViewer HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Scroller" HorizontalScrollBarVisibility="Disabled" 
                   VerticalScrollBarVisibility="Hidden" CanContentScroll="True" Visibility="Visible">
             <ui:VirtualCanvas x:Name="Wall" Width="{Binding ElementName=WallUserControl, Path=Width}" Height="{Binding ElementName=WallUserControl, Path=Height}">
                 <ui:VirtualCanvas.Background>
-                    <ImageBrush ImageSource="/GCNav;component/Resources/black_marble.jpg" Stretch="UniformToFill" />
+                    <ImageBrush ImageSource="/GCNav;component/Resources/black_marble.jpg" Stretch="UniformToFill" TileMode="None" />
                 </ui:VirtualCanvas.Background>
             </ui:VirtualCanvas>
         </ScrollViewer>
