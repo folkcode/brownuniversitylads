@@ -114,20 +114,39 @@ namespace LADSArtworkMode
                 //MessageBox.Show(m_hotspotList[0].ChildNodes[0].InnerText);
                 m_hotspotIcons = new HotspotIconControl[m_hotspotList.Count];
                 m_hotspotDetails = new HotspotDetailsControl[m_hotspotList.Count];
-                m_hotspots = new Hotspot[m_hotspotList.Count] ;
-                m_isSelected = new Boolean [m_hotspotList.Count];
+                m_hotspots = new Hotspot[m_hotspotList.Count];
+                m_isSelected = new Boolean[m_hotspotList.Count];
                 m_isOnScreen = new Boolean[m_hotspotList.Count];
 
                 for (int i = 0; i < m_hotspots.Length; i++)
                 {
                     m_hotspots[i] = new Hotspot();
-                    m_hotspots[i].Name = m_hotspotList[i].ChildNodes[0].InnerText;
-                    m_hotspots[i].PositionX = (double)Convert.ToDouble(m_hotspotList[i].ChildNodes[1].InnerText);
-                    m_hotspots[i].PositionY = (double)Convert.ToDouble(m_hotspotList[i].ChildNodes[2].InnerText);
-                    m_hotspots[i].Type = m_hotspotList[i].ChildNodes[3].InnerText;
-                    m_hotspots[i].Description = m_hotspotList[i].ChildNodes[4].InnerText;
-                   
-                    m_hotspots[i].fileDescription = m_hotspotList[i].ChildNodes[5].InnerText;
+                    foreach (XmlNode child in m_hotspotList[i].ChildNodes)
+                    {
+                        switch (child.Name)
+                        {
+                            case "name":
+                                m_hotspots[i].Name = child.InnerText;
+                                break;
+                            case "positionX":
+                                m_hotspots[i].PositionX = (double)Convert.ToDouble(child.InnerText);
+                                break;
+                            case "positionY":
+                                m_hotspots[i].PositionY = (double)Convert.ToDouble(child.InnerText);
+                                break;
+                            case "type":
+                                m_hotspots[i].Type = child.InnerText;
+                                break;
+                            case "description":
+                                m_hotspots[i].Description = child.InnerText;
+                                break;
+                            case "fileDescription":
+                                m_hotspots[i].fileDescription = child.InnerText;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                   
                     m_hotspots[i].XmlNode = m_hotspotList[i];
                     m_isSelected[i] = true;

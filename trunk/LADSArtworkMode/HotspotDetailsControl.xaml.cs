@@ -287,6 +287,7 @@ namespace LADSArtworkMode
             if (m_hotspotData.Type.ToLower().Contains("text"))
             {
                 HotspotTextBox.Text = m_hotspotData.Description;
+                //HotspotTextBox.IsHitTestVisible = false;
                 HotspotTextBox.Visibility = Visibility.Visible;
                 //textBoxScroll.Visibility = Visibility.Visible;
                 HotspotImage.Visibility = Visibility.Hidden;
