@@ -313,12 +313,14 @@ namespace GCNav
                     Canvas c = new Canvas();
                     c.Height = Math.Max(Bounds.Height,0);
                     c.Width = Math.Max(Bounds.Width, 0);
-                    TextBlock shadow = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0x88, 0xBB, 0xBB, 0xBB));
-                    TextBlock text = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xFF, 0x20, 0x20, 0x20));
+                    //TextBlock shadow = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0x88, 0xBB, 0xBB, 0xBB));
+                    //TextBlock text = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xFF, 0x20, 0x20, 0x20));
+                    TextBlock shadow = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xAA, 0xBB, 0xBB, 0xBB));
+                    TextBlock text = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xFF, 0x05, 0x05, 0x05));
                     c.Children.Add(shadow);
                     c.Children.Add(text);
-                    Canvas.SetTop(shadow, -1.5);
-                    Canvas.SetLeft(shadow, -1.5);
+                    Canvas.SetTop(shadow, 1.5);
+                    Canvas.SetLeft(shadow, 1.5);
                     _visual = c;
                     _visual.TouchDown += new EventHandler<TouchEventArgs>(t_TouchDown);
                     _visual.MouseDown += new MouseButtonEventHandler(t_MouseDown);

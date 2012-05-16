@@ -111,8 +111,8 @@ namespace GCNav
             TextBlock t = new TextBlock();
             t.FontSize = 20;
             t.FontWeight = FontWeights.Bold;
-            t.FontFamily = new FontFamily("Times New Roman");
-            t.Text = name;
+            t.FontFamily = new FontFamily("Optima Medium");
+            t.Text = name.ToUpper() + " · ";
             return t;
         }
 
