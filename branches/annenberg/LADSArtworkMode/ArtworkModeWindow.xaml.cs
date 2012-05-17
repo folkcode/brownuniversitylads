@@ -111,7 +111,7 @@ namespace LADSArtworkMode
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public ArtworkModeWindow(string currentArtworkFName)
+        public ArtworkModeWindow(GCNav.NameInfo currentArtworkFName)
         {
             InitializeComponent();
             String[] c = Environment.GetCommandLineArgs();
@@ -170,6 +170,12 @@ namespace LADSArtworkMode
             _resetTimer.Interval = TimeSpan.FromSeconds(120);
             _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
             _resetTimer.Start();
+
+            //todo
+            artmode.MultiImage.SetImageSource(@currentImage.xmlpath);
+            artmode.MultiImageThumb.SetImageSource(@currentImage.xmlpath);
+            artmode.LayoutArtworkMode(currentImage.filename);
+            artmode.currentArtworkTitle = currentImage.title;
         }
 
         void _resetTimer_Tick(object sender, EventArgs e)

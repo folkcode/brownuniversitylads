@@ -111,7 +111,9 @@ namespace GCNav
             TextBlock t = new TextBlock();
             t.FontSize = 20;
             t.FontWeight = FontWeights.Bold;
-            t.FontFamily = new FontFamily("Optima Medium");
+            t.FontFamily = new FontFamily("file:///" +
+                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
+                "#Optima Medium, Arial");
             t.Text = name.ToUpper() + " · ";
             return t;
         }

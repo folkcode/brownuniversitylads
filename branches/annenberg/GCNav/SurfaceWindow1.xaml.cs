@@ -81,6 +81,56 @@ namespace GCNav
             }
 
             Wall.MainWindow = this;
+
+            _artOpen = false;
+            CurrImage.TouchDown += HandleImageTouched;
+            CurrImage.MouseDown += HandleImageTouched;
+        }
+
+        private bool _artOpen;
+        public LADSArtworkMode.ArtworkModeWindow artmode;
+        private void HandleImageTouched(object sender, EventArgs e)
+        {
+            if (!_artOpen)
+            {
+                artmode = new LADSArtworkMode.ArtworkModeWindow(Wall.CurrNameInfo);
+                artmode.Closed += new EventHandler(onArtmodeClose);
+                artmode.Show();
+                _artOpen = true;
+            }
+            else
+            {
+                if (currentImage.filename != artmode.currentArtworkFileName)
+                {
+                    if (MessageBox.Show("Are you sure you want to switch artworks? You will lose what you have been working on.", "Switch", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        LADSArtworkMode.ArtworkModeWindow newWindow = new LADSArtworkMode.ArtworkModeWindow(Wall.CurrNameInfo);
+                        artmode.Close();
+                        artmode = newWindow;
+                        artmode.Closed += new EventHandler(onArtmodeClose);
+
+                        artmode.Show();
+                        _artOpen = true;
+                    }
+                    else
+                    {
+                        artmode.Show();
+                        return;
+                    }
+                }
+                else
+                {
+                    artmode.Hide();
+                    artmode.Show();
+                    artmode.ShowActivated = true;
+                }
+            }
+        }
+
+        public void onArtmodeClose(object sender, EventArgs e)
+        {
+            _artOpen = false;
+            artmode.Close();
         }
 
         //This adjusts the winodw size for screens of different resolutions

@@ -152,7 +152,7 @@ namespace GCNav
             Wall.ContentCanvas.Margin = new Thickness(10);
             Wall.ContentCanvas.Width = width;
             Wall.ContentCanvas.Background = new SolidColorBrush(Colors.Transparent);
-            double xborder = 35;
+            double xborder = 10;
             double yborder = 8;
             double prevX = xborder;
             double prevY = yborder;
@@ -217,6 +217,7 @@ namespace GCNav
         }
 
         private TestShape _prevSelected;
+        public NameInfo CurrNameInfo { get { return _prevSelected.Name; } }
         void TestShapeSelected(TestShape shape)
         {
             if (_prevSelected != null)
@@ -316,7 +317,7 @@ namespace GCNav
                     //TextBlock shadow = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0x88, 0xBB, 0xBB, 0xBB));
                     //TextBlock text = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xFF, 0x20, 0x20, 0x20));
                     TextBlock shadow = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xAA, 0xBB, 0xBB, 0xBB));
-                    TextBlock text = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xFF, 0x05, 0x05, 0x05));
+                    TextBlock text = Helpers.createNameTextBlockDisplay(_text, Color.FromArgb(0xFF, 0x22, 0x22, 0x22));
                     c.Children.Add(shadow);
                     c.Children.Add(text);
                     Canvas.SetTop(shadow, 1.5);
