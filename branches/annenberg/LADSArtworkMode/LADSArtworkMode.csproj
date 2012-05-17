@@ -95,6 +95,7 @@
     <Compile Include="helpWindow.xaml.cs">
       <DependentUpon>helpWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NameInfo.cs" />
     <Compile Include="VideoBubble.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Tour\TourEvents\FadeInHighlightEvent.cs" />

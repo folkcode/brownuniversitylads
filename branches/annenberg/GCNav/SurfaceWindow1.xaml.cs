@@ -100,7 +100,7 @@ namespace GCNav
             }
             else
             {
-                if (currentImage.filename != artmode.currentArtworkFileName)
+                if (Wall.CurrNameInfo != artmode.CurrNameInfo)
                 {
                     if (MessageBox.Show("Are you sure you want to switch artworks? You will lose what you have been working on.", "Switch", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {

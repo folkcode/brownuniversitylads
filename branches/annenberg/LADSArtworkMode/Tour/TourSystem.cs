@@ -281,7 +281,7 @@ namespace LADSArtworkMode
         public string getNextFile(string str)
         {
             String path = "Data/Tour/Images";
-            path = System.IO.Path.Combine(path, artModeWin.currentArtworkFileName);
+            path = System.IO.Path.Combine(path, artModeWin.CurrNameInfo.PanelNumber);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             path = System.IO.Path.Combine(path, str);
@@ -947,9 +947,9 @@ namespace LADSArtworkMode
                 if (MessageBox.Show("Are you sure you want to delete this tour?",
                   "Delete the Tour", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    if (File.Exists("Data/Tour/XML/" + artModeWin.currentArtworkFileName + "." + "xml"))
+                    if (File.Exists("Data/Tour/XML/" + artModeWin.CurrNameInfo + "." + "xml"))
                     {
-                        File.Delete("Data/Tour/XML/" + artModeWin.currentArtworkFileName + "." + "xml");
+                        File.Delete("Data/Tour/XML/" + artModeWin.CurrNameInfo + "." + "xml");
                     }
 
                     this.TourAuthoringDoneButton_Click(sender, e); //bad idea?
@@ -1809,7 +1809,7 @@ namespace LADSArtworkMode
             //IEnumerable<string> tours = Directory.EnumerateFiles(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML");
             //foreach (string filepath in tours)
             //{
-            string filepath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + artModeWin.currentArtworkFileName+".xml";
+            string filepath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Tour\\XML\\" + artModeWin.CurrNameInfo.PanelNumber+".xml";
                 String name = "";
                 XmlDocument doc = new XmlDocument();
             SurfaceButton button = new SurfaceButton();

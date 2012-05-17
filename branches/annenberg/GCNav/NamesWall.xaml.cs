@@ -25,8 +25,8 @@ namespace GCNav
     /// </summary>
     public partial class NamesWall : UserControl
     {
-        private List<NameInfo> _names;
-        private Dictionary<int, List<NameInfo>> _blockToNames;
+        private List<LADSArtworkMode.NameInfo> _names;
+        private Dictionary<int, List<LADSArtworkMode.NameInfo>> _blockToNames;
         private static double MainSVI_CENTER_X;
         private static double MainSVI_CENTER_Y; 
 
@@ -59,11 +59,11 @@ namespace GCNav
         private void InitNames()
         {
             XmlNodeList xmlNodes = Helpers.LoadNamesFromXML();
-            _names = new List<NameInfo>();
-            _blockToNames = new Dictionary<int, List<NameInfo>>();
+            _names = new List<LADSArtworkMode.NameInfo>();
+            _blockToNames = new Dictionary<int, List<LADSArtworkMode.NameInfo>>();
             foreach (XmlNode node in xmlNodes)
             {
-                NameInfo nameInfo = new NameInfo();
+                LADSArtworkMode.NameInfo nameInfo = new LADSArtworkMode.NameInfo();
 
                 //parse block number
                 string blockString = this.getNodeAttribute(node, "Block");
@@ -80,7 +80,7 @@ namespace GCNav
                 //put into block map
                 if (!_blockToNames.ContainsKey(nameInfo.Block))
                 {
-                    _blockToNames.Add(nameInfo.Block, new List<NameInfo>());
+                    _blockToNames.Add(nameInfo.Block, new List<LADSArtworkMode.NameInfo>());
                 }
                 _blockToNames[nameInfo.Block].Add(nameInfo);
 
@@ -125,14 +125,14 @@ namespace GCNav
                 _names.Add(nameInfo);
             }
 
-            _names.Sort(delegate (NameInfo n1, NameInfo n2)
+            _names.Sort(delegate(LADSArtworkMode.NameInfo n1, LADSArtworkMode.NameInfo n2)
                 {
                     return n1.PanelName.CompareTo(n2.PanelName);
                 });
 
-            foreach (List<NameInfo> nameList in _blockToNames.Values)
+            foreach (List<LADSArtworkMode.NameInfo> nameList in _blockToNames.Values)
             {
-                nameList.Sort(delegate(NameInfo n1, NameInfo n2)
+                nameList.Sort(delegate(LADSArtworkMode.NameInfo n1, LADSArtworkMode.NameInfo n2)
                     {
                         return n1.PanelName.CompareTo(n2.PanelName);
                     });
@@ -157,7 +157,7 @@ namespace GCNav
             double prevX = xborder;
             double prevY = yborder;
 
-            foreach (NameInfo name in _names)
+            foreach (LADSArtworkMode.NameInfo name in _names)
             {
                 Size a = Helpers.MeasureTextBlock(name.PanelName);
 
@@ -217,7 +217,7 @@ namespace GCNav
         }
 
         private TestShape _prevSelected;
-        public NameInfo CurrNameInfo { get { return _prevSelected.Name; } }
+        public LADSArtworkMode.NameInfo CurrNameInfo { get { return (_prevSelected == null) ? null : _prevSelected.Name; } }
         void TestShapeSelected(TestShape shape)
         {
             if (_prevSelected != null)
@@ -229,7 +229,7 @@ namespace GCNav
             this.UpdateCurrInfo(shape.Name);
         }
 
-        private void UpdateCurrInfo(NameInfo name)
+        private void UpdateCurrInfo(LADSArtworkMode.NameInfo name)
         {
             _mainWindow.CurrInfo.Visibility = Visibility.Visible;
             Helpers.ChangeImageSource(_mainWindow.CurrImage, "/data/Images/Thumbnail/" + name.Block.ToString("D5") + "_512.jpg");
@@ -246,7 +246,7 @@ namespace GCNav
             _mainWindow.RelatedNames.Margin = new Thickness(0, _mainWindow.curInfoCol.ActualHeight, 0, 0);
             _mainWindow.RelatedNames.RowDefinitions.Clear();
             _mainWindow.RelatedNames.Children.Clear();
-            foreach (NameInfo otherName in _blockToNames[name.Block])
+            foreach (LADSArtworkMode.NameInfo otherName in _blockToNames[name.Block])
             {
                 if (otherName != name)
                 {
@@ -276,8 +276,8 @@ namespace GCNav
 
         class TestShape : IVirtualChild
         {
-            private NameInfo _nameInfo;
-            public NameInfo Name { get { return _nameInfo; } }
+            private LADSArtworkMode.NameInfo _nameInfo;
+            public LADSArtworkMode.NameInfo Name { get { return _nameInfo; } }
 
             Rect _bounds;
             public Brush Fill { get { return (_visual == null) ? null : _visual.Background; } set { if (_visual != null) { _visual.Background = value; } } }
@@ -291,7 +291,7 @@ namespace GCNav
             public delegate void SelectedEventHandler(TestShape shape);
             public event SelectedEventHandler Selected;
 
-            public TestShape(Rect bounds, NameInfo name)
+            public TestShape(Rect bounds, LADSArtworkMode.NameInfo name)
             {
                 _nameInfo = name;
                 _text = name.PanelName;
