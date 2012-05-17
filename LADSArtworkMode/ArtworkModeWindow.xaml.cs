@@ -37,9 +37,7 @@ namespace LADSArtworkMode
             set { mainArtwork = value; }
         }
 
-        public String currentArtworkFileName;
-        public String currentArtworkTitle;
-
+        public NameInfo CurrNameInfo;
         public bool leftPanelVisible;
         public bool bottomPanelVisible;
         bool scatteremoved;
@@ -111,7 +109,7 @@ namespace LADSArtworkMode
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public ArtworkModeWindow(GCNav.NameInfo currentArtworkFName)
+        public ArtworkModeWindow(NameInfo currName)
         {
             InitializeComponent();
             String[] c = Environment.GetCommandLineArgs();
@@ -135,8 +133,8 @@ namespace LADSArtworkMode
             BarOffset = 0;
             _noHotspots = true;
 
-            currentArtworkFileName = currentArtworkFName;
-            newMeta = new metadata_lists(this, currentArtworkFileName);
+            CurrNameInfo = currName;
+            newMeta = new metadata_lists(this, CurrNameInfo.PanelNumber);
             authToolsVisible = true;
             _searchedAssets = false;
             _searchedHotspots = false;
@@ -171,11 +169,10 @@ namespace LADSArtworkMode
             _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
             _resetTimer.Start();
 
-            //todo
-            artmode.MultiImage.SetImageSource(@currentImage.xmlpath);
-            artmode.MultiImageThumb.SetImageSource(@currentImage.xmlpath);
-            artmode.LayoutArtworkMode(currentImage.filename);
-            artmode.currentArtworkTitle = currentImage.title;
+            String dzPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/data/Images/DeepZoom/dz.xml";
+            MultiImage.SetImageSource(dzPath);
+            MultiImageThumb.SetImageSource(@dzPath);
+            LayoutArtworkMode();
         }
 
         void _resetTimer_Tick(object sender, EventArgs e)
@@ -356,7 +353,7 @@ namespace LADSArtworkMode
 
         public void NewImageSelected_Handler(object sender, EventArgs e)
         {
-            this.Show();
+            /*this.Show();
             string newImageFilename = sender as string;
             if (newImageFilename != currentArtworkFileName)
             {
@@ -370,7 +367,7 @@ namespace LADSArtworkMode
                 {
                     return;
                 }
-            }
+            }*/
         }
 
         public void ArtModeLayout()
@@ -406,7 +403,7 @@ namespace LADSArtworkMode
         /// <summary>
         /// Called when the user choose an artwork from the artwork selection mode. Initialize necessary properties.
         /// </summary>
-        public void LayoutArtworkMode(String filename)
+        public void LayoutArtworkMode()
         {
             double MainHeight = this.Height;// -30; // 1094 - 14
             double MainWidth = this.Width;// -30;  // 1934 - 14
@@ -491,19 +488,19 @@ namespace LADSArtworkMode
 
             treeDocs.Items.Clear();
 
-            loadMetadata(filename);
-            if (m_hotspotCollection.loadDocument(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\XMLFiles\\" + filename + ".xml"))
+            loadMetadata(CurrNameInfo.PanelNumber);
+            if (m_hotspotCollection.loadDocument(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\XMLFiles\\" + CurrNameInfo.PanelNumber + ".xml"))
                 fillHotspotNavListBox();
             this.initWorkspace();
         }
 
         public void loadMetadata(string filename)
         {
-            int count = 0;
+            /*int count = 0;
             string dataDir = "data/";
             Helpers helpers = new Helpers();
             XmlDocument doc = new XmlDocument();
-            doc.Load("data/NewCollection.xml");
+            doc.Load("data/AnnenbergCollection.xml");
             if (doc.HasChildNodes)
             {
                 foreach (XmlNode docNode in doc.ChildNodes)
@@ -560,7 +557,7 @@ namespace LADSArtworkMode
                 SurfaceListBoxItem item = new SurfaceListBoxItem();
                 item.Content = "(No assets for this artwork)";
                 treeDocs.Items.Add(item);
-            }
+            }*/
         }
 
         public void reloadMetadata(string filename)
@@ -571,7 +568,7 @@ namespace LADSArtworkMode
 
         private void testButton_Click(object sender, RoutedEventArgs e)
         {
-            this.reloadMetadata(currentArtworkFileName);
+            this.reloadMetadata(CurrNameInfo.PanelNumber);
         }
 
         public void initWorkspace()
@@ -1467,15 +1464,15 @@ namespace LADSArtworkMode
             collapseButtonDown.Visibility = Visibility.Hidden;
 
             String filePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
-                "\\Data\\Tour\\XML\\" + currentArtworkFileName + ".xml";
+                "\\Data\\Tour\\XML\\" + CurrNameInfo.PanelNumber + ".xml";
 
             if (!System.IO.File.Exists(filePath))
             {
                 String fileContentString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n" +
 
-                "<TourStoryboard duration=\"40\" displayName=\"" + currentArtworkTitle + "\" description=\"" + "No Title" + "\">\r\n" +
-                "<TourParallelTL type=\"artwork\" displayName=\"Main Artwork\" file=\"" + currentArtworkFileName + "\">\r\n" +
+                "<TourStoryboard duration=\"40\" displayName=\"" + CurrNameInfo.PanelNumber + "\" description=\"" + "No Title" + "\">\r\n" +
+                "<TourParallelTL type=\"artwork\" displayName=\"Main Artwork\" file=\"" + CurrNameInfo.PanelNumber + "\">\r\n" +
                 "<TourEvent beginTime=\"-1\" type=\"ZoomMSIEvent\" scale=\"0.2\" toMSIPointX=\"0\" toMSIPointY=\"0\" duration=\"1\"></TourEvent>\r\n" +
                 "</TourParallelTL>\r\n" +
                 "</TourStoryboard>";
@@ -1525,7 +1522,7 @@ namespace LADSArtworkMode
         public void TourAuthoringSaveButton_Click(object sender, RoutedEventArgs e)
         {
             String filePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
-                "\\Data\\Tour\\XML\\" + currentArtworkFileName + ".xml";
+                "\\Data\\Tour\\XML\\" + CurrNameInfo.PanelNumber + ".xml";
             tourSystem.SaveDictToXML(filePath);
             tourSystem.SaveInkCanvases();
             DoubleAnimation saveAnim = new DoubleAnimation();
@@ -1604,7 +1601,7 @@ namespace LADSArtworkMode
             WebClient webClient = new WebClient();
 
             XmlDocument doc = new XmlDocument();
-            doc.Load("Data/NewCollection.xml");
+            doc.Load("Data/AnnenbergCollection.xml");
             if (doc.HasChildNodes)
             {
                 foreach (XmlNode docNode in doc.ChildNodes)
@@ -1615,7 +1612,7 @@ namespace LADSArtworkMode
                         {
                             if (node.Name == "Image")
                             {
-                                if (currentArtworkFileName != node.Attributes.GetNamedItem("path").InnerText)
+                                if (CurrNameInfo.PanelNumber != node.Attributes.GetNamedItem("path").InnerText)
                                     continue;
                                 foreach (XmlNode imgnode in node.ChildNodes)
                                 {
@@ -1650,7 +1647,7 @@ namespace LADSArtworkMode
                                                             if (span.Days > 0 || span.Hours > 0 || span.Minutes > 5)
                                                             {
                                                                 downloadAndSaveImage(url, @filepath);
-                                                                reloadMetadata(currentArtworkFileName);
+                                                                reloadMetadata(CurrNameInfo.PanelNumber);
                                                             }
                                                         }
                                                     }

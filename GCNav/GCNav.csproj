@@ -92,7 +92,6 @@
     <Compile Include="MapControl.xaml.cs">
       <DependentUpon>MapControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NameInfo.cs" />
     <Compile Include="NamesWall.xaml.cs">
       <DependentUpon>NamesWall.xaml</DependentUpon>
     </Compile>

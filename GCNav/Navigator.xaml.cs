@@ -100,7 +100,7 @@ namespace GCNav
         {
             InstructionBox.Width = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
             XmlDocument doc = new XmlDocument();
-            doc.Load(dataDir + "NewCollection.xml");
+            doc.Load(dataDir + "AnnenbergCollection.xml");
             if (doc.HasChildNodes)
             {
                 foreach (XmlNode docNode in doc.ChildNodes)
@@ -816,7 +816,7 @@ namespace GCNav
 
         private void HandleImageTouched(object sender, EventArgs e)
         {
-            if (!_artOpen)
+            /*if (!_artOpen)
             {
                 artmode = new LADSArtworkMode.ArtworkModeWindow(currentImage.filename);
                 artmode.Closed += new EventHandler(onArtmodeClose);
@@ -876,7 +876,7 @@ namespace GCNav
                     artmode.Show();
                     artmode.ShowActivated = true;
                 }
-            }
+            }*/
         }
         public void onArtmodeClose(object sender, EventArgs e)
         {

@@ -40,11 +40,11 @@ namespace LADSArtworkMode
         }
         public void loadAssets(string filename)
         {
-            String dataDir1 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
+            /*String dataDir1 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\";
             String dataDir = dataDir1 + "Images\\Metadata\\Thumbnail\\";
 
             XmlDocument doc = new XmlDocument();
-            doc.Load("data/NewCollection.xml");
+            doc.Load("data/AnnenbergCollection.xml");
             if (doc.HasChildNodes)
             {
                 foreach (XmlNode docNode in doc.ChildNodes)
@@ -97,7 +97,7 @@ namespace LADSArtworkMode
                         }
                     }
                 }
-            }
+            }*/
         }
 
         public void closeClick(object sender, EventArgs e)
