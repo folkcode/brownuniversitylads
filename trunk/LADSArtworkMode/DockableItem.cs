@@ -176,10 +176,10 @@ namespace LADSArtworkMode
                 descriptionBox.CanRotate = false;
                 descriptionBox.CanScale = false;
                 descriptionBox.CanMove = false;
-                descriptionLabel.Opacity = .9;
+                descriptionLabel.Opacity = .85;
                 descriptionLabel.BorderBrush = Brushes.Black;
                 descriptionLabel.BorderThickness = new Thickness(2.0);
-                descriptionLabel.Content = aldbi.getLabel() + "\nMedia Descrption (tap media item to reread):\n\n" + _description;//////
+                descriptionLabel.Content = aldbi.getLabel() + "\nMedia Description (tap media item to reread):\n\n" + _description;//////
                 descriptionLabel.Background = Brushes.Khaki;
                 descriptionLabel.Foreground = Brushes.Black;
                 descriptionBox.Content = descriptionLabel;
@@ -526,11 +526,11 @@ namespace LADSArtworkMode
             //descriptionBox.SetCurrentValue(CenterProperty, new Point(this.ActualCenter.X, this.ActualCenter.Y + this.ActualHeight));
             DoubleAnimation timer = new DoubleAnimation();
             timer.Completed += new EventHandler(timer_Completed);
-            timer.From = 1;
-            timer.To = 1;
+            timer.From = .85;
+            timer.To = .85;
             timer.Duration = new Duration(TimeSpan.FromSeconds(5));
             timer.FillBehavior = FillBehavior.Stop;
-            descriptionBox.BeginAnimation(OpacityProperty, timer);
+            descriptionLabel.BeginAnimation(OpacityProperty, timer);
         }
 
         public void timer_Completed(object sender, EventArgs e)
