@@ -167,7 +167,7 @@ namespace LADSArtworkMode
             Canvas.SetTop(collapseButtonLeft, 400);
             Canvas.SetTop(collapseButtonRight, 400);
 
-            _resetTimer.Interval = TimeSpan.FromSeconds(120);
+            _resetTimer.Interval = TimeSpan.FromSeconds(300);
             _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
             _resetTimer.Start();
         }
@@ -296,13 +296,13 @@ namespace LADSArtworkMode
                 //if it's an image, do this:
                 if (_helpers.IsImageFile(info.scatteruri))
                 {
-                    DockableItem item = new DockableItem(MainScatterView, this, Bar, info.scatteruri, null);
+                    DockableItem item = new DockableItem(MainScatterView, this, Bar, info.scatteruri, null, info.description);
                     item.AddtoDockFromSaved(info.savedOldWidth, info.savedOldHeight, info.savedWKEWidth, info);
                 }
                 else if (_helpers.IsVideoFile(info.scatteruri))
                 {
                     //perhaps the initializatoin of this bubble should have the height and width of the thumbnail... if I could extract one...
-                    DockableItem item = new DockableItem(MainScatterView, this, Bar, info.scatteruri, null, new LADSVideoBubble(info.scatteruri, 500, 500), new VideoItem());
+                    DockableItem item = new DockableItem(MainScatterView, this, Bar, info.scatteruri, null, new LADSVideoBubble(info.scatteruri, 500, 500), new VideoItem(), info.description);
                     item.AddtoDockFromSaved(info.savedOldWidth, info.savedOldHeight, info.savedWKEWidth, info);//video-specific constructor
                 }
                 else
@@ -521,6 +521,7 @@ namespace LADSArtworkMode
                                                 string metadatafilename = file.Attributes.GetNamedItem("Filename").InnerText;
                                                 count++;
                                                 string name;
+                                                string description = "";
                                                 try
                                                 {
                                                     name = file.Attributes.GetNamedItem("Name").InnerText;
@@ -529,13 +530,22 @@ namespace LADSArtworkMode
                                                 {
                                                     name = "Untitled";
                                                 }
+                                                try
+                                                {
+                                                    description = file.Attributes.GetNamedItem("Description").InnerText;
+                                                }
+                                                catch (Exception exc)
+                                                {
+                                                    
+                                                }
+
                                                 if (helpers.IsImageFile(metadatafilename))
                                                 {
-                                                    new AssociatedDocListBoxItem(name, "Data\\Images\\Metadata\\" + metadatafilename, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\Metadata\\" + metadatafilename, this);
+                                                    new AssociatedDocListBoxItem(name, "Data\\Images\\Metadata\\" + metadatafilename, System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Data\\Images\\Metadata\\" + metadatafilename, this, description);
                                                 }
                                                 else if (helpers.IsVideoFile(metadatafilename))
                                                 {
-                                                    new AssociatedDocListBoxItem(name, "Data\\Videos\\Metadata\\" + metadatafilename, "Data\\Videos\\Metadata\\" + metadatafilename, this); 
+                                                    new AssociatedDocListBoxItem(name, "Data\\Videos\\Metadata\\" + metadatafilename, "Data\\Videos\\Metadata\\" + metadatafilename, this, description); 
                                                 }
                                             }
 
@@ -1441,7 +1451,7 @@ namespace LADSArtworkMode
                     // Make the Dockable item (currently only images supported)
                     if (_helpers.IsImageFile(scatteruri))
                     {
-                        DockableItem asset = new DockableItem(getMainScatterView(), this, getBar(), scatteruri, adlbi);
+                        DockableItem asset = new DockableItem(getMainScatterView(), this, getBar(), scatteruri, adlbi, null);
                         _openedAssets.Add(scatteruri, asset);
                         tourSystem.exploreAssetsOnCanvas.Add(scatteruri, asset);
                         return asset;
@@ -2192,6 +2202,7 @@ namespace LADSArtworkMode
         public double savedOldHeight;
         public double savedOldWidth;
         public double savedWKEWidth;
+        public string description;
 
     }
 

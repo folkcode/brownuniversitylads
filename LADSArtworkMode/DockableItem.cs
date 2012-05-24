@@ -56,6 +56,10 @@ namespace LADSArtworkMode
         public DockedItemInfo info;
         public double aspectRatio;
         public Boolean isVideo = false;
+        private String _description = "";
+        private ScatterViewItem descriptionBox;
+        private Label descriptionLabel;
+        private bool handled = false;
    
 
 
@@ -134,13 +138,13 @@ namespace LADSArtworkMode
         /// <summary>
         /// used by artwork mode
         /// </summary>
-        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, String imageURIPathParam, AssociatedDocListBoxItem _aldbi)
+        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, String imageURIPathParam, AssociatedDocListBoxItem _aldbi, String description)
         {
             scatteruri = imageURIPathParam;
             image = new Image();
             aldbi = null;
             _helpers = new Helpers();
-
+            _description = description;
             FileStream stream = new FileStream(imageURIPathParam, FileMode.Open);
             System.Drawing.Image dImage = System.Drawing.Image.FromStream(stream);
             System.Windows.Controls.Image wpfImage = _helpers.ConvertDrawingImageToWPFImage(dImage);
@@ -148,14 +152,49 @@ namespace LADSArtworkMode
             stream.Close();
 
             this.isAnimating = false;
-            this.Background = Brushes.LightGray;
-            this.AddChild(image);
+            //this.Background = Brushes.LightGray;
+            //this.Background.Opacity = 0.0;
+
+            
+            
+
+            
+
             mainScatterView = _mainScatterView;
             bar = _bar;
             win = _win;
             isDocked = false;
             touchDown = false;
             aldbi = _aldbi;
+
+
+            if (_description != "")
+            {
+
+                descriptionBox = new ScatterViewItem(); ///////
+                descriptionLabel = new Label();
+                descriptionBox.CanRotate = false;
+                descriptionBox.CanScale = false;
+                descriptionBox.CanMove = false;
+                descriptionLabel.Opacity = .9;
+                descriptionLabel.BorderBrush = Brushes.Black;
+                descriptionLabel.BorderThickness = new Thickness(2.0);
+                descriptionLabel.Content = aldbi.getLabel() + "\nMedia Descrption (tap media item to reread):\n\n" + _description;//////
+                descriptionLabel.Background = Brushes.Khaki;
+                descriptionLabel.Foreground = Brushes.Black;
+                descriptionBox.Content = descriptionLabel;
+                
+               
+                
+                mainScatterView.Items.Add(descriptionBox);
+                
+
+                descriptionBox.Visibility = Visibility.Collapsed;
+
+
+
+            }
+            this.AddChild(image);
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
             dpd.AddValueChanged(this, CenterChangedListener);
@@ -183,13 +222,13 @@ namespace LADSArtworkMode
         }
 
         //constructor for VIDEOS
-        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, string _targetVid, AssociatedDocListBoxItem _aldbi, LADSVideoBubble _video, VideoItem _vidctrl)
+        public DockableItem(ScatterView _mainScatterView, ArtworkModeWindow _win, SurfaceListBox _bar, string _targetVid, AssociatedDocListBoxItem _aldbi, LADSVideoBubble _video, VideoItem _vidctrl, String description)
         {
             isVideo = true;
             scatteruri = _targetVid;
             vidBub = _video;
             _helpers = new Helpers();
-
+            _description = description;
             image = new Image();
             aldbi = null;
             String thumbFileName = _targetVid;
@@ -226,6 +265,7 @@ namespace LADSArtworkMode
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
+            
 
             mainScatterView.Items.Add(this);
 
@@ -245,6 +285,8 @@ namespace LADSArtworkMode
         void DockableItem_Loaded(object sender, RoutedEventArgs e)
         {
             changeInitialSize();
+            if (_description != "")
+                showDescription();
         }
 
         public void changeInitialSize()
@@ -275,6 +317,7 @@ namespace LADSArtworkMode
 
         void DockableItem_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            handled = true;
             Helpers helper = new Helpers();
             if (e.NewSize.Width < 150 || e.NewSize.Height < 150)
             {
@@ -391,6 +434,7 @@ namespace LADSArtworkMode
         {
 
             touchDown = false;
+            
             DockableItem item = sender as DockableItem;
             Helpers helpers = new Helpers();
 
@@ -463,6 +507,35 @@ namespace LADSArtworkMode
                 this.BeginAnimation(MaxWidthProperty, widthAnim);
                 this.BeginAnimation(OrientationProperty, orientAnim);
             }
+            else if (handled == false && _description != "")
+            {
+                showDescription();
+            }
+            handled = false;
+        }
+
+        public void showDescription()
+        {
+            descriptionBox.Visibility = Visibility.Visible;
+            descriptionBox.MinWidth = 400;
+            descriptionBox.MaxWidth = 400;
+
+            descriptionBox.MinHeight = Math.Ceiling((double)_description.Length / 50) * 30 + 80;
+            descriptionLabel.Height = Math.Ceiling((double)_description.Length / 50) * 30 + 80; //_description.Length * .7 + 30;
+            descriptionBox.SetCurrentValue(CenterProperty, new Point(win.ActualWidth / 2, win.ActualHeight - win.ActualHeight * .25));
+            //descriptionBox.SetCurrentValue(CenterProperty, new Point(this.ActualCenter.X, this.ActualCenter.Y + this.ActualHeight));
+            DoubleAnimation timer = new DoubleAnimation();
+            timer.Completed += new EventHandler(timer_Completed);
+            timer.From = 1;
+            timer.To = 1;
+            timer.Duration = new Duration(TimeSpan.FromSeconds(5));
+            timer.FillBehavior = FillBehavior.Stop;
+            descriptionBox.BeginAnimation(OpacityProperty, timer);
+        }
+
+        public void timer_Completed(object sender, EventArgs e)
+        {
+            descriptionBox.Visibility = Visibility.Collapsed;
         }
 
         public void anim1Completed(object sender, EventArgs e)
@@ -488,6 +561,7 @@ namespace LADSArtworkMode
             info.savedOldHeight = this.oldHeight;
             info.savedOldWidth = this.oldWidth;
             info.savedWKEWidth = actualWKEWidth;
+            info.description = this._description;
             wke.info = info;
             if (!win.SavedDockedItems.Contains(info))
                 win.SavedDockedItems.Add(info);
@@ -503,6 +577,7 @@ namespace LADSArtworkMode
 
         public void CenterChangedListener(object sender, EventArgs e)
         {
+            handled = true;
             Helpers helpers = new Helpers();
             if (!this.isDocked && this.Center.X > win.ActualWidth - 100 && !touchDown && this.Center.Y < win.ActualHeight * .7 && !win.isTourPlayingOrAuthoring())
             {
@@ -545,11 +620,12 @@ namespace LADSArtworkMode
         public String scatteruri;
         public Boolean opened;
         private Helpers _helpers;
+        private String _description;
 
-        public AssociatedDocListBoxItem(String labeltext, String imageUri, String _scatteruri, ArtworkModeWindow lb)
+        public AssociatedDocListBoxItem(String labeltext, String imageUri, String _scatteruri, ArtworkModeWindow lb, string description)
         {
             _helpers = new Helpers();
-
+            _description = description;
             scatteruri = _scatteruri;
             _lb = lb;
             opened = false;
@@ -668,11 +744,11 @@ namespace LADSArtworkMode
                 //if it's an image, do this:
                 if (_helpers.IsImageFile(scatteruri))
                 {
-                    _lb._openedAssets.Add(scatteruri, new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this));
+                    _lb._openedAssets.Add(scatteruri, new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this, _description));
                 }
                 else if (_helpers.IsVideoFile(scatteruri))
                 {
-                    _lb._openedAssets.Add(scatteruri, new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this, new LADSVideoBubble(scatteruri, 500, 500), new VideoItem())); //video-specific constructor
+                    _lb._openedAssets.Add(scatteruri, new DockableItem(_lb.getMainScatterView(), _lb, _lb.getBar(), scatteruri, this, new LADSVideoBubble(scatteruri, 500, 500), new VideoItem(), _description)); //video-specific constructor
                 }
                 else
                 { //not image or video...
