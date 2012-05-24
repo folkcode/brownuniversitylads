@@ -64,7 +64,7 @@ namespace GCNav
             this.SizeChanged += SurfaceWindow1_SizeChanged;
 
             _resetTimer.Interval = TimeSpan.FromSeconds(120);
-            _resetTimer.Tick += new EventHandler(_resetTimer_Tick);
+            //_resetTimer.Tick += new EventHandler(_resetTimer_Tick);
 
             //help.Visibility = Visibility.Visible;
 

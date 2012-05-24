@@ -18,7 +18,6 @@ using Microsoft.Surface.Presentation.Controls;
 using LADSArtworkMode;
 using System.Net;
 using System.IO;
-using System.Timers;
 
 namespace GCNav
 {
