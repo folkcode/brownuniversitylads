@@ -535,6 +535,17 @@ namespace LADSArtworkMode
 
         public void timer_Completed(object sender, EventArgs e)
         {
+            DoubleAnimation timer = new DoubleAnimation();
+            timer.Completed += new EventHandler(fade_Completed);
+            timer.From = .85;
+            timer.To = 0;
+            timer.Duration = new Duration(TimeSpan.FromSeconds(.4));
+            timer.FillBehavior = FillBehavior.Stop;
+            descriptionLabel.BeginAnimation(OpacityProperty, timer);
+        }
+
+        public void fade_Completed(object sender, EventArgs e)
+        {
             descriptionBox.Visibility = Visibility.Collapsed;
         }
 
