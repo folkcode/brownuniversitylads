@@ -168,8 +168,8 @@ namespace LADSArtworkMode
             aldbi = _aldbi;
 
 
-            if (_description != "")
-            {
+            if (_description == "")
+                _description = "Description not found.";
 
                 descriptionBox = new ScatterViewItem(); ///////
                 descriptionLabel = new Label();
@@ -193,7 +193,7 @@ namespace LADSArtworkMode
 
 
 
-            }
+            
             this.AddChild(image);
 
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ScatterViewItem.CenterProperty, typeof(ScatterViewItem));
