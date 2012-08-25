@@ -221,15 +221,21 @@ namespace LADSArtworkMode
             // Remove handlers for window availability events
             RemoveWindowAvailabilityHandlers();
             Helpers helper = new Helpers();
-            foreach (DockableItem item in MainScatterView.Items)
+            try
             {
-                if (item.Visibility == Visibility.Visible)
+                foreach (DockableItem item in MainScatterView.Items)
                 {
-                    if (helper.IsVideoFile(item.scatteruri))
+                    if (item.Visibility == Visibility.Visible)
                     {
-                        item.stopVideo();
+                        if (helper.IsVideoFile(item.scatteruri))
+                        {
+                            item.stopVideo();
+                        }
                     }
                 }
+            }
+            catch (Exception exc)
+            {
             }
         }
 
@@ -639,13 +645,13 @@ namespace LADSArtworkMode
                     int index = (int)item.Tag;
                     m_hotspotCollection.HotspotIcons[index].changeToHighLighted();
                 }
-                toggleHotspots.Content = "Hotspots Off";
+                toggleHotspots.Content = "Off";
 
             }
             else
             {
                 m_hotspotCollection.unloadAllHotspotsIcon();
-                toggleHotspots.Content = "Hotspots On";
+                toggleHotspots.Content = "On";
             }
             m_hotspotOnOff = !m_hotspotOnOff;
         }

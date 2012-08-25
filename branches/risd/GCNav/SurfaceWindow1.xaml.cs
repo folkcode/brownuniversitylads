@@ -31,7 +31,7 @@ namespace GCNav
             // Add handlers for window availability events
             AddWindowAvailabilityHandlers();
             this.SizeChanged += new SizeChangedEventHandler(SurfaceWindow1_SizeChanged);
-            this.SizeChanged += Map.WindowSizeChanged;
+            //this.SizeChanged += Map.WindowSizeChanged;
             this.SizeChanged += nav.WindowSizeChanged;
             this.MouseUp += new MouseButtonEventHandler(MouseUp_Handler);
 
@@ -55,11 +55,11 @@ namespace GCNav
             panImg.Opacity = 0.2;
             panCan.RenderTransform = t;
             t.BeginAnimation(TranslateTransform.XProperty, myAnimation);
-            nav.HandleImageSelected += Map.HandleImageSelectedEvent;
+            //nav.HandleImageSelected += Map.HandleImageSelectedEvent;
             filter = new FilterTimelineBox();
             nav.filter = filter;
            
-            map.Children.Add(filter);
+            //map.Children.Add(filter);
            
             this.SizeChanged += SurfaceWindow1_SizeChanged;
 
@@ -92,7 +92,7 @@ namespace GCNav
                 canvasLeft = e.NewSize.Width / 2 - filterWidth * tran.ScaleX / 2;
                 filterWidth = filterWidth * tran.ScaleX;
             }
-            
+            /*
             Double scaleX= Map.tranScaleX;
             Double scaleY = Map.tranScaleY;
             Canvas.SetLeft(filter, canvasLeft);
@@ -102,7 +102,7 @@ namespace GCNav
             backRec.Width = map.Width*scaleX +10;
             backRec.Height = map.Height*scaleY + 30+10;
             Canvas.SetLeft(backRec, e.NewSize.Width *0.316);
-            Canvas.SetZIndex(backRec, -10); 
+            Canvas.SetZIndex(backRec, -10); */
         }
 
         public void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -210,10 +210,10 @@ namespace GCNav
             else
             {
                 panImg.Visibility = Visibility.Hidden;
-                Map.loadMap();
-                Map.blur.Visibility = Visibility.Visible;
-                filter.Visibility = Visibility.Visible;
-                backRec.Visibility = Visibility.Visible;
+                //Map.loadMap();
+                //Map.blur.Visibility = Visibility.Visible;
+                //filter.Visibility = Visibility.Visible;
+                //backRec.Visibility = Visibility.Visible;
                 _resetTimer.Start();
             }
         }

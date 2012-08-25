@@ -23,7 +23,7 @@ namespace LADSArtworkMode
 
         //The next 2 blocks of code are for finding whether files are images or not
         static string[] imageExtensions = {
-            ".BMP", ".JPG", ".GIF"
+            ".BMP", ".JPG", ".GIF", ".PNG"
         };
 
         public bool IsImageFile(string filename)

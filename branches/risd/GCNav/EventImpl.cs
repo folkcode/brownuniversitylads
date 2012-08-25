@@ -110,6 +110,8 @@ namespace GCNav
             {
                 for (int i = 0; i < events.Count; i++)
                 {
+                    events.ElementAt(i).setColor(Color.FromRgb(0xe9, 0x5a, 0x4f));
+                    /*
                     if (i % 4 == 0)
                     {
                         events.ElementAt(i).setColor(Color.FromRgb(152, 245, 255));
@@ -125,7 +127,7 @@ namespace GCNav
                     else
                     {
                         events.ElementAt(i).setColor(Color.FromRgb(250, 128, 114));
-                    }
+                    }*/
                 }
             }
 

@@ -167,7 +167,7 @@ namespace LADSArtworkMode
             touchDown = false;
             aldbi = _aldbi;
 
-
+            /*
             if (_description == "")
                 _description = "Description not found.";
 
@@ -189,8 +189,8 @@ namespace LADSArtworkMode
                 mainScatterView.Items.Add(descriptionBox);
                 
 
-                descriptionBox.Visibility = Visibility.Collapsed;
-
+                descriptionBox.Visibility = Visibility.Hidden;
+            */
 
 
             
@@ -203,8 +203,8 @@ namespace LADSArtworkMode
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
 
             mainScatterView.Items.Add(this);
-            this.SetCurrentValue(HeightProperty, image.Height);
-            this.SetCurrentValue(WidthProperty, image.Width);
+            this.SetCurrentValue(HeightProperty, image.Height*1.5);
+            this.SetCurrentValue(WidthProperty, image.Width*1.5);
 
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
@@ -212,8 +212,10 @@ namespace LADSArtworkMode
             Random rnd = new Random();
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + image.ActualWidth * 3), (int)(win.ActualWidth - image.ActualWidth * 3 - 100)),
                                                           rnd.Next((int)(image.ActualHeight * 3), (int)(win.ActualHeight * .8 - image.ActualHeight * 3)));
+            pt = new Point(1300, 540);
             this.SetCurrentValue(CenterProperty, pt);
             this.Orientation = rnd.Next(-20, 20);
+            this.Orientation = 0;
 
             this.Loaded += new RoutedEventHandler(DockableItem_Loaded);
 
@@ -272,6 +274,7 @@ namespace LADSArtworkMode
             Random rnd = new Random();
             Point pt = new Point(rnd.Next((int)(win.ActualWidth * .2 + vidBub.ActualWidth * 3), (int)(win.ActualWidth - vidBub.ActualWidth * 3 - 100)),
                                                            rnd.Next((int)(vidBub.ActualHeight * 3), (int)(win.ActualHeight * .8 - vidBub.ActualHeight * 3)));
+            pt = new Point(1600, 540);
             this.SetCurrentValue(CenterProperty, pt);
             this.Orientation = rnd.Next(-20, 20);
 
@@ -516,13 +519,15 @@ namespace LADSArtworkMode
 
         public void showDescription()
         {
+            /*
             descriptionBox.Visibility = Visibility.Visible;
             descriptionBox.MinWidth = 400;
             descriptionBox.MaxWidth = 400;
-
+            Size s = new Size(int.MaxValue,int.MaxValue);
             descriptionBox.MinHeight = Math.Ceiling((double)_description.Length / 50) * 30 + 80;
-            descriptionLabel.Height = Math.Ceiling((double)_description.Length / 50) * 30 + 80; //_description.Length * .7 + 30;
-            descriptionBox.SetCurrentValue(CenterProperty, new Point(win.ActualWidth / 2, win.ActualHeight - win.ActualHeight * .25));
+            descriptionBox.Measure(s);
+            //descriptionLabel.Height = Math.Ceiling((double)_description.Length / 50) * 30 + 80; //_description.Length * .7 + 30;
+            descriptionBox.SetCurrentValue(CenterProperty, new Point(win.ActualWidth / 2, descriptionBox.DesiredSize.Height / 2));//win.ActualHeight - win.ActualHeight * .25));
             //descriptionBox.SetCurrentValue(CenterProperty, new Point(this.ActualCenter.X, this.ActualCenter.Y + this.ActualHeight));
             DoubleAnimation timer = new DoubleAnimation();
             timer.Completed += new EventHandler(timer_Completed);
@@ -530,7 +535,7 @@ namespace LADSArtworkMode
             timer.To = .85;
             timer.Duration = new Duration(TimeSpan.FromSeconds(5));
             timer.FillBehavior = FillBehavior.Stop;
-            descriptionLabel.BeginAnimation(OpacityProperty, timer);
+            descriptionLabel.BeginAnimation(OpacityProperty, timer);*/
         }
 
         public void timer_Completed(object sender, EventArgs e)

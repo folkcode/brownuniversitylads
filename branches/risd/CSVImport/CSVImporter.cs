@@ -97,6 +97,7 @@ namespace CSVImport
 
             // For each artwork, process it (thumbs, etc).  If an exception bubbles up this far, log and kill the artwork.
             for (int i = 0; i < artworks.Count; i++)
+            //for (int i = 0; i < 12; i++)
             {
                 csvMsg("Processing artwork: " + i);
                 try
@@ -237,7 +238,9 @@ namespace CSVImport
 
                     // Parse the artwork.
                     aw.path = csv[IMAGE_PATH_INDEX];
+                    //aw.path = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Chrysanthemum.jpg";
                     aw.thumbPath = csv[IMAGE_THUMB_INDEX];
+                    //aw.thumbPath = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Chrysanthemum.jpg";
                     aw.title = csv[TITLE_INDEX];
                     try
                     {
@@ -251,12 +254,22 @@ namespace CSVImport
                     aw.medium = csv[MEDIUM_INDEX];
                     aw.keywords = parseKeywords(csv[KEYWORDS_INDEX]);
                     aw.assets = new List<asset>();
+                    
                     for (int i = FIRST_ASSET_INDEX; i < fieldCount; i++)
                     {
                         try
                         {
                             if (!String.IsNullOrWhiteSpace(csv[i]))
-                                aw.assets.Add(parseAsset(csv[i]));
+                            {
+                                if (File.Exists(csv[i]))
+                                {
+                                    //aw.assets.Add(parseAsset(csv[i]));
+                                }
+                                else
+                                {
+                                    //aw.assets.Add(parseTextAsset(csv[i]));
+                                }
+                            }
                         }
                         catch (Exception e)
                         {
@@ -279,6 +292,18 @@ namespace CSVImport
         // Parses a single asset.
         public static asset parseAsset(String field)
         {
+
+
+            asset ass = new asset();
+
+            ass.description = "Blank";
+            ass.path = field;
+            ass.name = "Blank";
+
+            return ass;
+
+            /*
+
             // First take out the description, because it has the special ''' delimiter.
             // Break the input into:
             // [path and name] [description] [extraneous semicolon]
@@ -293,6 +318,22 @@ namespace CSVImport
             ass.description = tokens1[1];
             ass.path = tokens2[0];
             ass.name = tokens2[1];
+            return ass;
+             */
+        }
+
+        public static asset parseTextAsset(String field)
+        {
+
+
+            asset ass = new asset();
+
+            ass.description = field;
+            //ass.path = "C:\\Users\\Public\\Pictures\\Sample Pictures\\Chrysanthemum.jpg";
+            ass.path = "C:\\alex\\LADS Full\\branches\\risd\\testEXCEL\\statement.png";
+
+            ass.name = field;
+
             return ass;
         }
 
@@ -478,7 +519,7 @@ namespace CSVImport
                 {
                     File.Delete(thumbPath);
                     File.Delete(imgPath);
-                    System.Drawing.Image img = Helpers.getThumbnail(customThumbPath, 800);
+                    System.Drawing.Image img = Helpers.getThumbnail(customThumbPath, 400);
                     img.Save(thumbPath);
                     img.Save(imgPath);
                     img.Dispose();
