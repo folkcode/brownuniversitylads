@@ -40,14 +40,14 @@ namespace GCNav
             _eventRec = new Rectangle();
             _height = height;
             _width = width;
-            _recColor = Color.FromRgb(152, 245, 255);
+            _recColor = Color.FromRgb(231,222,203);
             _eventText = new TextBlock();
             _eventText.TextWrapping = TextWrapping.NoWrap;
             _eventText.TextTrimming = TextTrimming.WordEllipsis;
             _eventText.Foreground = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
             _eventText.Padding = new Thickness(4, 0, 4, 0);
-            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(152, 100, 255));
-            brush.Opacity = .35;
+            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(231, 222, 203));
+            brush.Opacity = 1;
             _name = "";
             _location = "";
             _description = "";
@@ -69,8 +69,8 @@ namespace GCNav
             
             _eventRec.Width = _width;
             _eventRec.Height = _height;
-            SolidColorBrush brush = new SolidColorBrush(_recColor);
-            brush.Opacity = .35;
+            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(231,222,203));
+            brush.Opacity = 1;
             _eventRec.Fill = brush;
             canvas.Children.Insert(0, _eventRec);
             canvas.Children.Add(_eventText);
@@ -127,8 +127,8 @@ namespace GCNav
         public void setColor(Color c)
         {
             _recColor = c;
-            SolidColorBrush brush = new SolidColorBrush(_recColor);
-            brush.Opacity = .35;
+            SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(231, 222, 203));
+            brush.Opacity = 1;
             _eventRec.Fill = brush;
         }
 

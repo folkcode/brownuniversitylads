@@ -248,6 +248,7 @@ namespace LADSArtworkMode
         private void scatterItem_Loaded(object sender, RoutedEventArgs e)
         {
             firstTime = true;
+            Name.Content = m_hotspotData.Name;
             //if (m_hotspotData.Type.ToLower().Contains("image"))
             //{
             //    MinX = 402;
@@ -530,7 +531,7 @@ namespace LADSArtworkMode
                // windowSize = new Size(this.Width, this.Height);
              
             }
-            Name.Content = m_hotspotData.Name;
+
             Double[] size = this.findImageSize();
 
             screenPosX = (m_msi.GetZoomableCanvas.Scale * m_hotspotData.PositionX *size[0]) - m_msi.GetZoomableCanvas.Offset.X;
@@ -539,6 +540,7 @@ namespace LADSArtworkMode
             this.Center = new Point(screenPosX + this.Width/2.0, screenPosY + this.Height/2.0);
             sizeChanged = true;
             firstTime = false;
+            this.UpdateLayout();
         }
 
 

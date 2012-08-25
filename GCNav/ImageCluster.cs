@@ -72,8 +72,17 @@ namespace GCNav
             images.Add(img);
             //create border thing, add image
             Border bord = new Border();
-            bord.BorderBrush = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
-            bord.Background = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
+
+            if (img.year % 100 == 0)
+            {
+                bord.BorderBrush = new SolidColorBrush(Color.FromRgb(0xe9, 0x5a, 0x4f));
+                bord.Background = new SolidColorBrush(Color.FromRgb(0xe9, 0x5a, 0x4f));
+            }
+            else
+            {
+                bord.BorderBrush = new SolidColorBrush(Colors.Transparent);//Color.FromRgb(0x28, 0x38, 0x69));
+                bord.Background = new SolidColorBrush(Colors.Transparent);//Color.FromRgb(0x28, 0x38, 0x69));
+            }
             bord.CornerRadius = new CornerRadius(5);
             bord.HorizontalAlignment = HorizontalAlignment.Center;
             bord.VerticalAlignment = VerticalAlignment.Center;

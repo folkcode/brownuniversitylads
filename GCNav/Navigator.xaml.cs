@@ -305,6 +305,11 @@ namespace GCNav
             this.loadEvents();
             eventInfo.TextWrapping = TextWrapping.NoWrap;
             eventInfo.TextTrimming = TextTrimming.WordEllipsis;
+            mainScatterViewItem.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+            mainScatterViewItem.Arrange(new Rect(new Point(0, 0), mainScatterViewItem.DesiredSize));
+            mainScatterViewItem.Width *= 0.7;
+            mainScatterViewItem.Height *= 0.7;
+            mainScatterViewItem.Center = new Point(MainCanvas.Width / 2 + _windowSize.Width * 999 / 2-10000, mainScatterViewItem.Center.Y);
         }
 
         public event Helpers.ImageLoadedHandler ImageLoaded;
@@ -393,9 +398,10 @@ namespace GCNav
             //fix highlight border of the selected image (if exists) 
             if (currentImage != null && currentImage.Parent != null)
             {
-                ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
-                ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
+                ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0xe9, 0x5a, 0x4f));
+                ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0xe9, 0x5a, 0x4f));
             }
+
         }
 
         private int ROWS = 3;
@@ -477,6 +483,7 @@ namespace GCNav
         {
             // The space one image should take in terms of year count.
             double interval_width = Math.Ceiling(aveWidth / unitLength);
+            interval_width = 12;
 
             // Dividee the overall space into small parts based on the year and keep track of the availability of the spaces.
             Dictionary<int, ImageCluster> space = new Dictionary<int, ImageCluster>();
@@ -745,12 +752,12 @@ namespace GCNav
 
             MainCanvas.MaxHeight = mainScatterViewItem.MaxHeight - _windowSize.Height / 2;
 
-            curImageContainer.Height = _windowSize.Height / 3;
-            curImageContainer.Width = _windowSize.Width / 4;
-            curImageCanvas.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas.Height = _windowSize.Height / 3 - 10;
-            curImageCanvas1.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas1.Height = _windowSize.Height / 3 - 10;
+            curImageContainer.Height = _windowSize.Height / 2.7;
+            curImageContainer.Width = _windowSize.Width / 3.5;
+            curImageCanvas.Width = _windowSize.Width / 3.5 - 10;
+            curImageCanvas.Height = _windowSize.Height / 2.7 - 10;
+            curImageCanvas1.Width = _windowSize.Width / 3.5 - 10;
+            curImageCanvas1.Height = _windowSize.Height / 2.7 - 10;
             curInfoContainer.Height = _windowSize.Height / 3;
             curInfoContainer.Width = _windowSize.Width / 4;
             curInfoCol.Width = _windowSize.Width / 4;
@@ -952,11 +959,20 @@ namespace GCNav
 
             if (currentImage != null && currentImage.Parent != null)
             {
-                ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
-                ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0x00, 0x2d, 0x0c));
+                if (currentImage.year % 100 == 0)
+                { //MUSEUM OBJECT HIGHLIGHT
+                    ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0xe9, 0x5a, 0x4f));
+                    ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0xe9, 0x5a, 0x4f));
+                }
+                else
+                {
+                    ((Border)((Canvas)currentImage.Parent).Parent).BorderBrush = new SolidColorBrush(Colors.Transparent);//Color.FromRgb(0x28, 0x38, 0x69));
+                    ((Border)((Canvas)currentImage.Parent).Parent).Background = new SolidColorBrush(Colors.Transparent);//Color.FromRgb(0x28, 0x38, 0x69));
+                }
             }
-            ((Border)((Canvas)img.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
-            ((Border)((Canvas)img.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0xff, 0xf6, 0x8b));
+
+            ((Border)((Canvas)img.Parent).Parent).BorderBrush = new SolidColorBrush(Color.FromRgb(0x28, 0x38, 0x69));
+            ((Border)((Canvas)img.Parent).Parent).Background = new SolidColorBrush(Color.FromRgb(0x28, 0x38, 0x69));
 
             OnImageSelected(new Helpers.ImageSelectedEventArgs(img));
             curImageCanvas.Children.Clear();
@@ -969,12 +985,12 @@ namespace GCNav
             curImage.Source = bitmap;
 
             curImageCanvas.Children.Add(curImage);
-            curImageContainer.Height = _windowSize.Height / 3;
-            curImageContainer.Width = _windowSize.Width / 4;
-            curImageCanvas.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas.Height = _windowSize.Height / 3 - 10;
-            curImageCanvas1.Width = _windowSize.Width / 4 - 10;
-            curImageCanvas1.Height = _windowSize.Height / 3 - 10;
+            curImageContainer.Height = _windowSize.Height / 2;
+            curImageContainer.Width = _windowSize.Width / 3;
+            curImageCanvas.Width = _windowSize.Width / 3 - 10;
+            curImageCanvas.Height = _windowSize.Height / 2 - 10;
+            curImageCanvas1.Width = _windowSize.Width / 3 - 10;
+            curImageCanvas1.Height = _windowSize.Height / 2 - 10;
             Double actualWidth = curImage.Source.Width;
             Double actualHeight = curImage.Source.Height;
             Double ratio = actualWidth / actualHeight;
@@ -1008,7 +1024,7 @@ namespace GCNav
             GridLength length = new GridLength(_windowSize.Width / 4 - 40);
             width.Width = length;
             curInfoCol.ColumnDefinitions.Add(width);
-
+            /*
             title.Text = "";
             artist.Text = "";
             medium.Text = "";
@@ -1020,25 +1036,62 @@ namespace GCNav
             artist.Text += "Artist: " + img.artist;
             medium.Text += "Medium: " + img.medium;
             date.Text += "Year: " + img.year;
+            */
 
-            title.FontSize = 25 * _windowSize.Height / 1080.0;
+            title.Text = "";
+            artist.Text = "";
+            medium.Text = "";
+            date.Text = "";
+
+            int lastindexcomma = img.medium.LastIndexOf(";");
+            if (lastindexcomma < 0)
+            {
+                lastindexcomma = 0;
+            }
+
+            /*
+            title.Text += "Artist/Maker: " + img.artist;
+            curInfoCol.UpdateLayout();
+            titleBack.Width = _windowSize.Width / 4 - 20;
+            titleBack.Height = title.ActualHeight + 5;
+            artist.Text += "Title and Date: " + img.title;
+            date.Text += "Material/Technique: " + img.medium.Substring(0,lastindexcomma);
+            medium.Text += "Dimensions: " + img.medium.Substring(lastindexcomma+2);
+            */
+            title.Text += img.artist;
+            curInfoCol.UpdateLayout();
+            titleBack.Width = _windowSize.Width / 4 - 20;
+            titleBack.Height = title.ActualHeight + 5;
+            artist.Text += img.title;
+            date.Text +=img.medium.Substring(0, lastindexcomma);
+            try
+            {
+                medium.Text += img.medium.Substring(lastindexcomma + 2);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {   
+
+            }
+
+
+            title.FontSize = 20 * _windowSize.Height / 1080.0;
             artist.FontSize = 20 * _windowSize.Height / 1080.0;
             medium.FontSize = artist.FontSize;
             date.FontSize = artist.FontSize;
-            KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
+            //KeywordsTitle.FontSize = 18 * _windowSize.Height / 1080.0;
             curKeywords.FontSize = 18 * _windowSize.Height / 1080.0;
             curInfoCol.UpdateLayout();
             titleBack.Height = titleBack.ActualHeight + 10;
 
             if (currentImage.keywords.Count() > 0)
             {
-                KeywordsTitle.Visibility = Visibility.Visible;
+                //KeywordsTitle.Visibility = Visibility.Visible;
                 curKeywords.Visibility = Visibility.Visible;
                 KeywordBack.Visibility = Visibility.Visible;
             }
             else
             {
-                KeywordsTitle.Visibility = Visibility.Hidden;
+                //KeywordsTitle.Visibility = Visibility.Hidden;
                 curKeywords.Visibility = Visibility.Hidden;
                 KeywordBack.Visibility = Visibility.Hidden;
             }
@@ -1061,7 +1114,7 @@ namespace GCNav
             GridLength height1 = new GridLength(curKeywords.ActualHeight);
             height.Height = height1;
             curInfoCol.RowDefinitions.Add(height);
-            KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+            KeywordBack.Height = curKeywords.ActualHeight*3;// + KeywordsTitle.ActualHeight * 3 + ;
             curInfoCol.UpdateLayout();
             infoScroll.UpdateLayout();
 
@@ -1076,9 +1129,9 @@ namespace GCNav
                 titleBack.Height = title.ActualHeight + 5;
                 curKeywords.MaxWidth = _windowSize.Width / 4 - 80;
                 curKeywords.UpdateLayout();
-                KeywordBack.Height = KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+                KeywordBack.Height = curKeywords.ActualHeight*3;// +KeywordsTitle.ActualHeight * 3;
                 curInfoCol.Height = title.ActualHeight + 5 + artist.ActualHeight +
-                    date.ActualHeight + medium.ActualHeight + KeywordsTitle.ActualHeight * 3 + curKeywords.ActualHeight;
+                    date.ActualHeight + medium.ActualHeight + curKeywords.ActualHeight*3;// +KeywordsTitle.ActualHeight * 3;
             }
             else
             {
@@ -1096,6 +1149,7 @@ namespace GCNav
         /// <param name="e"></param>
         private void mainScatterViewItem_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            /*
             if (e.Delta > 0)
             {
                 mainScatterViewItem.Width *= 1.1;
@@ -1105,7 +1159,7 @@ namespace GCNav
             {
                 mainScatterViewItem.Width *= 0.9;
                 mainScatterViewItem.Height *= 0.9;
-            }
+            }*/
         }
     }
 }

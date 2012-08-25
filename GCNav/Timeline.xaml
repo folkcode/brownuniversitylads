@@ -12,7 +12,7 @@
                 <Canvas Name="timelineSVICanvas" Height="100" Width="10000" Background="#01000001" Canvas.ZIndex="100" MouseDown="mainScatterView_MouseDown" TouchDown="MainScatterItem_TouchDown"></Canvas>
             </s:ScatterViewItem>
         </s:ScatterView>
-        <Rectangle Height="60" Name="rectangle1" Stroke="{x:Null}" Width="300" Fill="#FFFFF68B" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <Rectangle Height="60" Name="rectangle1" Stroke="{x:Null}" Width="300" Fill="#283869" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <Canvas Name="_tickmarksCanvas"/>
         <Canvas Name="_eventsCanvas" Canvas.ZIndex="99"/>
     </Canvas>

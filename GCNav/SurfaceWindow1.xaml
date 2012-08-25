@@ -26,20 +26,20 @@
         </Style>
     </s:SurfaceWindow.Resources>
     
-        <Grid Background="#24524A" >
+        <Grid Background="#283869" >
         <Canvas Name="backgroundTop" VerticalAlignment="Top" Width="800" Height="600" Canvas.Top="10" HorizontalAlignment="Left">
            
         </Canvas>
         <Canvas Name="map" VerticalAlignment="Top" HorizontalAlignment="Left" Height="325.25" Width="576.35" Canvas.Top="10">
-            <m:newMap x:Name="Map" Height="355.25" Width="576.35" />
-            <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="0" Visibility="Hidden" />
+            <!--<m:newMap x:Name="Map" Height="355.25" Width="576.35" Visibility="Collapsed" />
+            <Canvas Name="backRec" Background="Black" Height="500" Width="580" Canvas.Top="0" Visibility="Collapsed" />-->
            
         </Canvas>
         
         <m:Navigator x:Name="nav" />
         <Grid Name="ButtonPanel" HorizontalAlignment="Right" VerticalAlignment="Top">
             <s:SurfaceButton Name="exitButton" Content="QUIT" Visibility ="Visible" Background="Red" Opacity=".5" FontSize="22" Width="70" Height="50" Margin="0 0 5 0" VerticalContentAlignment="Center" Click="ExitButton_Click" Canvas.ZIndex="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right"/>
-            <Image Name="help" Height="50" Width="50" Margin="0 5 80 0" Source="Resources/question1.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Visible" />
+            <Image Name="help" Height="50" Width="50" Margin="0 5 80 0" Source="Resources/question1.png" VerticalAlignment="Top" HorizontalAlignment="Right" MouseDown="help_MouseDown" TouchDown="help_TouchDown" Visibility="Collapsed" />
         </Grid>
 
         <am:helpWindow x:Name="helpWindow" Visibility ="hidden" Width="{Binding ElementName=CatalogMainWindow, Path=Width}" Height="{Binding ElementName=CatalogMainWindow, Path=Height}"/>

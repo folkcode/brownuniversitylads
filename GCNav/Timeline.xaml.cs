@@ -335,7 +335,7 @@ namespace GCNav
 
             // Create a red Brush
             SolidColorBrush blackBrush = new SolidColorBrush();
-            blackBrush.Color = Color.FromArgb(255,0,0,0);
+            blackBrush.Color = Colors.Transparent;
 
             // Set Line's width and color
             l.StrokeThickness = 3;
@@ -366,7 +366,7 @@ namespace GCNav
 
             // Create a red Brush
             SolidColorBrush blackBrush = new SolidColorBrush();
-            blackBrush.Color = Colors.Black;
+            blackBrush.Color = Colors.Transparent;
 
             // Set Line's width and color
             l.StrokeThickness = 1;
