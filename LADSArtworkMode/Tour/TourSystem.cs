@@ -646,10 +646,13 @@ namespace LADSArtworkMode
                 exploreAssetsInDock.Add(item.item.scatteruri, item.item);
             }
             // Fill exploreAssetsOnCanvas with the assets on the canvas.
-            foreach (DockableItem item in artModeWin.MainScatterView.Items)
+            foreach (ScatterViewItem item in artModeWin.MainScatterView.Items)
             {
-                if (!exploreAssetsInDock.ContainsKey(item.scatteruri))
-                    exploreAssetsOnCanvas.Add(item.scatteruri, item);
+                if (item is DockableItem)
+                {
+                    if (!exploreAssetsInDock.ContainsKey((item as DockableItem).scatteruri))
+                        exploreAssetsOnCanvas.Add((item as DockableItem).scatteruri, (item as DockableItem));
+                }
             }
             // For each asset to be explored:
             foreach (DockableItem item in dockableItemsLoaded)

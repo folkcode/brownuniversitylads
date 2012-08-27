@@ -171,6 +171,7 @@ namespace LADSArtworkMode
             if (_description == "")
                 _description = "Description not found.";
 
+            
                 descriptionBox = new ScatterViewItem(); ///////
                 descriptionLabel = new Label();
                 descriptionBox.CanRotate = false;
@@ -179,7 +180,11 @@ namespace LADSArtworkMode
                 descriptionLabel.Opacity = .85;
                 descriptionLabel.BorderBrush = Brushes.Black;
                 descriptionLabel.BorderThickness = new Thickness(2.0);
-                descriptionLabel.Content = aldbi.getLabel() + "\nMedia Description (tap media item to reread):\n\n" + _description;//////
+                if (aldbi != null)
+                {
+                    descriptionLabel.Content = aldbi.getLabel();
+                }
+                descriptionLabel.Content += "\nMedia Description (tap media item to reread):\n\n" + _description;
                 descriptionLabel.Background = Brushes.Khaki;
                 descriptionLabel.Foreground = Brushes.Black;
                 descriptionBox.Content = descriptionLabel;
