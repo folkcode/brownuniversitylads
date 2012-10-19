@@ -89,6 +89,7 @@ namespace LADSArtworkMode
 
             this.isAnimating = false;
             this.Background = Brushes.LightGray;
+            this.CanRotate = false;
             this.AddChild(image);
             mainScatterView = _mainScatterView;
             bar = _bar;
@@ -152,6 +153,7 @@ namespace LADSArtworkMode
             stream.Close();
 
             this.isAnimating = false;
+            this.CanRotate = false;
             //this.Background = Brushes.LightGray;
             //this.Background.Opacity = 0.0;
 
@@ -203,8 +205,10 @@ namespace LADSArtworkMode
             this.PreviewMouseUp += new MouseButtonEventHandler(AddtoDock);
 
             mainScatterView.Items.Add(this);
-            this.SetCurrentValue(HeightProperty, image.Height*1.5);
-            this.SetCurrentValue(WidthProperty, image.Width*1.5);
+            this.MaxWidth = _win.Width;
+            this.MaxHeight = this.MaxWidth / image.Source.Width * image.Source.Height;
+            this.SetCurrentValue(WidthProperty, _win.Width / 3.0);
+            this.SetCurrentValue(HeightProperty, this.Width / image.Source.Width * image.Source.Height);
 
             this.PreviewMouseWheel += new MouseWheelEventHandler(DockableItem_PreviewMouseWheel);
             this.CaptureMouse();
@@ -250,6 +254,7 @@ namespace LADSArtworkMode
             stream.Close();
 
             this.isAnimating = false;
+            this.CanRotate = false;
             this.Background = Brushes.LightGray;
             this.AddChild(vidBub);
             this.UpdateLayout();
