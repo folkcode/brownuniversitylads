@@ -686,6 +686,9 @@ namespace GCNav
                 _right_arrow.Visibility = Visibility.Visible;
             }
 
+            //stop vertical movement
+            mainScatterViewItem.Center = new Point(mainScatterViewItem.Center.X, _windowSize.Height / 4);
+
             //left
             if (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2 + MainCanvas.Width / 2 < _windowSize.Width * 1 / 2)
             {
@@ -700,13 +703,15 @@ namespace GCNav
                 if (_left_arrow != null)
                     _left_arrow.Visibility = Visibility.Collapsed;
             }
+            /*
             //up
             if (mainScatterViewItem.Center.Y + MainCanvas.Height / 2 < (_windowSize.Height / 2) * 1 / 2)
                 mainScatterViewItem.Center = new Point(mainScatterViewItem.Center.X, (_windowSize.Height / 2) * 1 / 2 - MainCanvas.Height / 2);
             //down
             if (mainScatterViewItem.Center.Y - MainCanvas.Height / 2 > (_windowSize.Height / 2) * 1 / 2)
                 mainScatterViewItem.Center = new Point(mainScatterViewItem.Center.X, (_windowSize.Height / 2) * 1 / 2 + MainCanvas.Height / 2);
-
+            */
+            
             double panPercent = (MainCanvas.ActualWidth / 2 - (mainScatterViewItem.Center.X - _windowSize.Width * 999 / 2)) / MainCanvas.ActualWidth;
             if (MainCanvas.ActualWidth != Double.NaN && MainCanvas.ActualWidth != 0)
                 timeline.pan(panPercent);
